@@ -1,0 +1,44 @@
+[
+  {
+    "world_size": 1,
+    "communication": "inverse exchange and global finite differences passed",
+    "cases": [
+      {
+        "routing": "learned",
+        "tokens": 65,
+        "steps": 1,
+        "max_abs_error": 0.0,
+        "loss": [
+          0.09501465967084423
+        ]
+      },
+      {
+        "routing": "balanced",
+        "tokens": 65,
+        "steps": 1,
+        "max_abs_error": 0.0,
+        "loss": [
+          0.09490368836479131
+        ]
+      },
+      {
+        "routing": "skewed",
+        "tokens": 65,
+        "steps": 1,
+        "max_abs_error": 0.0,
+        "loss": [
+          0.08914860750047764
+        ]
+      },
+      {
+        "routing": "local",
+        "tokens": 65,
+        "steps": 1,
+        "max_abs_error": 0.0,
+        "loss": [
+          0.08914860750047764
+        ]
+      }
+    ]
+  }
+]

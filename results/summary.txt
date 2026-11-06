@@ -1,0 +1,32 @@
+world regime         routing   params/rank  median_ms  p95_ms imbalance
+    1 fixed_global   learned       278848      2.505   2.686      1.52
+    1 fixed_global   balanced      278848      2.480   2.686      1.00
+    1 fixed_global   skewed        278848      2.249   2.396      4.00
+    1 fixed_local    learned       278848      2.456   2.742      1.52
+    1 fixed_local    balanced      278848      2.438   2.649      1.00
+    1 fixed_local    skewed        278848      2.235   2.492      4.00
+    2 fixed_global   learned       144704      3.266   3.456      1.52
+    2 fixed_global   balanced      144704      3.128   3.270      1.00
+    2 fixed_global   skewed        144704      3.248   3.394      4.00
+    2 fixed_local    learned       144704      3.823   4.058      1.60
+    2 fixed_local    balanced      144704      3.681   3.740      1.00
+    2 fixed_local    skewed        144704      4.282   4.510      4.00
+    4 fixed_global   learned        77632      5.235   5.564      1.52
+    4 fixed_global   balanced       77632      5.368   7.363      1.00
+    4 fixed_global   skewed         77632      5.408   5.731      4.00
+    4 fixed_local    learned        77632      6.355   6.744      1.63
+    4 fixed_local    balanced       77632      6.141   6.445      1.00
+    4 fixed_local    skewed         77632      8.024   8.344      4.00
+Training ranks=1: 0.095015 -> 0.080596; max error 0
+Training ranks=2: 0.095015 -> 0.080596; max error 1.67e-16
+Training ranks=4: 0.095015 -> 0.080596; max error 1.67e-16
+
+Two-rank trace (first output coordinate):
+{'token': 0, 'source': 0, 'experts': [0, 1], 'owners': [0, 0], 'returned_first_coordinate': [0.11519994754901061, 0.17792945393211027], 'combined_first_coordinate': 0.1538992756660531}
+{'token': 1, 'source': 0, 'experts': [1, 2], 'owners': [0, 0], 'returned_first_coordinate': [0.22813841029597365, -0.3909419669512755], 'combined_first_coordinate': -0.10928237479927967}
+{'token': 2, 'source': 0, 'experts': [2, 3], 'owners': [0, 0], 'returned_first_coordinate': [-0.14327623842336598, 0.22239578649192004], 'combined_first_coordinate': 0.05858494584786726}
+{'token': 3, 'source': 0, 'experts': [3, 4], 'owners': [0, 1], 'returned_first_coordinate': [-0.051393202469426344, 0.12977585627083532], 'combined_first_coordinate': 0.03424863723652629}
+{'token': 4, 'source': 1, 'experts': [4, 5], 'owners': [1, 1], 'returned_first_coordinate': [-0.2075507278864489, -0.00967835366288947], 'combined_first_coordinate': -0.07011824880385123}
+{'token': 5, 'source': 1, 'experts': [5, 6], 'owners': [1, 1], 'returned_first_coordinate': [0.39092717920340325, -0.2516318897639523], 'combined_first_coordinate': 0.14951146873757787}
+{'token': 6, 'source': 1, 'experts': [6, 7], 'owners': [1, 1], 'returned_first_coordinate': [0.06638086287794469, -0.25890529904966114], 'combined_first_coordinate': -0.11972358918182496}
+{'token': 7, 'source': 1, 'experts': [7, 0], 'owners': [1, 0], 'returned_first_coordinate': [-0.26417873391889646, 0.027125172356203986], 'combined_first_coordinate': -0.15580964534567912}
