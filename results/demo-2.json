@@ -1,13 +1,90 @@
 [
   {
     "world_size": 2,
+    "communication": "inverse exchange and global finite differences passed",
+    "cases": [
+      {
+        "routing": "learned",
+        "tokens": 65,
+        "steps": 1,
+        "max_abs_error": 1.3877787807814457e-17,
+        "loss": [
+          0.09501465967084421
+        ]
+      },
+      {
+        "routing": "balanced",
+        "tokens": 65,
+        "steps": 1,
+        "max_abs_error": 1.3877787807814457e-17,
+        "loss": [
+          0.09490368836479131
+        ]
+      },
+      {
+        "routing": "skewed",
+        "tokens": 65,
+        "steps": 1,
+        "max_abs_error": 2.7755575615628914e-17,
+        "loss": [
+          0.08914860750047762
+        ]
+      },
+      {
+        "routing": "local",
+        "tokens": 65,
+        "steps": 1,
+        "max_abs_error": 1.3877787807814457e-17,
+        "loss": [
+          0.0942447896950793
+        ]
+      }
+    ],
+    "trajectory": {
+      "routing": "learned",
+      "tokens": 65,
+      "steps": 30,
+      "max_abs_error": 1.6653345369377348e-16,
+      "loss": [
+        0.09501465967084421,
+        0.0944468653585229,
+        0.09388520025527972,
+        0.09336066696826784,
+        0.09280806299617389,
+        0.09226128189106993,
+        0.09172021272924319,
+        0.09118474806520903,
+        0.09065478378755479,
+        0.09013021898214504,
+        0.0896109558022413,
+        0.08909689934512036,
+        0.08858795753480471,
+        0.08808404101054382,
+        0.08758506302071087,
+        0.08709093932180093,
+        0.0866015880822382,
+        0.08611692979071911,
+        0.08563688716883527,
+        0.08516138508773832,
+        0.08469035048862221,
+        0.08422371230681457,
+        0.08370200192842195,
+        0.08324611808104884,
+        0.0827943941207753,
+        0.08234676690189566,
+        0.0819031749259003,
+        0.08146355828393453,
+        0.08102785860171048,
+        0.08059601898674623
+      ]
+    },
     "benchmarks": [
       {
         "routing": "learned",
         "regime": "fixed_global",
         "global_tokens": 256,
-        "median_ms": 3.266062500188127,
-        "p95_ms": 3.4555419988464564,
+        "median_ms": 3.3373750011378434,
+        "p95_ms": 3.431375000218395,
         "parameter_bytes_per_rank": 144704,
         "shared_parameter_bytes": 10560,
         "expert_parameter_bytes_per_rank": 134144,
@@ -35,8 +112,8 @@
         "routing": "balanced",
         "regime": "fixed_global",
         "global_tokens": 256,
-        "median_ms": 3.127958501863759,
-        "p95_ms": 3.270207998866681,
+        "median_ms": 3.2790419973025564,
+        "p95_ms": 3.33979199785972,
         "parameter_bytes_per_rank": 144704,
         "shared_parameter_bytes": 10560,
         "expert_parameter_bytes_per_rank": 134144,
@@ -64,8 +141,8 @@
         "routing": "skewed",
         "regime": "fixed_global",
         "global_tokens": 256,
-        "median_ms": 3.2477710010425653,
-        "p95_ms": 3.3937500047613867,
+        "median_ms": 3.4384170030534733,
+        "p95_ms": 3.6110000000917353,
         "parameter_bytes_per_rank": 144704,
         "shared_parameter_bytes": 10560,
         "expert_parameter_bytes_per_rank": 134144,
@@ -93,8 +170,8 @@
         "routing": "learned",
         "regime": "fixed_local",
         "global_tokens": 512,
-        "median_ms": 3.823416500381427,
-        "p95_ms": 4.057707999891136,
+        "median_ms": 3.9691870006208774,
+        "p95_ms": 4.143624995776918,
         "parameter_bytes_per_rank": 144704,
         "shared_parameter_bytes": 10560,
         "expert_parameter_bytes_per_rank": 134144,
@@ -122,8 +199,8 @@
         "routing": "balanced",
         "regime": "fixed_local",
         "global_tokens": 512,
-        "median_ms": 3.680707999592414,
-        "p95_ms": 3.7397499982034788,
+        "median_ms": 3.794603999267565,
+        "p95_ms": 3.8897080012247898,
         "parameter_bytes_per_rank": 144704,
         "shared_parameter_bytes": 10560,
         "expert_parameter_bytes_per_rank": 134144,
@@ -151,8 +228,8 @@
         "routing": "skewed",
         "regime": "fixed_local",
         "global_tokens": 512,
-        "median_ms": 4.2821249953703955,
-        "p95_ms": 4.509874997893348,
+        "median_ms": 4.36529200305813,
+        "p95_ms": 4.512583996984176,
         "parameter_bytes_per_rank": 144704,
         "shared_parameter_bytes": 10560,
         "expert_parameter_bytes_per_rank": 134144,
@@ -176,17 +253,164 @@
         "activation_backward_bytes": 262144.0,
         "metadata_bytes": 4112.0
       }
+    ],
+    "tokens": [
+      {
+        "token": 0,
+        "source": 0,
+        "experts": [
+          0,
+          1
+        ],
+        "owners": [
+          0,
+          0
+        ],
+        "returned_first_coordinate": [
+          0.11519994754901061,
+          0.17792945393211027
+        ],
+        "combined_first_coordinate": 0.1538992756660531
+      },
+      {
+        "token": 1,
+        "source": 0,
+        "experts": [
+          1,
+          2
+        ],
+        "owners": [
+          0,
+          0
+        ],
+        "returned_first_coordinate": [
+          0.22813841029597365,
+          -0.3909419669512755
+        ],
+        "combined_first_coordinate": -0.10928237479927967
+      },
+      {
+        "token": 2,
+        "source": 0,
+        "experts": [
+          2,
+          3
+        ],
+        "owners": [
+          0,
+          0
+        ],
+        "returned_first_coordinate": [
+          -0.14327623842336598,
+          0.22239578649192004
+        ],
+        "combined_first_coordinate": 0.05858494584786726
+      },
+      {
+        "token": 3,
+        "source": 0,
+        "experts": [
+          3,
+          4
+        ],
+        "owners": [
+          0,
+          1
+        ],
+        "returned_first_coordinate": [
+          -0.051393202469426344,
+          0.12977585627083532
+        ],
+        "combined_first_coordinate": 0.03424863723652629
+      }
     ]
   },
   {
     "world_size": 2,
+    "communication": "inverse exchange and global finite differences passed",
+    "cases": [
+      {
+        "routing": "learned",
+        "tokens": 65,
+        "steps": 1,
+        "max_abs_error": 1.3877787807814457e-17,
+        "loss": [
+          0.09501465967084421
+        ]
+      },
+      {
+        "routing": "balanced",
+        "tokens": 65,
+        "steps": 1,
+        "max_abs_error": 1.3877787807814457e-17,
+        "loss": [
+          0.09490368836479131
+        ]
+      },
+      {
+        "routing": "skewed",
+        "tokens": 65,
+        "steps": 1,
+        "max_abs_error": 2.7755575615628914e-17,
+        "loss": [
+          0.08914860750047762
+        ]
+      },
+      {
+        "routing": "local",
+        "tokens": 65,
+        "steps": 1,
+        "max_abs_error": 1.3877787807814457e-17,
+        "loss": [
+          0.0942447896950793
+        ]
+      }
+    ],
+    "trajectory": {
+      "routing": "learned",
+      "tokens": 65,
+      "steps": 30,
+      "max_abs_error": 2.220446049250313e-16,
+      "loss": [
+        0.09501465967084421,
+        0.0944468653585229,
+        0.09388520025527972,
+        0.09336066696826784,
+        0.09280806299617389,
+        0.09226128189106993,
+        0.09172021272924319,
+        0.09118474806520903,
+        0.09065478378755479,
+        0.09013021898214504,
+        0.0896109558022413,
+        0.08909689934512036,
+        0.08858795753480471,
+        0.08808404101054382,
+        0.08758506302071087,
+        0.08709093932180093,
+        0.0866015880822382,
+        0.08611692979071911,
+        0.08563688716883527,
+        0.08516138508773832,
+        0.08469035048862221,
+        0.08422371230681457,
+        0.08370200192842195,
+        0.08324611808104884,
+        0.0827943941207753,
+        0.08234676690189566,
+        0.0819031749259003,
+        0.08146355828393453,
+        0.08102785860171048,
+        0.08059601898674623
+      ]
+    },
     "benchmarks": [
       {
         "routing": "learned",
         "regime": "fixed_global",
         "global_tokens": 256,
-        "median_ms": 3.266062500188127,
-        "p95_ms": 3.4555419988464564,
+        "median_ms": 3.3373750011378434,
+        "p95_ms": 3.431375000218395,
         "parameter_bytes_per_rank": 144704,
         "shared_parameter_bytes": 10560,
         "expert_parameter_bytes_per_rank": 134144,
@@ -214,8 +438,8 @@
         "routing": "balanced",
         "regime": "fixed_global",
         "global_tokens": 256,
-        "median_ms": 3.127958501863759,
-        "p95_ms": 3.270207998866681,
+        "median_ms": 3.2790419973025564,
+        "p95_ms": 3.33979199785972,
         "parameter_bytes_per_rank": 144704,
         "shared_parameter_bytes": 10560,
         "expert_parameter_bytes_per_rank": 134144,
@@ -243,8 +467,8 @@
         "routing": "skewed",
         "regime": "fixed_global",
         "global_tokens": 256,
-        "median_ms": 3.2477710010425653,
-        "p95_ms": 3.3937500047613867,
+        "median_ms": 3.4384170030534733,
+        "p95_ms": 3.6110000000917353,
         "parameter_bytes_per_rank": 144704,
         "shared_parameter_bytes": 10560,
         "expert_parameter_bytes_per_rank": 134144,
@@ -272,8 +496,8 @@
         "routing": "learned",
         "regime": "fixed_local",
         "global_tokens": 512,
-        "median_ms": 3.823416500381427,
-        "p95_ms": 4.057707999891136,
+        "median_ms": 3.9691870006208774,
+        "p95_ms": 4.143624995776918,
         "parameter_bytes_per_rank": 144704,
         "shared_parameter_bytes": 10560,
         "expert_parameter_bytes_per_rank": 134144,
@@ -301,8 +525,8 @@
         "routing": "balanced",
         "regime": "fixed_local",
         "global_tokens": 512,
-        "median_ms": 3.680707999592414,
-        "p95_ms": 3.7397499982034788,
+        "median_ms": 3.794603999267565,
+        "p95_ms": 3.8897080012247898,
         "parameter_bytes_per_rank": 144704,
         "shared_parameter_bytes": 10560,
         "expert_parameter_bytes_per_rank": 134144,
@@ -330,8 +554,8 @@
         "routing": "skewed",
         "regime": "fixed_local",
         "global_tokens": 512,
-        "median_ms": 4.2821249953703955,
-        "p95_ms": 4.509874997893348,
+        "median_ms": 4.36529200305813,
+        "p95_ms": 4.512583996984176,
         "parameter_bytes_per_rank": 144704,
         "shared_parameter_bytes": 10560,
         "expert_parameter_bytes_per_rank": 134144,
@@ -354,6 +578,76 @@
         "activation_forward_bytes": 262144.0,
         "activation_backward_bytes": 262144.0,
         "metadata_bytes": 4112.0
+      }
+    ],
+    "tokens": [
+      {
+        "token": 4,
+        "source": 1,
+        "experts": [
+          4,
+          5
+        ],
+        "owners": [
+          1,
+          1
+        ],
+        "returned_first_coordinate": [
+          -0.2075507278864489,
+          -0.00967835366288947
+        ],
+        "combined_first_coordinate": -0.07011824880385123
+      },
+      {
+        "token": 5,
+        "source": 1,
+        "experts": [
+          5,
+          6
+        ],
+        "owners": [
+          1,
+          1
+        ],
+        "returned_first_coordinate": [
+          0.39092717920340325,
+          -0.2516318897639523
+        ],
+        "combined_first_coordinate": 0.14951146873757787
+      },
+      {
+        "token": 6,
+        "source": 1,
+        "experts": [
+          6,
+          7
+        ],
+        "owners": [
+          1,
+          1
+        ],
+        "returned_first_coordinate": [
+          0.06638086287794469,
+          -0.25890529904966114
+        ],
+        "combined_first_coordinate": -0.11972358918182496
+      },
+      {
+        "token": 7,
+        "source": 1,
+        "experts": [
+          7,
+          0
+        ],
+        "owners": [
+          1,
+          0
+        ],
+        "returned_first_coordinate": [
+          -0.26417873391889646,
+          0.027125172356203986
+        ],
+        "combined_first_coordinate": -0.15580964534567912
       }
     ]
   }

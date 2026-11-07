@@ -10,26 +10,23 @@ Use Python 3.13; the recorded validation environment is Python 3.13 on ARM64 mac
 python3 -m venv .venv
 . .venv/bin/activate
 pip install -r requirements.txt
-python run.py all
+python run.py
 ```
 
-Run from this directory. This overwrites JSON results in `results/`; use `--output fresh-results` to preserve the submitted evidence. Each command launches and joins fresh workers; failures propagate to the parent. Collectives have a 90-second timeout. No server, GPU, account, or network service is needed after installation.
+Run from this directory. This overwrites JSON results in `results/`; use `--output fresh-results` to preserve the submitted evidence. Each run launches and joins fresh workers; failures propagate to the parent. Collectives have a 90-second timeout. No server, GPU, account, or network service is needed after installation.
 
 ```sh
-python run.py verify                 # reference and communication checks
-python run.py train                  # 30 matching SGD steps
-python run.py scale                  # two scaling regimes, three routing patterns
-python run.py trace --ranks 2        # eight tokens with source/owner/output values
-python show_results.py               # terminal tables and token trace
+python run.py --ranks 2 --output fresh-results  # reproduce a two-rank run
+python show_results.py                         # view saved tables and trace
 ```
 
-`all` runs all four commands at 1, 2, and 4 ranks. Seeds, dimensions, dtype, optimizer settings, platform, versions, and measurement settings are recorded in the source and JSON. The actual task is deterministic regression to `0.3*tanh(x)+0.2`, not language modeling.
+`run.py` runs one complete demo per requested rank count: communication checks, reference comparisons, 30 training steps, scaling measurements, and a token trace. `moe/experiments.py` contains the rank setup and experiment code; `worker()` only manages the process group and collects results. The default command runs 1, 2, and 4 ranks and writes `results/demo-*.json`. Seeds, dimensions, dtype, optimizer settings, platform, versions, and measurement settings are recorded in the source and JSON. The actual task is deterministic regression to `0.3*tanh(x)+0.2`, not language modeling.
 
 ## Read the code in this order
 
-1. `moe/model.py`: a small model, its top-2 gating, and a reference with no distributed operations. `moe/experiments.py` prepares each rank’s model/data and contains the diagnostic fixtures and checks.
+1. `moe/model.py`: the model, top-2 gating, and local reference forward pass.
 2. `moe/parallel.py`: packing, token exchange, expert execution, inverse exchange, and shared-gradient synchronization.
-3. `moe/experiments.py`: assertions against the reference, finite differences, and benchmark boundaries. `run.py` supplies a task-independent worker: it initializes Gloo, calls the selected experiment function, gathers results, and cleans up.
+3. `moe/experiments.py`: rank setup, correctness checks, training, scaling, and `run_demo()`. `run.py` starts each process, calls `run_demo()`, and writes the gathered results.
 
 ## The forward journey
 
@@ -76,9 +73,9 @@ The router receives gradients from weighted combination on the source. The token
 
 ## What the checks prove
 
-`verify` compares full outputs, global loss, input gradients, all owned/shared parameter gradients, and updated parameters to an independently executed full-model reference. Tolerances are `atol=1e-8`, `rtol=1e-6`, using float64. Every replica is explicitly compared with rank 0. The balanced fixture requires every parameter tensor to change.
+The verification stage compares full outputs, global loss, input gradients, all owned/shared parameter gradients, and updated parameters to an independently executed full-model reference. Tolerances are `atol=1e-8`, `rtol=1e-6`, using float64. Every replica is explicitly compared with rank 0. The balanced fixture requires every parameter tensor to change.
 
-Cases cover learned routing, balanced expert coverage, skew to experts 0 and 1 (unused experts and zero-receive ranks), entirely local routes, and unequal input shards (65 tokens). The communication check uses asymmetric split sizes and checks both the inverse mapping and finite differences of a global objective. The 30-step training trace checks equivalence on every step and requires final loss below initial loss. Recorded maximum error covers outputs, parameter gradients, and updated parameters; other assertions are pass/fail.
+Cases cover learned routing, balanced expert coverage, skew to experts 0 and 1 (unused experts and zero-receive ranks), entirely local routes, and unequal input shards (65 tokens). The communication check uses asymmetric split sizes and checks both the inverse mapping and finite differences of a global objective. The training stage checks equivalence on every step and requires final loss below initial loss. Recorded maximum error covers outputs, parameter gradients, and updated parameters; other assertions are pass/fail.
 
 See [RESULTS.md](RESULTS.md) for recorded tables, [results/summary.txt](results/summary.txt) for all timing rows, and [ONSITE.md](ONSITE.md) for rehearsal questions.
 

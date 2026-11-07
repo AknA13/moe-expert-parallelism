@@ -184,21 +184,29 @@ def trace():
             for i, token in enumerate(prepared.indices)]
 
 
-def run_verify(rank, world):
-    return {'communication': communication_check(),
-            'cases': [verify_case(kind) for kind in
-                      ('learned', 'balanced', 'skewed', 'local')]}
+def run_demo(rank, world):
+    """Run the complete teaching demo once on this rank."""
+    def report(stage):
+        if rank == 0:
+            print(f'{world} ranks: {stage}', flush=True)
 
+    communication = communication_check()
+    cases = [verify_case(kind) for kind in
+             ('learned', 'balanced', 'skewed', 'local')]
+    report('correctness passed')
 
-def run_train(rank, world):
-    return {'trajectory': verify_case('learned', steps=30)}
+    trajectory = verify_case('learned', steps=30)
+    report('training passed')
 
+    benchmarks = [benchmark(kind, regime)
+                  for regime in ('fixed_global', 'fixed_local')
+                  for kind in ('learned', 'balanced', 'skewed')]
+    report('scaling measured')
 
-def run_scale(rank, world):
-    return {'benchmarks': [benchmark(kind, regime)
-                           for regime in ('fixed_global', 'fixed_local')
-                           for kind in ('learned', 'balanced', 'skewed')]}
-
-
-def run_trace(rank, world):
-    return {'tokens': trace()}
+    tokens = trace()
+    report('token trace recorded')
+    return {'communication': communication,
+            'cases': cases,
+            'trajectory': trajectory,
+            'benchmarks': benchmarks,
+            'tokens': tokens}

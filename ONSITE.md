@@ -9,7 +9,7 @@ The README is the presentation. Open `moe/parallel.py` beside it. Run `python sh
 3. Explain why counts and expert IDs travel separately from differentiable activations. Count exchange determines buffer sizes; expert IDs select local computation.
 4. Open `Exchange`: forward communicates values, backward communicates their adjoints using reversed split sizes. Autograd does not infer this from raw distributed calls.
 5. Derive loss normalization before discussing gradient synchronization. One expert owner already accumulates all sources; shared replicas accumulate only their source contribution until the SUM.
-6. Run `python run.py verify --ranks 2 --output fresh-results`. Show saved `train-2.json` and the scaling table. Explain what an assertion failure would invalidate.
+6. Run `python run.py --ranks 2 --output fresh-results`. Show saved `demo-2.json` and the scaling table. Explain what an assertion failure would invalidate.
 7. End with memory savings, hot experts, and the limits of this CPU experiment. Reserve remaining time for discussion.
 
 ## Questions with concrete answers
