@@ -27,18 +27,18 @@ python show_results.py               # terminal tables and token trace
 
 ## Read the code in this order
 
-1. `moe/model.py`: deterministic expert initialization, top-2 gating, and a reference with no distributed operations.
+1. `moe/model.py`: a small model, its top-2 gating, and a reference with no distributed operations. `make_model()` handles reproducible initialization separately.
 2. `moe/parallel.py`: packing, token exchange, expert execution, inverse exchange, and shared-gradient synchronization.
 3. `moe/experiments.py`: assertions against the reference, finite differences, and benchmark boundaries. `run.py` supplies process lifecycle and JSON output.
 
 ## The forward journey
 
-Every rank has the same input projection and router, different tokens, and a unique contiguous subset of experts. Each token selects two experts. The gate is the softmax over the two selected logits, equivalent to renormalizing the selected full-softmax probabilities. The selected indices are not differentiated; gate values are.
+Every rank has the same shared token encoder and router, different tokens, and a unique contiguous subset of experts. Each token selects two experts. The gate is the softmax over the two selected logits, equivalent to renormalizing the selected full-softmax probabilities. The selected indices are not differentiated; gate values are.
 
 For two ranks, rank 0 owns experts 0–3 and rank 1 owns experts 4–7:
 
 ```text
-rank 0 tokens -> projection/router -> pack assignments by owner
+rank 0 tokens -> token encoder/router -> pack assignments by owner
                                       | local experts 0–3
                                       +------ activations ------> rank 1 experts 4–7
                                       <------ expert outputs ----+
@@ -64,13 +64,13 @@ Unequal token-shard sizes therefore need no extra weighting. Each source compute
 
 | Parameters | Placement | Gradient action before SGD |
 |---|---|---|
-| Input projection | Replicated | SUM all-reduce across all ranks |
+| Shared token encoder | Replicated | SUM all-reduce across all ranks |
 | Router | Replicated | SUM all-reduce across all ranks |
 | Experts | Unique owner | No parameter-gradient all-reduce within this group |
 
 Each expert sees assignments from all sources, so its local backward already accumulates all contributions to that expert. Summing different experts' gradients would be incorrect. Using local mean loss and blindly averaging all shared gradients would also be incorrect for unequal shards. The global normalization makes the contract explicit. DDP's usual averaging semantics would require adapting this normalization; this demo uses manual sums.
 
-The router receives gradients from weighted combination on the source. The projection receives both the router path and expert-input paths. SGD uses learning rate 0.15 without momentum or weight decay. Unused gradients become zeros before synchronization and stepping.
+The router receives gradients from weighted combination on the source. The token encoder receives both the router path and expert-input paths. SGD uses learning rate 0.15 without momentum or weight decay. Unused gradients become zeros before synchronization and stepping.
 
 **Empty destinations matter:** every rank must execute matching collectives in matching order, even if no assignments arrive. `computed = received * 0` retains the dispatch's graph dependency. Empty expert calls also retain zero gradients. There are no data-dependent skipped collective calls.
 
@@ -117,7 +117,7 @@ Keep the submitted JSON and generated tables available if live execution fails. 
 - **Overlap:** asynchronous communication and chunking may hide transfers behind expert work, but require correct buffer lifetimes and collective ordering.
 - **Balancing/capacity:** auxiliary objectives and router regularization address hot experts. Capacity limits introduce dropping or rerouting and change model semantics; reference tests must match those semantics.
 - **Optimizer memory:** Adam adds moments; quantify parameters, gradients, optimizer states, and transient activations separately. Expert sharding partitions expert states, while shared states remain replicated here.
-- **Checkpointing:** use stable global expert IDs and save router/projection, optimizer state, RNG, and training position. Reshard expert state when changing topology.
+- **Checkpointing:** use stable global expert IDs and save router/token encoder, optimizer state, RNG, and training position. Reshard expert state when changing topology.
 
 No capacity dropping, mixed precision, distributed checkpointing, transformer, or production framework integration is implemented. The implementation and assignment remain private.
 

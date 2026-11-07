@@ -2,7 +2,7 @@ import time
 import statistics
 import torch
 import torch.distributed as dist
-from .model import Model, data, routing, loss
+from .model import make_model, data, routing, loss
 from .parallel import forward, sync_shared, Exchange
 
 def close(a, b):
@@ -39,13 +39,13 @@ def communication_check():
 
 def verify_case(kind, steps=1, n=65):
     rank, world = dist.get_rank(), dist.get_world_size()
-    model, reference = Model(rank, world), Model()
+    model, reference = make_model(rank, world), make_model()
     full_x, target = data(n)
     full_x.requires_grad_()
     indices = torch.tensor_split(torch.arange(n), world)[rank]
     x = full_x.detach()[indices].clone().requires_grad_()
-    forced = routing(kind, n, world)
-    local_forced = None if forced is None else forced[indices]
+    expert_ids_override = routing(kind, n, world)
+    local_expert_ids_override = None if expert_ids_override is None else expert_ids_override[indices]
     opt = torch.optim.SGD(model.parameters(), lr=.15)
     ref_opt = torch.optim.SGD(reference.parameters(), lr=.15)
     history, maximum = [], 0.
@@ -53,8 +53,8 @@ def verify_case(kind, steps=1, n=65):
     for _ in range(steps):
         opt.zero_grad(set_to_none=True); ref_opt.zero_grad(set_to_none=True)
         x.grad = None; full_x.grad = None
-        pred, _, _, _ = forward(model, x, local_forced)
-        expected = reference(full_x, forced)
+        pred, _, _, _ = forward(model, x, local_expert_ids_override)
+        expected = reference(full_x, expert_ids_override)
         maximum = max(maximum, close(pred, expected[indices]))
         local_loss = loss(pred, target[indices], n)
         ref_loss = loss(expected, target, n)
@@ -79,18 +79,18 @@ def verify_case(kind, steps=1, n=65):
 def benchmark(kind, regime, warmup=5, samples=20):
     rank, world = dist.get_rank(), dist.get_world_size()
     n = 256 if regime == 'fixed_global' else 256*world
-    model = Model(rank, world)
+    model = make_model(rank, world)
     x, target = data(n)
     indices = torch.tensor_split(torch.arange(n), world)[rank]
     x, target = x[indices], target[indices]
-    forced = routing(kind, n, world)
-    forced = None if forced is None else forced[indices]
+    expert_ids_override = routing(kind, n, world)
+    expert_ids_override = None if expert_ids_override is None else expert_ids_override[indices]
     opt = torch.optim.SGD(model.parameters(), lr=.15)
     durations, records = [], []
     for step in range(warmup+samples):
         dist.barrier(); start = time.perf_counter()
         opt.zero_grad(set_to_none=True)
-        pred, stats, _, _ = forward(model, x, forced)
+        pred, stats, _, _ = forward(model, x, expert_ids_override)
         loss(pred, target, n).backward(); sync_shared(model); opt.step()
         elapsed = torch.tensor(time.perf_counter()-start, dtype=torch.float64)
         dist.all_reduce(elapsed, op=dist.ReduceOp.MAX)
@@ -115,8 +115,8 @@ def benchmark(kind, regime, warmup=5, samples=20):
 def trace():
     rank, world = dist.get_rank(), dist.get_world_size()
     x,_ = data(8); indices = torch.tensor_split(torch.arange(8),world)[rank]
-    forced = routing('balanced',8,world)
-    pred,stats,ids,returned = forward(Model(rank,world),x[indices],forced[indices])
+    expert_ids_override = routing('balanced',8,world)
+    pred,stats,ids,returned = forward(make_model(rank,world),x[indices],expert_ids_override[indices])
     return [{'token':int(token),'source':rank,'experts':ids[i].tolist(),
              'owners':(ids[i]//(8//world)).tolist(),
              'returned_first_coordinate':returned[i,:,0].detach().tolist(),

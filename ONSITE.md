@@ -4,7 +4,7 @@ The README is the presentation. Open `moe/parallel.py` beside it. Run `python sh
 
 ## Demonstration sequence
 
-1. Sketch two ranks, their token shards, and their distinct expert sets. Shared projection/router parameters are replicas, not shards.
+1. Sketch two ranks, their token shards, and their distinct expert sets. Shared token encoder/router parameters are replicas, not shards.
 2. Find token 3 in the two-rank trace: expert 3 is local, expert 4 is remote. Follow its two assignment rows and returned values. Contrast with token 7, which crosses in the other direction.
 3. Explain why counts and expert IDs travel separately from differentiable activations. Count exchange determines buffer sizes; expert IDs select local computation.
 4. Open `Exchange`: forward communicates values, backward communicates their adjoints using reversed split sizes. Autograd does not infer this from raw distributed calls.

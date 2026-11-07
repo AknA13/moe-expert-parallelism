@@ -4,30 +4,39 @@ from torch import nn
 
 D, H, E = 32, 64, 8
 
-def seeded(seed, factory):
-    with torch.random.fork_rng():
-        torch.manual_seed(seed)
-        return factory().double()
-
 class Model(nn.Module):
+    """A shared token encoder, a top-2 router, and locally owned experts."""
+
     def __init__(self, rank=0, world=1):
         super().__init__()
-        self.projection = seeded(10, lambda: nn.Linear(D, D))
-        self.router = seeded(11, lambda: nn.Linear(D, E))
-        self.experts = nn.ModuleDict({str(i): seeded(100+i, lambda: nn.Sequential(
-            nn.Linear(D, H), nn.Tanh(), nn.Linear(H, D)))
-            for i in range(rank*(E//world), (rank+1)*(E//world))})
+        self.token_encoder = nn.Sequential(nn.Linear(D, D), nn.Tanh())
+        self.router = nn.Linear(D, E)
 
-    def route(self, x, forced=None):
-        h = self.projection(x).tanh()
+        experts_per_rank = E // world
+        first_expert = rank * experts_per_rank
+        self.experts = nn.ModuleDict({
+            str(expert_id): nn.Sequential(
+                nn.Linear(D, H),
+                nn.Tanh(),
+                nn.Linear(H, D),
+            )
+            for expert_id in range(first_expert, first_expert + experts_per_rank)
+        })
+
+    def route(self, x, expert_ids_override=None):
+        """Route normally, or use prescribed expert IDs in diagnostic tests."""
+        h = self.token_encoder(x)
         logits = self.router(h)
-        ids = logits.topk(2, dim=-1).indices if forced is None else forced
+        if expert_ids_override is None:
+            ids = logits.topk(2, dim=-1).indices
+        else:
+            ids = expert_ids_override
         # Equivalent to selected full-softmax probabilities, renormalized.
         weights = logits.gather(1, ids).softmax(-1)
         return h, ids, weights
 
-    def forward(self, x, forced=None):
-        h, ids, weights = self.route(x, forced)
+    def forward(self, x, expert_ids_override=None):
+        h, ids, weights = self.route(x, expert_ids_override)
         out = torch.zeros_like(h)
         for key, expert in self.experts.items():
             token, slot = (ids == int(key)).nonzero(as_tuple=True)
@@ -35,7 +44,29 @@ class Model(nn.Module):
         return out
 
     def shared(self):
-        return list(self.projection.parameters()) + list(self.router.parameters())
+        return list(self.token_encoder.parameters()) + list(self.router.parameters())
+
+def make_model(rank=0, world=1):
+    """Create identical shared layers and stable expert weights across ranks.
+
+    The reference and distributed runs need the same initial parameters. The
+    seed for an expert depends on its global ID, never its owner's rank.
+    fork_rng preserves the caller's random state.
+    """
+    with torch.random.fork_rng():
+        model = Model(rank, world)
+
+        def reset_with_seed(module, seed):
+            torch.manual_seed(seed)
+            for layer in module.modules():
+                if isinstance(layer, nn.Linear):
+                    layer.reset_parameters()
+
+        reset_with_seed(model.token_encoder, 10)
+        reset_with_seed(model.router, 11)
+        for expert_id, expert in model.experts.items():
+            reset_with_seed(expert, 100 + int(expert_id))
+        return model.double()
 
 def data(n):
     g = torch.Generator().manual_seed(42)

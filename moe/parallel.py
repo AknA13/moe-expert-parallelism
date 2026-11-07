@@ -17,9 +17,9 @@ class Exchange(torch.autograd.Function):
         dist.all_to_all_single(out, grad.contiguous(), ctx.send, ctx.receive)
         return out, None, None
 
-def forward(model, x, forced=None):
+def forward(model, x, expert_ids_override=None):
     world, rank = dist.get_world_size(), dist.get_rank()
-    h, ids, weights = model.route(x, forced)
+    h, ids, weights = model.route(x, expert_ids_override)
     owners = ids.flatten() // (E//world)
     order = owners.argsort(stable=True)
     send_tensor = torch.bincount(owners, minlength=world)
