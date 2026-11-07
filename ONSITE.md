@@ -7,7 +7,7 @@ The README is the presentation. Open `moe/model.py` beside it and run `python sh
 1. Show that `StandardMoEModel` owns all eight experts and `ParallelMoEModel` owns a rank-specific subset **in every block**. Both use the same router and expert definitions.
 2. Find token 2 in the two-rank learned-routing trace: expert 7 is remote, expert 0 is local. Follow both assignment rows through packing, expert work, return, and weighted combination.
 3. Open `Exchange`: forward communicates activation rows; backward communicates their adjoints with reversed split sizes. Each parallel block owns that sequence.
-4. Derive the global loss denominator before explaining why replicated routers and encoder need a SUM, while owned experts do not.
+4. Derive the global loss denominator before explaining why each block's replicated projection and router need a SUM, while owned experts do not.
 5. Show `results/verify/comparison-summary.json`. Explain the first-step output/gradient comparison, the 30-epoch loss trajectory, final parameter comparison, and the two-block check.
 6. Compare saved 256-token runs at 1, 2, and 4 ranks. Then show the 512- and 1,024-token jobs. Interpret storage and payload alongside latency.
 
@@ -17,7 +17,7 @@ The README is the presentation. Open `moe/model.py` beside it and run `python sh
 Yes. It calls `StandardMoEModel.forward`, which executes all experts locally and contains no token exchange. The 2- and 4-rank jobs call `ParallelMoEModel.forward`. They share initialization, data, gate semantics, loss, and optimizer, but use distinct expert execution paths.
 
 **How do multiple MoE blocks work?**
-The model holds a `ModuleList` of blocks. Each block routes its own input and, in the parallel model, dispatches to its own sharded experts. Shared-gradient synchronization includes the token encoder and every block router. The short two-block run compares both model types.
+The model holds a `ModuleList` of blocks. Each block projects its input, routes the projected tokens, and, in the parallel model, dispatches to its own sharded experts. Shared-gradient synchronization includes every block's projection and router. The short two-block run compares both model types.
 
 **Why does the router learn with discrete top-k?**
 Selected indices are piecewise constant. The selected logits still determine differentiable softmax weights. Routing boundaries are nondifferentiable; this is ordinary sparse gating, not a straight-through estimator.

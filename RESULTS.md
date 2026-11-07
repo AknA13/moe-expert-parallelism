@@ -17,11 +17,11 @@ Each job ran 25 epochs, with 5 warmup and 20 measured epochs. The slowest rank d
 
 | Ranks | Total tokens | Parameter bytes/rank | Median ms | p95 ms | Forward / backward activation bytes (cluster) |
 |---:|---:|---:|---:|---:|---:|
-| 1 | 256 | 278,848 | 1.250 | 1.536 | 0 / 0 |
-| 2 | 256 | 144,704 | 2.203 | 2.305 | 133,018 / 133,018 |
-| 4 | 256 | 77,632 | 3.324 | 3.809 | 193,894 / 193,894 |
-| 2 | 512 | 144,704 | 2.521 | 2.616 | 250,829 / 250,829 |
-| 4 | 1,024 | 77,632 | 4.477 | 4.726 | 789,478 / 789,478 |
+| 1 | 256 | 278,848 | 1.197 | 1.240 | 0 / 0 |
+| 2 | 256 | 144,704 | 2.220 | 2.312 | 133,018 / 133,018 |
+| 4 | 256 | 77,632 | 3.176 | 3.845 | 193,894 / 193,894 |
+| 2 | 512 | 144,704 | 2.569 | 2.670 | 250,829 / 250,829 |
+| 4 | 1,024 | 77,632 | 4.537 | 4.936 | 789,478 / 789,478 |
 
 Expert parameter storage falls from 268,288 to 67,072 bytes/rank at four ranks. Shared storage stays 10,560 bytes/rank. The single-rank baseline avoids distributed exchange entirely; the multi-rank models perform it inside each parallel block. These are parameter tensor bytes, not peak process memory. Logical payload estimates exclude transport overhead. The small CPU model gets slower with more ranks; no GPU speedup is claimed.
 

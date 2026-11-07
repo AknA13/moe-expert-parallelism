@@ -31,16 +31,16 @@ python show_results.py
 4. `moe/training.py`: one loss and training loop that calls `model(x)` in either mode.
 5. `run.py`: one generic worker; `verify.py` and `scale.py` launch it with different inputs.
 
-The two model types share a token encoder, router and expert definitions, output dimension, gate calculation, and global expert initialization. The standard model owns all experts; the parallel model owns `8/world_size` experts per block. No test-only routing mode enters either model.
+Each block contains its own replicated token projection (`Linear` + `Tanh`), replicated router, and experts. Both model types use the same block computation, output dimension, gate calculation, and global expert initialization. The standard model owns all experts; the parallel model owns `8/world_size` experts per block. No test-only routing mode enters either model.
 
 ## Two-rank token flow
 
 Rank 0 owns experts 0–3 in each block; rank 1 owns 4–7. For token 2 in the saved learned-routing trace, the router selects experts **7 and 0**: one remote and one local.
 
 ```text
-rank 0 token 2 → encoder → block router → [expert 7, expert 0]
-                                     ├─ activation to rank 1 → expert 7 ─┐
-                                     └─ local expert 0 ────────────────────┤
+rank 0 token 2 → block projection → block router → [expert 7, expert 0]
+                                              ├─ to rank 1 → expert 7 ─┐
+                                              └─ local expert 0 ────────┤
 rank 0 receives both outputs ← inverse packing ←──────────────────────────┘
 rank 0 combines them with the selected router weights → token output/loss
 ```
@@ -60,7 +60,7 @@ L_global = Σ_r L_r
 
 | Parameters | Placement | Action before SGD |
 |---|---|---|
-| Token encoder | Replicated | SUM all-reduce gradients |
+| Token projection in every block | Replicated | SUM all-reduce gradients |
 | Router in every block | Replicated | SUM all-reduce gradients |
 | Experts in every block | Unique owner | Use accumulated local gradient; no expert-gradient all-reduce |
 

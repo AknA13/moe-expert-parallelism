@@ -78,7 +78,7 @@ def compare(standard, parallel):
                 value, reference['final_parameters'][parameter]))
         changes = rank['parameter_changes']
         assert all(change > 0 for name, change in changes.items()
-                   if name.startswith('token_encoder.') or '.router.' in name)
+                   if '.token_projection.' in name or '.router.' in name)
 
     for name in ('output', 'input_gradient'):
         global_values = [row for rank in parallel
