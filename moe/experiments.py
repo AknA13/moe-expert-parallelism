@@ -3,6 +3,7 @@ import statistics
 import torch
 import torch.distributed as dist
 from torch import nn
+from typing import NamedTuple
 from .model import D, E, Model
 from .parallel import forward, sync_shared, Exchange
 
@@ -47,6 +48,27 @@ def routing(kind, n, world):
 def loss(pred, target, global_n):
     return (pred - target).square().mean(-1).sum() / global_n
 
+
+class RankData(NamedTuple):
+    model: Model
+    x: torch.Tensor
+    target: torch.Tensor
+    indices: torch.Tensor
+    expert_ids: torch.Tensor | None
+    full_x: torch.Tensor
+    full_target: torch.Tensor
+
+
+def prepare_rank(rank, world, token_count, route_kind):
+    """Construct this rank's model and slice its portion of the global batch."""
+    model = make_model(rank, world)
+    full_x, full_target = data(token_count)
+    indices = torch.tensor_split(torch.arange(token_count), world)[rank]
+    chosen = routing(route_kind, token_count, world)
+    local_ids = None if chosen is None else chosen[indices]
+    return RankData(model, full_x[indices].clone(), full_target[indices],
+                    indices, local_ids, full_x, full_target)
+
 def close(a, b):
     torch.testing.assert_close(a, b, atol=1e-8, rtol=1e-6)
     return float((a-b).detach().abs().max()) if a.numel() else 0.
@@ -81,13 +103,12 @@ def communication_check():
 
 def verify_case(kind, steps=1, n=65):
     rank, world = dist.get_rank(), dist.get_world_size()
-    model, reference = make_model(rank, world), make_model()
-    full_x, target = data(n)
-    full_x.requires_grad_()
-    indices = torch.tensor_split(torch.arange(n), world)[rank]
-    x = full_x.detach()[indices].clone().requires_grad_()
+    prepared = prepare_rank(rank, world, n, kind)
+    model, reference = prepared.model, make_model()
+    full_x, target = prepared.full_x.requires_grad_(), prepared.full_target
+    indices, local_expert_ids = prepared.indices, prepared.expert_ids
+    x = prepared.x.requires_grad_()
     expert_ids = routing(kind, n, world)
-    local_expert_ids = None if expert_ids is None else expert_ids[indices]
     opt = torch.optim.SGD(model.parameters(), lr=.15)
     ref_opt = torch.optim.SGD(reference.parameters(), lr=.15)
     history, maximum = [], 0.
@@ -121,12 +142,9 @@ def verify_case(kind, steps=1, n=65):
 def benchmark(kind, regime, warmup=5, samples=20):
     rank, world = dist.get_rank(), dist.get_world_size()
     n = 256 if regime == 'fixed_global' else 256*world
-    model = make_model(rank, world)
-    x, target = data(n)
-    indices = torch.tensor_split(torch.arange(n), world)[rank]
-    x, target = x[indices], target[indices]
-    expert_ids = routing(kind, n, world)
-    expert_ids = None if expert_ids is None else expert_ids[indices]
+    prepared = prepare_rank(rank, world, n, kind)
+    model, x, target, expert_ids = (prepared.model, prepared.x,
+                                    prepared.target, prepared.expert_ids)
     opt = torch.optim.SGD(model.parameters(), lr=.15)
     durations, records = [], []
     for step in range(warmup+samples):
@@ -156,10 +174,31 @@ def benchmark(kind, regime, warmup=5, samples=20):
 
 def trace():
     rank, world = dist.get_rank(), dist.get_world_size()
-    x,_ = data(8); indices = torch.tensor_split(torch.arange(8),world)[rank]
-    expert_ids = routing('balanced',8,world)
-    pred,stats,ids,returned = forward(make_model(rank,world),x[indices],expert_ids[indices])
+    prepared = prepare_rank(rank, world, 8, 'balanced')
+    pred, _, ids, returned = forward(prepared.model, prepared.x,
+                                    prepared.expert_ids)
     return [{'token':int(token),'source':rank,'experts':ids[i].tolist(),
-             'owners':(ids[i]//(8//world)).tolist(),
+             'owners':(ids[i]//(E//world)).tolist(),
              'returned_first_coordinate':returned[i,:,0].detach().tolist(),
-             'combined_first_coordinate':float(pred[i,0].detach())} for i,token in enumerate(indices)]
+             'combined_first_coordinate':float(pred[i,0].detach())}
+            for i, token in enumerate(prepared.indices)]
+
+
+def run_verify(rank, world):
+    return {'communication': communication_check(),
+            'cases': [verify_case(kind) for kind in
+                      ('learned', 'balanced', 'skewed', 'local')]}
+
+
+def run_train(rank, world):
+    return {'trajectory': verify_case('learned', steps=30)}
+
+
+def run_scale(rank, world):
+    return {'benchmarks': [benchmark(kind, regime)
+                           for regime in ('fixed_global', 'fixed_local')
+                           for kind in ('learned', 'balanced', 'skewed')]}
+
+
+def run_trace(rank, world):
+    return {'tokens': trace()}
