@@ -29,7 +29,7 @@ class Model(nn.Module):
             for expert_id in range(first_expert, first_expert + experts_per_rank)
         })
 
-    def route(self, h, expert_ids_override=None):
+    def route(self, h, expert_ids=None):
         """Choose two experts for each encoded token.
 
         Diagnostic experiments may prescribe IDs; gate weights still come from
@@ -37,14 +37,14 @@ class Model(nn.Module):
         """
         logits = self.router(h)
         ids = (logits.topk(K, dim=-1).indices
-               if expert_ids_override is None else expert_ids_override)
+               if expert_ids is None else expert_ids)
         weights = logits.gather(1, ids).softmax(-1)
         return ids, weights
 
-    def forward(self, x, expert_ids_override=None):
+    def forward(self, x, expert_ids=None):
         """Evaluate selected experts locally as the reference computation."""
         h = self.token_encoder(x)
-        ids, weights = self.route(h, expert_ids_override)
+        ids, weights = self.route(h, expert_ids)
         output = torch.zeros_like(h)
         for key, expert in self.experts.items():
             token, slot = (ids == int(key)).nonzero(as_tuple=True)

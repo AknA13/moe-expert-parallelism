@@ -17,19 +17,19 @@ class Exchange(torch.autograd.Function):
         dist.all_to_all_single(out, grad.contiguous(), ctx.send, ctx.receive)
         return out, None, None
 
-def forward(model, x, expert_ids_override=None):
+def forward(model, x, expert_ids=None):
     world, rank = dist.get_world_size(), dist.get_rank()
     h = model.token_encoder(x)
-    ids, weights = model.route(h, expert_ids_override)
+    ids, weights = model.route(h, expert_ids)
     owners = ids.flatten() // (E//world)
     order = owners.argsort(stable=True)
     send_tensor = torch.bincount(owners, minlength=world)
     receive_tensor = torch.empty_like(send_tensor)
     dist.all_to_all_single(receive_tensor, send_tensor)
     send, receive = send_tensor.tolist(), receive_tensor.tolist()
-    expert_ids = ids.flatten()[order].contiguous()
-    received_ids = expert_ids.new_empty(sum(receive))
-    dist.all_to_all_single(received_ids, expert_ids, receive, send)
+    packed_expert_ids = ids.flatten()[order].contiguous()
+    received_ids = packed_expert_ids.new_empty(sum(receive))
+    dist.all_to_all_single(received_ids, packed_expert_ids, receive, send)
     packed = h.repeat_interleave(K, dim=0)[order]
     received = Exchange.apply(packed, send, receive)
     # Keep the dispatch in the graph even when this owner receives no tokens.
