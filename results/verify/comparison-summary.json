@@ -37,10 +37,10 @@
     "max_errors": {
       "loss": 1.3877787807814457e-17,
       "output": 0.0,
-      "input_gradient": 4.0657581468206416e-20,
+      "input_gradient": 1.0164395367051604e-20,
       "parameter_gradient": 4.336808689942018e-19,
-      "parameter_after_step": 1.3877787807814457e-17,
-      "final_parameter": 1.3877787807814457e-17,
+      "parameter_after_step": 1.0842021724855044e-19,
+      "final_parameter": 3.469446951953614e-18,
       "expert_output": 0.0
     }
   },
@@ -51,8 +51,8 @@
     "epochs": 2,
     "max_errors": {
       "loss": 1.3877787807814457e-17,
-      "output": 1.1102230246251565e-16,
-      "input_gradient": 5.421010862427522e-20,
+      "output": 8.326672684688674e-17,
+      "input_gradient": 3.3881317890172014e-20,
       "parameter_gradient": 1.734723475976807e-18,
       "parameter_after_step": 2.7755575615628914e-17,
       "final_parameter": 2.7755575615628914e-17,

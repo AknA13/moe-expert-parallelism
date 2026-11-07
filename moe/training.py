@@ -117,7 +117,7 @@ def run_training(rank, world, train_config, model_config=ModelConfig(),
     return {
         'train_config': asdict(train_config),
         'model_config': asdict(model_config),
-        'model_type': type(model).__name__,
+        'parallel': model.parallel,
         'epochs': steps,
         'trace': trace,
         'first_step': first_step,

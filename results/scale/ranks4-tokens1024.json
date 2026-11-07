@@ -14,12 +14,12 @@
       "expert_hidden": 64,
       "num_blocks": 1
     },
-    "model_type": "ParallelMoEModel",
+    "parallel": true,
     "epochs": [
       {
         "epoch": 0,
         "global_loss": 0.09270514437793273,
-        "step_ms": 6.078999998862855,
+        "step_ms": 6.601957997190766,
         "shared_grad_norm": 0.014375507839448787,
         "expert_grad_norm": 0.013365255708573727,
         "blocks": [
@@ -57,7 +57,7 @@
       {
         "epoch": 1,
         "global_loss": 0.09230528857189295,
-        "step_ms": 4.458249997696839,
+        "step_ms": 4.959792000590824,
         "shared_grad_norm": 0.014303449843216926,
         "expert_grad_norm": 0.01334002241423967,
         "blocks": [
@@ -95,7 +95,7 @@
       {
         "epoch": 2,
         "global_loss": 0.09190698248590672,
-        "step_ms": 4.438749994733371,
+        "step_ms": 4.875333004747517,
         "shared_grad_norm": 0.014241870264157658,
         "expert_grad_norm": 0.013278887904107486,
         "blocks": [
@@ -133,7 +133,7 @@
       {
         "epoch": 3,
         "global_loss": 0.0915246358280493,
-        "step_ms": 4.8299169866368175,
+        "step_ms": 5.277082993416116,
         "shared_grad_norm": 0.014178600465720117,
         "expert_grad_norm": 0.013244815253387067,
         "blocks": [
@@ -171,7 +171,7 @@
       {
         "epoch": 4,
         "global_loss": 0.0911453889762261,
-        "step_ms": 4.64420800562948,
+        "step_ms": 6.133040995337069,
         "shared_grad_norm": 0.014116323581008993,
         "expert_grad_norm": 0.013210862550142649,
         "blocks": [
@@ -209,7 +209,7 @@
       {
         "epoch": 5,
         "global_loss": 0.09074683968387821,
-        "step_ms": 4.405042011057958,
+        "step_ms": 5.2688750001834705,
         "shared_grad_norm": 0.014058248182364388,
         "expert_grad_norm": 0.013205722648711418,
         "blocks": [
@@ -247,7 +247,7 @@
       {
         "epoch": 6,
         "global_loss": 0.09035353755584298,
-        "step_ms": 4.376249999040738,
+        "step_ms": 5.371999999624677,
         "shared_grad_norm": 0.014001239101546176,
         "expert_grad_norm": 0.013199668201456807,
         "blocks": [
@@ -285,7 +285,7 @@
       {
         "epoch": 7,
         "global_loss": 0.08998374648717197,
-        "step_ms": 4.433791997143999,
+        "step_ms": 5.1745829987339675,
         "shared_grad_norm": 0.013947265723369452,
         "expert_grad_norm": 0.013165860970562797,
         "blocks": [
@@ -323,7 +323,7 @@
       {
         "epoch": 8,
         "global_loss": 0.08956672338043742,
-        "step_ms": 4.292707992135547,
+        "step_ms": 6.215959001565352,
         "shared_grad_norm": 0.013882919125646936,
         "expert_grad_norm": 0.013209547315313694,
         "blocks": [
@@ -361,7 +361,7 @@
       {
         "epoch": 9,
         "global_loss": 0.08920261521252904,
-        "step_ms": 4.570665987557732,
+        "step_ms": 4.946208995534107,
         "shared_grad_norm": 0.013825342444140907,
         "expert_grad_norm": 0.01317563910880509,
         "blocks": [
@@ -399,7 +399,7 @@
       {
         "epoch": 10,
         "global_loss": 0.08884137677713286,
-        "step_ms": 4.680500001995824,
+        "step_ms": 4.844959010370076,
         "shared_grad_norm": 0.013768639680752091,
         "expert_grad_norm": 0.013141848091847297,
         "blocks": [
@@ -437,7 +437,7 @@
       {
         "epoch": 11,
         "global_loss": 0.08848297256062311,
-        "step_ms": 4.4965840061195195,
+        "step_ms": 4.943542007822543,
         "shared_grad_norm": 0.01371279276927662,
         "expert_grad_norm": 0.013108173513837395,
         "blocks": [
@@ -475,7 +475,7 @@
       {
         "epoch": 12,
         "global_loss": 0.08810130887349546,
-        "step_ms": 4.423124992172234,
+        "step_ms": 5.456166007206775,
         "shared_grad_norm": 0.013668338530835974,
         "expert_grad_norm": 0.013078908879814088,
         "blocks": [
@@ -513,7 +513,7 @@
       {
         "epoch": 13,
         "global_loss": 0.08772624578492486,
-        "step_ms": 4.528125005890615,
+        "step_ms": 4.8386249982286245,
         "shared_grad_norm": 0.013617971794215195,
         "expert_grad_norm": 0.013065774795638968,
         "blocks": [
@@ -551,7 +551,7 @@
       {
         "epoch": 14,
         "global_loss": 0.08737009458005424,
-        "step_ms": 4.517541994573548,
+        "step_ms": 4.790417006006464,
         "shared_grad_norm": 0.013564790750144409,
         "expert_grad_norm": 0.01303227953806326,
         "blocks": [
@@ -589,7 +589,7 @@
       {
         "epoch": 15,
         "global_loss": 0.08699320520612122,
-        "step_ms": 4.492291991482489,
+        "step_ms": 4.746958002215251,
         "shared_grad_norm": 0.013507540902654215,
         "expert_grad_norm": 0.01300720322565176,
         "blocks": [
@@ -627,7 +627,7 @@
       {
         "epoch": 16,
         "global_loss": 0.08664898805858012,
-        "step_ms": 4.926207999233156,
+        "step_ms": 6.111665992648341,
         "shared_grad_norm": 0.013455647979770969,
         "expert_grad_norm": 0.012973886022508097,
         "blocks": [
@@ -665,7 +665,7 @@
       {
         "epoch": 17,
         "global_loss": 0.08631062408623813,
-        "step_ms": 4.444292004336603,
+        "step_ms": 5.379916008678265,
         "shared_grad_norm": 0.013398457695796182,
         "expert_grad_norm": 0.012942082439202272,
         "blocks": [
@@ -703,7 +703,7 @@
       {
         "epoch": 18,
         "global_loss": 0.08596136810416208,
-        "step_ms": 4.282708003302105,
+        "step_ms": 5.10779200703837,
         "shared_grad_norm": 0.013343343017962351,
         "expert_grad_norm": 0.012964961407688748,
         "blocks": [
@@ -741,7 +741,7 @@
       {
         "epoch": 19,
         "global_loss": 0.08562505232185942,
-        "step_ms": 4.3706659926101565,
+        "step_ms": 4.931041010422632,
         "shared_grad_norm": 0.01329369566041919,
         "expert_grad_norm": 0.012931738999106752,
         "blocks": [
@@ -779,7 +779,7 @@
       {
         "epoch": 20,
         "global_loss": 0.0852912746685243,
-        "step_ms": 4.462083990802057,
+        "step_ms": 4.84758400125429,
         "shared_grad_norm": 0.013244756544099935,
         "expert_grad_norm": 0.01289862836558728,
         "blocks": [
@@ -817,7 +817,7 @@
       {
         "epoch": 21,
         "global_loss": 0.08493411519594976,
-        "step_ms": 4.4203750003362074,
+        "step_ms": 4.797834000783041,
         "shared_grad_norm": 0.013201179331317139,
         "expert_grad_norm": 0.012841560697933138,
         "blocks": [
@@ -855,7 +855,7 @@
       {
         "epoch": 22,
         "global_loss": 0.08460467003429979,
-        "step_ms": 4.49858300271444,
+        "step_ms": 5.177458006073721,
         "shared_grad_norm": 0.013153543457915428,
         "expert_grad_norm": 0.012808721768467288,
         "blocks": [
@@ -893,7 +893,7 @@
       {
         "epoch": 23,
         "global_loss": 0.08426781698290445,
-        "step_ms": 4.604332993039861,
+        "step_ms": 4.949207999743521,
         "shared_grad_norm": 0.013104094058074583,
         "expert_grad_norm": 0.012776000339613217,
         "blocks": [
@@ -931,7 +931,7 @@
       {
         "epoch": 24,
         "global_loss": 0.08394389873096755,
-        "step_ms": 4.725749997305684,
+        "step_ms": 4.927791000227444,
         "shared_grad_norm": 0.013057856989772652,
         "expert_grad_norm": 0.012743389506274816,
         "blocks": [
@@ -5329,8 +5329,8 @@
     "first_step": null,
     "final_parameters": null,
     "parameter_changes": {
-      "token_encoder.0.weight": 0.004742199713144241,
-      "token_encoder.0.bias": 0.008981519844873942,
+      "blocks.0.token_projection.0.weight": 0.004742199713144241,
+      "blocks.0.token_projection.0.bias": 0.008981519844873942,
       "blocks.0.router.weight": 0.001888619221643073,
       "blocks.0.router.bias": 0.0025470988526274177,
       "blocks.0.experts.0.0.weight": 0.0016273723103940457,
@@ -5360,12 +5360,12 @@
       "expert_hidden": 64,
       "num_blocks": 1
     },
-    "model_type": "ParallelMoEModel",
+    "parallel": true,
     "epochs": [
       {
         "epoch": 0,
         "global_loss": 0.09270514437793273,
-        "step_ms": 6.078999998862855,
+        "step_ms": 6.601957997190766,
         "shared_grad_norm": 0.014375507839448787,
         "expert_grad_norm": 0.02343343531769272,
         "blocks": [
@@ -5403,7 +5403,7 @@
       {
         "epoch": 1,
         "global_loss": 0.09230528857189295,
-        "step_ms": 4.458249997696839,
+        "step_ms": 4.959792000590824,
         "shared_grad_norm": 0.014303449843216926,
         "expert_grad_norm": 0.02334913587852022,
         "blocks": [
@@ -5441,7 +5441,7 @@
       {
         "epoch": 2,
         "global_loss": 0.09190698248590672,
-        "step_ms": 4.438749994733371,
+        "step_ms": 4.875333004747517,
         "shared_grad_norm": 0.014241870264157658,
         "expert_grad_norm": 0.023265382774280596,
         "blocks": [
@@ -5479,7 +5479,7 @@
       {
         "epoch": 3,
         "global_loss": 0.0915246358280493,
-        "step_ms": 4.8299169866368175,
+        "step_ms": 5.277082993416116,
         "shared_grad_norm": 0.014178600465720117,
         "expert_grad_norm": 0.02318216652263171,
         "blocks": [
@@ -5517,7 +5517,7 @@
       {
         "epoch": 4,
         "global_loss": 0.0911453889762261,
-        "step_ms": 4.64420800562948,
+        "step_ms": 6.133040995337069,
         "shared_grad_norm": 0.014116323581008993,
         "expert_grad_norm": 0.023099482953331536,
         "blocks": [
@@ -5555,7 +5555,7 @@
       {
         "epoch": 5,
         "global_loss": 0.09074683968387821,
-        "step_ms": 4.405042011057958,
+        "step_ms": 5.2688750001834705,
         "shared_grad_norm": 0.014058248182364388,
         "expert_grad_norm": 0.02297135639627008,
         "blocks": [
@@ -5593,7 +5593,7 @@
       {
         "epoch": 6,
         "global_loss": 0.09035353755584298,
-        "step_ms": 4.376249999040738,
+        "step_ms": 5.371999999624677,
         "shared_grad_norm": 0.014001239101546176,
         "expert_grad_norm": 0.02288997887536428,
         "blocks": [
@@ -5631,7 +5631,7 @@
       {
         "epoch": 7,
         "global_loss": 0.08998374648717197,
-        "step_ms": 4.433791997143999,
+        "step_ms": 5.1745829987339675,
         "shared_grad_norm": 0.013947265723369452,
         "expert_grad_norm": 0.022807997653205427,
         "blocks": [
@@ -5669,7 +5669,7 @@
       {
         "epoch": 8,
         "global_loss": 0.08956672338043742,
-        "step_ms": 4.292707992135547,
+        "step_ms": 6.215959001565352,
         "shared_grad_norm": 0.013882919125646936,
         "expert_grad_norm": 0.02269622133733001,
         "blocks": [
@@ -5707,7 +5707,7 @@
       {
         "epoch": 9,
         "global_loss": 0.08920261521252904,
-        "step_ms": 4.570665987557732,
+        "step_ms": 4.946208995534107,
         "shared_grad_norm": 0.013825342444140907,
         "expert_grad_norm": 0.022616510418798374,
         "blocks": [
@@ -5745,7 +5745,7 @@
       {
         "epoch": 10,
         "global_loss": 0.08884137677713286,
-        "step_ms": 4.680500001995824,
+        "step_ms": 4.844959010370076,
         "shared_grad_norm": 0.013768639680752091,
         "expert_grad_norm": 0.02253729098498849,
         "blocks": [
@@ -5783,7 +5783,7 @@
       {
         "epoch": 11,
         "global_loss": 0.08848297256062311,
-        "step_ms": 4.4965840061195195,
+        "step_ms": 4.943542007822543,
         "shared_grad_norm": 0.01371279276927662,
         "expert_grad_norm": 0.022458557140165758,
         "blocks": [
@@ -5821,7 +5821,7 @@
       {
         "epoch": 12,
         "global_loss": 0.08810130887349546,
-        "step_ms": 4.423124992172234,
+        "step_ms": 5.456166007206775,
         "shared_grad_norm": 0.013668338530835974,
         "expert_grad_norm": 0.022348777517408148,
         "blocks": [
@@ -5859,7 +5859,7 @@
       {
         "epoch": 13,
         "global_loss": 0.08772624578492486,
-        "step_ms": 4.528125005890615,
+        "step_ms": 4.8386249982286245,
         "shared_grad_norm": 0.013617971794215195,
         "expert_grad_norm": 0.022271104540236394,
         "blocks": [
@@ -5897,7 +5897,7 @@
       {
         "epoch": 14,
         "global_loss": 0.08737009458005424,
-        "step_ms": 4.517541994573548,
+        "step_ms": 4.790417006006464,
         "shared_grad_norm": 0.013564790750144409,
         "expert_grad_norm": 0.022221565038952534,
         "blocks": [
@@ -5935,7 +5935,7 @@
       {
         "epoch": 15,
         "global_loss": 0.08699320520612122,
-        "step_ms": 4.492291991482489,
+        "step_ms": 4.746958002215251,
         "shared_grad_norm": 0.013507540902654215,
         "expert_grad_norm": 0.02208844355820087,
         "blocks": [
@@ -5973,7 +5973,7 @@
       {
         "epoch": 16,
         "global_loss": 0.08664898805858012,
-        "step_ms": 4.926207999233156,
+        "step_ms": 6.111665992648341,
         "shared_grad_norm": 0.013455647979770969,
         "expert_grad_norm": 0.02201251087715251,
         "blocks": [
@@ -6011,7 +6011,7 @@
       {
         "epoch": 17,
         "global_loss": 0.08631062408623813,
-        "step_ms": 4.444292004336603,
+        "step_ms": 5.379916008678265,
         "shared_grad_norm": 0.013398457695796182,
         "expert_grad_norm": 0.02198443887848373,
         "blocks": [
@@ -6049,7 +6049,7 @@
       {
         "epoch": 18,
         "global_loss": 0.08596136810416208,
-        "step_ms": 4.282708003302105,
+        "step_ms": 5.10779200703837,
         "shared_grad_norm": 0.013343343017962351,
         "expert_grad_norm": 0.02191043969840477,
         "blocks": [
@@ -6087,7 +6087,7 @@
       {
         "epoch": 19,
         "global_loss": 0.08562505232185942,
-        "step_ms": 4.3706659926101565,
+        "step_ms": 4.931041010422632,
         "shared_grad_norm": 0.01329369566041919,
         "expert_grad_norm": 0.02183570534036752,
         "blocks": [
@@ -6125,7 +6125,7 @@
       {
         "epoch": 20,
         "global_loss": 0.0852912746685243,
-        "step_ms": 4.462083990802057,
+        "step_ms": 4.84758400125429,
         "shared_grad_norm": 0.013244756544099935,
         "expert_grad_norm": 0.02176140516356281,
         "blocks": [
@@ -6163,7 +6163,7 @@
       {
         "epoch": 21,
         "global_loss": 0.08493411519594976,
-        "step_ms": 4.4203750003362074,
+        "step_ms": 4.797834000783041,
         "shared_grad_norm": 0.013201179331317139,
         "expert_grad_norm": 0.021645590813754074,
         "blocks": [
@@ -6201,7 +6201,7 @@
       {
         "epoch": 22,
         "global_loss": 0.08460467003429979,
-        "step_ms": 4.49858300271444,
+        "step_ms": 5.177458006073721,
         "shared_grad_norm": 0.013153543457915428,
         "expert_grad_norm": 0.021640293619929328,
         "blocks": [
@@ -6239,7 +6239,7 @@
       {
         "epoch": 23,
         "global_loss": 0.08426781698290445,
-        "step_ms": 4.604332993039861,
+        "step_ms": 4.949207999743521,
         "shared_grad_norm": 0.013104094058074583,
         "expert_grad_norm": 0.02156719663689869,
         "blocks": [
@@ -6277,7 +6277,7 @@
       {
         "epoch": 24,
         "global_loss": 0.08394389873096755,
-        "step_ms": 4.725749997305684,
+        "step_ms": 4.927791000227444,
         "shared_grad_norm": 0.013057856989772652,
         "expert_grad_norm": 0.02149451763118612,
         "blocks": [
@@ -10675,8 +10675,8 @@
     "first_step": null,
     "final_parameters": null,
     "parameter_changes": {
-      "token_encoder.0.weight": 0.004742199713144241,
-      "token_encoder.0.bias": 0.008981519844873942,
+      "blocks.0.token_projection.0.weight": 0.004742199713144241,
+      "blocks.0.token_projection.0.bias": 0.008981519844873942,
       "blocks.0.router.weight": 0.001888619221643073,
       "blocks.0.router.bias": 0.0025470988526274177,
       "blocks.0.experts.2.0.weight": 0.002320551505245693,
@@ -10706,12 +10706,12 @@
       "expert_hidden": 64,
       "num_blocks": 1
     },
-    "model_type": "ParallelMoEModel",
+    "parallel": true,
     "epochs": [
       {
         "epoch": 0,
         "global_loss": 0.09270514437793273,
-        "step_ms": 6.078999998862855,
+        "step_ms": 6.601957997190766,
         "shared_grad_norm": 0.014375507839448787,
         "expert_grad_norm": 0.02753144914266816,
         "blocks": [
@@ -10749,7 +10749,7 @@
       {
         "epoch": 1,
         "global_loss": 0.09230528857189295,
-        "step_ms": 4.458249997696839,
+        "step_ms": 4.959792000590824,
         "shared_grad_norm": 0.014303449843216926,
         "expert_grad_norm": 0.027398330484649895,
         "blocks": [
@@ -10787,7 +10787,7 @@
       {
         "epoch": 2,
         "global_loss": 0.09190698248590672,
-        "step_ms": 4.438749994733371,
+        "step_ms": 4.875333004747517,
         "shared_grad_norm": 0.014241870264157658,
         "expert_grad_norm": 0.027304000568841896,
         "blocks": [
@@ -10825,7 +10825,7 @@
       {
         "epoch": 3,
         "global_loss": 0.0915246358280493,
-        "step_ms": 4.8299169866368175,
+        "step_ms": 5.277082993416116,
         "shared_grad_norm": 0.014178600465720117,
         "expert_grad_norm": 0.027176601309157042,
         "blocks": [
@@ -10863,7 +10863,7 @@
       {
         "epoch": 4,
         "global_loss": 0.0911453889762261,
-        "step_ms": 4.64420800562948,
+        "step_ms": 6.133040995337069,
         "shared_grad_norm": 0.014116323581008993,
         "expert_grad_norm": 0.027050499200100494,
         "blocks": [
@@ -10901,7 +10901,7 @@
       {
         "epoch": 5,
         "global_loss": 0.09074683968387821,
-        "step_ms": 4.405042011057958,
+        "step_ms": 5.2688750001834705,
         "shared_grad_norm": 0.014058248182364388,
         "expert_grad_norm": 0.026932351566882458,
         "blocks": [
@@ -10939,7 +10939,7 @@
       {
         "epoch": 6,
         "global_loss": 0.09035353755584298,
-        "step_ms": 4.376249999040738,
+        "step_ms": 5.371999999624677,
         "shared_grad_norm": 0.014001239101546176,
         "expert_grad_norm": 0.026794377453839894,
         "blocks": [
@@ -10977,7 +10977,7 @@
       {
         "epoch": 7,
         "global_loss": 0.08998374648717197,
-        "step_ms": 4.433791997143999,
+        "step_ms": 5.1745829987339675,
         "shared_grad_norm": 0.013947265723369452,
         "expert_grad_norm": 0.026652753897449283,
         "blocks": [
@@ -11015,7 +11015,7 @@
       {
         "epoch": 8,
         "global_loss": 0.08956672338043742,
-        "step_ms": 4.292707992135547,
+        "step_ms": 6.215959001565352,
         "shared_grad_norm": 0.013882919125646936,
         "expert_grad_norm": 0.02649485180406599,
         "blocks": [
@@ -11053,7 +11053,7 @@
       {
         "epoch": 9,
         "global_loss": 0.08920261521252904,
-        "step_ms": 4.570665987557732,
+        "step_ms": 4.946208995534107,
         "shared_grad_norm": 0.013825342444140907,
         "expert_grad_norm": 0.026375153481328895,
         "blocks": [
@@ -11091,7 +11091,7 @@
       {
         "epoch": 10,
         "global_loss": 0.08884137677713286,
-        "step_ms": 4.680500001995824,
+        "step_ms": 4.844959010370076,
         "shared_grad_norm": 0.013768639680752091,
         "expert_grad_norm": 0.02625661378429145,
         "blocks": [
@@ -11129,7 +11129,7 @@
       {
         "epoch": 11,
         "global_loss": 0.08848297256062311,
-        "step_ms": 4.4965840061195195,
+        "step_ms": 4.943542007822543,
         "shared_grad_norm": 0.01371279276927662,
         "expert_grad_norm": 0.026139212056593294,
         "blocks": [
@@ -11167,7 +11167,7 @@
       {
         "epoch": 12,
         "global_loss": 0.08810130887349546,
-        "step_ms": 4.423124992172234,
+        "step_ms": 5.456166007206775,
         "shared_grad_norm": 0.013668338530835974,
         "expert_grad_norm": 0.02605500692769109,
         "blocks": [
@@ -11205,7 +11205,7 @@
       {
         "epoch": 13,
         "global_loss": 0.08772624578492486,
-        "step_ms": 4.528125005890615,
+        "step_ms": 4.8386249982286245,
         "shared_grad_norm": 0.013617971794215195,
         "expert_grad_norm": 0.025927849770436672,
         "blocks": [
@@ -11243,7 +11243,7 @@
       {
         "epoch": 14,
         "global_loss": 0.08737009458005424,
-        "step_ms": 4.517541994573548,
+        "step_ms": 4.790417006006464,
         "shared_grad_norm": 0.013564790750144409,
         "expert_grad_norm": 0.025779695334682953,
         "blocks": [
@@ -11281,7 +11281,7 @@
       {
         "epoch": 15,
         "global_loss": 0.08699320520612122,
-        "step_ms": 4.492291991482489,
+        "step_ms": 4.746958002215251,
         "shared_grad_norm": 0.013507540902654215,
         "expert_grad_norm": 0.02565037949588851,
         "blocks": [
@@ -11319,7 +11319,7 @@
       {
         "epoch": 16,
         "global_loss": 0.08664898805858012,
-        "step_ms": 4.926207999233156,
+        "step_ms": 6.111665992648341,
         "shared_grad_norm": 0.013455647979770969,
         "expert_grad_norm": 0.025538506332040398,
         "blocks": [
@@ -11357,7 +11357,7 @@
       {
         "epoch": 17,
         "global_loss": 0.08631062408623813,
-        "step_ms": 4.444292004336603,
+        "step_ms": 5.379916008678265,
         "shared_grad_norm": 0.013398457695796182,
         "expert_grad_norm": 0.025390695130908233,
         "blocks": [
@@ -11395,7 +11395,7 @@
       {
         "epoch": 18,
         "global_loss": 0.08596136810416208,
-        "step_ms": 4.282708003302105,
+        "step_ms": 5.10779200703837,
         "shared_grad_norm": 0.013343343017962351,
         "expert_grad_norm": 0.02526332112504255,
         "blocks": [
@@ -11433,7 +11433,7 @@
       {
         "epoch": 19,
         "global_loss": 0.08562505232185942,
-        "step_ms": 4.3706659926101565,
+        "step_ms": 4.931041010422632,
         "shared_grad_norm": 0.01329369566041919,
         "expert_grad_norm": 0.025154608173957885,
         "blocks": [
@@ -11471,7 +11471,7 @@
       {
         "epoch": 20,
         "global_loss": 0.0852912746685243,
-        "step_ms": 4.462083990802057,
+        "step_ms": 4.84758400125429,
         "shared_grad_norm": 0.013244756544099935,
         "expert_grad_norm": 0.025046864477789282,
         "blocks": [
@@ -11509,7 +11509,7 @@
       {
         "epoch": 21,
         "global_loss": 0.08493411519594976,
-        "step_ms": 4.4203750003362074,
+        "step_ms": 4.797834000783041,
         "shared_grad_norm": 0.013201179331317139,
         "expert_grad_norm": 0.024923433486127914,
         "blocks": [
@@ -11547,7 +11547,7 @@
       {
         "epoch": 22,
         "global_loss": 0.08460467003429979,
-        "step_ms": 4.49858300271444,
+        "step_ms": 5.177458006073721,
         "shared_grad_norm": 0.013153543457915428,
         "expert_grad_norm": 0.024817578208880798,
         "blocks": [
@@ -11585,7 +11585,7 @@
       {
         "epoch": 23,
         "global_loss": 0.08426781698290445,
-        "step_ms": 4.604332993039861,
+        "step_ms": 4.949207999743521,
         "shared_grad_norm": 0.013104094058074583,
         "expert_grad_norm": 0.024743962974362172,
         "blocks": [
@@ -11623,7 +11623,7 @@
       {
         "epoch": 24,
         "global_loss": 0.08394389873096755,
-        "step_ms": 4.725749997305684,
+        "step_ms": 4.927791000227444,
         "shared_grad_norm": 0.013057856989772652,
         "expert_grad_norm": 0.024639754695406916,
         "blocks": [
@@ -16021,8 +16021,8 @@
     "first_step": null,
     "final_parameters": null,
     "parameter_changes": {
-      "token_encoder.0.weight": 0.004742199713144241,
-      "token_encoder.0.bias": 0.008981519844873942,
+      "blocks.0.token_projection.0.weight": 0.004742199713144241,
+      "blocks.0.token_projection.0.bias": 0.008981519844873942,
       "blocks.0.router.weight": 0.001888619221643073,
       "blocks.0.router.bias": 0.0025470988526274177,
       "blocks.0.experts.4.0.weight": 0.001010222823884993,
@@ -16052,12 +16052,12 @@
       "expert_hidden": 64,
       "num_blocks": 1
     },
-    "model_type": "ParallelMoEModel",
+    "parallel": true,
     "epochs": [
       {
         "epoch": 0,
         "global_loss": 0.09270514437793273,
-        "step_ms": 6.078999998862855,
+        "step_ms": 6.601957997190766,
         "shared_grad_norm": 0.014375507839448787,
         "expert_grad_norm": 0.03005255779609918,
         "blocks": [
@@ -16095,7 +16095,7 @@
       {
         "epoch": 1,
         "global_loss": 0.09230528857189295,
-        "step_ms": 4.458249997696839,
+        "step_ms": 4.959792000590824,
         "shared_grad_norm": 0.014303449843216926,
         "expert_grad_norm": 0.029929274493243608,
         "blocks": [
@@ -16133,7 +16133,7 @@
       {
         "epoch": 2,
         "global_loss": 0.09190698248590672,
-        "step_ms": 4.438749994733371,
+        "step_ms": 4.875333004747517,
         "shared_grad_norm": 0.014241870264157658,
         "expert_grad_norm": 0.029803205506199342,
         "blocks": [
@@ -16171,7 +16171,7 @@
       {
         "epoch": 3,
         "global_loss": 0.0915246358280493,
-        "step_ms": 4.8299169866368175,
+        "step_ms": 5.277082993416116,
         "shared_grad_norm": 0.014178600465720117,
         "expert_grad_norm": 0.02968174867707022,
         "blocks": [
@@ -16209,7 +16209,7 @@
       {
         "epoch": 4,
         "global_loss": 0.0911453889762261,
-        "step_ms": 4.64420800562948,
+        "step_ms": 6.133040995337069,
         "shared_grad_norm": 0.014116323581008993,
         "expert_grad_norm": 0.02956123923452673,
         "blocks": [
@@ -16247,7 +16247,7 @@
       {
         "epoch": 5,
         "global_loss": 0.09074683968387821,
-        "step_ms": 4.405042011057958,
+        "step_ms": 5.2688750001834705,
         "shared_grad_norm": 0.014058248182364388,
         "expert_grad_norm": 0.029465261482306736,
         "blocks": [
@@ -16285,7 +16285,7 @@
       {
         "epoch": 6,
         "global_loss": 0.09035353755584298,
-        "step_ms": 4.376249999040738,
+        "step_ms": 5.371999999624677,
         "shared_grad_norm": 0.014001239101546176,
         "expert_grad_norm": 0.029339326719063072,
         "blocks": [
@@ -16323,7 +16323,7 @@
       {
         "epoch": 7,
         "global_loss": 0.08998374648717197,
-        "step_ms": 4.433791997143999,
+        "step_ms": 5.1745829987339675,
         "shared_grad_norm": 0.013947265723369452,
         "expert_grad_norm": 0.029244938246477347,
         "blocks": [
@@ -16361,7 +16361,7 @@
       {
         "epoch": 8,
         "global_loss": 0.08956672338043742,
-        "step_ms": 4.292707992135547,
+        "step_ms": 6.215959001565352,
         "shared_grad_norm": 0.013882919125646936,
         "expert_grad_norm": 0.02911832715857711,
         "blocks": [
@@ -16399,7 +16399,7 @@
       {
         "epoch": 9,
         "global_loss": 0.08920261521252904,
-        "step_ms": 4.570665987557732,
+        "step_ms": 4.946208995534107,
         "shared_grad_norm": 0.013825342444140907,
         "expert_grad_norm": 0.029002001224743345,
         "blocks": [
@@ -16437,7 +16437,7 @@
       {
         "epoch": 10,
         "global_loss": 0.08884137677713286,
-        "step_ms": 4.680500001995824,
+        "step_ms": 4.844959010370076,
         "shared_grad_norm": 0.013768639680752091,
         "expert_grad_norm": 0.02888654781299192,
         "blocks": [
@@ -16475,7 +16475,7 @@
       {
         "epoch": 11,
         "global_loss": 0.08848297256062311,
-        "step_ms": 4.4965840061195195,
+        "step_ms": 4.943542007822543,
         "shared_grad_norm": 0.01371279276927662,
         "expert_grad_norm": 0.028771954511994033,
         "blocks": [
@@ -16513,7 +16513,7 @@
       {
         "epoch": 12,
         "global_loss": 0.08810130887349546,
-        "step_ms": 4.423124992172234,
+        "step_ms": 5.456166007206775,
         "shared_grad_norm": 0.013668338530835974,
         "expert_grad_norm": 0.028657283459758043,
         "blocks": [
@@ -16551,7 +16551,7 @@
       {
         "epoch": 13,
         "global_loss": 0.08772624578492486,
-        "step_ms": 4.528125005890615,
+        "step_ms": 4.8386249982286245,
         "shared_grad_norm": 0.013617971794215195,
         "expert_grad_norm": 0.02851727326951781,
         "blocks": [
@@ -16589,7 +16589,7 @@
       {
         "epoch": 14,
         "global_loss": 0.08737009458005424,
-        "step_ms": 4.517541994573548,
+        "step_ms": 4.790417006006464,
         "shared_grad_norm": 0.013564790750144409,
         "expert_grad_norm": 0.028402407358267504,
         "blocks": [
@@ -16627,7 +16627,7 @@
       {
         "epoch": 15,
         "global_loss": 0.08699320520612122,
-        "step_ms": 4.492291991482489,
+        "step_ms": 4.746958002215251,
         "shared_grad_norm": 0.013507540902654215,
         "expert_grad_norm": 0.028314463322536433,
         "blocks": [
@@ -16665,7 +16665,7 @@
       {
         "epoch": 16,
         "global_loss": 0.08664898805858012,
-        "step_ms": 4.926207999233156,
+        "step_ms": 6.111665992648341,
         "shared_grad_norm": 0.013455647979770969,
         "expert_grad_norm": 0.028203893485067834,
         "blocks": [
@@ -16703,7 +16703,7 @@
       {
         "epoch": 17,
         "global_loss": 0.08631062408623813,
-        "step_ms": 4.444292004336603,
+        "step_ms": 5.379916008678265,
         "shared_grad_norm": 0.013398457695796182,
         "expert_grad_norm": 0.02809411438542704,
         "blocks": [
@@ -16741,7 +16741,7 @@
       {
         "epoch": 18,
         "global_loss": 0.08596136810416208,
-        "step_ms": 4.282708003302105,
+        "step_ms": 5.10779200703837,
         "shared_grad_norm": 0.013343343017962351,
         "expert_grad_norm": 0.027962869928602113,
         "blocks": [
@@ -16779,7 +16779,7 @@
       {
         "epoch": 19,
         "global_loss": 0.08562505232185942,
-        "step_ms": 4.3706659926101565,
+        "step_ms": 4.931041010422632,
         "shared_grad_norm": 0.01329369566041919,
         "expert_grad_norm": 0.02785471497971559,
         "blocks": [
@@ -16817,7 +16817,7 @@
       {
         "epoch": 20,
         "global_loss": 0.0852912746685243,
-        "step_ms": 4.462083990802057,
+        "step_ms": 4.84758400125429,
         "shared_grad_norm": 0.013244756544099935,
         "expert_grad_norm": 0.02774731692882888,
         "blocks": [
@@ -16855,7 +16855,7 @@
       {
         "epoch": 21,
         "global_loss": 0.08493411519594976,
-        "step_ms": 4.4203750003362074,
+        "step_ms": 4.797834000783041,
         "shared_grad_norm": 0.013201179331317139,
         "expert_grad_norm": 0.027690539512735222,
         "blocks": [
@@ -16893,7 +16893,7 @@
       {
         "epoch": 22,
         "global_loss": 0.08460467003429979,
-        "step_ms": 4.49858300271444,
+        "step_ms": 5.177458006073721,
         "shared_grad_norm": 0.013153543457915428,
         "expert_grad_norm": 0.02753945473411415,
         "blocks": [
@@ -16931,7 +16931,7 @@
       {
         "epoch": 23,
         "global_loss": 0.08426781698290445,
-        "step_ms": 4.604332993039861,
+        "step_ms": 4.949207999743521,
         "shared_grad_norm": 0.013104094058074583,
         "expert_grad_norm": 0.02740659745439062,
         "blocks": [
@@ -16969,7 +16969,7 @@
       {
         "epoch": 24,
         "global_loss": 0.08394389873096755,
-        "step_ms": 4.725749997305684,
+        "step_ms": 4.927791000227444,
         "shared_grad_norm": 0.013057856989772652,
         "expert_grad_norm": 0.027302251977106024,
         "blocks": [
@@ -21367,8 +21367,8 @@
     "first_step": null,
     "final_parameters": null,
     "parameter_changes": {
-      "token_encoder.0.weight": 0.004742199713144241,
-      "token_encoder.0.bias": 0.008981519844873942,
+      "blocks.0.token_projection.0.weight": 0.004742199713144241,
+      "blocks.0.token_projection.0.bias": 0.008981519844873942,
       "blocks.0.router.weight": 0.001888619221643073,
       "blocks.0.router.bias": 0.0025470988526274177,
       "blocks.0.experts.6.0.weight": 0.002530532381537373,

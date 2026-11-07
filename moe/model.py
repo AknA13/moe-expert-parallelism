@@ -1,4 +1,4 @@
-"""Equivalent local and expert-parallel MoE models."""
+"""One MoE model with local and expert-parallel block implementations."""
 from dataclasses import dataclass
 
 import torch
@@ -18,11 +18,13 @@ class ModelConfig:
 
 
 class MoEBlock(nn.Module):
-    """Router and expert definitions shared by both execution modes."""
+    """Token projection, router, and experts shared by both execution modes."""
 
     def __init__(self, config, expert_ids):
         super().__init__()
         self.config = config
+        self.token_projection = nn.Sequential(
+            nn.Linear(config.dimension, config.dimension), nn.Tanh())
         self.router = nn.Linear(config.dimension, config.experts)
         self.experts = nn.ModuleDict({
             str(expert_id): nn.Sequential(
@@ -35,10 +37,11 @@ class MoEBlock(nn.Module):
         self.last_report = None
 
     def route(self, x):
-        logits = self.router(x)
+        hidden = self.token_projection(x)
+        logits = self.router(hidden)
         ids = logits.topk(self.config.top_k, dim=-1).indices
         weights = logits.gather(1, ids).softmax(-1)
-        return ids, weights
+        return hidden, ids, weights
 
     def record(self, ids, returned, combined, send, receive, rank, world):
         remote = sum(send) - send[rank]
@@ -67,8 +70,8 @@ class StandardMoEBlock(MoEBlock):
         super().__init__(config, range(config.experts))
 
     def forward(self, x):
-        ids, weights = self.route(x)
-        rows = x.repeat_interleave(self.config.top_k, dim=0)
+        hidden, ids, weights = self.route(x)
+        rows = hidden.repeat_interleave(self.config.top_k, dim=0)
         returned = torch.zeros_like(rows)
         for expert_id, expert in self.experts.items():
             positions = (ids.flatten() == int(expert_id)).nonzero().flatten()
@@ -92,7 +95,7 @@ class ParallelMoEBlock(MoEBlock):
         super().__init__(config, range(first, first + experts_per_rank))
 
     def forward(self, x):
-        ids, weights = self.route(x)
+        hidden, ids, weights = self.route(x)
         owners = ids.flatten() // (self.config.experts // self.world)
         order = owners.argsort(stable=True)
         send_counts = torch.bincount(owners, minlength=self.world)
@@ -104,7 +107,7 @@ class ParallelMoEBlock(MoEBlock):
         received_ids = packed_ids.new_empty(sum(receive))
         dist.all_to_all_single(received_ids, packed_ids, receive, send)
 
-        packed = x.repeat_interleave(self.config.top_k, dim=0)[order]
+        packed = hidden.repeat_interleave(self.config.top_k, dim=0)[order]
         received = Exchange.apply(packed, send, receive)
         computed = received * 0  # Keep the backward exchange for empty owners.
         for expert_id, expert in self.experts.items():
@@ -118,40 +121,28 @@ class ParallelMoEBlock(MoEBlock):
         return combined
 
 
-class _MoEModel(nn.Module):
-    def __init__(self, config, blocks):
+class MoEModel(nn.Module):
+    """Stack local or expert-parallel blocks with the same model interface."""
+
+    def __init__(self, config=ModelConfig(), *, parallel=False, rank=0, world=1):
         super().__init__()
         self.config = config
-        self.token_encoder = nn.Sequential(
-            nn.Linear(config.dimension, config.dimension), nn.Tanh())
-        self.blocks = nn.ModuleList(blocks)
+        self.parallel = parallel
+        self.blocks = nn.ModuleList(
+            ParallelMoEBlock(config, rank, world) if parallel
+            else StandardMoEBlock(config)
+            for _ in range(config.num_blocks)
+        )
 
     def forward(self, x):
-        x = self.token_encoder(x)
         for block in self.blocks:
             x = block(x)
         return x
 
     def replicated_parameters(self):
-        yield from self.token_encoder.parameters()
         for block in self.blocks:
+            yield from block.token_projection.parameters()
             yield from block.router.parameters()
 
     def reports(self):
         return [block.last_report for block in self.blocks]
-
-
-class StandardMoEModel(_MoEModel):
-    """Full MoE on one process; the independent correctness baseline."""
-
-    def __init__(self, config=ModelConfig()):
-        super().__init__(config, [StandardMoEBlock(config)
-                                  for _ in range(config.num_blocks)])
-
-
-class ParallelMoEModel(_MoEModel):
-    """Same MoE with each block's experts sharded across ranks."""
-
-    def __init__(self, rank, world, config=ModelConfig()):
-        super().__init__(config, [ParallelMoEBlock(config, rank, world)
-                                  for _ in range(config.num_blocks)])

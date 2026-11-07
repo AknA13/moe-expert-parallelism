@@ -4,7 +4,7 @@ from typing import NamedTuple
 import torch
 from torch import nn
 
-from .model import ModelConfig, ParallelMoEModel, StandardMoEModel
+from .model import ModelConfig, MoEModel
 
 
 class RankData(NamedTuple):
@@ -18,8 +18,7 @@ class RankData(NamedTuple):
 def make_model(rank, world, config=ModelConfig()):
     """Use global block and expert IDs so weights do not depend on rank count."""
     with torch.random.fork_rng():
-        model = (StandardMoEModel(config) if world == 1
-                 else ParallelMoEModel(rank, world, config))
+        model = MoEModel(config, parallel=world > 1, rank=rank, world=world)
 
         def reset_with_seed(module, seed):
             torch.manual_seed(seed)
@@ -27,9 +26,9 @@ def make_model(rank, world, config=ModelConfig()):
                 if isinstance(layer, nn.Linear):
                     layer.reset_parameters()
 
-        reset_with_seed(model.token_encoder, 10)
         for block_id, block in enumerate(model.blocks):
             offset = block_id * 1000
+            reset_with_seed(block.token_projection, 10 + offset)
             reset_with_seed(block.router, 11 + offset)
             for expert_id, expert in block.experts.items():
                 reset_with_seed(expert, 100 + offset + int(expert_id))
