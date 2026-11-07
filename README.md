@@ -27,7 +27,7 @@ python show_results.py               # terminal tables and token trace
 
 ## Read the code in this order
 
-1. `moe/model.py`: a small model, its top-2 gating, and a reference with no distributed operations. `make_model()` handles reproducible initialization separately.
+1. `moe/model.py`: a small model, its top-2 gating, and a reference with no distributed operations. `moe/experiments.py` handles reproducible initialization and diagnostic fixtures separately.
 2. `moe/parallel.py`: packing, token exchange, expert execution, inverse exchange, and shared-gradient synchronization.
 3. `moe/experiments.py`: assertions against the reference, finite differences, and benchmark boundaries. `run.py` supplies process lifecycle and JSON output.
 

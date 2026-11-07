@@ -2,8 +2,50 @@ import time
 import statistics
 import torch
 import torch.distributed as dist
-from .model import make_model, data, routing, loss
+from torch import nn
+from .model import D, E, Model
 from .parallel import forward, sync_shared, Exchange
+
+
+def make_model(rank=0, world=1):
+    """Give each shared layer and global expert ID reproducible weights."""
+    with torch.random.fork_rng():
+        model = Model(rank, world)
+
+        def reset_with_seed(module, seed):
+            torch.manual_seed(seed)
+            for layer in module.modules():
+                if isinstance(layer, nn.Linear):
+                    layer.reset_parameters()
+
+        reset_with_seed(model.token_encoder, 10)
+        reset_with_seed(model.router, 11)
+        for expert_id, expert in model.experts.items():
+            reset_with_seed(expert, 100 + int(expert_id))
+        return model.double()
+
+
+def data(n):
+    generator = torch.Generator().manual_seed(42)
+    x = torch.randn(n, D, generator=generator, dtype=torch.float64)
+    return x, 0.3 * x.tanh() + 0.2
+
+
+def routing(kind, n, world):
+    tokens = torch.arange(n)
+    if kind == 'learned': return None
+    if kind == 'balanced': return torch.stack((tokens % E, (tokens + 1) % E), 1)
+    if kind == 'skewed': return torch.tensor([0, 1]).expand(n, 2)
+    if kind == 'local':
+        owner = torch.empty(n, dtype=torch.long)
+        for rank, chunk in enumerate(torch.tensor_split(tokens, world)): owner[chunk] = rank
+        base = owner * (E // world)
+        return torch.stack((base, base + 1), 1)
+    raise ValueError(kind)
+
+
+def loss(pred, target, global_n):
+    return (pred - target).square().mean(-1).sum() / global_n
 
 def close(a, b):
     torch.testing.assert_close(a, b, atol=1e-8, rtol=1e-6)

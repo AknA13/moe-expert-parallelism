@@ -1,7 +1,7 @@
 """Two activation exchanges forward, their transposes backward."""
 import torch
 import torch.distributed as dist
-from .model import E
+from .model import E, K
 
 class Exchange(torch.autograd.Function):
     @staticmethod
@@ -19,7 +19,8 @@ class Exchange(torch.autograd.Function):
 
 def forward(model, x, expert_ids_override=None):
     world, rank = dist.get_world_size(), dist.get_rank()
-    h, ids, weights = model.route(x, expert_ids_override)
+    h = model.token_encoder(x)
+    ids, weights = model.route(h, expert_ids_override)
     owners = ids.flatten() // (E//world)
     order = owners.argsort(stable=True)
     send_tensor = torch.bincount(owners, minlength=world)
@@ -29,7 +30,7 @@ def forward(model, x, expert_ids_override=None):
     expert_ids = ids.flatten()[order].contiguous()
     received_ids = expert_ids.new_empty(sum(receive))
     dist.all_to_all_single(received_ids, expert_ids, receive, send)
-    packed = h.repeat_interleave(2, dim=0)[order]
+    packed = h.repeat_interleave(K, dim=0)[order]
     received = Exchange.apply(packed, send, receive)
     # Keep the dispatch in the graph even when this owner receives no tokens.
     computed = received * 0
@@ -38,7 +39,7 @@ def forward(model, x, expert_ids_override=None):
         computed = computed.index_add(0, positions, expert(received[positions]))
     returned = Exchange.apply(computed, receive, send)
     unsorted = returned[order.argsort()]
-    out = (unsorted.reshape(len(x), 2, -1) * weights[..., None]).sum(1)
+    out = (unsorted.reshape(len(x), K, -1) * weights[..., None]).sum(1)
     remote = sum(send)-send[rank]
     stats = {'assignments': torch.bincount(ids.flatten(), minlength=E).tolist(),
              'remote_assignments': remote,
@@ -46,7 +47,7 @@ def forward(model, x, expert_ids_override=None):
              'activation_backward_bytes': remote*h.shape[1]*h.element_size()*2,
              'metadata_bytes': remote*8 + (world-1)*8,
              'send': send, 'receive': receive}
-    return out, stats, ids, unsorted.reshape(len(x), 2, -1)
+    return out, stats, ids, unsorted.reshape(len(x), K, -1)
 
 def sync_shared(model):
     for p in model.parameters():
