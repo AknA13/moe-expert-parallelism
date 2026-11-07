@@ -37,7 +37,7 @@ def compare(standard, parallel):
     world = len(parallel)
     total_tokens = reference['train_config']['total_tokens']
     blocks = reference['model_config']['num_blocks']
-    assert reference['model_type'] == 'StandardMoEModel'
+    assert reference['parallel'] is False
     assert sum(len(rank['first_step']['output']) for rank in parallel) == total_tokens
     errors = {name: 0.0 for name in (
         'loss', 'output', 'input_gradient', 'parameter_gradient',
@@ -45,7 +45,7 @@ def compare(standard, parallel):
 
     for rank_id, rank in enumerate(parallel):
         assert rank['rank'] == rank_id
-        assert rank['model_type'] == 'ParallelMoEModel'
+        assert rank['parallel'] is True
         assert rank['train_config'] == reference['train_config']
         assert rank['model_config'] == reference['model_config']
         local_tokens = total_tokens // world + (rank_id < total_tokens % world)

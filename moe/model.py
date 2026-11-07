@@ -1,4 +1,4 @@
-"""Equivalent local and expert-parallel MoE models."""
+"""One MoE model with local and expert-parallel block implementations."""
 from dataclasses import dataclass
 
 import torch
@@ -121,11 +121,18 @@ class ParallelMoEBlock(MoEBlock):
         return combined
 
 
-class _MoEModel(nn.Module):
-    def __init__(self, config, blocks):
+class MoEModel(nn.Module):
+    """Stack local or expert-parallel blocks with the same model interface."""
+
+    def __init__(self, config=ModelConfig(), *, parallel=False, rank=0, world=1):
         super().__init__()
         self.config = config
-        self.blocks = nn.ModuleList(blocks)
+        self.parallel = parallel
+        self.blocks = nn.ModuleList(
+            ParallelMoEBlock(config, rank, world) if parallel
+            else StandardMoEBlock(config)
+            for _ in range(config.num_blocks)
+        )
 
     def forward(self, x):
         for block in self.blocks:
@@ -139,19 +146,3 @@ class _MoEModel(nn.Module):
 
     def reports(self):
         return [block.last_report for block in self.blocks]
-
-
-class StandardMoEModel(_MoEModel):
-    """Full MoE on one process; the independent correctness baseline."""
-
-    def __init__(self, config=ModelConfig()):
-        super().__init__(config, [StandardMoEBlock(config)
-                                  for _ in range(config.num_blocks)])
-
-
-class ParallelMoEModel(_MoEModel):
-    """Same MoE with each block's experts sharded across ranks."""
-
-    def __init__(self, rank, world, config=ModelConfig()):
-        super().__init__(config, [ParallelMoEBlock(config, rank, world)
-                                  for _ in range(config.num_blocks)])

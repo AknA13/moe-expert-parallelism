@@ -1,6 +1,6 @@
 # Expert-parallel MoE, from one model to many ranks
 
-A private CPU/Gloo teaching demo with learned top-2 routing, eight experts, and a configurable number of MoE blocks. `StandardMoEModel` runs the full model in one process. `ParallelMoEModel` has the same computation but partitions each block's experts across ranks.
+A private CPU/Gloo teaching demo with learned top-2 routing, eight experts, and a configurable number of MoE blocks. One `MoEModel` selects local or expert-parallel blocks with its `parallel` constructor argument.
 
 ## Reproduce
 
@@ -25,13 +25,13 @@ python show_results.py
 
 ## Read the code
 
-1. `moe/model.py`: `StandardMoEModel` and `ParallelMoEModel`, each built from MoE blocks. `ModelConfig.num_blocks` controls the stack depth.
+1. `moe/model.py`: `MoEModel` builds `StandardMoEBlock` or `ParallelMoEBlock` instances. `ModelConfig.num_blocks` controls the stack depth.
 2. `moe/parallel.py`: the differentiable variable-size all-to-all primitive and shared-gradient synchronization.
 3. `moe/setup.py`: identical initialization by global block and expert ID, plus deterministic data shards.
 4. `moe/training.py`: one loss and training loop that calls `model(x)` in either mode.
 5. `run.py`: one generic worker; `verify.py` and `scale.py` launch it with different inputs.
 
-Each block contains its own replicated token projection (`Linear` + `Tanh`), replicated router, and experts. Both model types use the same block computation, output dimension, gate calculation, and global expert initialization. The standard model owns all experts; the parallel model owns `8/world_size` experts per block. No test-only routing mode enters either model.
+Each block contains its own token projection (`Linear` + `Tanh`), router, and experts. In parallel mode, projection and router parameters are replicated, while each rank owns `8/world_size` experts per block. In standard mode, one process owns all experts. Both modes use the same output dimension, gate calculation, and global expert initialization. No test-only routing mode enters the model.
 
 ## Two-rank token flow
 
@@ -68,7 +68,7 @@ An expert owner receives assignments from every source, so its backward pass alr
 
 ## Correctness runs
 
-`verify.py` launches three one-block jobs with **65 total tokens and 30 epochs** at 1, 2, and 4 ranks. The one-rank job uses `StandardMoEModel`; the others use `ParallelMoEModel`. It compares every epoch's global loss, first-step token outputs and input gradients, every owned/shared parameter gradient and post-step value, each block's selected IDs and returned values, and final parameters. The first epoch supplies the one-step check. Shared layers must update and loss must decrease. Numerical comparisons use float64, `atol=1e-8`, and `rtol=1e-6`.
+`verify.py` launches three one-block jobs with **65 total tokens and 30 epochs** at 1, 2, and 4 ranks. The one-rank job builds `MoEModel(parallel=False)`; the others build `MoEModel(parallel=True)` with their rank and world size. It compares every epoch's global loss, first-step token outputs and input gradients, every owned/shared parameter gradient and post-step value, each block's selected IDs and returned values, and final parameters. The first epoch supplies the one-step check. Shared layers must update and loss must decrease. Numerical comparisons use float64, `atol=1e-8`, and `rtol=1e-6`.
 
 It also launches a short **two-block** job at 1, 2, and 4 ranks to check that stacked blocks preserve those equivalences. `--capture-state` saves tensors for this external comparison; it does not execute a reference model inside parallel workers. The normal worker only trains and records its result.
 

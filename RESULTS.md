@@ -1,6 +1,6 @@
 # Recorded correctness and scaling results
 
-The final suite ran on ARM64 macOS with Python 3.13 and PyTorch 2.9.1. The one-rank baseline used `StandardMoEModel`; 2- and 4-rank runs used `ParallelMoEModel`. All used learned top-2 routing, identical data and global expert initialization, and float64.
+The final suite ran on ARM64 macOS with Python 3.13 and PyTorch 2.9.1. The one-rank baseline used `MoEModel(parallel=False)`; 2- and 4-rank runs used `MoEModel(parallel=True)`. All used learned top-2 routing, identical data and global expert initialization, and float64.
 
 | Blocks | Total tokens | Epochs | Parallel ranks | Largest recorded reference difference |
 |---:|---:|---:|---:|---:|
@@ -17,12 +17,12 @@ Each job ran 25 epochs, with 5 warmup and 20 measured epochs. The slowest rank d
 
 | Ranks | Total tokens | Parameter bytes/rank | Median ms | p95 ms | Forward / backward activation bytes (cluster) |
 |---:|---:|---:|---:|---:|---:|
-| 1 | 256 | 278,848 | 1.197 | 1.240 | 0 / 0 |
-| 2 | 256 | 144,704 | 2.220 | 2.312 | 133,018 / 133,018 |
-| 4 | 256 | 77,632 | 3.176 | 3.845 | 193,894 / 193,894 |
-| 2 | 512 | 144,704 | 2.569 | 2.670 | 250,829 / 250,829 |
-| 4 | 1,024 | 77,632 | 4.537 | 4.936 | 789,478 / 789,478 |
+| 1 | 256 | 278,848 | 1.194 | 1.309 | 0 / 0 |
+| 2 | 256 | 144,704 | 2.221 | 2.293 | 133,018 / 133,018 |
+| 4 | 256 | 77,632 | 3.223 | 4.249 | 193,894 / 193,894 |
+| 2 | 512 | 144,704 | 2.663 | 2.747 | 250,829 / 250,829 |
+| 4 | 1,024 | 77,632 | 4.948 | 6.112 | 789,478 / 789,478 |
 
-Expert parameter storage falls from 268,288 to 67,072 bytes/rank at four ranks. Shared storage stays 10,560 bytes/rank. The single-rank baseline avoids distributed exchange entirely; the multi-rank models perform it inside each parallel block. These are parameter tensor bytes, not peak process memory. Logical payload estimates exclude transport overhead. The small CPU model gets slower with more ranks; no GPU speedup is claimed.
+Expert parameter storage falls from 268,288 to 67,072 bytes/rank at four ranks. Shared storage stays 10,560 bytes/rank. The single-rank baseline avoids distributed exchange entirely; multi-rank runs perform it inside each parallel block. These are parameter tensor bytes, not peak process memory. Logical payload estimates exclude transport overhead. The small CPU model gets slower with more ranks; no GPU speedup is claimed.
 
 Every saved job records its training and model configuration, environment, per-epoch loss, step latency, expert assignments, gradient norms, and logical communication estimates. See `results/summary.txt` for the full measured table and token trace. Linux and GPU executions were not tested.

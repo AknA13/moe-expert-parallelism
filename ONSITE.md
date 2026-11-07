@@ -4,7 +4,7 @@ The README is the presentation. Open `moe/model.py` beside it and run `python sh
 
 ## Demonstration sequence
 
-1. Show that `StandardMoEModel` owns all eight experts and `ParallelMoEModel` owns a rank-specific subset **in every block**. Both use the same router and expert definitions.
+1. Show that `MoEModel(parallel=False)` builds blocks with all eight experts, while `parallel=True` builds blocks with a rank-specific subset. Both modes use the same router and expert definitions.
 2. Find token 2 in the two-rank learned-routing trace: expert 7 is remote, expert 0 is local. Follow both assignment rows through packing, expert work, return, and weighted combination.
 3. Open `Exchange`: forward communicates activation rows; backward communicates their adjoints with reversed split sizes. Each parallel block owns that sequence.
 4. Derive the global loss denominator before explaining why each block's replicated projection and router need a SUM, while owned experts do not.
@@ -14,7 +14,7 @@ The README is the presentation. Open `moe/model.py` beside it and run `python sh
 ## Questions with concrete answers
 
 **Is the one-rank job a real reference?**
-Yes. It calls `StandardMoEModel.forward`, which executes all experts locally and contains no token exchange. The 2- and 4-rank jobs call `ParallelMoEModel.forward`. They share initialization, data, gate semantics, loss, and optimizer, but use distinct expert execution paths.
+Yes. The one-rank job builds `MoEModel(parallel=False)` and runs `StandardMoEBlock.forward`, which executes all experts locally without token exchange. The 2- and 4-rank jobs build `MoEModel(parallel=True)` and run `ParallelMoEBlock.forward`. They share initialization, data, gate semantics, loss, and optimizer, but use distinct expert execution paths.
 
 **How do multiple MoE blocks work?**
 The model holds a `ModuleList` of blocks. Each block projects its input, routes the projected tokens, and, in the parallel model, dispatches to its own sharded experts. Shared-gradient synchronization includes every block's projection and router. The short two-block run compares both model types.

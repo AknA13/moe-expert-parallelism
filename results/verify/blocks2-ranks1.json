@@ -14,12 +14,12 @@
       "expert_hidden": 64,
       "num_blocks": 2
     },
-    "model_type": "StandardMoEModel",
+    "parallel": false,
     "epochs": [
       {
         "epoch": 0,
         "global_loss": 0.08331952850163558,
-        "step_ms": 11.29479099472519,
+        "step_ms": 11.716084001818672,
         "shared_grad_norm": 0.012915124820771083,
         "expert_grad_norm": 0.0686476922058784,
         "blocks": [
@@ -73,7 +73,7 @@
       {
         "epoch": 1,
         "global_loss": 0.08259059818877558,
-        "step_ms": 1.6513750015292317,
+        "step_ms": 1.689541997620836,
         "shared_grad_norm": 0.012727050042695814,
         "expert_grad_norm": 0.06810834771059818,
         "blocks": [
