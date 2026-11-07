@@ -1,21 +1,28 @@
-# Recorded validation and measurements
+# Recorded correctness and scaling results
 
-The single-job worker passed reference checks at 1, 2, and 4 ranks on ARM64 macOS with Python 3.13 and PyTorch 2.9.1. `verify.py` ran separate learned, balanced, skewed, local, and 30-epoch training jobs at each rank count. Linux was not tested.
+The final suite ran on ARM64 macOS with Python 3.13 and PyTorch 2.9.1. The one-rank baseline used `StandardMoEModel`; 2- and 4-rank runs used `ParallelMoEModel`. All used learned top-2 routing, identical data and global expert initialization, and float64.
 
-| Ranks | Max reference error | Training loss, first → last |
-|---:|---:|---:|
-| 1 | 0 | 0.095015 → 0.080596 |
-| 2 | 2.22e-16 | 0.095015 → 0.080596 |
-| 4 | 1.67e-16 | 0.095015 → 0.080596 |
-
-## Fixed global batch (256 tokens), learned routing
-
-| Ranks | Parameter bytes/rank | Median ms | p95 ms | Forward / backward activation bytes (cluster) |
+| Blocks | Total tokens | Epochs | Parallel ranks | Largest recorded reference difference |
 |---:|---:|---:|---:|---:|
-| 1 | 278,848 | 2.713 | 3.280 | 0 / 0 |
-| 2 | 144,704 | 3.551 | 3.760 | 133,018 / 133,018 |
-| 4 | 77,632 | 6.880 | 7.414 | 193,894 / 193,894 |
+| 1 | 65 | 30 | 2 | 2.78e-17 |
+| 1 | 65 | 30 | 4 | 2.78e-17 |
+| 2 | 17 | 2 | 2 | 1.39e-17 |
+| 2 | 17 | 2 | 4 | 1.94e-16 |
 
-Expert parameter storage falls from 268,288 to 67,072 bytes/rank while shared storage stays 10,560 bytes/rank. These are parameter tensor bytes, not peak process memory. CPU latency increases with rank count for this small model.
+The first step compares token outputs, input gradients, every owned or replicated parameter gradient, and parameters after SGD. Every epoch compares global loss; final parameters are compared after training. The one-block 65-token loss fell from **0.095015 to 0.080596**. `results/verify/comparison-summary.json` has differences by category. These tests check observed learned routes; they do not force every expert to receive work or an owner to receive zero assignments.
 
-Each `results/verify/*.json` or `results/scale/*.json` file contains one training job: its config, every rank's per-epoch loss, timing, gradient norms, routing load, communication estimates, and optional reference errors. `verify.py` evaluates correctness. `results/summary.txt` covers both scaling regimes. These CPU measurements do not establish a GPU speedup.
+## One-block CPU scaling
+
+Each job ran 25 epochs, with 5 warmup and 20 measured epochs. The slowest rank defines step latency. The 256-token one-rank job is the baseline for both fixed-total and growing-total comparisons.
+
+| Ranks | Total tokens | Parameter bytes/rank | Median ms | p95 ms | Forward / backward activation bytes (cluster) |
+|---:|---:|---:|---:|---:|---:|
+| 1 | 256 | 278,848 | 1.250 | 1.536 | 0 / 0 |
+| 2 | 256 | 144,704 | 2.203 | 2.305 | 133,018 / 133,018 |
+| 4 | 256 | 77,632 | 3.324 | 3.809 | 193,894 / 193,894 |
+| 2 | 512 | 144,704 | 2.521 | 2.616 | 250,829 / 250,829 |
+| 4 | 1,024 | 77,632 | 4.477 | 4.726 | 789,478 / 789,478 |
+
+Expert parameter storage falls from 268,288 to 67,072 bytes/rank at four ranks. Shared storage stays 10,560 bytes/rank. The single-rank baseline avoids distributed exchange entirely; the multi-rank models perform it inside each parallel block. These are parameter tensor bytes, not peak process memory. Logical payload estimates exclude transport overhead. The small CPU model gets slower with more ranks; no GPU speedup is claimed.
+
+Every saved job records its training and model configuration, environment, per-epoch loss, step latency, expert assignments, gradient norms, and logical communication estimates. See `results/summary.txt` for the full measured table and token trace. Linux and GPU executions were not tested.

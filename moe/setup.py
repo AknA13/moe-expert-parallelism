@@ -1,15 +1,25 @@
+"""Deterministic model initialization and synthetic regression data."""
 from typing import NamedTuple
 
 import torch
 from torch import nn
 
-from .model import D, E, Model
+from .model import ModelConfig, ParallelMoEModel, StandardMoEModel
 
 
-def make_model(rank=0, world=1):
-    """Give each shared layer and global expert ID reproducible weights."""
+class RankData(NamedTuple):
+    model: nn.Module
+    x: torch.Tensor
+    target: torch.Tensor
+    indices: torch.Tensor
+    global_tokens: int
+
+
+def make_model(rank, world, config=ModelConfig()):
+    """Use global block and expert IDs so weights do not depend on rank count."""
     with torch.random.fork_rng():
-        model = Model(rank, world)
+        model = (StandardMoEModel(config) if world == 1
+                 else ParallelMoEModel(rank, world, config))
 
         def reset_with_seed(module, seed):
             torch.manual_seed(seed)
@@ -18,52 +28,24 @@ def make_model(rank=0, world=1):
                     layer.reset_parameters()
 
         reset_with_seed(model.token_encoder, 10)
-        reset_with_seed(model.router, 11)
-        for expert_id, expert in model.experts.items():
-            reset_with_seed(expert, 100 + int(expert_id))
+        for block_id, block in enumerate(model.blocks):
+            offset = block_id * 1000
+            reset_with_seed(block.router, 11 + offset)
+            for expert_id, expert in block.experts.items():
+                reset_with_seed(expert, 100 + offset + int(expert_id))
         return model.double()
 
 
-def data(n):
+def data(total_tokens, dimension):
     generator = torch.Generator().manual_seed(42)
-    x = torch.randn(n, D, generator=generator, dtype=torch.float64)
+    x = torch.randn(total_tokens, dimension, generator=generator,
+                    dtype=torch.float64)
     return x, 0.3 * x.tanh() + 0.2
 
 
-def routing(kind, n, world):
-    tokens = torch.arange(n)
-    if kind == 'learned':
-        return None
-    if kind == 'balanced':
-        return torch.stack((tokens % E, (tokens + 1) % E), 1)
-    if kind == 'skewed':
-        return torch.tensor([0, 1]).expand(n, 2)
-    if kind == 'local':
-        owner = torch.empty(n, dtype=torch.long)
-        for rank, chunk in enumerate(torch.tensor_split(tokens, world)):
-            owner[chunk] = rank
-        base = owner * (E // world)
-        return torch.stack((base, base + 1), 1)
-    raise ValueError(kind)
-
-
-class RankData(NamedTuple):
-    model: Model
-    x: torch.Tensor
-    target: torch.Tensor
-    indices: torch.Tensor
-    expert_ids: torch.Tensor | None
-    global_tokens: int
-
-
-def prepare_rank(rank, world, token_count, route_kind):
-    """Construct this rank's model and slice its portion of the global batch."""
-    model = make_model(rank, world)
-    full_x, full_target = data(token_count)
-    indices = torch.tensor_split(torch.arange(token_count), world)[rank]
-    chosen = routing(route_kind, token_count, world)
-    local_ids = None if chosen is None else chosen[indices]
+def prepare_rank(rank, world, total_tokens, model_config):
+    model = make_model(rank, world, model_config)
+    full_x, full_target = data(total_tokens, model_config.dimension)
+    indices = torch.tensor_split(torch.arange(total_tokens), world)[rank]
     return RankData(model, full_x[indices].clone(), full_target[indices].clone(),
-                    indices, local_ids, token_count)
-
-
+                    indices, total_tokens)

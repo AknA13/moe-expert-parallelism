@@ -1,10 +1,10 @@
-# Expert parallelism, one token journey at a time
+# Expert-parallel MoE, from one model to many ranks
 
-A private, CPU-only teaching demo: eight experts distributed over 1, 2, or 4 Gloo workers. It includes top-2 routing, a differentiable variable-size token exchange, a full-model reference, training, and resource measurements. No transformer framework is required.
+A private CPU/Gloo teaching demo with learned top-2 routing, eight experts, and a configurable number of MoE blocks. `StandardMoEModel` runs the full model in one process. `ParallelMoEModel` has the same computation but partitions each block's experts across ranks.
 
 ## Reproduce
 
-Use Python 3.13; the recorded validation environment is Python 3.13 on ARM64 macOS. Dependency pins are in `requirements.txt`. Linux x86/ARM64 use the same CPU/Gloo code but have not been tested here.
+Use Python 3.13. The recorded environment was ARM64 macOS with PyTorch 2.9.1; pins are in `requirements.txt`.
 
 ```sh
 python3 -m venv .venv
@@ -13,118 +13,88 @@ pip install -r requirements.txt
 python reproduce.py
 ```
 
-Run from this directory. Each command writes JSON under `results/`; use `--output` with another path to preserve the submitted evidence. Each run launches and joins fresh workers; failures propagate to the parent. Collectives have a 90-second timeout. No server, GPU, account, or network service is needed after installation.
+`reproduce.py` launches the correctness and scaling jobs, then writes `results/summary.txt`. You can run one job directly:
 
 ```sh
-python run.py --ranks 2 --tokens 65 --epochs 30 --lr 0.15 --validate
-python verify.py       # independent correctness jobs
-python scale.py        # independent scaling jobs
-python show_results.py  # view saved tables and trace
+python run.py --ranks 2 --tokens 65 --epochs 30 --lr 0.15 --blocks 1
+python run.py --ranks 4 --tokens 1024 --epochs 25 --warmup 5
+python show_results.py
 ```
 
-`run.py` starts one training job. Its worker calls `run_training(rank, world, config)` once and gathers the rank logs. `TrainConfig` holds the dataset size, epochs, learning rate, routing mode, and optional measurement and validation settings. `moe/setup.py` constructs the same model and deterministic data for every invocation; `moe/training.py` contains the single training loop. `verify.py` and `scale.py` change only command line inputs to run checks and measurements. The default command uses two ranks, 65 global tokens, 30 full-batch epochs, and learned routing. Each epoch reuses the same deterministic regression dataset. Seeds, dimensions, dtype, optimizer settings, platform, and versions are recorded in source and JSON. The target is `0.3*tanh(x)+0.2`, not language modeling.
+`--tokens` is always the **total** batch size; `torch.tensor_split` divides it as evenly as possible. The target is deterministic regression to `0.3*tanh(x)+0.2`. Each epoch reuses that batch. Every run uses learned routing and SGD without momentum or weight decay. The default learning rate is 0.15.
 
-## Read the code in this order
+## Read the code
 
-1. `moe/model.py`: the model, top-2 gating, and local reference forward pass.
-2. `moe/parallel.py`: packing, token exchange, expert execution, inverse exchange, and shared-gradient synchronization.
-3. `moe/training.py`: one training loop, loss, step timing, and logs.
-4. `moe/setup.py`: deterministic model and data setup; `moe/validation.py`: optional reference comparisons.
-5. `run.py`: one worker for one config. `verify.py` and `scale.py` are external drivers.
+1. `moe/model.py`: `StandardMoEModel` and `ParallelMoEModel`, each built from MoE blocks. `ModelConfig.num_blocks` controls the stack depth.
+2. `moe/parallel.py`: the differentiable variable-size all-to-all primitive and shared-gradient synchronization.
+3. `moe/setup.py`: identical initialization by global block and expert ID, plus deterministic data shards.
+4. `moe/training.py`: one loss and training loop that calls `model(x)` in either mode.
+5. `run.py`: one generic worker; `verify.py` and `scale.py` launch it with different inputs.
 
-## The forward journey
+The two model types share a token encoder, router and expert definitions, output dimension, gate calculation, and global expert initialization. The standard model owns all experts; the parallel model owns `8/world_size` experts per block. No test-only routing mode enters either model.
 
-Every rank has the same shared token encoder and router, different tokens, and a unique contiguous subset of experts. Each token selects two experts. The gate is the softmax over the two selected logits, equivalent to renormalizing the selected full-softmax probabilities. The selected indices are not differentiated; gate values are.
+## Two-rank token flow
 
-For two ranks, rank 0 owns experts 0–3 and rank 1 owns experts 4–7:
+Rank 0 owns experts 0–3 in each block; rank 1 owns 4–7. For token 2 in the saved learned-routing trace, the router selects experts **7 and 0**: one remote and one local.
 
 ```text
-rank 0 tokens -> token encoder/router -> pack assignments by owner
-                                      | local experts 0–3
-                                      +------ activations ------> rank 1 experts 4–7
-                                      <------ expert outputs ----+
-             <- restore order <- weighted sum of two expert outputs
-
-rank 1 simultaneously sends its own token assignments to rank 0.
+rank 0 token 2 → encoder → block router → [expert 7, expert 0]
+                                     ├─ activation to rank 1 → expert 7 ─┐
+                                     └─ local expert 0 ────────────────────┤
+rank 0 receives both outputs ← inverse packing ←──────────────────────────┘
+rank 0 combines them with the selected router weights → token output/loss
 ```
 
-Tokens remain logically owned by their source rank. Experts temporarily receive activations, not the source rank's loss or targets. We exchange assignment counts, expert IDs, and then activation rows. The return exchange reverses the split sizes. Restoring the sorting permutation reconnects each returned row to its token and routing weight.
+Each `ParallelMoEBlock.forward` sorts assignments by owner, exchanges counts and expert IDs, sends activation rows, runs its owned experts, returns their outputs, restores token/slot order, and combines them. Each block can do this independently, so a model can contain multiple blocks. `Exchange.backward` reverses split sizes to return activation gradients to the original rows. Empty owners still enter the same collective sequence and retain zero-valued graph paths.
 
-The first step of every training run records token IDs, chosen experts, returned expert values, and the combined value. The default job uses learned top-2 selection. For diagnosis, `--routing balanced`, `skewed`, or `local` prescribes selected experts while gate weights still come from the learned router.
+The local `StandardMoEBlock` executes the same selected experts and gate combination without distributed calls. It is the independent one-rank baseline for numerical checks.
 
-## Backward and the normalization contract
+## Global loss and gradient ownership
 
-With global token count N, rank r contributes:
+For `N` total tokens, source rank `r` contributes
 
 ```text
-L_r = (1/N) * sum(tokens on rank r) mean(output dimensions) squared_error
-L_global = sum_r L_r
+L_r = (1/N) · Σ_{tokens i on rank r} mean_j (prediction_ij - target_ij)²
+L_global = Σ_r L_r
 ```
 
-Unequal token-shard sizes therefore need no extra weighting. Each source computes only its own contribution. Backward reverses each activation exchange: output gradients travel to expert owners, then input-activation gradients travel back to sources. For an exchange viewed as a permutation P, backward applies its transpose, Pᵀ.
-
-| Parameters | Placement | Gradient action before SGD |
+| Parameters | Placement | Action before SGD |
 |---|---|---|
-| Shared token encoder | Replicated | SUM all-reduce across all ranks |
-| Router | Replicated | SUM all-reduce across all ranks |
-| Experts | Unique owner | No parameter-gradient all-reduce within this group |
+| Token encoder | Replicated | SUM all-reduce gradients |
+| Router in every block | Replicated | SUM all-reduce gradients |
+| Experts in every block | Unique owner | Use accumulated local gradient; no expert-gradient all-reduce |
 
-Each expert sees assignments from all sources, so its local backward already accumulates all contributions to that expert. Summing different experts' gradients would be incorrect. Using local mean loss and blindly averaging all shared gradients would also be incorrect for unequal shards. The global normalization makes the contract explicit. DDP's usual averaging semantics would require adapting this normalization; this demo uses manual sums.
+An expert owner receives assignments from every source, so its backward pass already accumulates the complete gradient for that expert. Shared replicas initially see only their source tokens, so they need the SUM. The global denominator handles unequal shards such as `[33, 32]` for 65 tokens on two ranks. Top-k indices are discrete; gradients reach selected router logits through the two selected softmax weights.
 
-The router receives gradients from weighted combination on the source. The token encoder receives both the router path and expert-input paths. SGD uses learning rate 0.15 without momentum or weight decay. Unused gradients become zeros before synchronization and stepping.
+## Correctness runs
 
-**Empty destinations matter:** every rank must execute matching collectives in matching order, even if no assignments arrive. `computed = received * 0` retains the dispatch's graph dependency. Empty expert calls also retain zero gradients. There are no data-dependent skipped collective calls.
+`verify.py` launches three one-block jobs with **65 total tokens and 30 epochs** at 1, 2, and 4 ranks. The one-rank job uses `StandardMoEModel`; the others use `ParallelMoEModel`. It compares every epoch's global loss, first-step token outputs and input gradients, every owned/shared parameter gradient and post-step value, each block's selected IDs and returned values, and final parameters. The first epoch supplies the one-step check. Shared layers must update and loss must decrease. Numerical comparisons use float64, `atol=1e-8`, and `rtol=1e-6`.
 
-## What the checks prove
+It also launches a short **two-block** job at 1, 2, and 4 ranks to check that stacked blocks preserve those equivalences. `--capture-state` saves tensors for this external comparison; it does not execute a reference model inside parallel workers. The normal worker only trains and records its result.
 
-The verification stage compares full outputs, global loss, input gradients, all owned/shared parameter gradients, and updated parameters to an independently executed full-model reference. Tolerances are `atol=1e-8`, `rtol=1e-6`, using float64. Every replica is explicitly compared with rank 0. The balanced fixture requires every parameter tensor to change.
+The learned router may leave an expert unused in a particular run. These tests verify the observed routes; they do not guarantee an empty destination or all-expert update case. The code supports an empty owner through graph-preserving empty expert calls and matching collectives, but that edge case is not forced by the submitted suite.
 
-`verify.py` invokes ordinary training jobs with learned, balanced, skewed, and local routing on 1, 2, and 4 ranks. These cover all experts, unused experts, zero-receive ranks, and unequal shards (65 tokens). A 30-epoch job checks reference equivalence on every step and requires loss reduction. Assertions live in `verify.py`; the worker only trains and records observations. Each JSON step records loss, routing counts, communication estimates, gradient norms, latency, and reference errors when validation is enabled.
+## Scaling runs
 
-See [RESULTS.md](RESULTS.md) for recorded tables, [results/summary.txt](results/summary.txt) for all timing rows, and [ONSITE.md](ONSITE.md) for rehearsal questions.
+`scale.py` launches five one-block jobs. For fixed total work it uses `(ranks, total tokens) = (1,256), (2,256), (4,256)`. For growing total work it adds `(2,512), (4,1024)` and reuses the one-rank 256-token baseline. Each job runs 25 epochs, with 5 warmup epochs and 20 measured epochs. Workers use one CPU thread each; a barrier precedes timing, and an all-reduced maximum makes the slowest rank define step latency. Startup, result serialization, and verification comparisons are excluded.
 
-## Scaling: what is measured and what is modeled
+Logs contain per-rank parameter bytes, per-expert assignment counts, load imbalance, and logical inter-rank payload estimates. For `R` remote assignments, dimension `d`, and element size `b`, each forward or backward activation phase moves `2Rdb` bytes across the cluster. Metadata includes expert IDs and count exchange; this is logical tensor payload, not measured physical network traffic. Parameter storage excludes gradients, optimizer state, activations, and process memory. The ring all-reduce traffic formula, when discussed, is analytical rather than an observation of Gloo's chosen algorithm.
 
-The model stays fixed at eight experts. `scale.py` invokes `run.py` with 256 global tokens and then 256 tokens per rank, using learned, balanced, and skewed routing. Each worker uses one CPU thread. The same `train_loop()` handles every job. Five warmup epochs precede 20 measured epochs. A barrier precedes timing; the slowest worker's duration defines the step. Startup, reference validation, and result aggregation are excluded. Forward metadata handling, gradient-norm logging, and optimizer work are included. p95 is the nearest lower order statistic at index `floor(.95*(samples-1))`.
+See [RESULTS.md](RESULTS.md) and [results/summary.txt](results/summary.txt) for saved measurements. This small single-host CPU experiment does not establish a GPU speedup.
 
-Per-rank parameter storage is `shared_bytes + total_expert_bytes/world_size`. This is tensor storage, not RSS or peak memory: gradients, activations, communication buffers, interpreter overhead, and the reference are separate. Scaling runs leave validation disabled, so they do not construct a reference.
+## Onsite walkthrough (~30 minutes plus discussion)
 
-For R remote assignments, dimension d, and element size b:
+1. **4 min:** why experts are sharded and what stays replicated.
+2. **7 min:** follow token 2 through the two-rank trace and one MoE block.
+3. **7 min:** reverse the exchanges in backward and derive the global-loss normalization.
+4. **5 min:** show the standard-versus-parallel checks and the two-block run.
+5. **7 min:** interpret storage, payload, learned expert loads, and CPU latency.
 
-- Forward activation payload = `2*R*d*b` for dispatch plus return.
-- Backward activation payload = `2*R*d*b` for the two inverse exchanges.
-- Routing metadata = `8*R + 8*world_size*(world_size-1)` cluster bytes (expert IDs plus pairwise counts).
-- Shared-gradient logical input = shared parameter bytes per rank.
-- A ring all-reduce would send `2*(world_size-1)*shared_bytes` cluster bytes; this is a model, **not a claim that Gloo chose a ring**.
-
-Self-directed assignments are excluded from inter-rank payload totals. Protocol framing, transport copies, synchronization, and control messages are excluded. Measured payload totals are averaged over the measured steps; learned routes can change. Load imbalance is maximum expert assignment count divided by the mean. No padding is used on the validated Gloo build.
-
-CPU processes share one machine, so latency is not evidence of GPU speedup. Small matrix operations and communication overhead can outweigh saved compute. The useful results are correctness, expert-storage reduction, payload accounting, and sensitivity to hot experts. Increasing model size or hardware bandwidth changes the tradeoff; do not extrapolate these milliseconds into GPU claims.
-
-## Onsite walkthrough (~30 minutes + ~30 minutes discussion)
-
-1. **4 min:** explain sparse compute, model capacity, expert ownership, and why replication costs memory.
-2. **7 min:** show the two-rank trace; follow one cross-rank token through sorting, dispatch, expert, return, and combination.
-3. **7 min:** derive global loss normalization; walk through `Exchange.backward` and the synchronization table.
-4. **5 min:** run `python run.py --ranks 2 --validate --output fresh-results.json`, show the recorded 30-epoch trajectory, and explain what each assertion catches.
-5. **7 min:** compare rank counts and balanced/skewed loads; distinguish measured results from resource models.
-
-Keep the submitted JSON and generated tables available if live execution fails. Rehearse explaining why an empty rank must still participate and why a router can learn despite discrete top-k indices.
-
-## Extensions to discuss, not implemented
-
-- **Expert data parallelism:** replicate the same expert across separate expert-parallel groups; synchronize that expert's gradients only across its replica group. Shared parameters need a synchronization group and normalization matching the complete logical batch.
-- **GPU/NCCL:** move parameters, payloads, and metadata to GPUs, validate collective compatibility, and synchronize GPU timing. Grouped expert GEMMs can reduce small-kernel overhead.
-- **Overlap:** asynchronous communication and chunking may hide transfers behind expert work, but require correct buffer lifetimes and collective ordering.
-- **Balancing/capacity:** auxiliary objectives and router regularization address hot experts. Capacity limits introduce dropping or rerouting and change model semantics; reference tests must match those semantics.
-- **Optimizer memory:** Adam adds moments; quantify parameters, gradients, optimizer states, and transient activations separately. Expert sharding partitions expert states, while shared states remain replicated here.
-- **Checkpointing:** use stable global expert IDs and save router/token encoder, optimizer state, RNG, and training position. Reshard expert state when changing topology.
-
-No capacity dropping, mixed precision, distributed checkpointing, transformer, or production framework integration is implemented. The implementation and assignment remain private.
+For production discussion: expert-data-parallel replica groups need separate expert-gradient synchronization; GPU/NCCL execution needs device timing and transport validation; grouped expert GEMMs and overlap may reduce overhead; capacity limits and balancing objectives change model semantics; Adam state and checkpoint resharding add memory and state-management work. None of these extensions is implemented here.
 
 ## Study guides
 
-- [Visual code walkthrough](study-guides/01-code-walkthrough.html): token flow, gradients, normalization calculator, and rehearsal.
-- [Deeper review workbook](study-guides/02-deeper-review.html): evidence limits, concrete review findings, and proposed tests.
+- [Visual code walkthrough](study-guides/01-code-walkthrough.html)
+- [Deeper review workbook](study-guides/02-deeper-review.html)
 
-GitHub displays HTML source rather than executing these interactive guides. Clone or download the private repository and open the HTML files locally to use them.
+GitHub displays HTML source rather than running these guides. Clone or download the private repository and open them locally.

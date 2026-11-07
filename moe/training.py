@@ -1,105 +1,128 @@
-"""One distributed training job, configured by its data and optimizer settings."""
+"""One training loop for standard and expert-parallel MoE models."""
 import time
 from dataclasses import asdict, dataclass
+
 import torch
 import torch.distributed as dist
-from .model import E
-from .parallel import forward, sync_shared
-from .setup import data, make_model, prepare_rank, routing
-from .validation import ReferenceValidator
+
+from .model import ModelConfig
+from .parallel import sync_replicated_gradients
+from .setup import prepare_rank
 
 
 @dataclass(frozen=True)
 class TrainConfig:
-    tokens: int = 65
+    total_tokens: int = 65
     epochs: int = 30
     learning_rate: float = 0.15
-    routing: str = 'learned'
     warmup: int = 0
-    tokens_per_rank: bool = False
-    validate: bool = False
 
 
-def loss(pred, target, global_n):
-    return (pred - target).square().mean(-1).sum() / global_n
+def loss(prediction, target, global_tokens):
+    return (prediction - target).square().mean(-1).sum() / global_tokens
 
 
-def train_loop(prepared, config, *, validator=None):
-    """Train a prepared rank and record what happened on every step.
+def parameter_values(model, *, gradients=False):
+    return {
+        name: (parameter.grad if gradients else parameter).detach().tolist()
+        for name, parameter in model.named_parameters()
+    }
 
-    An optional validator checks the same step outside the timed
-    distributed section. All ranks run this loop in the same order.
-    """
-    rank, world = dist.get_rank(), dist.get_world_size()
+
+def train_loop(prepared, config, *, capture_state=False):
+    """Train one data shard; the model chooses local or parallel execution."""
     model = prepared.model
-    x = prepared.x.requires_grad_(validator is not None)
-    global_tokens = prepared.global_tokens
+    x = prepared.x.requires_grad_(capture_state)
+    world = dist.get_world_size()
     optimizer = torch.optim.SGD(model.parameters(), lr=config.learning_rate)
-    logs, token_trace = [], None
+    logs, trace, first_step = [], None, None
 
-    for step in range(config.epochs):
-        dist.barrier()
+    for epoch in range(config.epochs):
+        if world > 1:
+            dist.barrier()
         start = time.perf_counter()
         optimizer.zero_grad(set_to_none=True)
         x.grad = None
-        prediction, stats, ids, returned = forward(model, x, prepared.expert_ids)
-        local_loss = loss(prediction, prepared.target, global_tokens)
+        prediction = model(x)
+        local_loss = loss(prediction, prepared.target, prepared.global_tokens)
         local_loss.backward()
-        sync_shared(model)
-        shared_grad_norm = sum(float(p.grad.square().sum()) for p in model.shared()) ** .5
-        expert_grad_norm = sum(float(p.grad.square().sum())
-                               for expert in model.experts.values()
-                               for p in expert.parameters()) ** .5
+        if world > 1:
+            sync_replicated_gradients(model)
+        else:
+            for parameter in model.parameters():
+                if parameter.grad is None:
+                    parameter.grad = torch.zeros_like(parameter)
+        shared_norm = sum(float(p.grad.square().sum())
+                          for p in model.replicated_parameters()) ** 0.5
+        expert_norm = sum(float(p.grad.square().sum())
+                          for block in model.blocks
+                          for expert in block.experts.values()
+                          for p in expert.parameters()) ** 0.5
         optimizer.step()
         elapsed = torch.tensor(time.perf_counter() - start, dtype=torch.float64)
-        dist.all_reduce(elapsed, op=dist.ReduceOp.MAX)
+        if world > 1:
+            dist.all_reduce(elapsed, op=dist.ReduceOp.MAX)
 
         global_loss = local_loss.detach().clone()
-        dist.all_reduce(global_loss)
-        errors = {}
-        if validator is not None:
-            errors = validator.check(model, prepared, x, prediction, global_loss)
-
-        if step == 0:
-            token_trace = [
-                {'token': int(token), 'source': rank,
-                 'experts': ids[i].tolist(),
-                 'owners': (ids[i] // (E // world)).tolist(),
-                 'returned_first_coordinate': returned[i, :, 0].detach().tolist(),
-                 'combined_first_coordinate': float(prediction[i, 0].detach())}
-                for i, token in enumerate(prepared.indices)
+        if world > 1:
+            dist.all_reduce(global_loss)
+        reports = model.reports()
+        if epoch == 0:
+            trace = [
+                {'block': block_id,
+                 'tokens': [
+                     {'token': int(token), 'source': dist.get_rank(),
+                      'experts': report['ids'][i].tolist(),
+                      'owners': (report['ids'][i] //
+                                 (model.config.experts // world)).tolist(),
+                      'returned_first_coordinate':
+                          report['returned'][i, :, 0].tolist(),
+                      'combined_first_coordinate':
+                          float(report['combined'][i, 0])}
+                     for i, token in enumerate(prepared.indices)]}
+                for block_id, report in enumerate(reports)
             ]
+            if capture_state:
+                first_step = {
+                    'output': prediction.detach().tolist(),
+                    'input_gradient': x.grad.detach().tolist(),
+                    'parameter_gradient': parameter_values(model, gradients=True),
+                    'parameter_after_step': parameter_values(model),
+                }
+        logs.append({
+            'epoch': epoch,
+            'global_loss': float(global_loss),
+            'step_ms': float(elapsed) * 1000,
+            'shared_grad_norm': shared_norm,
+            'expert_grad_norm': expert_norm,
+            'blocks': [report['routing'] for report in reports],
+            'warmup': epoch < config.warmup,
+        })
+    return logs, trace, first_step
 
-        logs.append({'step': step, 'global_loss': float(global_loss),
-                     'step_ms': 1000 * float(elapsed),
-                     'shared_grad_norm': shared_grad_norm,
-                     'expert_grad_norm': expert_grad_norm,
-                     'routing': stats, 'reference_error': errors,
-                     'warmup': step < config.warmup})
-    return logs, token_trace
 
-
-def run_training(rank, world, config):
-    """Prepare the data and model, run training, and return observations."""
-    token_count = config.tokens * world if config.tokens_per_rank else config.tokens
-    prepared = prepare_rank(rank, world, token_count, config.routing)
+def run_training(rank, world, train_config, model_config=ModelConfig(),
+                 *, capture_state=False):
+    prepared = prepare_rank(rank, world, train_config.total_tokens, model_config)
     model = prepared.model
     initial = {name: p.detach().clone() for name, p in model.named_parameters()}
-    validator = None
-    if config.validate:
-        full_x, full_target = data(token_count)
-        validator = ReferenceValidator(
-            make_model(), full_x, full_target,
-            routing(config.routing, token_count, world), config.learning_rate, loss)
-    steps, trace = train_loop(prepared, config, validator=validator)
-    parameter_changes = {
-        name: float((p.detach() - initial[name]).abs().max())
-        for name, p in model.named_parameters()
+    steps, trace, first_step = train_loop(
+        prepared, train_config, capture_state=capture_state)
+    changes = {name: float((p.detach() - initial[name]).abs().max())
+               for name, p in model.named_parameters()}
+    shared_bytes = sum(p.numel() * p.element_size()
+                       for p in model.replicated_parameters())
+    total_bytes = sum(p.numel() * p.element_size()
+                      for p in model.parameters())
+    return {
+        'train_config': asdict(train_config),
+        'model_config': asdict(model_config),
+        'model_type': type(model).__name__,
+        'epochs': steps,
+        'trace': trace,
+        'first_step': first_step,
+        'final_parameters': parameter_values(model) if capture_state else None,
+        'parameter_changes': changes,
+        'parameter_bytes_per_rank': total_bytes,
+        'shared_parameter_bytes_per_rank': shared_bytes,
     }
-    shared_bytes = sum(p.numel() * p.element_size() for p in model.shared())
-    total_bytes = sum(p.numel() * p.element_size() for p in model.parameters())
-    return {'config': asdict(config), 'steps': steps, 'trace': trace,
-            'parameter_changes': parameter_changes,
-            'parameter_bytes_per_rank': total_bytes,
-            'shared_parameter_bytes_per_rank': shared_bytes}
-
