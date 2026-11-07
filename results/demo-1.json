@@ -10,6 +10,45 @@
         "max_abs_error": 0.0,
         "loss": [
           0.09501465967084423
+        ],
+        "step_logs": [
+          {
+            "step": 0,
+            "global_loss": 0.09501465967084423,
+            "step_ms": 15.16329200239852,
+            "shared_grad_norm": 0.02161818291047588,
+            "expert_grad_norm": 0.057691128055240244,
+            "routing": {
+              "assignments": [
+                12,
+                5,
+                19,
+                9,
+                5,
+                35,
+                26,
+                19
+              ],
+              "remote_assignments": 0,
+              "activation_forward_bytes": 0,
+              "activation_backward_bytes": 0,
+              "metadata_bytes": 0,
+              "send": [
+                130
+              ],
+              "receive": [
+                130
+              ]
+            },
+            "reference_error": {
+              "output": 0.0,
+              "loss": 0.0,
+              "input_gradient": 0.0,
+              "parameter_gradient": 0.0,
+              "parameter_update": 0.0
+            },
+            "warmup": false
+          }
         ]
       },
       {
@@ -19,6 +58,45 @@
         "max_abs_error": 0.0,
         "loss": [
           0.09490368836479131
+        ],
+        "step_logs": [
+          {
+            "step": 0,
+            "global_loss": 0.09490368836479131,
+            "step_ms": 2.3815839958842844,
+            "shared_grad_norm": 0.01975916137574339,
+            "expert_grad_norm": 0.04758687283378441,
+            "routing": {
+              "assignments": [
+                17,
+                17,
+                16,
+                16,
+                16,
+                16,
+                16,
+                16
+              ],
+              "remote_assignments": 0,
+              "activation_forward_bytes": 0,
+              "activation_backward_bytes": 0,
+              "metadata_bytes": 0,
+              "send": [
+                130
+              ],
+              "receive": [
+                130
+              ]
+            },
+            "reference_error": {
+              "output": 0.0,
+              "loss": 0.0,
+              "input_gradient": 0.0,
+              "parameter_gradient": 0.0,
+              "parameter_update": 0.0
+            },
+            "warmup": false
+          }
         ]
       },
       {
@@ -28,6 +106,45 @@
         "max_abs_error": 0.0,
         "loss": [
           0.08914860750047764
+        ],
+        "step_logs": [
+          {
+            "step": 0,
+            "global_loss": 0.08914860750047764,
+            "step_ms": 2.2840409947093576,
+            "shared_grad_norm": 0.02650768329208219,
+            "expert_grad_norm": 0.08232113771026732,
+            "routing": {
+              "assignments": [
+                65,
+                65,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0
+              ],
+              "remote_assignments": 0,
+              "activation_forward_bytes": 0,
+              "activation_backward_bytes": 0,
+              "metadata_bytes": 0,
+              "send": [
+                130
+              ],
+              "receive": [
+                130
+              ]
+            },
+            "reference_error": {
+              "output": 0.0,
+              "loss": 0.0,
+              "input_gradient": 0.0,
+              "parameter_gradient": 0.0,
+              "parameter_update": 0.0
+            },
+            "warmup": false
+          }
         ]
       },
       {
@@ -37,6 +154,45 @@
         "max_abs_error": 0.0,
         "loss": [
           0.08914860750047764
+        ],
+        "step_logs": [
+          {
+            "step": 0,
+            "global_loss": 0.08914860750047764,
+            "step_ms": 2.034874996752478,
+            "shared_grad_norm": 0.02650768329208219,
+            "expert_grad_norm": 0.08232113771026732,
+            "routing": {
+              "assignments": [
+                65,
+                65,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0
+              ],
+              "remote_assignments": 0,
+              "activation_forward_bytes": 0,
+              "activation_backward_bytes": 0,
+              "metadata_bytes": 0,
+              "send": [
+                130
+              ],
+              "receive": [
+                130
+              ]
+            },
+            "reference_error": {
+              "output": 0.0,
+              "loss": 0.0,
+              "input_gradient": 0.0,
+              "parameter_gradient": 0.0,
+              "parameter_update": 0.0
+            },
+            "warmup": false
+          }
         ]
       }
     ],
@@ -76,6 +232,1118 @@
         0.08146355828393452,
         0.08102785860171048,
         0.08059601898674623
+      ],
+      "step_logs": [
+        {
+          "step": 0,
+          "global_loss": 0.09501465967084423,
+          "step_ms": 2.106333995470777,
+          "shared_grad_norm": 0.02161818291047588,
+          "expert_grad_norm": 0.057691128055240244,
+          "routing": {
+            "assignments": [
+              12,
+              5,
+              19,
+              9,
+              5,
+              35,
+              26,
+              19
+            ],
+            "remote_assignments": 0,
+            "activation_forward_bytes": 0,
+            "activation_backward_bytes": 0,
+            "metadata_bytes": 0,
+            "send": [
+              130
+            ],
+            "receive": [
+              130
+            ]
+          },
+          "reference_error": {
+            "output": 0.0,
+            "loss": 0.0,
+            "input_gradient": 0.0,
+            "parameter_gradient": 0.0,
+            "parameter_update": 0.0
+          },
+          "warmup": false
+        },
+        {
+          "step": 1,
+          "global_loss": 0.09444686535852288,
+          "step_ms": 2.285041999130044,
+          "shared_grad_norm": 0.02148960504916795,
+          "expert_grad_norm": 0.05738242253161537,
+          "routing": {
+            "assignments": [
+              12,
+              5,
+              19,
+              9,
+              5,
+              35,
+              26,
+              19
+            ],
+            "remote_assignments": 0,
+            "activation_forward_bytes": 0,
+            "activation_backward_bytes": 0,
+            "metadata_bytes": 0,
+            "send": [
+              130
+            ],
+            "receive": [
+              130
+            ]
+          },
+          "reference_error": {
+            "output": 0.0,
+            "loss": 0.0,
+            "input_gradient": 0.0,
+            "parameter_gradient": 0.0,
+            "parameter_update": 0.0
+          },
+          "warmup": false
+        },
+        {
+          "step": 2,
+          "global_loss": 0.0938852002552797,
+          "step_ms": 2.2390419981093146,
+          "shared_grad_norm": 0.021364064928632902,
+          "expert_grad_norm": 0.057077754443973436,
+          "routing": {
+            "assignments": [
+              12,
+              5,
+              19,
+              9,
+              5,
+              35,
+              26,
+              19
+            ],
+            "remote_assignments": 0,
+            "activation_forward_bytes": 0,
+            "activation_backward_bytes": 0,
+            "metadata_bytes": 0,
+            "send": [
+              130
+            ],
+            "receive": [
+              130
+            ]
+          },
+          "reference_error": {
+            "output": 0.0,
+            "loss": 0.0,
+            "input_gradient": 0.0,
+            "parameter_gradient": 0.0,
+            "parameter_update": 0.0
+          },
+          "warmup": false
+        },
+        {
+          "step": 3,
+          "global_loss": 0.09336066696826784,
+          "step_ms": 2.1533330000238493,
+          "shared_grad_norm": 0.021218932454552853,
+          "expert_grad_norm": 0.05695244565697169,
+          "routing": {
+            "assignments": [
+              12,
+              5,
+              19,
+              8,
+              5,
+              35,
+              26,
+              20
+            ],
+            "remote_assignments": 0,
+            "activation_forward_bytes": 0,
+            "activation_backward_bytes": 0,
+            "metadata_bytes": 0,
+            "send": [
+              130
+            ],
+            "receive": [
+              130
+            ]
+          },
+          "reference_error": {
+            "output": 0.0,
+            "loss": 0.0,
+            "input_gradient": 0.0,
+            "parameter_gradient": 0.0,
+            "parameter_update": 0.0
+          },
+          "warmup": false
+        },
+        {
+          "step": 4,
+          "global_loss": 0.09280806299617388,
+          "step_ms": 2.2109159981482662,
+          "shared_grad_norm": 0.021099161313800737,
+          "expert_grad_norm": 0.056653708536559634,
+          "routing": {
+            "assignments": [
+              12,
+              5,
+              19,
+              8,
+              5,
+              35,
+              26,
+              20
+            ],
+            "remote_assignments": 0,
+            "activation_forward_bytes": 0,
+            "activation_backward_bytes": 0,
+            "metadata_bytes": 0,
+            "send": [
+              130
+            ],
+            "receive": [
+              130
+            ]
+          },
+          "reference_error": {
+            "output": 0.0,
+            "loss": 0.0,
+            "input_gradient": 0.0,
+            "parameter_gradient": 0.0,
+            "parameter_update": 0.0
+          },
+          "warmup": false
+        },
+        {
+          "step": 5,
+          "global_loss": 0.09226128189106993,
+          "step_ms": 2.1575830032816157,
+          "shared_grad_norm": 0.020982141313151365,
+          "expert_grad_norm": 0.05635872240368638,
+          "routing": {
+            "assignments": [
+              12,
+              5,
+              19,
+              8,
+              5,
+              35,
+              26,
+              20
+            ],
+            "remote_assignments": 0,
+            "activation_forward_bytes": 0,
+            "activation_backward_bytes": 0,
+            "metadata_bytes": 0,
+            "send": [
+              130
+            ],
+            "receive": [
+              130
+            ]
+          },
+          "reference_error": {
+            "output": 0.0,
+            "loss": 0.0,
+            "input_gradient": 0.0,
+            "parameter_gradient": 0.0,
+            "parameter_update": 0.0
+          },
+          "warmup": false
+        },
+        {
+          "step": 6,
+          "global_loss": 0.09172021272924318,
+          "step_ms": 2.137292001862079,
+          "shared_grad_norm": 0.020867777020797923,
+          "expert_grad_norm": 0.05606739022268439,
+          "routing": {
+            "assignments": [
+              12,
+              5,
+              19,
+              8,
+              5,
+              35,
+              26,
+              20
+            ],
+            "remote_assignments": 0,
+            "activation_forward_bytes": 0,
+            "activation_backward_bytes": 0,
+            "metadata_bytes": 0,
+            "send": [
+              130
+            ],
+            "receive": [
+              130
+            ]
+          },
+          "reference_error": {
+            "output": 0.0,
+            "loss": 0.0,
+            "input_gradient": 0.0,
+            "parameter_gradient": 0.0,
+            "parameter_update": 0.0
+          },
+          "warmup": false
+        },
+        {
+          "step": 7,
+          "global_loss": 0.09118474806520903,
+          "step_ms": 2.0971249978174455,
+          "shared_grad_norm": 0.02075597679925401,
+          "expert_grad_norm": 0.05577961834451004,
+          "routing": {
+            "assignments": [
+              12,
+              5,
+              19,
+              8,
+              5,
+              35,
+              26,
+              20
+            ],
+            "remote_assignments": 0,
+            "activation_forward_bytes": 0,
+            "activation_backward_bytes": 0,
+            "metadata_bytes": 0,
+            "send": [
+              130
+            ],
+            "receive": [
+              130
+            ]
+          },
+          "reference_error": {
+            "output": 0.0,
+            "loss": 0.0,
+            "input_gradient": 0.0,
+            "parameter_gradient": 0.0,
+            "parameter_update": 0.0
+          },
+          "warmup": false
+        },
+        {
+          "step": 8,
+          "global_loss": 0.09065478378755479,
+          "step_ms": 2.249958000902552,
+          "shared_grad_norm": 0.020646652626372122,
+          "expert_grad_norm": 0.055495316356248735,
+          "routing": {
+            "assignments": [
+              12,
+              5,
+              19,
+              8,
+              5,
+              35,
+              26,
+              20
+            ],
+            "remote_assignments": 0,
+            "activation_forward_bytes": 0,
+            "activation_backward_bytes": 0,
+            "metadata_bytes": 0,
+            "send": [
+              130
+            ],
+            "receive": [
+              130
+            ]
+          },
+          "reference_error": {
+            "output": 0.0,
+            "loss": 0.0,
+            "input_gradient": 0.0,
+            "parameter_gradient": 0.0,
+            "parameter_update": 0.0
+          },
+          "warmup": false
+        },
+        {
+          "step": 9,
+          "global_loss": 0.09013021898214504,
+          "step_ms": 2.143666999472771,
+          "shared_grad_norm": 0.02053971992618843,
+          "expert_grad_norm": 0.05521439693884115,
+          "routing": {
+            "assignments": [
+              12,
+              5,
+              19,
+              8,
+              5,
+              35,
+              26,
+              20
+            ],
+            "remote_assignments": 0,
+            "activation_forward_bytes": 0,
+            "activation_backward_bytes": 0,
+            "metadata_bytes": 0,
+            "send": [
+              130
+            ],
+            "receive": [
+              130
+            ]
+          },
+          "reference_error": {
+            "output": 0.0,
+            "loss": 0.0,
+            "input_gradient": 0.0,
+            "parameter_gradient": 0.0,
+            "parameter_update": 0.0
+          },
+          "warmup": false
+        },
+        {
+          "step": 10,
+          "global_loss": 0.08961095580224128,
+          "step_ms": 2.1030829957453534,
+          "shared_grad_norm": 0.02043509740898337,
+          "expert_grad_norm": 0.054936775732508,
+          "routing": {
+            "assignments": [
+              12,
+              5,
+              19,
+              8,
+              5,
+              35,
+              26,
+              20
+            ],
+            "remote_assignments": 0,
+            "activation_forward_bytes": 0,
+            "activation_backward_bytes": 0,
+            "metadata_bytes": 0,
+            "send": [
+              130
+            ],
+            "receive": [
+              130
+            ]
+          },
+          "reference_error": {
+            "output": 0.0,
+            "loss": 0.0,
+            "input_gradient": 0.0,
+            "parameter_gradient": 0.0,
+            "parameter_update": 0.0
+          },
+          "warmup": false
+        },
+        {
+          "step": 11,
+          "global_loss": 0.08909689934512036,
+          "step_ms": 2.1096249984111637,
+          "shared_grad_norm": 0.02033270691998993,
+          "expert_grad_norm": 0.05466237120938789,
+          "routing": {
+            "assignments": [
+              12,
+              5,
+              19,
+              8,
+              5,
+              35,
+              26,
+              20
+            ],
+            "remote_assignments": 0,
+            "activation_forward_bytes": 0,
+            "activation_backward_bytes": 0,
+            "metadata_bytes": 0,
+            "send": [
+              130
+            ],
+            "receive": [
+              130
+            ]
+          },
+          "reference_error": {
+            "output": 0.0,
+            "loss": 0.0,
+            "input_gradient": 0.0,
+            "parameter_gradient": 0.0,
+            "parameter_update": 0.0
+          },
+          "warmup": false
+        },
+        {
+          "step": 12,
+          "global_loss": 0.08858795753480471,
+          "step_ms": 2.252291997137945,
+          "shared_grad_norm": 0.02023247329622046,
+          "expert_grad_norm": 0.05439110455293775,
+          "routing": {
+            "assignments": [
+              12,
+              5,
+              19,
+              8,
+              5,
+              35,
+              26,
+              20
+            ],
+            "remote_assignments": 0,
+            "activation_forward_bytes": 0,
+            "activation_backward_bytes": 0,
+            "metadata_bytes": 0,
+            "send": [
+              130
+            ],
+            "receive": [
+              130
+            ]
+          },
+          "reference_error": {
+            "output": 0.0,
+            "loss": 0.0,
+            "input_gradient": 0.0,
+            "parameter_gradient": 0.0,
+            "parameter_update": 0.0
+          },
+          "warmup": false
+        },
+        {
+          "step": 13,
+          "global_loss": 0.08808404101054382,
+          "step_ms": 2.2438330051954836,
+          "shared_grad_norm": 0.020134324230918987,
+          "expert_grad_norm": 0.054122899543677126,
+          "routing": {
+            "assignments": [
+              12,
+              5,
+              19,
+              8,
+              5,
+              35,
+              26,
+              20
+            ],
+            "remote_assignments": 0,
+            "activation_forward_bytes": 0,
+            "activation_backward_bytes": 0,
+            "metadata_bytes": 0,
+            "send": [
+              130
+            ],
+            "receive": [
+              130
+            ]
+          },
+          "reference_error": {
+            "output": 0.0,
+            "loss": 0.0,
+            "input_gradient": 0.0,
+            "parameter_gradient": 0.0,
+            "parameter_update": 0.0
+          },
+          "warmup": false
+        },
+        {
+          "step": 14,
+          "global_loss": 0.08758506302071087,
+          "step_ms": 2.0615839966922067,
+          "shared_grad_norm": 0.020038190145179446,
+          "expert_grad_norm": 0.05385768245088703,
+          "routing": {
+            "assignments": [
+              12,
+              5,
+              19,
+              8,
+              5,
+              35,
+              26,
+              20
+            ],
+            "remote_assignments": 0,
+            "activation_forward_bytes": 0,
+            "activation_backward_bytes": 0,
+            "metadata_bytes": 0,
+            "send": [
+              130
+            ],
+            "receive": [
+              130
+            ]
+          },
+          "reference_error": {
+            "output": 0.0,
+            "loss": 0.0,
+            "input_gradient": 0.0,
+            "parameter_gradient": 0.0,
+            "parameter_update": 0.0
+          },
+          "warmup": false
+        },
+        {
+          "step": 15,
+          "global_loss": 0.08709093932180093,
+          "step_ms": 2.061915998638142,
+          "shared_grad_norm": 0.019944004066300966,
+          "expert_grad_norm": 0.053595381929901,
+          "routing": {
+            "assignments": [
+              12,
+              5,
+              19,
+              8,
+              5,
+              35,
+              26,
+              20
+            ],
+            "remote_assignments": 0,
+            "activation_forward_bytes": 0,
+            "activation_backward_bytes": 0,
+            "metadata_bytes": 0,
+            "send": [
+              130
+            ],
+            "receive": [
+              130
+            ]
+          },
+          "reference_error": {
+            "output": 0.0,
+            "loss": 0.0,
+            "input_gradient": 0.0,
+            "parameter_gradient": 0.0,
+            "parameter_update": 0.0
+          },
+          "warmup": false
+        },
+        {
+          "step": 16,
+          "global_loss": 0.08660158808223821,
+          "step_ms": 2.169125000364147,
+          "shared_grad_norm": 0.019851701512480183,
+          "expert_grad_norm": 0.05333592892465118,
+          "routing": {
+            "assignments": [
+              12,
+              5,
+              19,
+              8,
+              5,
+              35,
+              26,
+              20
+            ],
+            "remote_assignments": 0,
+            "activation_forward_bytes": 0,
+            "activation_backward_bytes": 0,
+            "metadata_bytes": 0,
+            "send": [
+              130
+            ],
+            "receive": [
+              130
+            ]
+          },
+          "reference_error": {
+            "output": 0.0,
+            "loss": 0.0,
+            "input_gradient": 0.0,
+            "parameter_gradient": 0.0,
+            "parameter_update": 0.0
+          },
+          "warmup": false
+        },
+        {
+          "step": 17,
+          "global_loss": 0.08611692979071911,
+          "step_ms": 2.0827080006711185,
+          "shared_grad_norm": 0.019761220383466827,
+          "expert_grad_norm": 0.05307925657515524,
+          "routing": {
+            "assignments": [
+              12,
+              5,
+              19,
+              8,
+              5,
+              35,
+              26,
+              20
+            ],
+            "remote_assignments": 0,
+            "activation_forward_bytes": 0,
+            "activation_backward_bytes": 0,
+            "metadata_bytes": 0,
+            "send": [
+              130
+            ],
+            "receive": [
+              130
+            ]
+          },
+          "reference_error": {
+            "output": 0.0,
+            "loss": 0.0,
+            "input_gradient": 0.0,
+            "parameter_gradient": 0.0,
+            "parameter_update": 0.0
+          },
+          "warmup": false
+        },
+        {
+          "step": 18,
+          "global_loss": 0.08563688716883529,
+          "step_ms": 2.1048749986221083,
+          "shared_grad_norm": 0.01967250085683356,
+          "expert_grad_norm": 0.05282530012965115,
+          "routing": {
+            "assignments": [
+              12,
+              5,
+              19,
+              8,
+              5,
+              35,
+              26,
+              20
+            ],
+            "remote_assignments": 0,
+            "activation_forward_bytes": 0,
+            "activation_backward_bytes": 0,
+            "metadata_bytes": 0,
+            "send": [
+              130
+            ],
+            "receive": [
+              130
+            ]
+          },
+          "reference_error": {
+            "output": 0.0,
+            "loss": 0.0,
+            "input_gradient": 0.0,
+            "parameter_gradient": 0.0,
+            "parameter_update": 0.0
+          },
+          "warmup": false
+        },
+        {
+          "step": 19,
+          "global_loss": 0.08516138508773832,
+          "step_ms": 2.030374998867046,
+          "shared_grad_norm": 0.019585485289533792,
+          "expert_grad_norm": 0.05257399686110671,
+          "routing": {
+            "assignments": [
+              12,
+              5,
+              19,
+              8,
+              5,
+              35,
+              26,
+              20
+            ],
+            "remote_assignments": 0,
+            "activation_forward_bytes": 0,
+            "activation_backward_bytes": 0,
+            "metadata_bytes": 0,
+            "send": [
+              130
+            ],
+            "receive": [
+              130
+            ]
+          },
+          "reference_error": {
+            "output": 0.0,
+            "loss": 0.0,
+            "input_gradient": 0.0,
+            "parameter_gradient": 0.0,
+            "parameter_update": 0.0
+          },
+          "warmup": false
+        },
+        {
+          "step": 20,
+          "global_loss": 0.08469035048862222,
+          "step_ms": 2.065792003122624,
+          "shared_grad_norm": 0.019500118124442203,
+          "expert_grad_norm": 0.05232528598784882,
+          "routing": {
+            "assignments": [
+              12,
+              5,
+              19,
+              8,
+              5,
+              35,
+              26,
+              20
+            ],
+            "remote_assignments": 0,
+            "activation_forward_bytes": 0,
+            "activation_backward_bytes": 0,
+            "metadata_bytes": 0,
+            "send": [
+              130
+            ],
+            "receive": [
+              130
+            ]
+          },
+          "reference_error": {
+            "output": 0.0,
+            "loss": 0.0,
+            "input_gradient": 0.0,
+            "parameter_gradient": 0.0,
+            "parameter_update": 0.0
+          },
+          "warmup": false
+        },
+        {
+          "step": 21,
+          "global_loss": 0.08422371230681458,
+          "step_ms": 2.0260000019334257,
+          "shared_grad_norm": 0.01941634580159263,
+          "expert_grad_norm": 0.052079108598074415,
+          "routing": {
+            "assignments": [
+              12,
+              5,
+              19,
+              8,
+              5,
+              35,
+              26,
+              20
+            ],
+            "remote_assignments": 0,
+            "activation_forward_bytes": 0,
+            "activation_backward_bytes": 0,
+            "metadata_bytes": 0,
+            "send": [
+              130
+            ],
+            "receive": [
+              130
+            ]
+          },
+          "reference_error": {
+            "output": 0.0,
+            "loss": 0.0,
+            "input_gradient": 0.0,
+            "parameter_gradient": 0.0,
+            "parameter_update": 0.0
+          },
+          "warmup": false
+        },
+        {
+          "step": 22,
+          "global_loss": 0.08370200192842196,
+          "step_ms": 2.087499997287523,
+          "shared_grad_norm": 0.019328532613479533,
+          "expert_grad_norm": 0.05169738884597271,
+          "routing": {
+            "assignments": [
+              12,
+              5,
+              19,
+              9,
+              5,
+              35,
+              26,
+              19
+            ],
+            "remote_assignments": 0,
+            "activation_forward_bytes": 0,
+            "activation_backward_bytes": 0,
+            "metadata_bytes": 0,
+            "send": [
+              130
+            ],
+            "receive": [
+              130
+            ]
+          },
+          "reference_error": {
+            "output": 0.0,
+            "loss": 0.0,
+            "input_gradient": 0.0,
+            "parameter_gradient": 0.0,
+            "parameter_update": 0.0
+          },
+          "warmup": false
+        },
+        {
+          "step": 23,
+          "global_loss": 0.08324611808104884,
+          "step_ms": 2.0615000030375086,
+          "shared_grad_norm": 0.019248152959774955,
+          "expert_grad_norm": 0.05145757094510489,
+          "routing": {
+            "assignments": [
+              12,
+              5,
+              19,
+              9,
+              5,
+              35,
+              26,
+              19
+            ],
+            "remote_assignments": 0,
+            "activation_forward_bytes": 0,
+            "activation_backward_bytes": 0,
+            "metadata_bytes": 0,
+            "send": [
+              130
+            ],
+            "receive": [
+              130
+            ]
+          },
+          "reference_error": {
+            "output": 0.0,
+            "loss": 0.0,
+            "input_gradient": 0.0,
+            "parameter_gradient": 0.0,
+            "parameter_update": 0.0
+          },
+          "warmup": false
+        },
+        {
+          "step": 24,
+          "global_loss": 0.08279439412077531,
+          "step_ms": 2.025041001616046,
+          "shared_grad_norm": 0.01916921091898912,
+          "expert_grad_norm": 0.05122010279459638,
+          "routing": {
+            "assignments": [
+              12,
+              5,
+              19,
+              9,
+              5,
+              35,
+              26,
+              19
+            ],
+            "remote_assignments": 0,
+            "activation_forward_bytes": 0,
+            "activation_backward_bytes": 0,
+            "metadata_bytes": 0,
+            "send": [
+              130
+            ],
+            "receive": [
+              130
+            ]
+          },
+          "reference_error": {
+            "output": 0.0,
+            "loss": 0.0,
+            "input_gradient": 0.0,
+            "parameter_gradient": 0.0,
+            "parameter_update": 0.0
+          },
+          "warmup": false
+        },
+        {
+          "step": 25,
+          "global_loss": 0.08234676690189566,
+          "step_ms": 2.023749999352731,
+          "shared_grad_norm": 0.019091660306385136,
+          "expert_grad_norm": 0.05098493254705056,
+          "routing": {
+            "assignments": [
+              12,
+              5,
+              19,
+              9,
+              5,
+              35,
+              26,
+              19
+            ],
+            "remote_assignments": 0,
+            "activation_forward_bytes": 0,
+            "activation_backward_bytes": 0,
+            "metadata_bytes": 0,
+            "send": [
+              130
+            ],
+            "receive": [
+              130
+            ]
+          },
+          "reference_error": {
+            "output": 0.0,
+            "loss": 0.0,
+            "input_gradient": 0.0,
+            "parameter_gradient": 0.0,
+            "parameter_update": 0.0
+          },
+          "warmup": false
+        },
+        {
+          "step": 26,
+          "global_loss": 0.0819031749259003,
+          "step_ms": 2.0822080041398294,
+          "shared_grad_norm": 0.019015456549670542,
+          "expert_grad_norm": 0.05075200989430417,
+          "routing": {
+            "assignments": [
+              12,
+              5,
+              19,
+              9,
+              5,
+              35,
+              26,
+              19
+            ],
+            "remote_assignments": 0,
+            "activation_forward_bytes": 0,
+            "activation_backward_bytes": 0,
+            "metadata_bytes": 0,
+            "send": [
+              130
+            ],
+            "receive": [
+              130
+            ]
+          },
+          "reference_error": {
+            "output": 0.0,
+            "loss": 0.0,
+            "input_gradient": 0.0,
+            "parameter_gradient": 0.0,
+            "parameter_update": 0.0
+          },
+          "warmup": false
+        },
+        {
+          "step": 27,
+          "global_loss": 0.08146355828393452,
+          "step_ms": 2.074709002044983,
+          "shared_grad_norm": 0.018940556623235332,
+          "expert_grad_norm": 0.05052128601103193,
+          "routing": {
+            "assignments": [
+              12,
+              5,
+              19,
+              9,
+              5,
+              35,
+              26,
+              19
+            ],
+            "remote_assignments": 0,
+            "activation_forward_bytes": 0,
+            "activation_backward_bytes": 0,
+            "metadata_bytes": 0,
+            "send": [
+              130
+            ],
+            "receive": [
+              130
+            ]
+          },
+          "reference_error": {
+            "output": 0.0,
+            "loss": 0.0,
+            "input_gradient": 0.0,
+            "parameter_gradient": 0.0,
+            "parameter_update": 0.0
+          },
+          "warmup": false
+        },
+        {
+          "step": 28,
+          "global_loss": 0.08102785860171048,
+          "step_ms": 2.1892919976380654,
+          "shared_grad_norm": 0.018866918985548993,
+          "expert_grad_norm": 0.05029271350095106,
+          "routing": {
+            "assignments": [
+              12,
+              5,
+              19,
+              9,
+              5,
+              35,
+              26,
+              19
+            ],
+            "remote_assignments": 0,
+            "activation_forward_bytes": 0,
+            "activation_backward_bytes": 0,
+            "metadata_bytes": 0,
+            "send": [
+              130
+            ],
+            "receive": [
+              130
+            ]
+          },
+          "reference_error": {
+            "output": 0.0,
+            "loss": 0.0,
+            "input_gradient": 0.0,
+            "parameter_gradient": 0.0,
+            "parameter_update": 0.0
+          },
+          "warmup": false
+        },
+        {
+          "step": 29,
+          "global_loss": 0.08059601898674623,
+          "step_ms": 2.3756250011501834,
+          "shared_grad_norm": 0.018794503519544755,
+          "expert_grad_norm": 0.05006624634548469,
+          "routing": {
+            "assignments": [
+              12,
+              5,
+              19,
+              9,
+              5,
+              35,
+              26,
+              19
+            ],
+            "remote_assignments": 0,
+            "activation_forward_bytes": 0,
+            "activation_backward_bytes": 0,
+            "metadata_bytes": 0,
+            "send": [
+              130
+            ],
+            "receive": [
+              130
+            ]
+          },
+          "reference_error": {
+            "output": 0.0,
+            "loss": 0.0,
+            "input_gradient": 0.0,
+            "parameter_gradient": 0.0,
+            "parameter_update": 0.0
+          },
+          "warmup": false
+        }
       ]
     },
     "benchmarks": [
@@ -83,8 +1351,8 @@
         "routing": "learned",
         "regime": "fixed_global",
         "global_tokens": 256,
-        "median_ms": 2.5558749985066243,
-        "p95_ms": 2.6694159969338216,
+        "median_ms": 2.7258340014668647,
+        "p95_ms": 2.8150829966762103,
         "parameter_bytes_per_rank": 278848,
         "shared_parameter_bytes": 10560,
         "expert_parameter_bytes_per_rank": 268288,
@@ -103,6 +1371,783 @@
         "max_to_mean_load": 1.515625,
         "warmup": 5,
         "samples": 20,
+        "step_logs": [
+          {
+            "step": 0,
+            "global_loss": 0.09327058582624562,
+            "step_ms": 2.9567500023404136,
+            "shared_grad_norm": 0.015629543221141542,
+            "expert_grad_norm": 0.04996048038818165,
+            "routing": {
+              "assignments": [
+                52,
+                30,
+                77,
+                52,
+                20,
+                96,
+                98,
+                87
+              ],
+              "remote_assignments": 0,
+              "activation_forward_bytes": 0,
+              "activation_backward_bytes": 0,
+              "metadata_bytes": 0,
+              "send": [
+                512
+              ],
+              "receive": [
+                512
+              ]
+            },
+            "reference_error": {},
+            "warmup": true
+          },
+          {
+            "step": 1,
+            "global_loss": 0.09281506463294407,
+            "step_ms": 3.0014160001883283,
+            "shared_grad_norm": 0.015541082017836935,
+            "expert_grad_norm": 0.04976521467011374,
+            "routing": {
+              "assignments": [
+                53,
+                29,
+                77,
+                52,
+                20,
+                96,
+                98,
+                87
+              ],
+              "remote_assignments": 0,
+              "activation_forward_bytes": 0,
+              "activation_backward_bytes": 0,
+              "metadata_bytes": 0,
+              "send": [
+                512
+              ],
+              "receive": [
+                512
+              ]
+            },
+            "reference_error": {},
+            "warmup": true
+          },
+          {
+            "step": 2,
+            "global_loss": 0.09240817959383117,
+            "step_ms": 2.8459579989430495,
+            "shared_grad_norm": 0.015474902781197166,
+            "expert_grad_norm": 0.04956368886155263,
+            "routing": {
+              "assignments": [
+                53,
+                29,
+                77,
+                52,
+                20,
+                96,
+                98,
+                87
+              ],
+              "remote_assignments": 0,
+              "activation_forward_bytes": 0,
+              "activation_backward_bytes": 0,
+              "metadata_bytes": 0,
+              "send": [
+                512
+              ],
+              "receive": [
+                512
+              ]
+            },
+            "reference_error": {},
+            "warmup": true
+          },
+          {
+            "step": 3,
+            "global_loss": 0.09200459434473993,
+            "step_ms": 2.749624996795319,
+            "shared_grad_norm": 0.0154096929583484,
+            "expert_grad_norm": 0.04936382648132661,
+            "routing": {
+              "assignments": [
+                53,
+                29,
+                77,
+                52,
+                20,
+                96,
+                98,
+                87
+              ],
+              "remote_assignments": 0,
+              "activation_forward_bytes": 0,
+              "activation_backward_bytes": 0,
+              "metadata_bytes": 0,
+              "send": [
+                512
+              ],
+              "receive": [
+                512
+              ]
+            },
+            "reference_error": {},
+            "warmup": true
+          },
+          {
+            "step": 4,
+            "global_loss": 0.09158744416422382,
+            "step_ms": 3.029333005542867,
+            "shared_grad_norm": 0.015349142728760177,
+            "expert_grad_norm": 0.049200471158968494,
+            "routing": {
+              "assignments": [
+                54,
+                29,
+                77,
+                51,
+                20,
+                96,
+                97,
+                88
+              ],
+              "remote_assignments": 0,
+              "activation_forward_bytes": 0,
+              "activation_backward_bytes": 0,
+              "metadata_bytes": 0,
+              "send": [
+                512
+              ],
+              "receive": [
+                512
+              ]
+            },
+            "reference_error": {},
+            "warmup": true
+          },
+          {
+            "step": 5,
+            "global_loss": 0.09118980214370906,
+            "step_ms": 2.8875839998363517,
+            "shared_grad_norm": 0.015285641889083696,
+            "expert_grad_norm": 0.04900361858697439,
+            "routing": {
+              "assignments": [
+                54,
+                29,
+                77,
+                51,
+                20,
+                96,
+                97,
+                88
+              ],
+              "remote_assignments": 0,
+              "activation_forward_bytes": 0,
+              "activation_backward_bytes": 0,
+              "metadata_bytes": 0,
+              "send": [
+                512
+              ],
+              "receive": [
+                512
+              ]
+            },
+            "reference_error": {},
+            "warmup": false
+          },
+          {
+            "step": 6,
+            "global_loss": 0.09079534157174002,
+            "step_ms": 2.7612500052782707,
+            "shared_grad_norm": 0.01522305505710343,
+            "expert_grad_norm": 0.04880835386034091,
+            "routing": {
+              "assignments": [
+                54,
+                29,
+                77,
+                51,
+                20,
+                96,
+                97,
+                88
+              ],
+              "remote_assignments": 0,
+              "activation_forward_bytes": 0,
+              "activation_backward_bytes": 0,
+              "metadata_bytes": 0,
+              "send": [
+                512
+              ],
+              "receive": [
+                512
+              ]
+            },
+            "reference_error": {},
+            "warmup": false
+          },
+          {
+            "step": 7,
+            "global_loss": 0.09031378761286327,
+            "step_ms": 2.800750000460539,
+            "shared_grad_norm": 0.015179670515895622,
+            "expert_grad_norm": 0.04858337860303116,
+            "routing": {
+              "assignments": [
+                56,
+                28,
+                77,
+                51,
+                19,
+                95,
+                97,
+                89
+              ],
+              "remote_assignments": 0,
+              "activation_forward_bytes": 0,
+              "activation_backward_bytes": 0,
+              "metadata_bytes": 0,
+              "send": [
+                512
+              ],
+              "receive": [
+                512
+              ]
+            },
+            "reference_error": {},
+            "warmup": false
+          },
+          {
+            "step": 8,
+            "global_loss": 0.08992594267601986,
+            "step_ms": 2.671458998520393,
+            "shared_grad_norm": 0.015118773517211262,
+            "expert_grad_norm": 0.04839127247390791,
+            "routing": {
+              "assignments": [
+                56,
+                28,
+                77,
+                51,
+                19,
+                95,
+                97,
+                89
+              ],
+              "remote_assignments": 0,
+              "activation_forward_bytes": 0,
+              "activation_backward_bytes": 0,
+              "metadata_bytes": 0,
+              "send": [
+                512
+              ],
+              "receive": [
+                512
+              ]
+            },
+            "reference_error": {},
+            "warmup": false
+          },
+          {
+            "step": 9,
+            "global_loss": 0.08954115940505807,
+            "step_ms": 2.6905409977189265,
+            "shared_grad_norm": 0.015058732966950792,
+            "expert_grad_norm": 0.04820067524217172,
+            "routing": {
+              "assignments": [
+                56,
+                28,
+                77,
+                51,
+                19,
+                95,
+                97,
+                89
+              ],
+              "remote_assignments": 0,
+              "activation_forward_bytes": 0,
+              "activation_backward_bytes": 0,
+              "metadata_bytes": 0,
+              "send": [
+                512
+              ],
+              "receive": [
+                512
+              ]
+            },
+            "reference_error": {},
+            "warmup": false
+          },
+          {
+            "step": 10,
+            "global_loss": 0.08915940010883656,
+            "step_ms": 2.689958993869368,
+            "shared_grad_norm": 0.014999531696640677,
+            "expert_grad_norm": 0.04801156362983154,
+            "routing": {
+              "assignments": [
+                56,
+                28,
+                77,
+                51,
+                19,
+                95,
+                97,
+                89
+              ],
+              "remote_assignments": 0,
+              "activation_forward_bytes": 0,
+              "activation_backward_bytes": 0,
+              "metadata_bytes": 0,
+              "send": [
+                512
+              ],
+              "receive": [
+                512
+              ]
+            },
+            "reference_error": {},
+            "warmup": false
+          },
+          {
+            "step": 11,
+            "global_loss": 0.0887383261595141,
+            "step_ms": 2.7582090042415075,
+            "shared_grad_norm": 0.014930408642145504,
+            "expert_grad_norm": 0.04783194378550239,
+            "routing": {
+              "assignments": [
+                56,
+                28,
+                77,
+                51,
+                19,
+                96,
+                97,
+                88
+              ],
+              "remote_assignments": 0,
+              "activation_forward_bytes": 0,
+              "activation_backward_bytes": 0,
+              "metadata_bytes": 0,
+              "send": [
+                512
+              ],
+              "receive": [
+                512
+              ]
+            },
+            "reference_error": {},
+            "warmup": false
+          },
+          {
+            "step": 12,
+            "global_loss": 0.08836243837415615,
+            "step_ms": 2.770582999801263,
+            "shared_grad_norm": 0.014872742358248092,
+            "expert_grad_norm": 0.04764554403559031,
+            "routing": {
+              "assignments": [
+                56,
+                28,
+                77,
+                51,
+                19,
+                96,
+                97,
+                88
+              ],
+              "remote_assignments": 0,
+              "activation_forward_bytes": 0,
+              "activation_backward_bytes": 0,
+              "metadata_bytes": 0,
+              "send": [
+                512
+              ],
+              "receive": [
+                512
+              ]
+            },
+            "reference_error": {},
+            "warmup": false
+          },
+          {
+            "step": 13,
+            "global_loss": 0.08798946909291029,
+            "step_ms": 2.7598329979809932,
+            "shared_grad_norm": 0.014815868957069215,
+            "expert_grad_norm": 0.04746056676537297,
+            "routing": {
+              "assignments": [
+                56,
+                28,
+                77,
+                51,
+                19,
+                96,
+                97,
+                88
+              ],
+              "remote_assignments": 0,
+              "activation_forward_bytes": 0,
+              "activation_backward_bytes": 0,
+              "metadata_bytes": 0,
+              "send": [
+                512
+              ],
+              "receive": [
+                512
+              ]
+            },
+            "reference_error": {},
+            "warmup": false
+          },
+          {
+            "step": 14,
+            "global_loss": 0.08761938328166699,
+            "step_ms": 2.7420839978731237,
+            "shared_grad_norm": 0.014759772601329251,
+            "expert_grad_norm": 0.04727699041284238,
+            "routing": {
+              "assignments": [
+                56,
+                28,
+                77,
+                51,
+                19,
+                96,
+                97,
+                88
+              ],
+              "remote_assignments": 0,
+              "activation_forward_bytes": 0,
+              "activation_backward_bytes": 0,
+              "metadata_bytes": 0,
+              "send": [
+                512
+              ],
+              "receive": [
+                512
+              ]
+            },
+            "reference_error": {},
+            "warmup": false
+          },
+          {
+            "step": 15,
+            "global_loss": 0.08727151341445236,
+            "step_ms": 2.6956249930663034,
+            "shared_grad_norm": 0.014732192062354387,
+            "expert_grad_norm": 0.04710805666027766,
+            "routing": {
+              "assignments": [
+                57,
+                28,
+                77,
+                50,
+                19,
+                96,
+                97,
+                88
+              ],
+              "remote_assignments": 0,
+              "activation_forward_bytes": 0,
+              "activation_backward_bytes": 0,
+              "metadata_bytes": 0,
+              "send": [
+                512
+              ],
+              "receive": [
+                512
+              ]
+            },
+            "reference_error": {},
+            "warmup": false
+          },
+          {
+            "step": 16,
+            "global_loss": 0.08690678255970505,
+            "step_ms": 2.7385829962440766,
+            "shared_grad_norm": 0.014677677318255913,
+            "expert_grad_norm": 0.04692713914764578,
+            "routing": {
+              "assignments": [
+                57,
+                28,
+                77,
+                50,
+                19,
+                96,
+                97,
+                88
+              ],
+              "remote_assignments": 0,
+              "activation_forward_bytes": 0,
+              "activation_backward_bytes": 0,
+              "metadata_bytes": 0,
+              "send": [
+                512
+              ],
+              "receive": [
+                512
+              ]
+            },
+            "reference_error": {},
+            "warmup": false
+          },
+          {
+            "step": 17,
+            "global_loss": 0.08654483588172196,
+            "step_ms": 2.6931250031339005,
+            "shared_grad_norm": 0.014623891558293476,
+            "expert_grad_norm": 0.04674756032120268,
+            "routing": {
+              "assignments": [
+                57,
+                28,
+                77,
+                50,
+                19,
+                96,
+                97,
+                88
+              ],
+              "remote_assignments": 0,
+              "activation_forward_bytes": 0,
+              "activation_backward_bytes": 0,
+              "metadata_bytes": 0,
+              "send": [
+                512
+              ],
+              "receive": [
+                512
+              ]
+            },
+            "reference_error": {},
+            "warmup": false
+          },
+          {
+            "step": 18,
+            "global_loss": 0.08618564084690924,
+            "step_ms": 2.8150829966762103,
+            "shared_grad_norm": 0.014570820228932317,
+            "expert_grad_norm": 0.04656930025608904,
+            "routing": {
+              "assignments": [
+                57,
+                28,
+                77,
+                50,
+                19,
+                96,
+                97,
+                88
+              ],
+              "remote_assignments": 0,
+              "activation_forward_bytes": 0,
+              "activation_backward_bytes": 0,
+              "metadata_bytes": 0,
+              "send": [
+                512
+              ],
+              "receive": [
+                512
+              ]
+            },
+            "reference_error": {},
+            "warmup": false
+          },
+          {
+            "step": 19,
+            "global_loss": 0.08582916551179018,
+            "step_ms": 2.63687499682419,
+            "shared_grad_norm": 0.01451844907885067,
+            "expert_grad_norm": 0.0463923394163007,
+            "routing": {
+              "assignments": [
+                57,
+                28,
+                77,
+                50,
+                19,
+                96,
+                97,
+                88
+              ],
+              "remote_assignments": 0,
+              "activation_forward_bytes": 0,
+              "activation_backward_bytes": 0,
+              "metadata_bytes": 0,
+              "send": [
+                512
+              ],
+              "receive": [
+                512
+              ]
+            },
+            "reference_error": {},
+            "warmup": false
+          },
+          {
+            "step": 20,
+            "global_loss": 0.08547537850913953,
+            "step_ms": 2.6760830005514435,
+            "shared_grad_norm": 0.014466764151858245,
+            "expert_grad_norm": 0.046216658645657945,
+            "routing": {
+              "assignments": [
+                57,
+                28,
+                77,
+                50,
+                19,
+                96,
+                97,
+                88
+              ],
+              "remote_assignments": 0,
+              "activation_forward_bytes": 0,
+              "activation_backward_bytes": 0,
+              "metadata_bytes": 0,
+              "send": [
+                512
+              ],
+              "receive": [
+                512
+              ]
+            },
+            "reference_error": {},
+            "warmup": false
+          },
+          {
+            "step": 21,
+            "global_loss": 0.08512424903450563,
+            "step_ms": 2.7002080023521557,
+            "shared_grad_norm": 0.014415751780018356,
+            "expert_grad_norm": 0.04604223915903222,
+            "routing": {
+              "assignments": [
+                57,
+                28,
+                77,
+                50,
+                19,
+                96,
+                97,
+                88
+              ],
+              "remote_assignments": 0,
+              "activation_forward_bytes": 0,
+              "activation_backward_bytes": 0,
+              "metadata_bytes": 0,
+              "send": [
+                512
+              ],
+              "receive": [
+                512
+              ]
+            },
+            "reference_error": {},
+            "warmup": false
+          },
+          {
+            "step": 22,
+            "global_loss": 0.08477574683310768,
+            "step_ms": 2.7043750014854595,
+            "shared_grad_norm": 0.01436539857696654,
+            "expert_grad_norm": 0.04586906253382171,
+            "routing": {
+              "assignments": [
+                57,
+                28,
+                77,
+                50,
+                19,
+                96,
+                97,
+                88
+              ],
+              "remote_assignments": 0,
+              "activation_forward_bytes": 0,
+              "activation_backward_bytes": 0,
+              "metadata_bytes": 0,
+              "send": [
+                512
+              ],
+              "receive": [
+                512
+              ]
+            },
+            "reference_error": {},
+            "warmup": false
+          },
+          {
+            "step": 23,
+            "global_loss": 0.08440690393120198,
+            "step_ms": 2.7197090021218173,
+            "shared_grad_norm": 0.01431451409864157,
+            "expert_grad_norm": 0.04567597019662006,
+            "routing": {
+              "assignments": [
+                57,
+                28,
+                77,
+                51,
+                19,
+                95,
+                97,
+                88
+              ],
+              "remote_assignments": 0,
+              "activation_forward_bytes": 0,
+              "activation_backward_bytes": 0,
+              "metadata_bytes": 0,
+              "send": [
+                512
+              ],
+              "receive": [
+                512
+              ]
+            },
+            "reference_error": {},
+            "warmup": false
+          },
+          {
+            "step": 24,
+            "global_loss": 0.08406386139669841,
+            "step_ms": 2.731959000811912,
+            "shared_grad_norm": 0.014265571533633564,
+            "expert_grad_norm": 0.04550541198572866,
+            "routing": {
+              "assignments": [
+                57,
+                28,
+                77,
+                51,
+                19,
+                95,
+                97,
+                88
+              ],
+              "remote_assignments": 0,
+              "activation_forward_bytes": 0,
+              "activation_backward_bytes": 0,
+              "metadata_bytes": 0,
+              "send": [
+                512
+              ],
+              "receive": [
+                512
+              ]
+            },
+            "reference_error": {},
+            "warmup": false
+          }
+        ],
         "remote_assignments": 0.0,
         "activation_forward_bytes": 0.0,
         "activation_backward_bytes": 0.0,
@@ -112,8 +2157,8 @@
         "routing": "balanced",
         "regime": "fixed_global",
         "global_tokens": 256,
-        "median_ms": 2.5047085036931094,
-        "p95_ms": 2.5710409972816706,
+        "median_ms": 2.648000001499895,
+        "p95_ms": 2.8477500018198043,
         "parameter_bytes_per_rank": 278848,
         "shared_parameter_bytes": 10560,
         "expert_parameter_bytes_per_rank": 268288,
@@ -132,6 +2177,783 @@
         "max_to_mean_load": 1.0,
         "warmup": 5,
         "samples": 20,
+        "step_logs": [
+          {
+            "step": 0,
+            "global_loss": 0.0918923081004318,
+            "step_ms": 2.7937909981119446,
+            "shared_grad_norm": 0.012595232225058147,
+            "expert_grad_norm": 0.04106042489781131,
+            "routing": {
+              "assignments": [
+                64,
+                64,
+                64,
+                64,
+                64,
+                64,
+                64,
+                64
+              ],
+              "remote_assignments": 0,
+              "activation_forward_bytes": 0,
+              "activation_backward_bytes": 0,
+              "metadata_bytes": 0,
+              "send": [
+                512
+              ],
+              "receive": [
+                512
+              ]
+            },
+            "reference_error": {},
+            "warmup": true
+          },
+          {
+            "step": 1,
+            "global_loss": 0.09161597099008822,
+            "step_ms": 2.71950000023935,
+            "shared_grad_norm": 0.012566338160248249,
+            "expert_grad_norm": 0.040954844801093904,
+            "routing": {
+              "assignments": [
+                64,
+                64,
+                64,
+                64,
+                64,
+                64,
+                64,
+                64
+              ],
+              "remote_assignments": 0,
+              "activation_forward_bytes": 0,
+              "activation_backward_bytes": 0,
+              "metadata_bytes": 0,
+              "send": [
+                512
+              ],
+              "receive": [
+                512
+              ]
+            },
+            "reference_error": {},
+            "warmup": true
+          },
+          {
+            "step": 2,
+            "global_loss": 0.09134103911471259,
+            "step_ms": 2.732375003688503,
+            "shared_grad_norm": 0.012537716397148008,
+            "expert_grad_norm": 0.04084976501483983,
+            "routing": {
+              "assignments": [
+                64,
+                64,
+                64,
+                64,
+                64,
+                64,
+                64,
+                64
+              ],
+              "remote_assignments": 0,
+              "activation_forward_bytes": 0,
+              "activation_backward_bytes": 0,
+              "metadata_bytes": 0,
+              "send": [
+                512
+              ],
+              "receive": [
+                512
+              ]
+            },
+            "reference_error": {},
+            "warmup": true
+          },
+          {
+            "step": 3,
+            "global_loss": 0.0910675017562353,
+            "step_ms": 2.7075420002802275,
+            "shared_grad_norm": 0.012509363190273275,
+            "expert_grad_norm": 0.04074518070946281,
+            "routing": {
+              "assignments": [
+                64,
+                64,
+                64,
+                64,
+                64,
+                64,
+                64,
+                64
+              ],
+              "remote_assignments": 0,
+              "activation_forward_bytes": 0,
+              "activation_backward_bytes": 0,
+              "metadata_bytes": 0,
+              "send": [
+                512
+              ],
+              "receive": [
+                512
+              ]
+            },
+            "reference_error": {},
+            "warmup": true
+          },
+          {
+            "step": 4,
+            "global_loss": 0.09079534832351066,
+            "step_ms": 2.627875001053326,
+            "shared_grad_norm": 0.01248127484456707,
+            "expert_grad_norm": 0.04064108711834425,
+            "routing": {
+              "assignments": [
+                64,
+                64,
+                64,
+                64,
+                64,
+                64,
+                64,
+                64
+              ],
+              "remote_assignments": 0,
+              "activation_forward_bytes": 0,
+              "activation_backward_bytes": 0,
+              "metadata_bytes": 0,
+              "send": [
+                512
+              ],
+              "receive": [
+                512
+              ]
+            },
+            "reference_error": {},
+            "warmup": true
+          },
+          {
+            "step": 5,
+            "global_loss": 0.09052456835034789,
+            "step_ms": 2.569667005445808,
+            "shared_grad_norm": 0.012453447714671863,
+            "expert_grad_norm": 0.04053747953684881,
+            "routing": {
+              "assignments": [
+                64,
+                64,
+                64,
+                64,
+                64,
+                64,
+                64,
+                64
+              ],
+              "remote_assignments": 0,
+              "activation_forward_bytes": 0,
+              "activation_backward_bytes": 0,
+              "metadata_bytes": 0,
+              "send": [
+                512
+              ],
+              "receive": [
+                512
+              ]
+            },
+            "reference_error": {},
+            "warmup": false
+          },
+          {
+            "step": 6,
+            "global_loss": 0.09025515149357906,
+            "step_ms": 2.8522919965325855,
+            "shared_grad_norm": 0.012425878204214154,
+            "expert_grad_norm": 0.040434353321358564,
+            "routing": {
+              "assignments": [
+                64,
+                64,
+                64,
+                64,
+                64,
+                64,
+                64,
+                64
+              ],
+              "remote_assignments": 0,
+              "activation_forward_bytes": 0,
+              "activation_backward_bytes": 0,
+              "metadata_bytes": 0,
+              "send": [
+                512
+              ],
+              "receive": [
+                512
+              ]
+            },
+            "reference_error": {},
+            "warmup": false
+          },
+          {
+            "step": 7,
+            "global_loss": 0.08998708753116244,
+            "step_ms": 2.8069999971194193,
+            "shared_grad_norm": 0.012398562765101113,
+            "expert_grad_norm": 0.040331703888325375,
+            "routing": {
+              "assignments": [
+                64,
+                64,
+                64,
+                64,
+                64,
+                64,
+                64,
+                64
+              ],
+              "remote_assignments": 0,
+              "activation_forward_bytes": 0,
+              "activation_backward_bytes": 0,
+              "metadata_bytes": 0,
+              "send": [
+                512
+              ],
+              "receive": [
+                512
+              ]
+            },
+            "reference_error": {},
+            "warmup": false
+          },
+          {
+            "step": 8,
+            "global_loss": 0.08972036636032094,
+            "step_ms": 2.7892090001842007,
+            "shared_grad_norm": 0.012371497896828992,
+            "expert_grad_norm": 0.04022952671334106,
+            "routing": {
+              "assignments": [
+                64,
+                64,
+                64,
+                64,
+                64,
+                64,
+                64,
+                64
+              ],
+              "remote_assignments": 0,
+              "activation_forward_bytes": 0,
+              "activation_backward_bytes": 0,
+              "metadata_bytes": 0,
+              "send": [
+                512
+              ],
+              "receive": [
+                512
+              ]
+            },
+            "reference_error": {},
+            "warmup": false
+          },
+          {
+            "step": 9,
+            "global_loss": 0.08945497799571475,
+            "step_ms": 2.686500003619585,
+            "shared_grad_norm": 0.0123446801458031,
+            "expert_grad_norm": 0.04012781733022491,
+            "routing": {
+              "assignments": [
+                64,
+                64,
+                64,
+                64,
+                64,
+                64,
+                64,
+                64
+              ],
+              "remote_assignments": 0,
+              "activation_forward_bytes": 0,
+              "activation_backward_bytes": 0,
+              "metadata_bytes": 0,
+              "send": [
+                512
+              ],
+              "receive": [
+                512
+              ]
+            },
+            "reference_error": {},
+            "warmup": false
+          },
+          {
+            "step": 10,
+            "global_loss": 0.08919091256764754,
+            "step_ms": 2.6743329945020378,
+            "shared_grad_norm": 0.012318106104669109,
+            "expert_grad_norm": 0.04002657133012836,
+            "routing": {
+              "assignments": [
+                64,
+                64,
+                64,
+                64,
+                64,
+                64,
+                64,
+                64
+              ],
+              "remote_assignments": 0,
+              "activation_forward_bytes": 0,
+              "activation_backward_bytes": 0,
+              "metadata_bytes": 0,
+              "send": [
+                512
+              ],
+              "receive": [
+                512
+              ]
+            },
+            "reference_error": {},
+            "warmup": false
+          },
+          {
+            "step": 11,
+            "global_loss": 0.0889281603203051,
+            "step_ms": 2.601499996671919,
+            "shared_grad_norm": 0.01229177241165543,
+            "expert_grad_norm": 0.03992578436065616,
+            "routing": {
+              "assignments": [
+                64,
+                64,
+                64,
+                64,
+                64,
+                64,
+                64,
+                64
+              ],
+              "remote_assignments": 0,
+              "activation_forward_bytes": 0,
+              "activation_backward_bytes": 0,
+              "metadata_bytes": 0,
+              "send": [
+                512
+              ],
+              "receive": [
+                512
+              ]
+            },
+            "reference_error": {},
+            "warmup": false
+          },
+          {
+            "step": 12,
+            "global_loss": 0.0886667116100264,
+            "step_ms": 2.7919999993173406,
+            "shared_grad_norm": 0.012265675749926463,
+            "expert_grad_norm": 0.03982545212500401,
+            "routing": {
+              "assignments": [
+                64,
+                64,
+                64,
+                64,
+                64,
+                64,
+                64,
+                64
+              ],
+              "remote_assignments": 0,
+              "activation_forward_bytes": 0,
+              "activation_backward_bytes": 0,
+              "metadata_bytes": 0,
+              "send": [
+                512
+              ],
+              "receive": [
+                512
+              ]
+            },
+            "reference_error": {},
+            "warmup": false
+          },
+          {
+            "step": 13,
+            "global_loss": 0.08840655690360585,
+            "step_ms": 2.8477500018198043,
+            "shared_grad_norm": 0.012239812846946497,
+            "expert_grad_norm": 0.039725570381112046,
+            "routing": {
+              "assignments": [
+                64,
+                64,
+                64,
+                64,
+                64,
+                64,
+                64,
+                64
+              ],
+              "remote_assignments": 0,
+              "activation_forward_bytes": 0,
+              "activation_backward_bytes": 0,
+              "metadata_bytes": 0,
+              "send": [
+                512
+              ],
+              "receive": [
+                512
+              ]
+            },
+            "reference_error": {},
+            "warmup": false
+          },
+          {
+            "step": 14,
+            "global_loss": 0.08814768677662622,
+            "step_ms": 2.7432920032879338,
+            "shared_grad_norm": 0.012214180473854036,
+            "expert_grad_norm": 0.03962613494083397,
+            "routing": {
+              "assignments": [
+                64,
+                64,
+                64,
+                64,
+                64,
+                64,
+                64,
+                64
+              ],
+              "remote_assignments": 0,
+              "activation_forward_bytes": 0,
+              "activation_backward_bytes": 0,
+              "metadata_bytes": 0,
+              "send": [
+                512
+              ],
+              "receive": [
+                512
+              ]
+            },
+            "reference_error": {},
+            "warmup": false
+          },
+          {
+            "step": 15,
+            "global_loss": 0.0878900919118217,
+            "step_ms": 2.829582997947,
+            "shared_grad_norm": 0.012188775444846364,
+            "expert_grad_norm": 0.039527141669121434,
+            "routing": {
+              "assignments": [
+                64,
+                64,
+                64,
+                64,
+                64,
+                64,
+                64,
+                64
+              ],
+              "remote_assignments": 0,
+              "activation_forward_bytes": 0,
+              "activation_backward_bytes": 0,
+              "metadata_bytes": 0,
+              "send": [
+                512
+              ],
+              "receive": [
+                512
+              ]
+            },
+            "reference_error": {},
+            "warmup": false
+          },
+          {
+            "step": 16,
+            "global_loss": 0.08763376309747038,
+            "step_ms": 2.5674579956103116,
+            "shared_grad_norm": 0.01216359461657412,
+            "expert_grad_norm": 0.03942858648322344,
+            "routing": {
+              "assignments": [
+                64,
+                64,
+                64,
+                64,
+                64,
+                64,
+                64,
+                64
+              ],
+              "remote_assignments": 0,
+              "activation_forward_bytes": 0,
+              "activation_backward_bytes": 0,
+              "metadata_bytes": 0,
+              "send": [
+                512
+              ],
+              "receive": [
+                512
+              ]
+            },
+            "reference_error": {},
+            "warmup": false
+          },
+          {
+            "step": 17,
+            "global_loss": 0.08737869122581536,
+            "step_ms": 2.65650000073947,
+            "shared_grad_norm": 0.01213863488754571,
+            "expert_grad_norm": 0.0393304653519003,
+            "routing": {
+              "assignments": [
+                64,
+                64,
+                64,
+                64,
+                64,
+                64,
+                64,
+                64
+              ],
+              "remote_assignments": 0,
+              "activation_forward_bytes": 0,
+              "activation_backward_bytes": 0,
+              "metadata_bytes": 0,
+              "send": [
+                512
+              ],
+              "receive": [
+                512
+              ]
+            },
+            "reference_error": {},
+            "warmup": false
+          },
+          {
+            "step": 18,
+            "global_loss": 0.08712486729151445,
+            "step_ms": 2.577207997092046,
+            "shared_grad_norm": 0.012113893197541352,
+            "expert_grad_norm": 0.039232774294651974,
+            "routing": {
+              "assignments": [
+                64,
+                64,
+                64,
+                64,
+                64,
+                64,
+                64,
+                64
+              ],
+              "remote_assignments": 0,
+              "activation_forward_bytes": 0,
+              "activation_backward_bytes": 0,
+              "metadata_bytes": 0,
+              "send": [
+                512
+              ],
+              "receive": [
+                512
+              ]
+            },
+            "reference_error": {},
+            "warmup": false
+          },
+          {
+            "step": 19,
+            "global_loss": 0.08687228239011696,
+            "step_ms": 2.6280419988324866,
+            "shared_grad_norm": 0.012089366527036575,
+            "expert_grad_norm": 0.039135509380960366,
+            "routing": {
+              "assignments": [
+                64,
+                64,
+                64,
+                64,
+                64,
+                64,
+                64,
+                64
+              ],
+              "remote_assignments": 0,
+              "activation_forward_bytes": 0,
+              "activation_backward_bytes": 0,
+              "metadata_bytes": 0,
+              "send": [
+                512
+              ],
+              "receive": [
+                512
+              ]
+            },
+            "reference_error": {},
+            "warmup": false
+          },
+          {
+            "step": 20,
+            "global_loss": 0.08662092771656801,
+            "step_ms": 2.63950000226032,
+            "shared_grad_norm": 0.012065051896634958,
+            "expert_grad_norm": 0.03903866672954543,
+            "routing": {
+              "assignments": [
+                64,
+                64,
+                64,
+                64,
+                64,
+                64,
+                64,
+                64
+              ],
+              "remote_assignments": 0,
+              "activation_forward_bytes": 0,
+              "activation_backward_bytes": 0,
+              "metadata_bytes": 0,
+              "send": [
+                512
+              ],
+              "receive": [
+                512
+              ]
+            },
+            "reference_error": {},
+            "warmup": false
+          },
+          {
+            "step": 21,
+            "global_loss": 0.08637079456373895,
+            "step_ms": 2.623874999699183,
+            "shared_grad_norm": 0.01204094636650998,
+            "expert_grad_norm": 0.03894224250763464,
+            "routing": {
+              "assignments": [
+                64,
+                64,
+                64,
+                64,
+                64,
+                64,
+                64,
+                64
+              ],
+              "remote_assignments": 0,
+              "activation_forward_bytes": 0,
+              "activation_backward_bytes": 0,
+              "metadata_bytes": 0,
+              "send": [
+                512
+              ],
+              "receive": [
+                512
+              ]
+            },
+            "reference_error": {},
+            "warmup": false
+          },
+          {
+            "step": 22,
+            "global_loss": 0.0861218743209839,
+            "step_ms": 2.548208001826424,
+            "shared_grad_norm": 0.012017047035855771,
+            "expert_grad_norm": 0.03884623293024567,
+            "routing": {
+              "assignments": [
+                64,
+                64,
+                64,
+                64,
+                64,
+                64,
+                64,
+                64
+              ],
+              "remote_assignments": 0,
+              "activation_forward_bytes": 0,
+              "activation_backward_bytes": 0,
+              "metadata_bytes": 0,
+              "send": [
+                512
+              ],
+              "receive": [
+                512
+              ]
+            },
+            "reference_error": {},
+            "warmup": false
+          },
+          {
+            "step": 23,
+            "global_loss": 0.08587415847272163,
+            "step_ms": 2.586000002338551,
+            "shared_grad_norm": 0.011993351042346587,
+            "expert_grad_norm": 0.03875063425948187,
+            "routing": {
+              "assignments": [
+                64,
+                64,
+                64,
+                64,
+                64,
+                64,
+                64,
+                64
+              ],
+              "remote_assignments": 0,
+              "activation_forward_bytes": 0,
+              "activation_backward_bytes": 0,
+              "metadata_bytes": 0,
+              "send": [
+                512
+              ],
+              "receive": [
+                512
+              ]
+            },
+            "reference_error": {},
+            "warmup": false
+          },
+          {
+            "step": 24,
+            "global_loss": 0.0856276385970423,
+            "step_ms": 2.602541004307568,
+            "shared_grad_norm": 0.011969855561604898,
+            "expert_grad_norm": 0.0386554428038405,
+            "routing": {
+              "assignments": [
+                64,
+                64,
+                64,
+                64,
+                64,
+                64,
+                64,
+                64
+              ],
+              "remote_assignments": 0,
+              "activation_forward_bytes": 0,
+              "activation_backward_bytes": 0,
+              "metadata_bytes": 0,
+              "send": [
+                512
+              ],
+              "receive": [
+                512
+              ]
+            },
+            "reference_error": {},
+            "warmup": false
+          }
+        ],
         "remote_assignments": 0.0,
         "activation_forward_bytes": 0.0,
         "activation_backward_bytes": 0.0,
@@ -141,8 +2963,8 @@
         "routing": "skewed",
         "regime": "fixed_global",
         "global_tokens": 256,
-        "median_ms": 2.3640204963157885,
-        "p95_ms": 2.639375001308508,
+        "median_ms": 2.4617709968879353,
+        "p95_ms": 2.6558749959804118,
         "parameter_bytes_per_rank": 278848,
         "shared_parameter_bytes": 10560,
         "expert_parameter_bytes_per_rank": 268288,
@@ -161,6 +2983,783 @@
         "max_to_mean_load": 4.0,
         "warmup": 5,
         "samples": 20,
+        "step_logs": [
+          {
+            "step": 0,
+            "global_loss": 0.08811141496458164,
+            "step_ms": 2.448207997076679,
+            "shared_grad_norm": 0.022152301557320533,
+            "expert_grad_norm": 0.0795240608974491,
+            "routing": {
+              "assignments": [
+                256,
+                256,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0
+              ],
+              "remote_assignments": 0,
+              "activation_forward_bytes": 0,
+              "activation_backward_bytes": 0,
+              "metadata_bytes": 0,
+              "send": [
+                512
+              ],
+              "receive": [
+                512
+              ]
+            },
+            "reference_error": {},
+            "warmup": true
+          },
+          {
+            "step": 1,
+            "global_loss": 0.08709412156046768,
+            "step_ms": 2.445040998281911,
+            "shared_grad_norm": 0.02201011285599777,
+            "expert_grad_norm": 0.07873883110726236,
+            "routing": {
+              "assignments": [
+                256,
+                256,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0
+              ],
+              "remote_assignments": 0,
+              "activation_forward_bytes": 0,
+              "activation_backward_bytes": 0,
+              "metadata_bytes": 0,
+              "send": [
+                512
+              ],
+              "receive": [
+                512
+              ]
+            },
+            "reference_error": {},
+            "warmup": true
+          },
+          {
+            "step": 2,
+            "global_loss": 0.08609628929590661,
+            "step_ms": 2.6531659968895838,
+            "shared_grad_norm": 0.021871320320491345,
+            "expert_grad_norm": 0.07796510181307716,
+            "routing": {
+              "assignments": [
+                256,
+                256,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0
+              ],
+              "remote_assignments": 0,
+              "activation_forward_bytes": 0,
+              "activation_backward_bytes": 0,
+              "metadata_bytes": 0,
+              "send": [
+                512
+              ],
+              "receive": [
+                512
+              ]
+            },
+            "reference_error": {},
+            "warmup": true
+          },
+          {
+            "step": 3,
+            "global_loss": 0.08511744045037012,
+            "step_ms": 2.4960829978226684,
+            "shared_grad_norm": 0.021735735990978534,
+            "expert_grad_norm": 0.07720250962946874,
+            "routing": {
+              "assignments": [
+                256,
+                256,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0
+              ],
+              "remote_assignments": 0,
+              "activation_forward_bytes": 0,
+              "activation_backward_bytes": 0,
+              "metadata_bytes": 0,
+              "send": [
+                512
+              ],
+              "receive": [
+                512
+              ]
+            },
+            "reference_error": {},
+            "warmup": true
+          },
+          {
+            "step": 4,
+            "global_loss": 0.08415711514484636,
+            "step_ms": 2.4773340046522208,
+            "shared_grad_norm": 0.02160318165190492,
+            "expert_grad_norm": 0.07645070728297171,
+            "routing": {
+              "assignments": [
+                256,
+                256,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0
+              ],
+              "remote_assignments": 0,
+              "activation_forward_bytes": 0,
+              "activation_backward_bytes": 0,
+              "metadata_bytes": 0,
+              "send": [
+                512
+              ],
+              "receive": [
+                512
+              ]
+            },
+            "reference_error": {},
+            "warmup": true
+          },
+          {
+            "step": 5,
+            "global_loss": 0.0832148704359282,
+            "step_ms": 2.414957998553291,
+            "shared_grad_norm": 0.021473488359215486,
+            "expert_grad_norm": 0.07570936285934676,
+            "routing": {
+              "assignments": [
+                256,
+                256,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0
+              ],
+              "remote_assignments": 0,
+              "activation_forward_bytes": 0,
+              "activation_backward_bytes": 0,
+              "metadata_bytes": 0,
+              "send": [
+                512
+              ],
+              "receive": [
+                512
+              ]
+            },
+            "reference_error": {},
+            "warmup": false
+          },
+          {
+            "step": 6,
+            "global_loss": 0.08229027946265446,
+            "step_ms": 2.4032920046010986,
+            "shared_grad_norm": 0.021346495992232,
+            "expert_grad_norm": 0.07497815909240484,
+            "routing": {
+              "assignments": [
+                256,
+                256,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0
+              ],
+              "remote_assignments": 0,
+              "activation_forward_bytes": 0,
+              "activation_backward_bytes": 0,
+              "metadata_bytes": 0,
+              "send": [
+                512
+              ],
+              "receive": [
+                512
+              ]
+            },
+            "reference_error": {},
+            "warmup": false
+          },
+          {
+            "step": 7,
+            "global_loss": 0.08138293064263008,
+            "step_ms": 2.469833998475224,
+            "shared_grad_norm": 0.021222052828747586,
+            "expert_grad_norm": 0.07425679269162151,
+            "routing": {
+              "assignments": [
+                256,
+                256,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0
+              ],
+              "remote_assignments": 0,
+              "activation_forward_bytes": 0,
+              "activation_backward_bytes": 0,
+              "metadata_bytes": 0,
+              "send": [
+                512
+              ],
+              "receive": [
+                512
+              ]
+            },
+            "reference_error": {},
+            "warmup": false
+          },
+          {
+            "step": 8,
+            "global_loss": 0.08049242691421243,
+            "step_ms": 2.4266670006909408,
+            "shared_grad_norm": 0.02110001514200427,
+            "expert_grad_norm": 0.07354497370598116,
+            "routing": {
+              "assignments": [
+                256,
+                256,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0
+              ],
+              "remote_assignments": 0,
+              "activation_forward_bytes": 0,
+              "activation_backward_bytes": 0,
+              "metadata_bytes": 0,
+              "send": [
+                512
+              ],
+              "receive": [
+                512
+              ]
+            },
+            "reference_error": {},
+            "warmup": false
+          },
+          {
+            "step": 9,
+            "global_loss": 0.07961838502179108,
+            "step_ms": 2.488124999217689,
+            "shared_grad_norm": 0.02098024681830646,
+            "expert_grad_norm": 0.07284242492168051,
+            "routing": {
+              "assignments": [
+                256,
+                256,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0
+              ],
+              "remote_assignments": 0,
+              "activation_forward_bytes": 0,
+              "activation_backward_bytes": 0,
+              "metadata_bytes": 0,
+              "send": [
+                512
+              ],
+              "receive": [
+                512
+              ]
+            },
+            "reference_error": {},
+            "warmup": false
+          },
+          {
+            "step": 10,
+            "global_loss": 0.07876043484140804,
+            "step_ms": 2.421208999294322,
+            "shared_grad_norm": 0.020862618994102536,
+            "expert_grad_norm": 0.07214888129149573,
+            "routing": {
+              "assignments": [
+                256,
+                256,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0
+              ],
+              "remote_assignments": 0,
+              "activation_forward_bytes": 0,
+              "activation_backward_bytes": 0,
+              "metadata_bytes": 0,
+              "send": [
+                512
+              ],
+              "receive": [
+                512
+              ]
+            },
+            "reference_error": {},
+            "warmup": false
+          },
+          {
+            "step": 11,
+            "global_loss": 0.07791821874416724,
+            "step_ms": 2.4324579935637303,
+            "shared_grad_norm": 0.02074700971144037,
+            "expert_grad_norm": 0.07146408939377757,
+            "routing": {
+              "assignments": [
+                256,
+                256,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0
+              ],
+              "remote_assignments": 0,
+              "activation_forward_bytes": 0,
+              "activation_backward_bytes": 0,
+              "metadata_bytes": 0,
+              "send": [
+                512
+              ],
+              "receive": [
+                512
+              ]
+            },
+            "reference_error": {},
+            "warmup": false
+          },
+          {
+            "step": 12,
+            "global_loss": 0.07709139099506643,
+            "step_ms": 2.4869999979273416,
+            "shared_grad_norm": 0.02063330359076975,
+            "expert_grad_norm": 0.07078780691918658,
+            "routing": {
+              "assignments": [
+                256,
+                256,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0
+              ],
+              "remote_assignments": 0,
+              "activation_forward_bytes": 0,
+              "activation_backward_bytes": 0,
+              "metadata_bytes": 0,
+              "send": [
+                512
+              ],
+              "receive": [
+                512
+              ]
+            },
+            "reference_error": {},
+            "warmup": false
+          },
+          {
+            "step": 13,
+            "global_loss": 0.07627961718505567,
+            "step_ms": 2.3867920026532374,
+            "shared_grad_norm": 0.02052139152012736,
+            "expert_grad_norm": 0.0701198021834164,
+            "routing": {
+              "assignments": [
+                256,
+                256,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0
+              ],
+              "remote_assignments": 0,
+              "activation_forward_bytes": 0,
+              "activation_backward_bytes": 0,
+              "metadata_bytes": 0,
+              "send": [
+                512
+              ],
+              "receive": [
+                512
+              ]
+            },
+            "reference_error": {},
+            "warmup": false
+          },
+          {
+            "step": 14,
+            "global_loss": 0.07548257369428141,
+            "step_ms": 2.3978750032256357,
+            "shared_grad_norm": 0.020411170359797327,
+            "expert_grad_norm": 0.06945985366427801,
+            "routing": {
+              "assignments": [
+                256,
+                256,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0
+              ],
+              "remote_assignments": 0,
+              "activation_forward_bytes": 0,
+              "activation_backward_bytes": 0,
+              "metadata_bytes": 0,
+              "send": [
+                512
+              ],
+              "receive": [
+                512
+              ]
+            },
+            "reference_error": {},
+            "warmup": false
+          },
+          {
+            "step": 15,
+            "global_loss": 0.07469994718462003,
+            "step_ms": 2.3634169992874376,
+            "shared_grad_norm": 0.02030254266159443,
+            "expert_grad_norm": 0.06880774956163346,
+            "routing": {
+              "assignments": [
+                256,
+                256,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0
+              ],
+              "remote_assignments": 0,
+              "activation_forward_bytes": 0,
+              "activation_backward_bytes": 0,
+              "metadata_bytes": 0,
+              "send": [
+                512
+              ],
+              "receive": [
+                512
+              ]
+            },
+            "reference_error": {},
+            "warmup": false
+          },
+          {
+            "step": 16,
+            "global_loss": 0.0739314341197365,
+            "step_ms": 2.600457999506034,
+            "shared_grad_norm": 0.020195416401966447,
+            "expert_grad_norm": 0.06816328737877403,
+            "routing": {
+              "assignments": [
+                256,
+                256,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0
+              ],
+              "remote_assignments": 0,
+              "activation_forward_bytes": 0,
+              "activation_backward_bytes": 0,
+              "metadata_bytes": 0,
+              "send": [
+                512
+              ],
+              "receive": [
+                512
+              ]
+            },
+            "reference_error": {},
+            "warmup": false
+          },
+          {
+            "step": 17,
+            "global_loss": 0.07317674031102536,
+            "step_ms": 2.453707995300647,
+            "shared_grad_norm": 0.020089704728159026,
+            "expert_grad_norm": 0.06752627352393571,
+            "routing": {
+              "assignments": [
+                256,
+                256,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0
+              ],
+              "remote_assignments": 0,
+              "activation_forward_bytes": 0,
+              "activation_backward_bytes": 0,
+              "metadata_bytes": 0,
+              "send": [
+                512
+              ],
+              "receive": [
+                512
+              ]
+            },
+            "reference_error": {},
+            "warmup": false
+          },
+          {
+            "step": 18,
+            "global_loss": 0.07243558048790426,
+            "step_ms": 2.4703750023036264,
+            "shared_grad_norm": 0.01998532571672952,
+            "expert_grad_norm": 0.06689652293073627,
+            "routing": {
+              "assignments": [
+                256,
+                256,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0
+              ],
+              "remote_assignments": 0,
+              "activation_forward_bytes": 0,
+              "activation_backward_bytes": 0,
+              "metadata_bytes": 0,
+              "send": [
+                512
+              ],
+              "receive": [
+                512
+              ]
+            },
+            "reference_error": {},
+            "warmup": false
+          },
+          {
+            "step": 19,
+            "global_loss": 0.07170767789103324,
+            "step_ms": 2.4732089950703084,
+            "shared_grad_norm": 0.01988220214373717,
+            "expert_grad_norm": 0.06627385869640187,
+            "routing": {
+              "assignments": [
+                256,
+                256,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0
+              ],
+              "remote_assignments": 0,
+              "activation_forward_bytes": 0,
+              "activation_backward_bytes": 0,
+              "metadata_bytes": 0,
+              "send": [
+                512
+              ],
+              "receive": [
+                512
+              ]
+            },
+            "reference_error": {},
+            "warmup": false
+          },
+          {
+            "step": 20,
+            "global_loss": 0.07099276388712916,
+            "step_ms": 2.4929589999374,
+            "shared_grad_norm": 0.01978026126597483,
+            "expert_grad_norm": 0.06565811173672868,
+            "routing": {
+              "assignments": [
+                256,
+                256,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0
+              ],
+              "remote_assignments": 0,
+              "activation_forward_bytes": 0,
+              "activation_backward_bytes": 0,
+              "metadata_bytes": 0,
+              "send": [
+                512
+              ],
+              "receive": [
+                512
+              ]
+            },
+            "reference_error": {},
+            "warmup": false
+          },
+          {
+            "step": 21,
+            "global_loss": 0.07029057760413228,
+            "step_ms": 2.3995000010472722,
+            "shared_grad_norm": 0.019679434612643387,
+            "expert_grad_norm": 0.06504912045679732,
+            "routing": {
+              "assignments": [
+                256,
+                256,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0
+              ],
+              "remote_assignments": 0,
+              "activation_forward_bytes": 0,
+              "activation_backward_bytes": 0,
+              "metadata_bytes": 0,
+              "send": [
+                512
+              ],
+              "receive": [
+                512
+              ]
+            },
+            "reference_error": {},
+            "warmup": false
+          },
+          {
+            "step": 22,
+            "global_loss": 0.06960086558556453,
+            "step_ms": 2.664125000592321,
+            "shared_grad_norm": 0.019579657786903414,
+            "expert_grad_norm": 0.06444673043652428,
+            "routing": {
+              "assignments": [
+                256,
+                256,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0
+              ],
+              "remote_assignments": 0,
+              "activation_forward_bytes": 0,
+              "activation_backward_bytes": 0,
+              "metadata_bytes": 0,
+              "send": [
+                512
+              ],
+              "receive": [
+                512
+              ]
+            },
+            "reference_error": {},
+            "warmup": false
+          },
+          {
+            "step": 23,
+            "global_loss": 0.06892338146299393,
+            "step_ms": 2.500791997590568,
+            "shared_grad_norm": 0.019480870276770437,
+            "expert_grad_norm": 0.06385079413019643,
+            "routing": {
+              "assignments": [
+                256,
+                256,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0
+              ],
+              "remote_assignments": 0,
+              "activation_forward_bytes": 0,
+              "activation_backward_bytes": 0,
+              "metadata_bytes": 0,
+              "send": [
+                512
+              ],
+              "receive": [
+                512
+              ]
+            },
+            "reference_error": {},
+            "warmup": false
+          },
+          {
+            "step": 24,
+            "global_loss": 0.06825788564558952,
+            "step_ms": 2.6558749959804118,
+            "shared_grad_norm": 0.01938301527484974,
+            "expert_grad_norm": 0.06326117057919181,
+            "routing": {
+              "assignments": [
+                256,
+                256,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0
+              ],
+              "remote_assignments": 0,
+              "activation_forward_bytes": 0,
+              "activation_backward_bytes": 0,
+              "metadata_bytes": 0,
+              "send": [
+                512
+              ],
+              "receive": [
+                512
+              ]
+            },
+            "reference_error": {},
+            "warmup": false
+          }
+        ],
         "remote_assignments": 0.0,
         "activation_forward_bytes": 0.0,
         "activation_backward_bytes": 0.0,
@@ -170,8 +3769,8 @@
         "routing": "learned",
         "regime": "fixed_local",
         "global_tokens": 256,
-        "median_ms": 2.5803534990700427,
-        "p95_ms": 2.75912499637343,
+        "median_ms": 2.725312500842847,
+        "p95_ms": 2.822709000611212,
         "parameter_bytes_per_rank": 278848,
         "shared_parameter_bytes": 10560,
         "expert_parameter_bytes_per_rank": 268288,
@@ -190,6 +3789,783 @@
         "max_to_mean_load": 1.515625,
         "warmup": 5,
         "samples": 20,
+        "step_logs": [
+          {
+            "step": 0,
+            "global_loss": 0.09327058582624562,
+            "step_ms": 2.7983749969280325,
+            "shared_grad_norm": 0.015629543221141542,
+            "expert_grad_norm": 0.04996048038818165,
+            "routing": {
+              "assignments": [
+                52,
+                30,
+                77,
+                52,
+                20,
+                96,
+                98,
+                87
+              ],
+              "remote_assignments": 0,
+              "activation_forward_bytes": 0,
+              "activation_backward_bytes": 0,
+              "metadata_bytes": 0,
+              "send": [
+                512
+              ],
+              "receive": [
+                512
+              ]
+            },
+            "reference_error": {},
+            "warmup": true
+          },
+          {
+            "step": 1,
+            "global_loss": 0.09281506463294407,
+            "step_ms": 2.8997090048505925,
+            "shared_grad_norm": 0.015541082017836935,
+            "expert_grad_norm": 0.04976521467011374,
+            "routing": {
+              "assignments": [
+                53,
+                29,
+                77,
+                52,
+                20,
+                96,
+                98,
+                87
+              ],
+              "remote_assignments": 0,
+              "activation_forward_bytes": 0,
+              "activation_backward_bytes": 0,
+              "metadata_bytes": 0,
+              "send": [
+                512
+              ],
+              "receive": [
+                512
+              ]
+            },
+            "reference_error": {},
+            "warmup": true
+          },
+          {
+            "step": 2,
+            "global_loss": 0.09240817959383117,
+            "step_ms": 2.8242500047781505,
+            "shared_grad_norm": 0.015474902781197166,
+            "expert_grad_norm": 0.04956368886155263,
+            "routing": {
+              "assignments": [
+                53,
+                29,
+                77,
+                52,
+                20,
+                96,
+                98,
+                87
+              ],
+              "remote_assignments": 0,
+              "activation_forward_bytes": 0,
+              "activation_backward_bytes": 0,
+              "metadata_bytes": 0,
+              "send": [
+                512
+              ],
+              "receive": [
+                512
+              ]
+            },
+            "reference_error": {},
+            "warmup": true
+          },
+          {
+            "step": 3,
+            "global_loss": 0.09200459434473993,
+            "step_ms": 2.716750001127366,
+            "shared_grad_norm": 0.0154096929583484,
+            "expert_grad_norm": 0.04936382648132661,
+            "routing": {
+              "assignments": [
+                53,
+                29,
+                77,
+                52,
+                20,
+                96,
+                98,
+                87
+              ],
+              "remote_assignments": 0,
+              "activation_forward_bytes": 0,
+              "activation_backward_bytes": 0,
+              "metadata_bytes": 0,
+              "send": [
+                512
+              ],
+              "receive": [
+                512
+              ]
+            },
+            "reference_error": {},
+            "warmup": true
+          },
+          {
+            "step": 4,
+            "global_loss": 0.09158744416422382,
+            "step_ms": 2.801290997012984,
+            "shared_grad_norm": 0.015349142728760177,
+            "expert_grad_norm": 0.049200471158968494,
+            "routing": {
+              "assignments": [
+                54,
+                29,
+                77,
+                51,
+                20,
+                96,
+                97,
+                88
+              ],
+              "remote_assignments": 0,
+              "activation_forward_bytes": 0,
+              "activation_backward_bytes": 0,
+              "metadata_bytes": 0,
+              "send": [
+                512
+              ],
+              "receive": [
+                512
+              ]
+            },
+            "reference_error": {},
+            "warmup": true
+          },
+          {
+            "step": 5,
+            "global_loss": 0.09118980214370906,
+            "step_ms": 2.728874998865649,
+            "shared_grad_norm": 0.015285641889083696,
+            "expert_grad_norm": 0.04900361858697439,
+            "routing": {
+              "assignments": [
+                54,
+                29,
+                77,
+                51,
+                20,
+                96,
+                97,
+                88
+              ],
+              "remote_assignments": 0,
+              "activation_forward_bytes": 0,
+              "activation_backward_bytes": 0,
+              "metadata_bytes": 0,
+              "send": [
+                512
+              ],
+              "receive": [
+                512
+              ]
+            },
+            "reference_error": {},
+            "warmup": false
+          },
+          {
+            "step": 6,
+            "global_loss": 0.09079534157174002,
+            "step_ms": 2.704584003367927,
+            "shared_grad_norm": 0.01522305505710343,
+            "expert_grad_norm": 0.04880835386034091,
+            "routing": {
+              "assignments": [
+                54,
+                29,
+                77,
+                51,
+                20,
+                96,
+                97,
+                88
+              ],
+              "remote_assignments": 0,
+              "activation_forward_bytes": 0,
+              "activation_backward_bytes": 0,
+              "metadata_bytes": 0,
+              "send": [
+                512
+              ],
+              "receive": [
+                512
+              ]
+            },
+            "reference_error": {},
+            "warmup": false
+          },
+          {
+            "step": 7,
+            "global_loss": 0.09031378761286327,
+            "step_ms": 2.789124999253545,
+            "shared_grad_norm": 0.015179670515895622,
+            "expert_grad_norm": 0.04858337860303116,
+            "routing": {
+              "assignments": [
+                56,
+                28,
+                77,
+                51,
+                19,
+                95,
+                97,
+                89
+              ],
+              "remote_assignments": 0,
+              "activation_forward_bytes": 0,
+              "activation_backward_bytes": 0,
+              "metadata_bytes": 0,
+              "send": [
+                512
+              ],
+              "receive": [
+                512
+              ]
+            },
+            "reference_error": {},
+            "warmup": false
+          },
+          {
+            "step": 8,
+            "global_loss": 0.08992594267601986,
+            "step_ms": 2.811207996273879,
+            "shared_grad_norm": 0.015118773517211262,
+            "expert_grad_norm": 0.04839127247390791,
+            "routing": {
+              "assignments": [
+                56,
+                28,
+                77,
+                51,
+                19,
+                95,
+                97,
+                89
+              ],
+              "remote_assignments": 0,
+              "activation_forward_bytes": 0,
+              "activation_backward_bytes": 0,
+              "metadata_bytes": 0,
+              "send": [
+                512
+              ],
+              "receive": [
+                512
+              ]
+            },
+            "reference_error": {},
+            "warmup": false
+          },
+          {
+            "step": 9,
+            "global_loss": 0.08954115940505807,
+            "step_ms": 2.747625003394205,
+            "shared_grad_norm": 0.015058732966950792,
+            "expert_grad_norm": 0.04820067524217172,
+            "routing": {
+              "assignments": [
+                56,
+                28,
+                77,
+                51,
+                19,
+                95,
+                97,
+                89
+              ],
+              "remote_assignments": 0,
+              "activation_forward_bytes": 0,
+              "activation_backward_bytes": 0,
+              "metadata_bytes": 0,
+              "send": [
+                512
+              ],
+              "receive": [
+                512
+              ]
+            },
+            "reference_error": {},
+            "warmup": false
+          },
+          {
+            "step": 10,
+            "global_loss": 0.08915940010883656,
+            "step_ms": 2.816707994497847,
+            "shared_grad_norm": 0.014999531696640677,
+            "expert_grad_norm": 0.04801156362983154,
+            "routing": {
+              "assignments": [
+                56,
+                28,
+                77,
+                51,
+                19,
+                95,
+                97,
+                89
+              ],
+              "remote_assignments": 0,
+              "activation_forward_bytes": 0,
+              "activation_backward_bytes": 0,
+              "metadata_bytes": 0,
+              "send": [
+                512
+              ],
+              "receive": [
+                512
+              ]
+            },
+            "reference_error": {},
+            "warmup": false
+          },
+          {
+            "step": 11,
+            "global_loss": 0.0887383261595141,
+            "step_ms": 2.860084001440555,
+            "shared_grad_norm": 0.014930408642145504,
+            "expert_grad_norm": 0.04783194378550239,
+            "routing": {
+              "assignments": [
+                56,
+                28,
+                77,
+                51,
+                19,
+                96,
+                97,
+                88
+              ],
+              "remote_assignments": 0,
+              "activation_forward_bytes": 0,
+              "activation_backward_bytes": 0,
+              "metadata_bytes": 0,
+              "send": [
+                512
+              ],
+              "receive": [
+                512
+              ]
+            },
+            "reference_error": {},
+            "warmup": false
+          },
+          {
+            "step": 12,
+            "global_loss": 0.08836243837415615,
+            "step_ms": 2.6797500031534582,
+            "shared_grad_norm": 0.014872742358248092,
+            "expert_grad_norm": 0.04764554403559031,
+            "routing": {
+              "assignments": [
+                56,
+                28,
+                77,
+                51,
+                19,
+                96,
+                97,
+                88
+              ],
+              "remote_assignments": 0,
+              "activation_forward_bytes": 0,
+              "activation_backward_bytes": 0,
+              "metadata_bytes": 0,
+              "send": [
+                512
+              ],
+              "receive": [
+                512
+              ]
+            },
+            "reference_error": {},
+            "warmup": false
+          },
+          {
+            "step": 13,
+            "global_loss": 0.08798946909291029,
+            "step_ms": 2.822709000611212,
+            "shared_grad_norm": 0.014815868957069215,
+            "expert_grad_norm": 0.04746056676537297,
+            "routing": {
+              "assignments": [
+                56,
+                28,
+                77,
+                51,
+                19,
+                96,
+                97,
+                88
+              ],
+              "remote_assignments": 0,
+              "activation_forward_bytes": 0,
+              "activation_backward_bytes": 0,
+              "metadata_bytes": 0,
+              "send": [
+                512
+              ],
+              "receive": [
+                512
+              ]
+            },
+            "reference_error": {},
+            "warmup": false
+          },
+          {
+            "step": 14,
+            "global_loss": 0.08761938328166699,
+            "step_ms": 2.6927500002784654,
+            "shared_grad_norm": 0.014759772601329251,
+            "expert_grad_norm": 0.04727699041284238,
+            "routing": {
+              "assignments": [
+                56,
+                28,
+                77,
+                51,
+                19,
+                96,
+                97,
+                88
+              ],
+              "remote_assignments": 0,
+              "activation_forward_bytes": 0,
+              "activation_backward_bytes": 0,
+              "metadata_bytes": 0,
+              "send": [
+                512
+              ],
+              "receive": [
+                512
+              ]
+            },
+            "reference_error": {},
+            "warmup": false
+          },
+          {
+            "step": 15,
+            "global_loss": 0.08727151341445236,
+            "step_ms": 2.7720420039258897,
+            "shared_grad_norm": 0.014732192062354387,
+            "expert_grad_norm": 0.04710805666027766,
+            "routing": {
+              "assignments": [
+                57,
+                28,
+                77,
+                50,
+                19,
+                96,
+                97,
+                88
+              ],
+              "remote_assignments": 0,
+              "activation_forward_bytes": 0,
+              "activation_backward_bytes": 0,
+              "metadata_bytes": 0,
+              "send": [
+                512
+              ],
+              "receive": [
+                512
+              ]
+            },
+            "reference_error": {},
+            "warmup": false
+          },
+          {
+            "step": 16,
+            "global_loss": 0.08690678255970505,
+            "step_ms": 2.7101670057163574,
+            "shared_grad_norm": 0.014677677318255913,
+            "expert_grad_norm": 0.04692713914764578,
+            "routing": {
+              "assignments": [
+                57,
+                28,
+                77,
+                50,
+                19,
+                96,
+                97,
+                88
+              ],
+              "remote_assignments": 0,
+              "activation_forward_bytes": 0,
+              "activation_backward_bytes": 0,
+              "metadata_bytes": 0,
+              "send": [
+                512
+              ],
+              "receive": [
+                512
+              ]
+            },
+            "reference_error": {},
+            "warmup": false
+          },
+          {
+            "step": 17,
+            "global_loss": 0.08654483588172196,
+            "step_ms": 2.700707998883445,
+            "shared_grad_norm": 0.014623891558293476,
+            "expert_grad_norm": 0.04674756032120268,
+            "routing": {
+              "assignments": [
+                57,
+                28,
+                77,
+                50,
+                19,
+                96,
+                97,
+                88
+              ],
+              "remote_assignments": 0,
+              "activation_forward_bytes": 0,
+              "activation_backward_bytes": 0,
+              "metadata_bytes": 0,
+              "send": [
+                512
+              ],
+              "receive": [
+                512
+              ]
+            },
+            "reference_error": {},
+            "warmup": false
+          },
+          {
+            "step": 18,
+            "global_loss": 0.08618564084690924,
+            "step_ms": 2.6384169977973215,
+            "shared_grad_norm": 0.014570820228932317,
+            "expert_grad_norm": 0.04656930025608904,
+            "routing": {
+              "assignments": [
+                57,
+                28,
+                77,
+                50,
+                19,
+                96,
+                97,
+                88
+              ],
+              "remote_assignments": 0,
+              "activation_forward_bytes": 0,
+              "activation_backward_bytes": 0,
+              "metadata_bytes": 0,
+              "send": [
+                512
+              ],
+              "receive": [
+                512
+              ]
+            },
+            "reference_error": {},
+            "warmup": false
+          },
+          {
+            "step": 19,
+            "global_loss": 0.08582916551179018,
+            "step_ms": 2.7217500028200448,
+            "shared_grad_norm": 0.01451844907885067,
+            "expert_grad_norm": 0.0463923394163007,
+            "routing": {
+              "assignments": [
+                57,
+                28,
+                77,
+                50,
+                19,
+                96,
+                97,
+                88
+              ],
+              "remote_assignments": 0,
+              "activation_forward_bytes": 0,
+              "activation_backward_bytes": 0,
+              "metadata_bytes": 0,
+              "send": [
+                512
+              ],
+              "receive": [
+                512
+              ]
+            },
+            "reference_error": {},
+            "warmup": false
+          },
+          {
+            "step": 20,
+            "global_loss": 0.08547537850913953,
+            "step_ms": 2.8194170008646324,
+            "shared_grad_norm": 0.014466764151858245,
+            "expert_grad_norm": 0.046216658645657945,
+            "routing": {
+              "assignments": [
+                57,
+                28,
+                77,
+                50,
+                19,
+                96,
+                97,
+                88
+              ],
+              "remote_assignments": 0,
+              "activation_forward_bytes": 0,
+              "activation_backward_bytes": 0,
+              "metadata_bytes": 0,
+              "send": [
+                512
+              ],
+              "receive": [
+                512
+              ]
+            },
+            "reference_error": {},
+            "warmup": false
+          },
+          {
+            "step": 21,
+            "global_loss": 0.08512424903450563,
+            "step_ms": 2.6199170024483465,
+            "shared_grad_norm": 0.014415751780018356,
+            "expert_grad_norm": 0.04604223915903222,
+            "routing": {
+              "assignments": [
+                57,
+                28,
+                77,
+                50,
+                19,
+                96,
+                97,
+                88
+              ],
+              "remote_assignments": 0,
+              "activation_forward_bytes": 0,
+              "activation_backward_bytes": 0,
+              "metadata_bytes": 0,
+              "send": [
+                512
+              ],
+              "receive": [
+                512
+              ]
+            },
+            "reference_error": {},
+            "warmup": false
+          },
+          {
+            "step": 22,
+            "global_loss": 0.08477574683310768,
+            "step_ms": 2.7942500018980354,
+            "shared_grad_norm": 0.01436539857696654,
+            "expert_grad_norm": 0.04586906253382171,
+            "routing": {
+              "assignments": [
+                57,
+                28,
+                77,
+                50,
+                19,
+                96,
+                97,
+                88
+              ],
+              "remote_assignments": 0,
+              "activation_forward_bytes": 0,
+              "activation_backward_bytes": 0,
+              "metadata_bytes": 0,
+              "send": [
+                512
+              ],
+              "receive": [
+                512
+              ]
+            },
+            "reference_error": {},
+            "warmup": false
+          },
+          {
+            "step": 23,
+            "global_loss": 0.08440690393120198,
+            "step_ms": 2.6922079996438697,
+            "shared_grad_norm": 0.01431451409864157,
+            "expert_grad_norm": 0.04567597019662006,
+            "routing": {
+              "assignments": [
+                57,
+                28,
+                77,
+                51,
+                19,
+                95,
+                97,
+                88
+              ],
+              "remote_assignments": 0,
+              "activation_forward_bytes": 0,
+              "activation_backward_bytes": 0,
+              "metadata_bytes": 0,
+              "send": [
+                512
+              ],
+              "receive": [
+                512
+              ]
+            },
+            "reference_error": {},
+            "warmup": false
+          },
+          {
+            "step": 24,
+            "global_loss": 0.08406386139669841,
+            "step_ms": 2.6545000000623986,
+            "shared_grad_norm": 0.014265571533633564,
+            "expert_grad_norm": 0.04550541198572866,
+            "routing": {
+              "assignments": [
+                57,
+                28,
+                77,
+                51,
+                19,
+                95,
+                97,
+                88
+              ],
+              "remote_assignments": 0,
+              "activation_forward_bytes": 0,
+              "activation_backward_bytes": 0,
+              "metadata_bytes": 0,
+              "send": [
+                512
+              ],
+              "receive": [
+                512
+              ]
+            },
+            "reference_error": {},
+            "warmup": false
+          }
+        ],
         "remote_assignments": 0.0,
         "activation_forward_bytes": 0.0,
         "activation_backward_bytes": 0.0,
@@ -199,8 +4575,8 @@
         "routing": "balanced",
         "regime": "fixed_local",
         "global_tokens": 256,
-        "median_ms": 2.499916998203844,
-        "p95_ms": 2.6074999987031333,
+        "median_ms": 2.685458501218818,
+        "p95_ms": 2.995750000991393,
         "parameter_bytes_per_rank": 278848,
         "shared_parameter_bytes": 10560,
         "expert_parameter_bytes_per_rank": 268288,
@@ -219,6 +4595,783 @@
         "max_to_mean_load": 1.0,
         "warmup": 5,
         "samples": 20,
+        "step_logs": [
+          {
+            "step": 0,
+            "global_loss": 0.0918923081004318,
+            "step_ms": 2.749958999629598,
+            "shared_grad_norm": 0.012595232225058147,
+            "expert_grad_norm": 0.04106042489781131,
+            "routing": {
+              "assignments": [
+                64,
+                64,
+                64,
+                64,
+                64,
+                64,
+                64,
+                64
+              ],
+              "remote_assignments": 0,
+              "activation_forward_bytes": 0,
+              "activation_backward_bytes": 0,
+              "metadata_bytes": 0,
+              "send": [
+                512
+              ],
+              "receive": [
+                512
+              ]
+            },
+            "reference_error": {},
+            "warmup": true
+          },
+          {
+            "step": 1,
+            "global_loss": 0.09161597099008822,
+            "step_ms": 2.7341250024619512,
+            "shared_grad_norm": 0.012566338160248249,
+            "expert_grad_norm": 0.040954844801093904,
+            "routing": {
+              "assignments": [
+                64,
+                64,
+                64,
+                64,
+                64,
+                64,
+                64,
+                64
+              ],
+              "remote_assignments": 0,
+              "activation_forward_bytes": 0,
+              "activation_backward_bytes": 0,
+              "metadata_bytes": 0,
+              "send": [
+                512
+              ],
+              "receive": [
+                512
+              ]
+            },
+            "reference_error": {},
+            "warmup": true
+          },
+          {
+            "step": 2,
+            "global_loss": 0.09134103911471259,
+            "step_ms": 2.770250001049135,
+            "shared_grad_norm": 0.012537716397148008,
+            "expert_grad_norm": 0.04084976501483983,
+            "routing": {
+              "assignments": [
+                64,
+                64,
+                64,
+                64,
+                64,
+                64,
+                64,
+                64
+              ],
+              "remote_assignments": 0,
+              "activation_forward_bytes": 0,
+              "activation_backward_bytes": 0,
+              "metadata_bytes": 0,
+              "send": [
+                512
+              ],
+              "receive": [
+                512
+              ]
+            },
+            "reference_error": {},
+            "warmup": true
+          },
+          {
+            "step": 3,
+            "global_loss": 0.0910675017562353,
+            "step_ms": 2.621166000608355,
+            "shared_grad_norm": 0.012509363190273275,
+            "expert_grad_norm": 0.04074518070946281,
+            "routing": {
+              "assignments": [
+                64,
+                64,
+                64,
+                64,
+                64,
+                64,
+                64,
+                64
+              ],
+              "remote_assignments": 0,
+              "activation_forward_bytes": 0,
+              "activation_backward_bytes": 0,
+              "metadata_bytes": 0,
+              "send": [
+                512
+              ],
+              "receive": [
+                512
+              ]
+            },
+            "reference_error": {},
+            "warmup": true
+          },
+          {
+            "step": 4,
+            "global_loss": 0.09079534832351066,
+            "step_ms": 2.7471669964143075,
+            "shared_grad_norm": 0.01248127484456707,
+            "expert_grad_norm": 0.04064108711834425,
+            "routing": {
+              "assignments": [
+                64,
+                64,
+                64,
+                64,
+                64,
+                64,
+                64,
+                64
+              ],
+              "remote_assignments": 0,
+              "activation_forward_bytes": 0,
+              "activation_backward_bytes": 0,
+              "metadata_bytes": 0,
+              "send": [
+                512
+              ],
+              "receive": [
+                512
+              ]
+            },
+            "reference_error": {},
+            "warmup": true
+          },
+          {
+            "step": 5,
+            "global_loss": 0.09052456835034789,
+            "step_ms": 2.6767919989652,
+            "shared_grad_norm": 0.012453447714671863,
+            "expert_grad_norm": 0.04053747953684881,
+            "routing": {
+              "assignments": [
+                64,
+                64,
+                64,
+                64,
+                64,
+                64,
+                64,
+                64
+              ],
+              "remote_assignments": 0,
+              "activation_forward_bytes": 0,
+              "activation_backward_bytes": 0,
+              "metadata_bytes": 0,
+              "send": [
+                512
+              ],
+              "receive": [
+                512
+              ]
+            },
+            "reference_error": {},
+            "warmup": false
+          },
+          {
+            "step": 6,
+            "global_loss": 0.09025515149357906,
+            "step_ms": 2.7127079956699163,
+            "shared_grad_norm": 0.012425878204214154,
+            "expert_grad_norm": 0.040434353321358564,
+            "routing": {
+              "assignments": [
+                64,
+                64,
+                64,
+                64,
+                64,
+                64,
+                64,
+                64
+              ],
+              "remote_assignments": 0,
+              "activation_forward_bytes": 0,
+              "activation_backward_bytes": 0,
+              "metadata_bytes": 0,
+              "send": [
+                512
+              ],
+              "receive": [
+                512
+              ]
+            },
+            "reference_error": {},
+            "warmup": false
+          },
+          {
+            "step": 7,
+            "global_loss": 0.08998708753116244,
+            "step_ms": 2.695333998417482,
+            "shared_grad_norm": 0.012398562765101113,
+            "expert_grad_norm": 0.040331703888325375,
+            "routing": {
+              "assignments": [
+                64,
+                64,
+                64,
+                64,
+                64,
+                64,
+                64,
+                64
+              ],
+              "remote_assignments": 0,
+              "activation_forward_bytes": 0,
+              "activation_backward_bytes": 0,
+              "metadata_bytes": 0,
+              "send": [
+                512
+              ],
+              "receive": [
+                512
+              ]
+            },
+            "reference_error": {},
+            "warmup": false
+          },
+          {
+            "step": 8,
+            "global_loss": 0.08972036636032094,
+            "step_ms": 2.7322919995640405,
+            "shared_grad_norm": 0.012371497896828992,
+            "expert_grad_norm": 0.04022952671334106,
+            "routing": {
+              "assignments": [
+                64,
+                64,
+                64,
+                64,
+                64,
+                64,
+                64,
+                64
+              ],
+              "remote_assignments": 0,
+              "activation_forward_bytes": 0,
+              "activation_backward_bytes": 0,
+              "metadata_bytes": 0,
+              "send": [
+                512
+              ],
+              "receive": [
+                512
+              ]
+            },
+            "reference_error": {},
+            "warmup": false
+          },
+          {
+            "step": 9,
+            "global_loss": 0.08945497799571475,
+            "step_ms": 2.6373750006314367,
+            "shared_grad_norm": 0.0123446801458031,
+            "expert_grad_norm": 0.04012781733022491,
+            "routing": {
+              "assignments": [
+                64,
+                64,
+                64,
+                64,
+                64,
+                64,
+                64,
+                64
+              ],
+              "remote_assignments": 0,
+              "activation_forward_bytes": 0,
+              "activation_backward_bytes": 0,
+              "metadata_bytes": 0,
+              "send": [
+                512
+              ],
+              "receive": [
+                512
+              ]
+            },
+            "reference_error": {},
+            "warmup": false
+          },
+          {
+            "step": 10,
+            "global_loss": 0.08919091256764754,
+            "step_ms": 2.6628340056049637,
+            "shared_grad_norm": 0.012318106104669109,
+            "expert_grad_norm": 0.04002657133012836,
+            "routing": {
+              "assignments": [
+                64,
+                64,
+                64,
+                64,
+                64,
+                64,
+                64,
+                64
+              ],
+              "remote_assignments": 0,
+              "activation_forward_bytes": 0,
+              "activation_backward_bytes": 0,
+              "metadata_bytes": 0,
+              "send": [
+                512
+              ],
+              "receive": [
+                512
+              ]
+            },
+            "reference_error": {},
+            "warmup": false
+          },
+          {
+            "step": 11,
+            "global_loss": 0.0889281603203051,
+            "step_ms": 2.5777089977054857,
+            "shared_grad_norm": 0.01229177241165543,
+            "expert_grad_norm": 0.03992578436065616,
+            "routing": {
+              "assignments": [
+                64,
+                64,
+                64,
+                64,
+                64,
+                64,
+                64,
+                64
+              ],
+              "remote_assignments": 0,
+              "activation_forward_bytes": 0,
+              "activation_backward_bytes": 0,
+              "metadata_bytes": 0,
+              "send": [
+                512
+              ],
+              "receive": [
+                512
+              ]
+            },
+            "reference_error": {},
+            "warmup": false
+          },
+          {
+            "step": 12,
+            "global_loss": 0.0886667116100264,
+            "step_ms": 2.6673750035115518,
+            "shared_grad_norm": 0.012265675749926463,
+            "expert_grad_norm": 0.03982545212500401,
+            "routing": {
+              "assignments": [
+                64,
+                64,
+                64,
+                64,
+                64,
+                64,
+                64,
+                64
+              ],
+              "remote_assignments": 0,
+              "activation_forward_bytes": 0,
+              "activation_backward_bytes": 0,
+              "metadata_bytes": 0,
+              "send": [
+                512
+              ],
+              "receive": [
+                512
+              ]
+            },
+            "reference_error": {},
+            "warmup": false
+          },
+          {
+            "step": 13,
+            "global_loss": 0.08840655690360585,
+            "step_ms": 2.637290999700781,
+            "shared_grad_norm": 0.012239812846946497,
+            "expert_grad_norm": 0.039725570381112046,
+            "routing": {
+              "assignments": [
+                64,
+                64,
+                64,
+                64,
+                64,
+                64,
+                64,
+                64
+              ],
+              "remote_assignments": 0,
+              "activation_forward_bytes": 0,
+              "activation_backward_bytes": 0,
+              "metadata_bytes": 0,
+              "send": [
+                512
+              ],
+              "receive": [
+                512
+              ]
+            },
+            "reference_error": {},
+            "warmup": false
+          },
+          {
+            "step": 14,
+            "global_loss": 0.08814768677662622,
+            "step_ms": 2.7610839970293455,
+            "shared_grad_norm": 0.012214180473854036,
+            "expert_grad_norm": 0.03962613494083397,
+            "routing": {
+              "assignments": [
+                64,
+                64,
+                64,
+                64,
+                64,
+                64,
+                64,
+                64
+              ],
+              "remote_assignments": 0,
+              "activation_forward_bytes": 0,
+              "activation_backward_bytes": 0,
+              "metadata_bytes": 0,
+              "send": [
+                512
+              ],
+              "receive": [
+                512
+              ]
+            },
+            "reference_error": {},
+            "warmup": false
+          },
+          {
+            "step": 15,
+            "global_loss": 0.0878900919118217,
+            "step_ms": 2.551416000642348,
+            "shared_grad_norm": 0.012188775444846364,
+            "expert_grad_norm": 0.039527141669121434,
+            "routing": {
+              "assignments": [
+                64,
+                64,
+                64,
+                64,
+                64,
+                64,
+                64,
+                64
+              ],
+              "remote_assignments": 0,
+              "activation_forward_bytes": 0,
+              "activation_backward_bytes": 0,
+              "metadata_bytes": 0,
+              "send": [
+                512
+              ],
+              "receive": [
+                512
+              ]
+            },
+            "reference_error": {},
+            "warmup": false
+          },
+          {
+            "step": 16,
+            "global_loss": 0.08763376309747038,
+            "step_ms": 2.7188749954802915,
+            "shared_grad_norm": 0.01216359461657412,
+            "expert_grad_norm": 0.03942858648322344,
+            "routing": {
+              "assignments": [
+                64,
+                64,
+                64,
+                64,
+                64,
+                64,
+                64,
+                64
+              ],
+              "remote_assignments": 0,
+              "activation_forward_bytes": 0,
+              "activation_backward_bytes": 0,
+              "metadata_bytes": 0,
+              "send": [
+                512
+              ],
+              "receive": [
+                512
+              ]
+            },
+            "reference_error": {},
+            "warmup": false
+          },
+          {
+            "step": 17,
+            "global_loss": 0.08737869122581536,
+            "step_ms": 2.676832998986356,
+            "shared_grad_norm": 0.01213863488754571,
+            "expert_grad_norm": 0.0393304653519003,
+            "routing": {
+              "assignments": [
+                64,
+                64,
+                64,
+                64,
+                64,
+                64,
+                64,
+                64
+              ],
+              "remote_assignments": 0,
+              "activation_forward_bytes": 0,
+              "activation_backward_bytes": 0,
+              "metadata_bytes": 0,
+              "send": [
+                512
+              ],
+              "receive": [
+                512
+              ]
+            },
+            "reference_error": {},
+            "warmup": false
+          },
+          {
+            "step": 18,
+            "global_loss": 0.08712486729151445,
+            "step_ms": 2.7583749979385175,
+            "shared_grad_norm": 0.012113893197541352,
+            "expert_grad_norm": 0.039232774294651974,
+            "routing": {
+              "assignments": [
+                64,
+                64,
+                64,
+                64,
+                64,
+                64,
+                64,
+                64
+              ],
+              "remote_assignments": 0,
+              "activation_forward_bytes": 0,
+              "activation_backward_bytes": 0,
+              "metadata_bytes": 0,
+              "send": [
+                512
+              ],
+              "receive": [
+                512
+              ]
+            },
+            "reference_error": {},
+            "warmup": false
+          },
+          {
+            "step": 19,
+            "global_loss": 0.08687228239011696,
+            "step_ms": 2.8377909984556027,
+            "shared_grad_norm": 0.012089366527036575,
+            "expert_grad_norm": 0.039135509380960366,
+            "routing": {
+              "assignments": [
+                64,
+                64,
+                64,
+                64,
+                64,
+                64,
+                64,
+                64
+              ],
+              "remote_assignments": 0,
+              "activation_forward_bytes": 0,
+              "activation_backward_bytes": 0,
+              "metadata_bytes": 0,
+              "send": [
+                512
+              ],
+              "receive": [
+                512
+              ]
+            },
+            "reference_error": {},
+            "warmup": false
+          },
+          {
+            "step": 20,
+            "global_loss": 0.08662092771656801,
+            "step_ms": 2.6805419984157197,
+            "shared_grad_norm": 0.012065051896634958,
+            "expert_grad_norm": 0.03903866672954543,
+            "routing": {
+              "assignments": [
+                64,
+                64,
+                64,
+                64,
+                64,
+                64,
+                64,
+                64
+              ],
+              "remote_assignments": 0,
+              "activation_forward_bytes": 0,
+              "activation_backward_bytes": 0,
+              "metadata_bytes": 0,
+              "send": [
+                512
+              ],
+              "receive": [
+                512
+              ]
+            },
+            "reference_error": {},
+            "warmup": false
+          },
+          {
+            "step": 21,
+            "global_loss": 0.08637079456373895,
+            "step_ms": 2.649708003445994,
+            "shared_grad_norm": 0.01204094636650998,
+            "expert_grad_norm": 0.03894224250763464,
+            "routing": {
+              "assignments": [
+                64,
+                64,
+                64,
+                64,
+                64,
+                64,
+                64,
+                64
+              ],
+              "remote_assignments": 0,
+              "activation_forward_bytes": 0,
+              "activation_backward_bytes": 0,
+              "metadata_bytes": 0,
+              "send": [
+                512
+              ],
+              "receive": [
+                512
+              ]
+            },
+            "reference_error": {},
+            "warmup": false
+          },
+          {
+            "step": 22,
+            "global_loss": 0.0861218743209839,
+            "step_ms": 2.6903750040219165,
+            "shared_grad_norm": 0.012017047035855771,
+            "expert_grad_norm": 0.03884623293024567,
+            "routing": {
+              "assignments": [
+                64,
+                64,
+                64,
+                64,
+                64,
+                64,
+                64,
+                64
+              ],
+              "remote_assignments": 0,
+              "activation_forward_bytes": 0,
+              "activation_backward_bytes": 0,
+              "metadata_bytes": 0,
+              "send": [
+                512
+              ],
+              "receive": [
+                512
+              ]
+            },
+            "reference_error": {},
+            "warmup": false
+          },
+          {
+            "step": 23,
+            "global_loss": 0.08587415847272163,
+            "step_ms": 6.718750002619345,
+            "shared_grad_norm": 0.011993351042346587,
+            "expert_grad_norm": 0.03875063425948187,
+            "routing": {
+              "assignments": [
+                64,
+                64,
+                64,
+                64,
+                64,
+                64,
+                64,
+                64
+              ],
+              "remote_assignments": 0,
+              "activation_forward_bytes": 0,
+              "activation_backward_bytes": 0,
+              "metadata_bytes": 0,
+              "send": [
+                512
+              ],
+              "receive": [
+                512
+              ]
+            },
+            "reference_error": {},
+            "warmup": false
+          },
+          {
+            "step": 24,
+            "global_loss": 0.0856276385970423,
+            "step_ms": 2.995750000991393,
+            "shared_grad_norm": 0.011969855561604898,
+            "expert_grad_norm": 0.0386554428038405,
+            "routing": {
+              "assignments": [
+                64,
+                64,
+                64,
+                64,
+                64,
+                64,
+                64,
+                64
+              ],
+              "remote_assignments": 0,
+              "activation_forward_bytes": 0,
+              "activation_backward_bytes": 0,
+              "metadata_bytes": 0,
+              "send": [
+                512
+              ],
+              "receive": [
+                512
+              ]
+            },
+            "reference_error": {},
+            "warmup": false
+          }
+        ],
         "remote_assignments": 0.0,
         "activation_forward_bytes": 0.0,
         "activation_backward_bytes": 0.0,
@@ -228,8 +5381,8 @@
         "routing": "skewed",
         "regime": "fixed_local",
         "global_tokens": 256,
-        "median_ms": 2.3421664991474245,
-        "p95_ms": 2.4599579992354847,
+        "median_ms": 2.5169584987452254,
+        "p95_ms": 2.6349579929956235,
         "parameter_bytes_per_rank": 278848,
         "shared_parameter_bytes": 10560,
         "expert_parameter_bytes_per_rank": 268288,
@@ -248,6 +5401,783 @@
         "max_to_mean_load": 4.0,
         "warmup": 5,
         "samples": 20,
+        "step_logs": [
+          {
+            "step": 0,
+            "global_loss": 0.08811141496458164,
+            "step_ms": 2.5510830018902197,
+            "shared_grad_norm": 0.022152301557320533,
+            "expert_grad_norm": 0.0795240608974491,
+            "routing": {
+              "assignments": [
+                256,
+                256,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0
+              ],
+              "remote_assignments": 0,
+              "activation_forward_bytes": 0,
+              "activation_backward_bytes": 0,
+              "metadata_bytes": 0,
+              "send": [
+                512
+              ],
+              "receive": [
+                512
+              ]
+            },
+            "reference_error": {},
+            "warmup": true
+          },
+          {
+            "step": 1,
+            "global_loss": 0.08709412156046768,
+            "step_ms": 2.7168750020791776,
+            "shared_grad_norm": 0.02201011285599777,
+            "expert_grad_norm": 0.07873883110726236,
+            "routing": {
+              "assignments": [
+                256,
+                256,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0
+              ],
+              "remote_assignments": 0,
+              "activation_forward_bytes": 0,
+              "activation_backward_bytes": 0,
+              "metadata_bytes": 0,
+              "send": [
+                512
+              ],
+              "receive": [
+                512
+              ]
+            },
+            "reference_error": {},
+            "warmup": true
+          },
+          {
+            "step": 2,
+            "global_loss": 0.08609628929590661,
+            "step_ms": 2.730374995735474,
+            "shared_grad_norm": 0.021871320320491345,
+            "expert_grad_norm": 0.07796510181307716,
+            "routing": {
+              "assignments": [
+                256,
+                256,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0
+              ],
+              "remote_assignments": 0,
+              "activation_forward_bytes": 0,
+              "activation_backward_bytes": 0,
+              "metadata_bytes": 0,
+              "send": [
+                512
+              ],
+              "receive": [
+                512
+              ]
+            },
+            "reference_error": {},
+            "warmup": true
+          },
+          {
+            "step": 3,
+            "global_loss": 0.08511744045037012,
+            "step_ms": 2.501666996977292,
+            "shared_grad_norm": 0.021735735990978534,
+            "expert_grad_norm": 0.07720250962946874,
+            "routing": {
+              "assignments": [
+                256,
+                256,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0
+              ],
+              "remote_assignments": 0,
+              "activation_forward_bytes": 0,
+              "activation_backward_bytes": 0,
+              "metadata_bytes": 0,
+              "send": [
+                512
+              ],
+              "receive": [
+                512
+              ]
+            },
+            "reference_error": {},
+            "warmup": true
+          },
+          {
+            "step": 4,
+            "global_loss": 0.08415711514484636,
+            "step_ms": 2.485874996636994,
+            "shared_grad_norm": 0.02160318165190492,
+            "expert_grad_norm": 0.07645070728297171,
+            "routing": {
+              "assignments": [
+                256,
+                256,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0
+              ],
+              "remote_assignments": 0,
+              "activation_forward_bytes": 0,
+              "activation_backward_bytes": 0,
+              "metadata_bytes": 0,
+              "send": [
+                512
+              ],
+              "receive": [
+                512
+              ]
+            },
+            "reference_error": {},
+            "warmup": true
+          },
+          {
+            "step": 5,
+            "global_loss": 0.0832148704359282,
+            "step_ms": 2.5053749996004626,
+            "shared_grad_norm": 0.021473488359215486,
+            "expert_grad_norm": 0.07570936285934676,
+            "routing": {
+              "assignments": [
+                256,
+                256,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0
+              ],
+              "remote_assignments": 0,
+              "activation_forward_bytes": 0,
+              "activation_backward_bytes": 0,
+              "metadata_bytes": 0,
+              "send": [
+                512
+              ],
+              "receive": [
+                512
+              ]
+            },
+            "reference_error": {},
+            "warmup": false
+          },
+          {
+            "step": 6,
+            "global_loss": 0.08229027946265446,
+            "step_ms": 2.486457997292746,
+            "shared_grad_norm": 0.021346495992232,
+            "expert_grad_norm": 0.07497815909240484,
+            "routing": {
+              "assignments": [
+                256,
+                256,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0
+              ],
+              "remote_assignments": 0,
+              "activation_forward_bytes": 0,
+              "activation_backward_bytes": 0,
+              "metadata_bytes": 0,
+              "send": [
+                512
+              ],
+              "receive": [
+                512
+              ]
+            },
+            "reference_error": {},
+            "warmup": false
+          },
+          {
+            "step": 7,
+            "global_loss": 0.08138293064263008,
+            "step_ms": 2.4447079995297827,
+            "shared_grad_norm": 0.021222052828747586,
+            "expert_grad_norm": 0.07425679269162151,
+            "routing": {
+              "assignments": [
+                256,
+                256,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0
+              ],
+              "remote_assignments": 0,
+              "activation_forward_bytes": 0,
+              "activation_backward_bytes": 0,
+              "metadata_bytes": 0,
+              "send": [
+                512
+              ],
+              "receive": [
+                512
+              ]
+            },
+            "reference_error": {},
+            "warmup": false
+          },
+          {
+            "step": 8,
+            "global_loss": 0.08049242691421243,
+            "step_ms": 2.664083003764972,
+            "shared_grad_norm": 0.02110001514200427,
+            "expert_grad_norm": 0.07354497370598116,
+            "routing": {
+              "assignments": [
+                256,
+                256,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0
+              ],
+              "remote_assignments": 0,
+              "activation_forward_bytes": 0,
+              "activation_backward_bytes": 0,
+              "metadata_bytes": 0,
+              "send": [
+                512
+              ],
+              "receive": [
+                512
+              ]
+            },
+            "reference_error": {},
+            "warmup": false
+          },
+          {
+            "step": 9,
+            "global_loss": 0.07961838502179108,
+            "step_ms": 2.58649999886984,
+            "shared_grad_norm": 0.02098024681830646,
+            "expert_grad_norm": 0.07284242492168051,
+            "routing": {
+              "assignments": [
+                256,
+                256,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0
+              ],
+              "remote_assignments": 0,
+              "activation_forward_bytes": 0,
+              "activation_backward_bytes": 0,
+              "metadata_bytes": 0,
+              "send": [
+                512
+              ],
+              "receive": [
+                512
+              ]
+            },
+            "reference_error": {},
+            "warmup": false
+          },
+          {
+            "step": 10,
+            "global_loss": 0.07876043484140804,
+            "step_ms": 2.496542001608759,
+            "shared_grad_norm": 0.020862618994102536,
+            "expert_grad_norm": 0.07214888129149573,
+            "routing": {
+              "assignments": [
+                256,
+                256,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0
+              ],
+              "remote_assignments": 0,
+              "activation_forward_bytes": 0,
+              "activation_backward_bytes": 0,
+              "metadata_bytes": 0,
+              "send": [
+                512
+              ],
+              "receive": [
+                512
+              ]
+            },
+            "reference_error": {},
+            "warmup": false
+          },
+          {
+            "step": 11,
+            "global_loss": 0.07791821874416724,
+            "step_ms": 2.4119590016198345,
+            "shared_grad_norm": 0.02074700971144037,
+            "expert_grad_norm": 0.07146408939377757,
+            "routing": {
+              "assignments": [
+                256,
+                256,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0
+              ],
+              "remote_assignments": 0,
+              "activation_forward_bytes": 0,
+              "activation_backward_bytes": 0,
+              "metadata_bytes": 0,
+              "send": [
+                512
+              ],
+              "receive": [
+                512
+              ]
+            },
+            "reference_error": {},
+            "warmup": false
+          },
+          {
+            "step": 12,
+            "global_loss": 0.07709139099506643,
+            "step_ms": 2.5308750045951456,
+            "shared_grad_norm": 0.02063330359076975,
+            "expert_grad_norm": 0.07078780691918658,
+            "routing": {
+              "assignments": [
+                256,
+                256,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0
+              ],
+              "remote_assignments": 0,
+              "activation_forward_bytes": 0,
+              "activation_backward_bytes": 0,
+              "metadata_bytes": 0,
+              "send": [
+                512
+              ],
+              "receive": [
+                512
+              ]
+            },
+            "reference_error": {},
+            "warmup": false
+          },
+          {
+            "step": 13,
+            "global_loss": 0.07627961718505567,
+            "step_ms": 2.502499999536667,
+            "shared_grad_norm": 0.02052139152012736,
+            "expert_grad_norm": 0.0701198021834164,
+            "routing": {
+              "assignments": [
+                256,
+                256,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0
+              ],
+              "remote_assignments": 0,
+              "activation_forward_bytes": 0,
+              "activation_backward_bytes": 0,
+              "metadata_bytes": 0,
+              "send": [
+                512
+              ],
+              "receive": [
+                512
+              ]
+            },
+            "reference_error": {},
+            "warmup": false
+          },
+          {
+            "step": 14,
+            "global_loss": 0.07548257369428141,
+            "step_ms": 2.4357920046895742,
+            "shared_grad_norm": 0.020411170359797327,
+            "expert_grad_norm": 0.06945985366427801,
+            "routing": {
+              "assignments": [
+                256,
+                256,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0
+              ],
+              "remote_assignments": 0,
+              "activation_forward_bytes": 0,
+              "activation_backward_bytes": 0,
+              "metadata_bytes": 0,
+              "send": [
+                512
+              ],
+              "receive": [
+                512
+              ]
+            },
+            "reference_error": {},
+            "warmup": false
+          },
+          {
+            "step": 15,
+            "global_loss": 0.07469994718462003,
+            "step_ms": 2.4255829994217493,
+            "shared_grad_norm": 0.02030254266159443,
+            "expert_grad_norm": 0.06880774956163346,
+            "routing": {
+              "assignments": [
+                256,
+                256,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0
+              ],
+              "remote_assignments": 0,
+              "activation_forward_bytes": 0,
+              "activation_backward_bytes": 0,
+              "metadata_bytes": 0,
+              "send": [
+                512
+              ],
+              "receive": [
+                512
+              ]
+            },
+            "reference_error": {},
+            "warmup": false
+          },
+          {
+            "step": 16,
+            "global_loss": 0.0739314341197365,
+            "step_ms": 2.6349579929956235,
+            "shared_grad_norm": 0.020195416401966447,
+            "expert_grad_norm": 0.06816328737877403,
+            "routing": {
+              "assignments": [
+                256,
+                256,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0
+              ],
+              "remote_assignments": 0,
+              "activation_forward_bytes": 0,
+              "activation_backward_bytes": 0,
+              "metadata_bytes": 0,
+              "send": [
+                512
+              ],
+              "receive": [
+                512
+              ]
+            },
+            "reference_error": {},
+            "warmup": false
+          },
+          {
+            "step": 17,
+            "global_loss": 0.07317674031102536,
+            "step_ms": 2.583292000053916,
+            "shared_grad_norm": 0.020089704728159026,
+            "expert_grad_norm": 0.06752627352393571,
+            "routing": {
+              "assignments": [
+                256,
+                256,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0
+              ],
+              "remote_assignments": 0,
+              "activation_forward_bytes": 0,
+              "activation_backward_bytes": 0,
+              "metadata_bytes": 0,
+              "send": [
+                512
+              ],
+              "receive": [
+                512
+              ]
+            },
+            "reference_error": {},
+            "warmup": false
+          },
+          {
+            "step": 18,
+            "global_loss": 0.07243558048790426,
+            "step_ms": 2.528541997889988,
+            "shared_grad_norm": 0.01998532571672952,
+            "expert_grad_norm": 0.06689652293073627,
+            "routing": {
+              "assignments": [
+                256,
+                256,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0
+              ],
+              "remote_assignments": 0,
+              "activation_forward_bytes": 0,
+              "activation_backward_bytes": 0,
+              "metadata_bytes": 0,
+              "send": [
+                512
+              ],
+              "receive": [
+                512
+              ]
+            },
+            "reference_error": {},
+            "warmup": false
+          },
+          {
+            "step": 19,
+            "global_loss": 0.07170767789103324,
+            "step_ms": 2.5650840034359135,
+            "shared_grad_norm": 0.01988220214373717,
+            "expert_grad_norm": 0.06627385869640187,
+            "routing": {
+              "assignments": [
+                256,
+                256,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0
+              ],
+              "remote_assignments": 0,
+              "activation_forward_bytes": 0,
+              "activation_backward_bytes": 0,
+              "metadata_bytes": 0,
+              "send": [
+                512
+              ],
+              "receive": [
+                512
+              ]
+            },
+            "reference_error": {},
+            "warmup": false
+          },
+          {
+            "step": 20,
+            "global_loss": 0.07099276388712916,
+            "step_ms": 2.5345000030938536,
+            "shared_grad_norm": 0.01978026126597483,
+            "expert_grad_norm": 0.06565811173672868,
+            "routing": {
+              "assignments": [
+                256,
+                256,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0
+              ],
+              "remote_assignments": 0,
+              "activation_forward_bytes": 0,
+              "activation_backward_bytes": 0,
+              "metadata_bytes": 0,
+              "send": [
+                512
+              ],
+              "receive": [
+                512
+              ]
+            },
+            "reference_error": {},
+            "warmup": false
+          },
+          {
+            "step": 21,
+            "global_loss": 0.07029057760413228,
+            "step_ms": 2.488666999852285,
+            "shared_grad_norm": 0.019679434612643387,
+            "expert_grad_norm": 0.06504912045679732,
+            "routing": {
+              "assignments": [
+                256,
+                256,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0
+              ],
+              "remote_assignments": 0,
+              "activation_forward_bytes": 0,
+              "activation_backward_bytes": 0,
+              "metadata_bytes": 0,
+              "send": [
+                512
+              ],
+              "receive": [
+                512
+              ]
+            },
+            "reference_error": {},
+            "warmup": false
+          },
+          {
+            "step": 22,
+            "global_loss": 0.06960086558556453,
+            "step_ms": 2.5742079960764386,
+            "shared_grad_norm": 0.019579657786903414,
+            "expert_grad_norm": 0.06444673043652428,
+            "routing": {
+              "assignments": [
+                256,
+                256,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0
+              ],
+              "remote_assignments": 0,
+              "activation_forward_bytes": 0,
+              "activation_backward_bytes": 0,
+              "metadata_bytes": 0,
+              "send": [
+                512
+              ],
+              "receive": [
+                512
+              ]
+            },
+            "reference_error": {},
+            "warmup": false
+          },
+          {
+            "step": 23,
+            "global_loss": 0.06892338146299393,
+            "step_ms": 2.5363750028191134,
+            "shared_grad_norm": 0.019480870276770437,
+            "expert_grad_norm": 0.06385079413019643,
+            "routing": {
+              "assignments": [
+                256,
+                256,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0
+              ],
+              "remote_assignments": 0,
+              "activation_forward_bytes": 0,
+              "activation_backward_bytes": 0,
+              "metadata_bytes": 0,
+              "send": [
+                512
+              ],
+              "receive": [
+                512
+              ]
+            },
+            "reference_error": {},
+            "warmup": false
+          },
+          {
+            "step": 24,
+            "global_loss": 0.06825788564558952,
+            "step_ms": 2.4802499974612147,
+            "shared_grad_norm": 0.01938301527484974,
+            "expert_grad_norm": 0.06326117057919181,
+            "routing": {
+              "assignments": [
+                256,
+                256,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0
+              ],
+              "remote_assignments": 0,
+              "activation_forward_bytes": 0,
+              "activation_backward_bytes": 0,
+              "metadata_bytes": 0,
+              "send": [
+                512
+              ],
+              "receive": [
+                512
+              ]
+            },
+            "reference_error": {},
+            "warmup": false
+          }
+        ],
         "remote_assignments": 0.0,
         "activation_forward_bytes": 0.0,
         "activation_backward_bytes": 0.0,

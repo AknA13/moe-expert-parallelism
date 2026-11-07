@@ -20,13 +20,13 @@ python run.py --ranks 2 --output fresh-results  # reproduce a two-rank run
 python show_results.py                         # view saved tables and trace
 ```
 
-`run.py` runs one complete demo per requested rank count: communication checks, reference comparisons, 30 training steps, scaling measurements, and a token trace. `moe/experiments.py` contains the rank setup and experiment code; `worker()` only manages the process group and collects results. The default command runs 1, 2, and 4 ranks and writes `results/demo-*.json`. Seeds, dimensions, dtype, optimizer settings, platform, versions, and measurement settings are recorded in the source and JSON. The actual task is deterministic regression to `0.3*tanh(x)+0.2`, not language modeling.
+`run.py` runs one complete demo per requested rank count: a communication preflight, reference-checked training, scaling runs, and a token trace from a training step. `moe/experiments.py` contains the rank setup and experiment code; `worker()` only manages the process group and collects results. The default command runs 1, 2, and 4 ranks and writes `results/demo-*.json`. Seeds, dimensions, dtype, optimizer settings, platform, versions, and measurement settings are recorded in the source and JSON. The actual task is deterministic regression to `0.3*tanh(x)+0.2`, not language modeling.
 
 ## Read the code in this order
 
 1. `moe/model.py`: the model, top-2 gating, and local reference forward pass.
 2. `moe/parallel.py`: packing, token exchange, expert execution, inverse exchange, and shared-gradient synchronization.
-3. `moe/experiments.py`: rank setup, correctness checks, training, scaling, and `run_demo()`. `run.py` starts each process, calls `run_demo()`, and writes the gathered results.
+3. `moe/experiments.py`: rank setup, the shared `train_loop()`, correctness checks, scaling summaries, and `run_demo()`. `run.py` starts each process, calls `run_demo()`, and writes the gathered results.
 
 ## The forward journey
 
@@ -46,7 +46,7 @@ rank 1 simultaneously sends its own token assignments to rank 0.
 
 Tokens remain logically owned by their source rank. Experts temporarily receive activations, not the source rank's loss or targets. We exchange assignment counts, expert IDs, and then activation rows. The return exchange reverses the split sizes. Restoring the sorting permutation reconnects each returned row to its token and routing weight.
 
-The trace uses deliberately balanced expert IDs so the journey is easy to inspect. It records both returned expert values and the combined value. Training uses learned top-2 selection. Balanced, skewed, and local routes are explicit diagnostic fixtures: their selected experts are prescribed, but their gate weights still come from the learned router.
+The first step of a short traced training run uses deliberately balanced expert IDs so the journey is easy to inspect. It records both returned expert values and the combined value. Training uses learned top-2 selection. Balanced, skewed, and local routes are explicit diagnostic fixtures: their selected experts are prescribed, but their gate weights still come from the learned router.
 
 ## Backward and the normalization contract
 
@@ -75,13 +75,13 @@ The router receives gradients from weighted combination on the source. The token
 
 The verification stage compares full outputs, global loss, input gradients, all owned/shared parameter gradients, and updated parameters to an independently executed full-model reference. Tolerances are `atol=1e-8`, `rtol=1e-6`, using float64. Every replica is explicitly compared with rank 0. The balanced fixture requires every parameter tensor to change.
 
-Cases cover learned routing, balanced expert coverage, skew to experts 0 and 1 (unused experts and zero-receive ranks), entirely local routes, and unequal input shards (65 tokens). The communication check uses asymmetric split sizes and checks both the inverse mapping and finite differences of a global objective. The training stage checks equivalence on every step and requires final loss below initial loss. Recorded maximum error covers outputs, parameter gradients, and updated parameters; other assertions are pass/fail.
+Cases cover learned routing, balanced expert coverage, skew to experts 0 and 1 (unused experts and zero-receive ranks), entirely local routes, and unequal input shards (65 tokens). The communication check uses asymmetric split sizes and checks both the inverse mapping and finite differences of a global objective. The training stage checks equivalence on every step and requires final loss below initial loss. Each JSON step log records global loss, routing counts, communication estimates, shared/expert gradient norms, step time, and reference errors when checked. Recorded maximum error covers all numerical reference comparisons on that rank; per-step errors are logged by category.
 
 See [RESULTS.md](RESULTS.md) for recorded tables, [results/summary.txt](results/summary.txt) for all timing rows, and [ONSITE.md](ONSITE.md) for rehearsal questions.
 
 ## Scaling: what is measured and what is modeled
 
-The model stays fixed at eight experts. Strong-scaling experiments use 256 global tokens; weak-scaling experiments use 256 tokens per rank. Each runs learned, balanced, and skewed routing. Each worker uses one CPU thread. Five warmup steps precede 20 measured steps. A barrier precedes timing; the slowest worker's duration defines the step. Startup, validation, and result aggregation are excluded. Forward metadata handling and optimizer work are included. p95 is the nearest lower order statistic at index `floor(.95*(samples-1))`.
+The model stays fixed at eight experts. Strong-scaling experiments use 256 global tokens; weak-scaling experiments use 256 tokens per rank. Each runs learned, balanced, and skewed routing. Each worker uses one CPU thread. The same `train_loop()` handles correctness and timing. Five warmup steps precede 20 measured steps. A barrier precedes timing; the slowest worker's duration defines the step. Startup, validation, and result aggregation are excluded. Forward metadata handling, gradient-norm logging, and optimizer work are included. p95 is the nearest lower order statistic at index `floor(.95*(samples-1))`.
 
 Per-rank parameter storage is `shared_bytes + total_expert_bytes/world_size`. This is tensor storage, not RSS or peak memory: gradients, activations, communication buffers, interpreter overhead, and the reference are separate. The benchmark does not construct a reference. Verification does construct one on every worker for simplicity and is unsuitable for memory measurements.
 

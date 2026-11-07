@@ -101,88 +101,143 @@ def communication_check():
             if rank == source: close((values[1]-values[0])/2e-5, x.grad[i])
     return 'inverse exchange and global finite differences passed'
 
-def verify_case(kind, steps=1, n=65):
+def train_loop(prepared, steps, *, reference=None, full_expert_ids=None,
+               warmup=0, capture_trace=False):
+    """Train a prepared rank and record what happened on every step.
+
+    An optional full-model reference checks the same step outside the timed
+    distributed section. All ranks run this loop in the same order.
+    """
+    rank, world = dist.get_rank(), dist.get_world_size()
+    model = prepared.model
+    x = prepared.x.requires_grad_(reference is not None)
+    full_x = prepared.full_x.requires_grad_(reference is not None)
+    optimizer = torch.optim.SGD(model.parameters(), lr=.15)
+    ref_optimizer = (torch.optim.SGD(reference.parameters(), lr=.15)
+                     if reference is not None else None)
+    logs, token_trace = [], None
+
+    for step in range(steps):
+        dist.barrier()
+        start = time.perf_counter()
+        optimizer.zero_grad(set_to_none=True)
+        x.grad = None
+        prediction, stats, ids, returned = forward(model, x, prepared.expert_ids)
+        local_loss = loss(prediction, prepared.target, len(full_x))
+        local_loss.backward()
+        sync_shared(model)
+        shared_grad_norm = sum(float(p.grad.square().sum()) for p in model.shared()) ** .5
+        expert_grad_norm = sum(float(p.grad.square().sum())
+                               for expert in model.experts.values()
+                               for p in expert.parameters()) ** .5
+        optimizer.step()
+        elapsed = torch.tensor(time.perf_counter() - start, dtype=torch.float64)
+        dist.all_reduce(elapsed, op=dist.ReduceOp.MAX)
+
+        global_loss = local_loss.detach().clone()
+        dist.all_reduce(global_loss)
+        errors = {}
+        if reference is not None:
+            ref_optimizer.zero_grad(set_to_none=True)
+            full_x.grad = None
+            expected = reference(full_x, full_expert_ids)
+            errors['output'] = close(prediction, expected[prepared.indices])
+            ref_loss = loss(expected, prepared.full_target, len(full_x))
+            errors['loss'] = close(global_loss, ref_loss)
+            ref_loss.backward()
+            errors['input_gradient'] = close(x.grad, full_x.grad[prepared.indices])
+            ref_params = dict(reference.named_parameters())
+            errors['parameter_gradient'] = 0.
+            for name, parameter in model.named_parameters():
+                expected_grad = ref_params[name].grad
+                if expected_grad is None:
+                    expected_grad = torch.zeros_like(ref_params[name])
+                errors['parameter_gradient'] = max(
+                    errors['parameter_gradient'], close(parameter.grad, expected_grad))
+            ref_optimizer.step()
+            errors['parameter_update'] = max(
+                close(parameter, ref_params[name])
+                for name, parameter in model.named_parameters())
+            for parameter in model.shared():
+                root = parameter.detach().clone()
+                dist.broadcast(root, 0)
+                close(parameter, root)
+
+        if capture_trace and step == 0:
+            token_trace = [
+                {'token': int(token), 'source': rank,
+                 'experts': ids[i].tolist(),
+                 'owners': (ids[i] // (E // world)).tolist(),
+                 'returned_first_coordinate': returned[i, :, 0].detach().tolist(),
+                 'combined_first_coordinate': float(prediction[i, 0].detach())}
+                for i, token in enumerate(prepared.indices)
+            ]
+
+        logs.append({'step': step, 'global_loss': float(global_loss),
+                     'step_ms': 1000 * float(elapsed),
+                     'shared_grad_norm': shared_grad_norm,
+                     'expert_grad_norm': expert_grad_norm,
+                     'routing': stats, 'reference_error': errors,
+                     'warmup': step < warmup})
+    return logs, token_trace
+
+
+def verify_case(kind, steps=1, n=65, capture_trace=False):
     rank, world = dist.get_rank(), dist.get_world_size()
     prepared = prepare_rank(rank, world, n, kind)
-    model, reference = prepared.model, make_model()
-    full_x, target = prepared.full_x.requires_grad_(), prepared.full_target
-    indices, local_expert_ids = prepared.indices, prepared.expert_ids
-    x = prepared.x.requires_grad_()
-    expert_ids = routing(kind, n, world)
-    opt = torch.optim.SGD(model.parameters(), lr=.15)
-    ref_opt = torch.optim.SGD(reference.parameters(), lr=.15)
-    history, maximum = [], 0.
-    initial = {name: p.detach().clone() for name,p in model.named_parameters()}
-    for _ in range(steps):
-        opt.zero_grad(set_to_none=True); ref_opt.zero_grad(set_to_none=True)
-        x.grad = None; full_x.grad = None
-        pred, _, _, _ = forward(model, x, local_expert_ids)
-        expected = reference(full_x, expert_ids)
-        maximum = max(maximum, close(pred, expected[indices]))
-        local_loss = loss(pred, target[indices], n)
-        ref_loss = loss(expected, target, n)
-        total = local_loss.detach().clone(); dist.all_reduce(total)
-        close(total, ref_loss)
-        local_loss.backward(); ref_loss.backward(); sync_shared(model)
-        close(x.grad, full_x.grad[indices])
-        ref_params = dict(reference.named_parameters())
-        for name, p in model.named_parameters():
-            q = ref_params[name]
-            maximum = max(maximum, close(p.grad, q.grad if q.grad is not None else torch.zeros_like(q)))
-        opt.step(); ref_opt.step()
-        for name, p in model.named_parameters(): maximum = max(maximum, close(p, ref_params[name]))
-        for p in model.shared():
-            root = p.detach().clone(); dist.broadcast(root, 0); close(p, root)
-        history.append(float(total))
+    initial = {name: parameter.detach().clone()
+               for name, parameter in prepared.model.named_parameters()}
+    logs, token_trace = train_loop(
+        prepared, steps, reference=make_model(),
+        full_expert_ids=routing(kind, n, world), capture_trace=capture_trace)
     if kind == 'balanced':
-        assert all(not torch.equal(initial[name], p) for name,p in model.named_parameters())
-    if steps > 1: assert history[-1] < history[0]
-    return {'routing': kind, 'tokens': n, 'steps': steps, 'max_abs_error': maximum, 'loss': history}
+        assert all(not torch.equal(initial[name], parameter)
+                   for name, parameter in prepared.model.named_parameters())
+    losses = [entry['global_loss'] for entry in logs]
+    if steps > 1:
+        assert losses[-1] < losses[0]
+    maximum = max((value for entry in logs
+                   for value in entry['reference_error'].values()), default=0.)
+    result = {'routing': kind, 'tokens': n, 'steps': steps,
+              'max_abs_error': maximum, 'loss': losses, 'step_logs': logs}
+    if capture_trace:
+        result['token_trace'] = token_trace
+    return result
+
 
 def benchmark(kind, regime, warmup=5, samples=20):
     rank, world = dist.get_rank(), dist.get_world_size()
-    n = 256 if regime == 'fixed_global' else 256*world
+    n = 256 if regime == 'fixed_global' else 256 * world
     prepared = prepare_rank(rank, world, n, kind)
-    model, x, target, expert_ids = (prepared.model, prepared.x,
-                                    prepared.target, prepared.expert_ids)
-    opt = torch.optim.SGD(model.parameters(), lr=.15)
-    durations, records = [], []
-    for step in range(warmup+samples):
-        dist.barrier(); start = time.perf_counter()
-        opt.zero_grad(set_to_none=True)
-        pred, stats, _, _ = forward(model, x, expert_ids)
-        loss(pred, target, n).backward(); sync_shared(model); opt.step()
-        elapsed = torch.tensor(time.perf_counter()-start, dtype=torch.float64)
-        dist.all_reduce(elapsed, op=dist.ReduceOp.MAX)
-        if step >= warmup: durations.append(float(elapsed)); records.append(stats)
-    all_records = [None]*world
-    dist.all_gather_object(all_records, records)
-    expert_load = [sum(records[s]['assignments'][e] for records in all_records for s in range(samples))/samples for e in range(8)]
-    shared = sum(p.numel()*p.element_size() for p in model.shared())
-    total = sum(p.numel()*p.element_size() for p in model.parameters())
-    metrics = {key: sum(r[key] for records in all_records for r in records)/samples
-               for key in ('remote_assignments','activation_forward_bytes','activation_backward_bytes','metadata_bytes')}
-    return {'routing':kind, 'regime':regime, 'global_tokens':n,
-            'median_ms':1000*statistics.median(durations),
-            'p95_ms':1000*sorted(durations)[int(.95*(samples-1))],
-            'parameter_bytes_per_rank':total, 'shared_parameter_bytes':shared,
-            'expert_parameter_bytes_per_rank':total-shared,
-            'shared_gradient_logical_input_bytes_per_rank':shared,
-            'ring_allreduce_modeled_cluster_bytes':2*(world-1)*shared,
-            'expert_assignments_mean':expert_load, 'max_to_mean_load':max(expert_load)/(sum(expert_load)/8),
-            'warmup':warmup,'samples':samples, **metrics}
-
-def trace():
-    rank, world = dist.get_rank(), dist.get_world_size()
-    prepared = prepare_rank(rank, world, 8, 'balanced')
-    pred, _, ids, returned = forward(prepared.model, prepared.x,
-                                    prepared.expert_ids)
-    return [{'token':int(token),'source':rank,'experts':ids[i].tolist(),
-             'owners':(ids[i]//(E//world)).tolist(),
-             'returned_first_coordinate':returned[i,:,0].detach().tolist(),
-             'combined_first_coordinate':float(pred[i,0].detach())}
-            for i, token in enumerate(prepared.indices)]
-
+    logs, _ = train_loop(prepared, warmup + samples, warmup=warmup)
+    measured = logs[warmup:]
+    all_records = [None] * world
+    dist.all_gather_object(all_records, measured)
+    durations = [entry['step_ms'] for entry in measured]
+    expert_load = [
+        sum(entry['routing']['assignments'][expert]
+            for records in all_records for entry in records) / samples
+        for expert in range(E)
+    ]
+    shared = sum(p.numel() * p.element_size() for p in prepared.model.shared())
+    total = sum(p.numel() * p.element_size()
+                for p in prepared.model.parameters())
+    metrics = {
+        key: sum(entry['routing'][key]
+                 for records in all_records for entry in records) / samples
+        for key in ('remote_assignments', 'activation_forward_bytes',
+                    'activation_backward_bytes', 'metadata_bytes')
+    }
+    return {'routing': kind, 'regime': regime, 'global_tokens': n,
+            'median_ms': statistics.median(durations),
+            'p95_ms': sorted(durations)[int(.95 * (samples - 1))],
+            'parameter_bytes_per_rank': total, 'shared_parameter_bytes': shared,
+            'expert_parameter_bytes_per_rank': total - shared,
+            'shared_gradient_logical_input_bytes_per_rank': shared,
+            'ring_allreduce_modeled_cluster_bytes': 2 * (world - 1) * shared,
+            'expert_assignments_mean': expert_load,
+            'max_to_mean_load': max(expert_load) / (sum(expert_load) / E),
+            'warmup': warmup, 'samples': samples, 'step_logs': logs, **metrics}
 
 def run_demo(rank, world):
     """Run the complete teaching demo once on this rank."""
@@ -203,7 +258,8 @@ def run_demo(rank, world):
                   for kind in ('learned', 'balanced', 'skewed')]
     report('scaling measured')
 
-    tokens = trace()
+    trace_case = verify_case('balanced', n=8, capture_trace=True)
+    tokens = trace_case.pop('token_trace')
     report('token trace recorded')
     return {'communication': communication,
             'cases': cases,

@@ -12,10 +12,10 @@ The complete demo passed at 1, 2, and 4 ranks from a Python 3.13 virtual environ
 
 | Ranks | Parameter bytes/rank | Median ms | p95 ms | Forward / backward activation bytes (cluster) |
 |---:|---:|---:|---:|---:|
-| 1 | 278,848 | 2.556 | 2.669 | 0 / 0 |
-| 2 | 144,704 | 3.337 | 3.431 | 133,018 / 133,018 |
-| 4 | 77,632 | 6.650 | 7.125 | 193,894 / 193,894 |
+| 1 | 278,848 | 2.726 | 2.815 | 0 / 0 |
+| 2 | 144,704 | 3.543 | 3.638 | 133,018 / 133,018 |
+| 4 | 77,632 | 6.953 | 7.409 | 193,894 / 193,894 |
 
 Expert storage scales from 268,288 to 67,072 bytes/rank; shared storage stays 10,560 bytes/rank. Total parameter storage is therefore not exactly divided by four. CPU latency increases with rank count for this small model. This experiment demonstrates sharding and correctness, not a speedup.
 
-Balanced fixture load imbalance is 1.0; the two-expert skew fixture is 4.0. See `results/summary.txt` for both scaling regimes and `results/demo-*.json` for full payload accounting. Run-to-run timing variation is expected. No physical network traffic or GPU measurements are claimed.
+Balanced fixture load imbalance is 1.0; the two-expert skew fixture is 4.0. Per-step routing, loss, gradient norm, timing, and reference-error logs are in `results/demo-*.json`. See `results/summary.txt` for both scaling regimes. Run-to-run timing variation is expected. No physical network traffic or GPU measurements are claimed.
