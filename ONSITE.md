@@ -1,42 +1,41 @@
 # Walkthrough and questions to rehearse
 
-The README is the presentation. Open `moe/parallel.py` beside it. Run `python show_results.py` before starting; this displays saved evidence without depending on a live distributed run.
+The README is the presentation. Open `moe/model.py` beside it and run `python show_results.py` before starting; that displays saved evidence without a live distributed run.
 
 ## Demonstration sequence
 
-1. Sketch two ranks, their token shards, and their distinct expert sets. Shared token encoder/router parameters are replicas, not shards.
-2. Find token 3 in the two-rank trace: expert 3 is local, expert 4 is remote. Follow its two assignment rows and returned values. Contrast with token 7, which crosses in the other direction.
-3. Explain why counts and expert IDs travel separately from differentiable activations. Count exchange determines buffer sizes; expert IDs select local computation.
-4. Open `Exchange`: forward communicates values, backward communicates their adjoints using reversed split sizes. Autograd does not infer this from raw distributed calls.
-5. Derive loss normalization before discussing gradient synchronization. One expert owner already accumulates all sources; shared replicas accumulate only their source contribution until the SUM.
-6. Run `python run.py --ranks 2 --validate --output fresh-results.json`. Show saved `results/verify/2-training.json` and the scaling table. Explain what an assertion failure would invalidate.
-7. End with memory savings, hot experts, and the limits of this CPU experiment. Reserve remaining time for discussion.
+1. Show that `StandardMoEModel` owns all eight experts and `ParallelMoEModel` owns a rank-specific subset **in every block**. Both use the same router and expert definitions.
+2. Find token 2 in the two-rank learned-routing trace: expert 7 is remote, expert 0 is local. Follow both assignment rows through packing, expert work, return, and weighted combination.
+3. Open `Exchange`: forward communicates activation rows; backward communicates their adjoints with reversed split sizes. Each parallel block owns that sequence.
+4. Derive the global loss denominator before explaining why replicated routers and encoder need a SUM, while owned experts do not.
+5. Show `results/verify/comparison-summary.json`. Explain the first-step output/gradient comparison, the 30-epoch loss trajectory, final parameter comparison, and the two-block check.
+6. Compare saved 256-token runs at 1, 2, and 4 ranks. Then show the 512- and 1,024-token jobs. Interpret storage and payload alongside latency.
 
 ## Questions with concrete answers
 
-**Why does the router learn with discrete top-k?**
-Selected indices are piecewise constant. The selected logits still determine differentiable softmax weights. Routing boundaries are nondifferentiable; this is ordinary sparse gating, not a straight-through estimator. Top-1 with a renormalized single gate would have weight one and no gate gradient; top-2 avoids that issue.
+**Is the one-rank job a real reference?**
+Yes. It calls `StandardMoEModel.forward`, which executes all experts locally and contains no token exchange. The 2- and 4-rank jobs call `ParallelMoEModel.forward`. They share initialization, data, gate semantics, loss, and optimizer, but use distinct expert execution paths.
 
-**Why not wrap the entire module in DDP?**
-Workers hold different experts. Averaging those unrelated parameter gradients is wrong. Shared parameters need replica synchronization; expert parameters need it only if additional replicas of the same expert exist. Even for shared parameters, DDP averaging must be reconciled with the loss denominator.
+**How do multiple MoE blocks work?**
+The model holds a `ModuleList` of blocks. Each block routes its own input and, in the parallel model, dispatches to its own sharded experts. Shared-gradient synchronization includes the token encoder and every block router. The short two-block run compares both model types.
+
+**Why does the router learn with discrete top-k?**
+Selected indices are piecewise constant. The selected logits still determine differentiable softmax weights. Routing boundaries are nondifferentiable; this is ordinary sparse gating, not a straight-through estimator.
+
+**Why not wrap the entire model in DDP?**
+Different ranks hold different experts. Averaging unrelated expert gradients would be wrong. Only replicated parameters need a SUM within this expert-parallel group, and DDP's averaging would need a matching loss normalization.
 
 **What if an owner receives nothing?**
-It still participates in all exchanges and backward. An empty differentiable path preserves collective order. Skipping work locally must not skip a collective globally.
+It still enters every exchange and backward call. The zero-valued graph path and empty expert calls preserve the schedule. Learned routing does not force this case in the submitted checks, so describe it as an implementation property rather than a verified fixture.
 
-**Does expert parallelism reduce total parameter count?**
-No. It distributes expert storage; each worker still holds the shared parameters. Total cluster shared storage grows with rank count. Activations, gradients, and optimizer state are additional costs.
-
-**Why no load-balancing loss?**
-The demo isolates communication and gradient correctness. The skewed fixture makes imbalance visible. A balancing objective is a meaningful extension but changes the objective and must be implemented in both reference and distributed versions with consistent global statistics.
+**Does expert parallelism reduce total model parameters?**
+No. It distributes expert storage. Shared parameters remain replicated; activations, gradients, optimizer state, and process overhead are additional costs.
 
 **Why can four ranks be slower?**
-Tiny experts, process scheduling, metadata exchange, four activation exchanges across forward/backward, and four shared-parameter all-reduces impose overhead. CPU workers share a host. The model does not claim end-to-end speedup merely because expert memory is sharded.
+The model is small and CPU workers share a host. Metadata exchange, activation communication, small expert operations, and shared-gradient synchronization can exceed compute savings. The results make no GPU speedup claim.
 
-**What would you optimize first on GPUs?**
-Profile dispatch, expert execution, return, and shared synchronization separately. Then consider larger workloads, grouped GEMMs, tensor packing, bucketed shared gradients, and overlap. Avoid treating modeled payload bytes as measured link utilization.
+**What would change on GPUs?**
+Profile dispatch, expert compute, return, and shared synchronization separately. Validate NCCL behavior, synchronized device timing, grouped GEMMs, and communication overlap with representative workloads.
 
-**Can the reference conceal a shared routing bug?**
-It shares initialization and gate semantics but executes experts without communication. It strongly tests dispatch, return, distributed gradients, and optimizer equivalence. It does not establish model quality or validate every conceivable routing implementation.
-
-**How would you change the number of ranks at restart?**
-Checkpoint by global expert ID rather than local module order. Redistribute experts and optimizer states to their new owners; restore shared state and the logical data/RNG position. This demo does not implement checkpointing.
+**What does the reference fail to prove?**
+The two execution paths share router and expert definitions, so a bug in those shared definitions might affect both. The suite checks observed learned routes, but does not guarantee an empty owner or update to every expert.

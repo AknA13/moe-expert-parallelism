@@ -1,32 +1,11 @@
-world regime       routing   params/rank median_ms  p95_ms imbalance
-    1 fixed-global balanced       278848     2.746   2.969      1.00
-    1 fixed-global learned        278848     2.713   3.280      1.52
-    1 fixed-global skewed         278848     2.490   2.656      4.00
-    1 fixed-local  balanced       278848     2.662   2.891      1.00
-    1 fixed-local  learned        278848     2.729   2.875      1.52
-    1 fixed-local  skewed         278848     2.505   2.639      4.00
-    2 fixed-global balanced       144704     3.437   3.571      1.00
-    2 fixed-global learned        144704     3.551   3.760      1.52
-    2 fixed-global skewed         144704     3.634   3.852      4.00
-    2 fixed-local  balanced       144704     4.167   5.439      1.00
-    2 fixed-local  learned        144704     4.148   4.819      1.60
-    2 fixed-local  skewed         144704     4.578   4.868      4.00
-    4 fixed-global balanced        77632     7.448   8.528      1.00
-    4 fixed-global learned         77632     6.880   7.414      1.52
-    4 fixed-global skewed          77632     6.871   7.474      4.00
-    4 fixed-local  balanced        77632     7.968   8.769      1.00
-    4 fixed-local  learned         77632     8.074   8.584      1.63
-    4 fixed-local  skewed          77632     9.592   9.976      4.00
-Training ranks=1: 0.095015 -> 0.080596
-Training ranks=2: 0.095015 -> 0.080596
-Training ranks=4: 0.095015 -> 0.080596
+ranks total_tokens params/rank median_ms p95_ms imbalance forward_B backward_B
+    1          256      278848     1.250   1.536      1.52         0          0
+    2          256      144704     2.203   2.305      1.52    133018     133018
+    4          256       77632     3.324   3.809      1.52    193894     193894
+    2          512      144704     2.521   2.616      1.60    250829     250829
+    4         1024       77632     4.477   4.726      1.63    789478     789478
+Training loss: 0.095015 -> 0.080596
 
-Two-rank token trace:
-{'token': 0, 'source': 0, 'experts': [0, 1], 'owners': [0, 0], 'returned_first_coordinate': [0.1151999475490107, 0.17792945393211024], 'combined_first_coordinate': 0.1538992756660531}
-{'token': 1, 'source': 0, 'experts': [1, 2], 'owners': [0, 0], 'returned_first_coordinate': [0.22813841029597354, -0.3909419669512754], 'combined_first_coordinate': -0.10928237479927974}
-{'token': 2, 'source': 0, 'experts': [2, 3], 'owners': [0, 0], 'returned_first_coordinate': [-0.14327623842336587, 0.22239578649192007], 'combined_first_coordinate': 0.05858494584786732}
-{'token': 3, 'source': 0, 'experts': [3, 4], 'owners': [0, 1], 'returned_first_coordinate': [-0.05139320246942627, 0.1297758562708354], 'combined_first_coordinate': 0.034248637236526366}
-{'token': 33, 'source': 1, 'experts': [1, 2], 'owners': [0, 0], 'returned_first_coordinate': [0.22065459353412584, -0.14100109645334838], 'combined_first_coordinate': 0.02420156278754103}
-{'token': 34, 'source': 1, 'experts': [2, 3], 'owners': [0, 0], 'returned_first_coordinate': [-0.1741750411273389, 0.16147756384748047], 'combined_first_coordinate': -0.06569697210433335}
-{'token': 35, 'source': 1, 'experts': [3, 4], 'owners': [0, 1], 'returned_first_coordinate': [-0.1862465141652908, -0.13752154618441442], 'combined_first_coordinate': -0.1656720595843893}
-{'token': 36, 'source': 1, 'experts': [4, 5], 'owners': [1, 1], 'returned_first_coordinate': [-0.16177255160675122, 0.20132161288213574], 'combined_first_coordinate': 0.03224222382081521}
+Two-rank mixed-owner token trace:
+{'token': 2, 'source': 0, 'experts': [7, 0], 'owners': [1, 0], 'returned_first_coordinate': [-0.0936530678795777, 0.19851894806000575], 'combined_first_coordinate': 0.021465470726578423}
+{'token': 34, 'source': 1, 'experts': [5, 2], 'owners': [1, 0], 'returned_first_coordinate': [0.12959213597584365, -0.1741750411273389], 'combined_first_coordinate': -0.012665707181602787}

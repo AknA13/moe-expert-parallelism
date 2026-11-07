@@ -1,7 +1,7 @@
-"""Two activation exchanges forward, their transposes backward."""
+"""Autograd-aware variable-size all-to-all and replicated-gradient sync."""
 import torch
 import torch.distributed as dist
-from .model import E, K
+
 
 class Exchange(torch.autograd.Function):
     @staticmethod
@@ -17,39 +17,10 @@ class Exchange(torch.autograd.Function):
         dist.all_to_all_single(out, grad.contiguous(), ctx.send, ctx.receive)
         return out, None, None
 
-def forward(model, x, expert_ids=None):
-    world, rank = dist.get_world_size(), dist.get_rank()
-    h = model.token_encoder(x)
-    ids, weights = model.route(h, expert_ids)
-    owners = ids.flatten() // (E//world)
-    order = owners.argsort(stable=True)
-    send_tensor = torch.bincount(owners, minlength=world)
-    receive_tensor = torch.empty_like(send_tensor)
-    dist.all_to_all_single(receive_tensor, send_tensor)
-    send, receive = send_tensor.tolist(), receive_tensor.tolist()
-    packed_expert_ids = ids.flatten()[order].contiguous()
-    received_ids = packed_expert_ids.new_empty(sum(receive))
-    dist.all_to_all_single(received_ids, packed_expert_ids, receive, send)
-    packed = h.repeat_interleave(K, dim=0)[order]
-    received = Exchange.apply(packed, send, receive)
-    # Keep the dispatch in the graph even when this owner receives no tokens.
-    computed = received * 0
-    for key, expert in model.experts.items():
-        positions = (received_ids == int(key)).nonzero().flatten()
-        computed = computed.index_add(0, positions, expert(received[positions]))
-    returned = Exchange.apply(computed, receive, send)
-    unsorted = returned[order.argsort()]
-    out = (unsorted.reshape(len(x), K, -1) * weights[..., None]).sum(1)
-    remote = sum(send)-send[rank]
-    stats = {'assignments': torch.bincount(ids.flatten(), minlength=E).tolist(),
-             'remote_assignments': remote,
-             'activation_forward_bytes': remote*h.shape[1]*h.element_size()*2,
-             'activation_backward_bytes': remote*h.shape[1]*h.element_size()*2,
-             'metadata_bytes': remote*8 + (world-1)*8,
-             'send': send, 'receive': receive}
-    return out, stats, ids, unsorted.reshape(len(x), K, -1)
 
-def sync_shared(model):
-    for p in model.parameters():
-        if p.grad is None: p.grad = torch.zeros_like(p)
-    for p in model.shared(): dist.all_reduce(p.grad, op=dist.ReduceOp.SUM)
+def sync_replicated_gradients(model):
+    for parameter in model.parameters():
+        if parameter.grad is None:
+            parameter.grad = torch.zeros_like(parameter)
+    for parameter in model.replicated_parameters():
+        dist.all_reduce(parameter.grad, op=dist.ReduceOp.SUM)
