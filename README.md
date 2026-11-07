@@ -10,23 +10,27 @@ Use Python 3.13; the recorded validation environment is Python 3.13 on ARM64 mac
 python3 -m venv .venv
 . .venv/bin/activate
 pip install -r requirements.txt
-python run.py
+python reproduce.py
 ```
 
-Run from this directory. This overwrites JSON results in `results/`; use `--output fresh-results` to preserve the submitted evidence. Each run launches and joins fresh workers; failures propagate to the parent. Collectives have a 90-second timeout. No server, GPU, account, or network service is needed after installation.
+Run from this directory. Each command writes JSON under `results/`; use `--output` with another path to preserve the submitted evidence. Each run launches and joins fresh workers; failures propagate to the parent. Collectives have a 90-second timeout. No server, GPU, account, or network service is needed after installation.
 
 ```sh
-python run.py --ranks 2 --output fresh-results  # reproduce a two-rank run
-python show_results.py                         # view saved tables and trace
+python run.py --ranks 2 --tokens 65 --epochs 30 --lr 0.15 --validate
+python verify.py       # independent correctness jobs
+python scale.py        # independent scaling jobs
+python show_results.py  # view saved tables and trace
 ```
 
-`run.py` runs one complete demo per requested rank count: a communication preflight, reference-checked training, scaling runs, and a token trace from a training step. `moe/experiments.py` contains the rank setup and experiment code; `worker()` only manages the process group and collects results. The default command runs 1, 2, and 4 ranks and writes `results/demo-*.json`. Seeds, dimensions, dtype, optimizer settings, platform, versions, and measurement settings are recorded in the source and JSON. The actual task is deterministic regression to `0.3*tanh(x)+0.2`, not language modeling.
+`run.py` starts one training job. Its worker calls `run_training(rank, world, config)` once and gathers the rank logs. `TrainConfig` holds the dataset size, epochs, learning rate, routing mode, and optional measurement and validation settings. `moe/setup.py` constructs the same model and deterministic data for every invocation; `moe/training.py` contains the single training loop. `verify.py` and `scale.py` change only command line inputs to run checks and measurements. The default command uses two ranks, 65 global tokens, 30 full-batch epochs, and learned routing. Each epoch reuses the same deterministic regression dataset. Seeds, dimensions, dtype, optimizer settings, platform, and versions are recorded in source and JSON. The target is `0.3*tanh(x)+0.2`, not language modeling.
 
 ## Read the code in this order
 
 1. `moe/model.py`: the model, top-2 gating, and local reference forward pass.
 2. `moe/parallel.py`: packing, token exchange, expert execution, inverse exchange, and shared-gradient synchronization.
-3. `moe/experiments.py`: rank setup, the shared `train_loop()`, correctness checks, scaling summaries, and `run_demo()`. `run.py` starts each process, calls `run_demo()`, and writes the gathered results.
+3. `moe/training.py`: one training loop, loss, step timing, and logs.
+4. `moe/setup.py`: deterministic model and data setup; `moe/validation.py`: optional reference comparisons.
+5. `run.py`: one worker for one config. `verify.py`, `scale.py`, and `tests/check_exchange.py` are external drivers.
 
 ## The forward journey
 
@@ -46,7 +50,7 @@ rank 1 simultaneously sends its own token assignments to rank 0.
 
 Tokens remain logically owned by their source rank. Experts temporarily receive activations, not the source rank's loss or targets. We exchange assignment counts, expert IDs, and then activation rows. The return exchange reverses the split sizes. Restoring the sorting permutation reconnects each returned row to its token and routing weight.
 
-The first step of a short traced training run uses deliberately balanced expert IDs so the journey is easy to inspect. It records both returned expert values and the combined value. Training uses learned top-2 selection. Balanced, skewed, and local routes are explicit diagnostic fixtures: their selected experts are prescribed, but their gate weights still come from the learned router.
+The first step of every training run records token IDs, chosen experts, returned expert values, and the combined value. The default job uses learned top-2 selection. For diagnosis, `--routing balanced`, `skewed`, or `local` prescribes selected experts while gate weights still come from the learned router.
 
 ## Backward and the normalization contract
 
@@ -75,15 +79,15 @@ The router receives gradients from weighted combination on the source. The token
 
 The verification stage compares full outputs, global loss, input gradients, all owned/shared parameter gradients, and updated parameters to an independently executed full-model reference. Tolerances are `atol=1e-8`, `rtol=1e-6`, using float64. Every replica is explicitly compared with rank 0. The balanced fixture requires every parameter tensor to change.
 
-Cases cover learned routing, balanced expert coverage, skew to experts 0 and 1 (unused experts and zero-receive ranks), entirely local routes, and unequal input shards (65 tokens). The communication check uses asymmetric split sizes and checks both the inverse mapping and finite differences of a global objective. The training stage checks equivalence on every step and requires final loss below initial loss. Each JSON step log records global loss, routing counts, communication estimates, shared/expert gradient norms, step time, and reference errors when checked. Recorded maximum error covers all numerical reference comparisons on that rank; per-step errors are logged by category.
+`verify.py` invokes ordinary training jobs with learned, balanced, skewed, and local routing on 1, 2, and 4 ranks. These cover all experts, unused experts, zero-receive ranks, and unequal shards (65 tokens). The standalone exchange test uses asymmetric split sizes and checks row order and backward gradients. A 30-epoch job checks reference equivalence on every step and requires loss reduction. Assertions live in `verify.py`; the worker only trains and records observations. Each JSON step records loss, routing counts, communication estimates, gradient norms, latency, and reference errors when validation is enabled.
 
 See [RESULTS.md](RESULTS.md) for recorded tables, [results/summary.txt](results/summary.txt) for all timing rows, and [ONSITE.md](ONSITE.md) for rehearsal questions.
 
 ## Scaling: what is measured and what is modeled
 
-The model stays fixed at eight experts. Strong-scaling experiments use 256 global tokens; weak-scaling experiments use 256 tokens per rank. Each runs learned, balanced, and skewed routing. Each worker uses one CPU thread. The same `train_loop()` handles correctness and timing. Five warmup steps precede 20 measured steps. A barrier precedes timing; the slowest worker's duration defines the step. Startup, validation, and result aggregation are excluded. Forward metadata handling, gradient-norm logging, and optimizer work are included. p95 is the nearest lower order statistic at index `floor(.95*(samples-1))`.
+The model stays fixed at eight experts. `scale.py` invokes `run.py` with 256 global tokens and then 256 tokens per rank, using learned, balanced, and skewed routing. Each worker uses one CPU thread. The same `train_loop()` handles every job. Five warmup epochs precede 20 measured epochs. A barrier precedes timing; the slowest worker's duration defines the step. Startup, reference validation, and result aggregation are excluded. Forward metadata handling, gradient-norm logging, and optimizer work are included. p95 is the nearest lower order statistic at index `floor(.95*(samples-1))`.
 
-Per-rank parameter storage is `shared_bytes + total_expert_bytes/world_size`. This is tensor storage, not RSS or peak memory: gradients, activations, communication buffers, interpreter overhead, and the reference are separate. The benchmark does not construct a reference. Verification does construct one on every worker for simplicity and is unsuitable for memory measurements.
+Per-rank parameter storage is `shared_bytes + total_expert_bytes/world_size`. This is tensor storage, not RSS or peak memory: gradients, activations, communication buffers, interpreter overhead, and the reference are separate. Scaling runs leave validation disabled, so they do not construct a reference.
 
 For R remote assignments, dimension d, and element size b:
 
@@ -102,7 +106,7 @@ CPU processes share one machine, so latency is not evidence of GPU speedup. Smal
 1. **4 min:** explain sparse compute, model capacity, expert ownership, and why replication costs memory.
 2. **7 min:** show the two-rank trace; follow one cross-rank token through sorting, dispatch, expert, return, and combination.
 3. **7 min:** derive global loss normalization; walk through `Exchange.backward` and the synchronization table.
-4. **5 min:** run `verify --ranks 2`, show the recorded 30-step trajectory, and explain what each assertion catches.
+4. **5 min:** run `python run.py --ranks 2 --validate --output fresh-results.json`, show the recorded 30-epoch trajectory, and explain what each assertion catches.
 5. **7 min:** compare rank counts and balanced/skewed loads; distinguish measured results from resource models.
 
 Keep the submitted JSON and generated tables available if live execution fails. Rehearse explaining why an empty rank must still participate and why a router can learn despite discrete top-k indices.

@@ -9,7 +9,7 @@ The README is the presentation. Open `moe/parallel.py` beside it. Run `python sh
 3. Explain why counts and expert IDs travel separately from differentiable activations. Count exchange determines buffer sizes; expert IDs select local computation.
 4. Open `Exchange`: forward communicates values, backward communicates their adjoints using reversed split sizes. Autograd does not infer this from raw distributed calls.
 5. Derive loss normalization before discussing gradient synchronization. One expert owner already accumulates all sources; shared replicas accumulate only their source contribution until the SUM.
-6. Run `python run.py --ranks 2 --output fresh-results`. Show saved `demo-2.json` and the scaling table. Explain what an assertion failure would invalidate.
+6. Run `python run.py --ranks 2 --validate --output fresh-results.json`. Show saved `results/verify/2-training.json` and the scaling table. Explain what an assertion failure would invalidate.
 7. End with memory savings, hot experts, and the limits of this CPU experiment. Reserve remaining time for discussion.
 
 ## Questions with concrete answers
@@ -36,7 +36,7 @@ Tiny experts, process scheduling, metadata exchange, four activation exchanges a
 Profile dispatch, expert execution, return, and shared synchronization separately. Then consider larger workloads, grouped GEMMs, tensor packing, bucketed shared gradients, and overlap. Avoid treating modeled payload bytes as measured link utilization.
 
 **Can the reference conceal a shared routing bug?**
-It shares initialization and gate semantics but executes experts without communication. It strongly tests dispatch, return, distributed gradients, and optimizer equivalence. The wrapper's independent finite differences provide a second check. It does not establish model quality or validate every conceivable routing implementation.
+It shares initialization and gate semantics but executes experts without communication. It strongly tests dispatch, return, distributed gradients, and optimizer equivalence. The separate exchange test checks row order and backward gradients independently. It does not establish model quality or validate every conceivable routing implementation.
 
 **How would you change the number of ranks at restart?**
 Checkpoint by global expert ID rather than local module order. Redistribute experts and optimizer states to their new owners; restore shared state and the logical data/RNG position. This demo does not implement checkpointing.

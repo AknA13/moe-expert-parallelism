@@ -1,0 +1,5185 @@
+[
+  {
+    "rank": 0,
+    "config": {
+      "tokens": 256,
+      "epochs": 25,
+      "learning_rate": 0.15,
+      "routing": "learned",
+      "warmup": 5,
+      "tokens_per_rank": true,
+      "validate": false
+    },
+    "steps": [
+      {
+        "step": 0,
+        "global_loss": 0.09327058582624562,
+        "step_ms": 6.49791699834168,
+        "shared_grad_norm": 0.015629543221141542,
+        "expert_grad_norm": 0.04996048038818165,
+        "routing": {
+          "assignments": [
+            52,
+            30,
+            77,
+            52,
+            20,
+            96,
+            98,
+            87
+          ],
+          "remote_assignments": 0,
+          "activation_forward_bytes": 0,
+          "activation_backward_bytes": 0,
+          "metadata_bytes": 0,
+          "send": [
+            512
+          ],
+          "receive": [
+            512
+          ]
+        },
+        "reference_error": {},
+        "warmup": true
+      },
+      {
+        "step": 1,
+        "global_loss": 0.09281506463294407,
+        "step_ms": 3.465207999397535,
+        "shared_grad_norm": 0.015541082017836935,
+        "expert_grad_norm": 0.04976521467011374,
+        "routing": {
+          "assignments": [
+            53,
+            29,
+            77,
+            52,
+            20,
+            96,
+            98,
+            87
+          ],
+          "remote_assignments": 0,
+          "activation_forward_bytes": 0,
+          "activation_backward_bytes": 0,
+          "metadata_bytes": 0,
+          "send": [
+            512
+          ],
+          "receive": [
+            512
+          ]
+        },
+        "reference_error": {},
+        "warmup": true
+      },
+      {
+        "step": 2,
+        "global_loss": 0.09240817959383117,
+        "step_ms": 3.1831250016693957,
+        "shared_grad_norm": 0.015474902781197166,
+        "expert_grad_norm": 0.04956368886155263,
+        "routing": {
+          "assignments": [
+            53,
+            29,
+            77,
+            52,
+            20,
+            96,
+            98,
+            87
+          ],
+          "remote_assignments": 0,
+          "activation_forward_bytes": 0,
+          "activation_backward_bytes": 0,
+          "metadata_bytes": 0,
+          "send": [
+            512
+          ],
+          "receive": [
+            512
+          ]
+        },
+        "reference_error": {},
+        "warmup": true
+      },
+      {
+        "step": 3,
+        "global_loss": 0.09200459434473993,
+        "step_ms": 2.9741249963990413,
+        "shared_grad_norm": 0.0154096929583484,
+        "expert_grad_norm": 0.04936382648132661,
+        "routing": {
+          "assignments": [
+            53,
+            29,
+            77,
+            52,
+            20,
+            96,
+            98,
+            87
+          ],
+          "remote_assignments": 0,
+          "activation_forward_bytes": 0,
+          "activation_backward_bytes": 0,
+          "metadata_bytes": 0,
+          "send": [
+            512
+          ],
+          "receive": [
+            512
+          ]
+        },
+        "reference_error": {},
+        "warmup": true
+      },
+      {
+        "step": 4,
+        "global_loss": 0.09158744416422382,
+        "step_ms": 2.9055000049993396,
+        "shared_grad_norm": 0.015349142728760177,
+        "expert_grad_norm": 0.049200471158968494,
+        "routing": {
+          "assignments": [
+            54,
+            29,
+            77,
+            51,
+            20,
+            96,
+            97,
+            88
+          ],
+          "remote_assignments": 0,
+          "activation_forward_bytes": 0,
+          "activation_backward_bytes": 0,
+          "metadata_bytes": 0,
+          "send": [
+            512
+          ],
+          "receive": [
+            512
+          ]
+        },
+        "reference_error": {},
+        "warmup": true
+      },
+      {
+        "step": 5,
+        "global_loss": 0.09118980214370906,
+        "step_ms": 2.820833004079759,
+        "shared_grad_norm": 0.015285641889083696,
+        "expert_grad_norm": 0.04900361858697439,
+        "routing": {
+          "assignments": [
+            54,
+            29,
+            77,
+            51,
+            20,
+            96,
+            97,
+            88
+          ],
+          "remote_assignments": 0,
+          "activation_forward_bytes": 0,
+          "activation_backward_bytes": 0,
+          "metadata_bytes": 0,
+          "send": [
+            512
+          ],
+          "receive": [
+            512
+          ]
+        },
+        "reference_error": {},
+        "warmup": false
+      },
+      {
+        "step": 6,
+        "global_loss": 0.09079534157174002,
+        "step_ms": 2.8095419984310865,
+        "shared_grad_norm": 0.01522305505710343,
+        "expert_grad_norm": 0.04880835386034091,
+        "routing": {
+          "assignments": [
+            54,
+            29,
+            77,
+            51,
+            20,
+            96,
+            97,
+            88
+          ],
+          "remote_assignments": 0,
+          "activation_forward_bytes": 0,
+          "activation_backward_bytes": 0,
+          "metadata_bytes": 0,
+          "send": [
+            512
+          ],
+          "receive": [
+            512
+          ]
+        },
+        "reference_error": {},
+        "warmup": false
+      },
+      {
+        "step": 7,
+        "global_loss": 0.09031378761286327,
+        "step_ms": 2.875375001167413,
+        "shared_grad_norm": 0.015179670515895622,
+        "expert_grad_norm": 0.04858337860303116,
+        "routing": {
+          "assignments": [
+            56,
+            28,
+            77,
+            51,
+            19,
+            95,
+            97,
+            89
+          ],
+          "remote_assignments": 0,
+          "activation_forward_bytes": 0,
+          "activation_backward_bytes": 0,
+          "metadata_bytes": 0,
+          "send": [
+            512
+          ],
+          "receive": [
+            512
+          ]
+        },
+        "reference_error": {},
+        "warmup": false
+      },
+      {
+        "step": 8,
+        "global_loss": 0.08992594267601986,
+        "step_ms": 2.862791996449232,
+        "shared_grad_norm": 0.015118773517211262,
+        "expert_grad_norm": 0.04839127247390791,
+        "routing": {
+          "assignments": [
+            56,
+            28,
+            77,
+            51,
+            19,
+            95,
+            97,
+            89
+          ],
+          "remote_assignments": 0,
+          "activation_forward_bytes": 0,
+          "activation_backward_bytes": 0,
+          "metadata_bytes": 0,
+          "send": [
+            512
+          ],
+          "receive": [
+            512
+          ]
+        },
+        "reference_error": {},
+        "warmup": false
+      },
+      {
+        "step": 9,
+        "global_loss": 0.08954115940505807,
+        "step_ms": 2.72858399694087,
+        "shared_grad_norm": 0.015058732966950792,
+        "expert_grad_norm": 0.04820067524217172,
+        "routing": {
+          "assignments": [
+            56,
+            28,
+            77,
+            51,
+            19,
+            95,
+            97,
+            89
+          ],
+          "remote_assignments": 0,
+          "activation_forward_bytes": 0,
+          "activation_backward_bytes": 0,
+          "metadata_bytes": 0,
+          "send": [
+            512
+          ],
+          "receive": [
+            512
+          ]
+        },
+        "reference_error": {},
+        "warmup": false
+      },
+      {
+        "step": 10,
+        "global_loss": 0.08915940010883656,
+        "step_ms": 2.729250001721084,
+        "shared_grad_norm": 0.014999531696640677,
+        "expert_grad_norm": 0.04801156362983154,
+        "routing": {
+          "assignments": [
+            56,
+            28,
+            77,
+            51,
+            19,
+            95,
+            97,
+            89
+          ],
+          "remote_assignments": 0,
+          "activation_forward_bytes": 0,
+          "activation_backward_bytes": 0,
+          "metadata_bytes": 0,
+          "send": [
+            512
+          ],
+          "receive": [
+            512
+          ]
+        },
+        "reference_error": {},
+        "warmup": false
+      },
+      {
+        "step": 11,
+        "global_loss": 0.0887383261595141,
+        "step_ms": 2.696375006053131,
+        "shared_grad_norm": 0.014930408642145504,
+        "expert_grad_norm": 0.04783194378550239,
+        "routing": {
+          "assignments": [
+            56,
+            28,
+            77,
+            51,
+            19,
+            96,
+            97,
+            88
+          ],
+          "remote_assignments": 0,
+          "activation_forward_bytes": 0,
+          "activation_backward_bytes": 0,
+          "metadata_bytes": 0,
+          "send": [
+            512
+          ],
+          "receive": [
+            512
+          ]
+        },
+        "reference_error": {},
+        "warmup": false
+      },
+      {
+        "step": 12,
+        "global_loss": 0.08836243837415615,
+        "step_ms": 3.2259170038742013,
+        "shared_grad_norm": 0.014872742358248092,
+        "expert_grad_norm": 0.04764554403559031,
+        "routing": {
+          "assignments": [
+            56,
+            28,
+            77,
+            51,
+            19,
+            96,
+            97,
+            88
+          ],
+          "remote_assignments": 0,
+          "activation_forward_bytes": 0,
+          "activation_backward_bytes": 0,
+          "metadata_bytes": 0,
+          "send": [
+            512
+          ],
+          "receive": [
+            512
+          ]
+        },
+        "reference_error": {},
+        "warmup": false
+      },
+      {
+        "step": 13,
+        "global_loss": 0.08798946909291029,
+        "step_ms": 2.8435830026865005,
+        "shared_grad_norm": 0.014815868957069215,
+        "expert_grad_norm": 0.04746056676537297,
+        "routing": {
+          "assignments": [
+            56,
+            28,
+            77,
+            51,
+            19,
+            96,
+            97,
+            88
+          ],
+          "remote_assignments": 0,
+          "activation_forward_bytes": 0,
+          "activation_backward_bytes": 0,
+          "metadata_bytes": 0,
+          "send": [
+            512
+          ],
+          "receive": [
+            512
+          ]
+        },
+        "reference_error": {},
+        "warmup": false
+      },
+      {
+        "step": 14,
+        "global_loss": 0.08761938328166699,
+        "step_ms": 2.6991249978891574,
+        "shared_grad_norm": 0.014759772601329251,
+        "expert_grad_norm": 0.04727699041284238,
+        "routing": {
+          "assignments": [
+            56,
+            28,
+            77,
+            51,
+            19,
+            96,
+            97,
+            88
+          ],
+          "remote_assignments": 0,
+          "activation_forward_bytes": 0,
+          "activation_backward_bytes": 0,
+          "metadata_bytes": 0,
+          "send": [
+            512
+          ],
+          "receive": [
+            512
+          ]
+        },
+        "reference_error": {},
+        "warmup": false
+      },
+      {
+        "step": 15,
+        "global_loss": 0.08727151341445236,
+        "step_ms": 2.671834001375828,
+        "shared_grad_norm": 0.014732192062354387,
+        "expert_grad_norm": 0.04710805666027766,
+        "routing": {
+          "assignments": [
+            57,
+            28,
+            77,
+            50,
+            19,
+            96,
+            97,
+            88
+          ],
+          "remote_assignments": 0,
+          "activation_forward_bytes": 0,
+          "activation_backward_bytes": 0,
+          "metadata_bytes": 0,
+          "send": [
+            512
+          ],
+          "receive": [
+            512
+          ]
+        },
+        "reference_error": {},
+        "warmup": false
+      },
+      {
+        "step": 16,
+        "global_loss": 0.08690678255970505,
+        "step_ms": 2.696458999707829,
+        "shared_grad_norm": 0.014677677318255913,
+        "expert_grad_norm": 0.04692713914764578,
+        "routing": {
+          "assignments": [
+            57,
+            28,
+            77,
+            50,
+            19,
+            96,
+            97,
+            88
+          ],
+          "remote_assignments": 0,
+          "activation_forward_bytes": 0,
+          "activation_backward_bytes": 0,
+          "metadata_bytes": 0,
+          "send": [
+            512
+          ],
+          "receive": [
+            512
+          ]
+        },
+        "reference_error": {},
+        "warmup": false
+      },
+      {
+        "step": 17,
+        "global_loss": 0.08654483588172196,
+        "step_ms": 2.7282500013825484,
+        "shared_grad_norm": 0.014623891558293476,
+        "expert_grad_norm": 0.04674756032120268,
+        "routing": {
+          "assignments": [
+            57,
+            28,
+            77,
+            50,
+            19,
+            96,
+            97,
+            88
+          ],
+          "remote_assignments": 0,
+          "activation_forward_bytes": 0,
+          "activation_backward_bytes": 0,
+          "metadata_bytes": 0,
+          "send": [
+            512
+          ],
+          "receive": [
+            512
+          ]
+        },
+        "reference_error": {},
+        "warmup": false
+      },
+      {
+        "step": 18,
+        "global_loss": 0.08618564084690924,
+        "step_ms": 2.7086249974672683,
+        "shared_grad_norm": 0.014570820228932317,
+        "expert_grad_norm": 0.04656930025608904,
+        "routing": {
+          "assignments": [
+            57,
+            28,
+            77,
+            50,
+            19,
+            96,
+            97,
+            88
+          ],
+          "remote_assignments": 0,
+          "activation_forward_bytes": 0,
+          "activation_backward_bytes": 0,
+          "metadata_bytes": 0,
+          "send": [
+            512
+          ],
+          "receive": [
+            512
+          ]
+        },
+        "reference_error": {},
+        "warmup": false
+      },
+      {
+        "step": 19,
+        "global_loss": 0.08582916551179018,
+        "step_ms": 2.777375004370697,
+        "shared_grad_norm": 0.01451844907885067,
+        "expert_grad_norm": 0.0463923394163007,
+        "routing": {
+          "assignments": [
+            57,
+            28,
+            77,
+            50,
+            19,
+            96,
+            97,
+            88
+          ],
+          "remote_assignments": 0,
+          "activation_forward_bytes": 0,
+          "activation_backward_bytes": 0,
+          "metadata_bytes": 0,
+          "send": [
+            512
+          ],
+          "receive": [
+            512
+          ]
+        },
+        "reference_error": {},
+        "warmup": false
+      },
+      {
+        "step": 20,
+        "global_loss": 0.08547537850913953,
+        "step_ms": 2.7265419994364493,
+        "shared_grad_norm": 0.014466764151858245,
+        "expert_grad_norm": 0.046216658645657945,
+        "routing": {
+          "assignments": [
+            57,
+            28,
+            77,
+            50,
+            19,
+            96,
+            97,
+            88
+          ],
+          "remote_assignments": 0,
+          "activation_forward_bytes": 0,
+          "activation_backward_bytes": 0,
+          "metadata_bytes": 0,
+          "send": [
+            512
+          ],
+          "receive": [
+            512
+          ]
+        },
+        "reference_error": {},
+        "warmup": false
+      },
+      {
+        "step": 21,
+        "global_loss": 0.08512424903450563,
+        "step_ms": 2.7594579951255582,
+        "shared_grad_norm": 0.014415751780018356,
+        "expert_grad_norm": 0.04604223915903222,
+        "routing": {
+          "assignments": [
+            57,
+            28,
+            77,
+            50,
+            19,
+            96,
+            97,
+            88
+          ],
+          "remote_assignments": 0,
+          "activation_forward_bytes": 0,
+          "activation_backward_bytes": 0,
+          "metadata_bytes": 0,
+          "send": [
+            512
+          ],
+          "receive": [
+            512
+          ]
+        },
+        "reference_error": {},
+        "warmup": false
+      },
+      {
+        "step": 22,
+        "global_loss": 0.08477574683310768,
+        "step_ms": 2.62641700101085,
+        "shared_grad_norm": 0.01436539857696654,
+        "expert_grad_norm": 0.04586906253382171,
+        "routing": {
+          "assignments": [
+            57,
+            28,
+            77,
+            50,
+            19,
+            96,
+            97,
+            88
+          ],
+          "remote_assignments": 0,
+          "activation_forward_bytes": 0,
+          "activation_backward_bytes": 0,
+          "metadata_bytes": 0,
+          "send": [
+            512
+          ],
+          "receive": [
+            512
+          ]
+        },
+        "reference_error": {},
+        "warmup": false
+      },
+      {
+        "step": 23,
+        "global_loss": 0.08440690393120198,
+        "step_ms": 2.6963339987560175,
+        "shared_grad_norm": 0.01431451409864157,
+        "expert_grad_norm": 0.04567597019662006,
+        "routing": {
+          "assignments": [
+            57,
+            28,
+            77,
+            51,
+            19,
+            95,
+            97,
+            88
+          ],
+          "remote_assignments": 0,
+          "activation_forward_bytes": 0,
+          "activation_backward_bytes": 0,
+          "metadata_bytes": 0,
+          "send": [
+            512
+          ],
+          "receive": [
+            512
+          ]
+        },
+        "reference_error": {},
+        "warmup": false
+      },
+      {
+        "step": 24,
+        "global_loss": 0.08406386139669841,
+        "step_ms": 2.8319580014795065,
+        "shared_grad_norm": 0.014265571533633564,
+        "expert_grad_norm": 0.04550541198572866,
+        "routing": {
+          "assignments": [
+            57,
+            28,
+            77,
+            51,
+            19,
+            95,
+            97,
+            88
+          ],
+          "remote_assignments": 0,
+          "activation_forward_bytes": 0,
+          "activation_backward_bytes": 0,
+          "metadata_bytes": 0,
+          "send": [
+            512
+          ],
+          "receive": [
+            512
+          ]
+        },
+        "reference_error": {},
+        "warmup": false
+      }
+    ],
+    "trace": [
+      {
+        "token": 0,
+        "source": 0,
+        "experts": [
+          1,
+          3
+        ],
+        "owners": [
+          0,
+          0
+        ],
+        "returned_first_coordinate": [
+          0.17792945393211024,
+          -0.2816403201454643
+        ],
+        "combined_first_coordinate": -0.023891899834589628
+      },
+      {
+        "token": 1,
+        "source": 0,
+        "experts": [
+          6,
+          5
+        ],
+        "owners": [
+          0,
+          0
+        ],
+        "returned_first_coordinate": [
+          -0.11965312040278145,
+          0.1256297671458383
+        ],
+        "combined_first_coordinate": -0.0013825730365382774
+      },
+      {
+        "token": 2,
+        "source": 0,
+        "experts": [
+          7,
+          0
+        ],
+        "owners": [
+          0,
+          0
+        ],
+        "returned_first_coordinate": [
+          -0.0936530678795777,
+          0.19851894806000575
+        ],
+        "combined_first_coordinate": 0.021465470726578423
+      },
+      {
+        "token": 3,
+        "source": 0,
+        "experts": [
+          6,
+          5
+        ],
+        "owners": [
+          0,
+          0
+        ],
+        "returned_first_coordinate": [
+          -0.18239806769702088,
+          -0.047552786465104455
+        ],
+        "combined_first_coordinate": -0.11735866990351701
+      },
+      {
+        "token": 4,
+        "source": 0,
+        "experts": [
+          5,
+          6
+        ],
+        "owners": [
+          0,
+          0
+        ],
+        "returned_first_coordinate": [
+          -0.009678353662889447,
+          -0.051483378202717804
+        ],
+        "combined_first_coordinate": -0.02941266288288056
+      },
+      {
+        "token": 5,
+        "source": 0,
+        "experts": [
+          5,
+          3
+        ],
+        "owners": [
+          0,
+          0
+        ],
+        "returned_first_coordinate": [
+          0.3909271792034033,
+          0.016326480224657245
+        ],
+        "combined_first_coordinate": 0.21939702390984694
+      },
+      {
+        "token": 6,
+        "source": 0,
+        "experts": [
+          5,
+          4
+        ],
+        "owners": [
+          0,
+          0
+        ],
+        "returned_first_coordinate": [
+          0.2329411843074142,
+          -0.1814170843430626
+        ],
+        "combined_first_coordinate": 0.05111921921496526
+      },
+      {
+        "token": 7,
+        "source": 0,
+        "experts": [
+          7,
+          2
+        ],
+        "owners": [
+          0,
+          0
+        ],
+        "returned_first_coordinate": [
+          -0.26417873391889646,
+          -0.18696503603312448
+        ],
+        "combined_first_coordinate": -0.22799718792642
+      },
+      {
+        "token": 8,
+        "source": 0,
+        "experts": [
+          5,
+          6
+        ],
+        "owners": [
+          0,
+          0
+        ],
+        "returned_first_coordinate": [
+          -0.13091668587191627,
+          0.06899862331218498
+        ],
+        "combined_first_coordinate": -0.03336638300054091
+      },
+      {
+        "token": 9,
+        "source": 0,
+        "experts": [
+          6,
+          0
+        ],
+        "owners": [
+          0,
+          0
+        ],
+        "returned_first_coordinate": [
+          0.12927376870253632,
+          0.005038262413637695
+        ],
+        "combined_first_coordinate": 0.07314768042018838
+      },
+      {
+        "token": 10,
+        "source": 0,
+        "experts": [
+          2,
+          6
+        ],
+        "owners": [
+          0,
+          0
+        ],
+        "returned_first_coordinate": [
+          -0.3809622959880579,
+          -0.04788064404330669
+        ],
+        "combined_first_coordinate": -0.21761036311779497
+      },
+      {
+        "token": 11,
+        "source": 0,
+        "experts": [
+          5,
+          2
+        ],
+        "owners": [
+          0,
+          0
+        ],
+        "returned_first_coordinate": [
+          0.23485540598262353,
+          -0.05549421837310488
+        ],
+        "combined_first_coordinate": 0.10927482326615615
+      },
+      {
+        "token": 12,
+        "source": 0,
+        "experts": [
+          7,
+          5
+        ],
+        "owners": [
+          0,
+          0
+        ],
+        "returned_first_coordinate": [
+          -0.2732564993722652,
+          0.12954965896300816
+        ],
+        "combined_first_coordinate": -0.07590951451749114
+      },
+      {
+        "token": 13,
+        "source": 0,
+        "experts": [
+          1,
+          4
+        ],
+        "owners": [
+          0,
+          0
+        ],
+        "returned_first_coordinate": [
+          0.15416655678099914,
+          -0.03874895166543477
+        ],
+        "combined_first_coordinate": 0.06435157179834526
+      },
+      {
+        "token": 14,
+        "source": 0,
+        "experts": [
+          7,
+          2
+        ],
+        "owners": [
+          0,
+          0
+        ],
+        "returned_first_coordinate": [
+          -0.17818003077880148,
+          -0.20434097876684962
+        ],
+        "combined_first_coordinate": -0.19081099281091868
+      },
+      {
+        "token": 15,
+        "source": 0,
+        "experts": [
+          7,
+          3
+        ],
+        "owners": [
+          0,
+          0
+        ],
+        "returned_first_coordinate": [
+          -0.2257770619565735,
+          -0.2561370876537258
+        ],
+        "combined_first_coordinate": -0.24083498063262015
+      },
+      {
+        "token": 16,
+        "source": 0,
+        "experts": [
+          6,
+          3
+        ],
+        "owners": [
+          0,
+          0
+        ],
+        "returned_first_coordinate": [
+          -0.0019727310184290696,
+          -0.14591604065094355
+        ],
+        "combined_first_coordinate": -0.06473412185017981
+      },
+      {
+        "token": 17,
+        "source": 0,
+        "experts": [
+          7,
+          5
+        ],
+        "owners": [
+          0,
+          0
+        ],
+        "returned_first_coordinate": [
+          -0.08723231602165496,
+          0.06335256714524927
+        ],
+        "combined_first_coordinate": -0.02274168438809046
+      },
+      {
+        "token": 18,
+        "source": 0,
+        "experts": [
+          5,
+          2
+        ],
+        "owners": [
+          0,
+          0
+        ],
+        "returned_first_coordinate": [
+          0.11767151213917539,
+          -0.4959458616669944
+        ],
+        "combined_first_coordinate": -0.1699330118673836
+      },
+      {
+        "token": 19,
+        "source": 0,
+        "experts": [
+          6,
+          3
+        ],
+        "owners": [
+          0,
+          0
+        ],
+        "returned_first_coordinate": [
+          -0.05981668556593745,
+          0.10574283310619012
+        ],
+        "combined_first_coordinate": 0.0016877283837640408
+      },
+      {
+        "token": 20,
+        "source": 0,
+        "experts": [
+          7,
+          6
+        ],
+        "owners": [
+          0,
+          0
+        ],
+        "returned_first_coordinate": [
+          0.005012341638363108,
+          -0.2692273284677113
+        ],
+        "combined_first_coordinate": -0.12582745005214496
+      },
+      {
+        "token": 21,
+        "source": 0,
+        "experts": [
+          5,
+          2
+        ],
+        "owners": [
+          0,
+          0
+        ],
+        "returned_first_coordinate": [
+          0.08969176287212699,
+          -0.1851905699802797
+        ],
+        "combined_first_coordinate": -0.04345337977331732
+      },
+      {
+        "token": 22,
+        "source": 0,
+        "experts": [
+          0,
+          5
+        ],
+        "owners": [
+          0,
+          0
+        ],
+        "returned_first_coordinate": [
+          -0.08576057054258211,
+          -0.20073776624727174
+        ],
+        "combined_first_coordinate": -0.14320572738188705
+      },
+      {
+        "token": 23,
+        "source": 0,
+        "experts": [
+          2,
+          5
+        ],
+        "owners": [
+          0,
+          0
+        ],
+        "returned_first_coordinate": [
+          -0.3531085492975628,
+          -0.05350947092524223
+        ],
+        "combined_first_coordinate": -0.21851156758530868
+      },
+      {
+        "token": 24,
+        "source": 0,
+        "experts": [
+          5,
+          0
+        ],
+        "owners": [
+          0,
+          0
+        ],
+        "returned_first_coordinate": [
+          0.09546509495825266,
+          0.0652513561289072
+        ],
+        "combined_first_coordinate": 0.08210587512191515
+      },
+      {
+        "token": 25,
+        "source": 0,
+        "experts": [
+          7,
+          1
+        ],
+        "owners": [
+          0,
+          0
+        ],
+        "returned_first_coordinate": [
+          -0.40280641076271184,
+          0.08453165065450649
+        ],
+        "combined_first_coordinate": -0.18469496544937256
+      },
+      {
+        "token": 26,
+        "source": 0,
+        "experts": [
+          0,
+          7
+        ],
+        "owners": [
+          0,
+          0
+        ],
+        "returned_first_coordinate": [
+          -0.08736461074955838,
+          -0.19945226028661697
+        ],
+        "combined_first_coordinate": -0.1425980372563054
+      },
+      {
+        "token": 27,
+        "source": 0,
+        "experts": [
+          6,
+          7
+        ],
+        "owners": [
+          0,
+          0
+        ],
+        "returned_first_coordinate": [
+          0.057188507433267595,
+          -0.1211014427466711
+        ],
+        "combined_first_coordinate": -0.026005498378521983
+      },
+      {
+        "token": 28,
+        "source": 0,
+        "experts": [
+          2,
+          5
+        ],
+        "owners": [
+          0,
+          0
+        ],
+        "returned_first_coordinate": [
+          -0.247282358953361,
+          0.09165747499689765
+        ],
+        "combined_first_coordinate": -0.08090471188516929
+      },
+      {
+        "token": 29,
+        "source": 0,
+        "experts": [
+          6,
+          5
+        ],
+        "owners": [
+          0,
+          0
+        ],
+        "returned_first_coordinate": [
+          -0.19706231098892535,
+          0.35397409210858044
+        ],
+        "combined_first_coordinate": 0.07568316765917167
+      },
+      {
+        "token": 30,
+        "source": 0,
+        "experts": [
+          6,
+          2
+        ],
+        "owners": [
+          0,
+          0
+        ],
+        "returned_first_coordinate": [
+          -0.17485599338630445,
+          -0.27868846990755847
+        ],
+        "combined_first_coordinate": -0.2199539483836066
+      },
+      {
+        "token": 31,
+        "source": 0,
+        "experts": [
+          6,
+          0
+        ],
+        "owners": [
+          0,
+          0
+        ],
+        "returned_first_coordinate": [
+          -0.111772565973184,
+          -0.05744909192994027
+        ],
+        "combined_first_coordinate": -0.09188165047018389
+      },
+      {
+        "token": 32,
+        "source": 0,
+        "experts": [
+          5,
+          0
+        ],
+        "owners": [
+          0,
+          0
+        ],
+        "returned_first_coordinate": [
+          -0.13767643698531157,
+          -0.1887095972536503
+        ],
+        "combined_first_coordinate": -0.16291873682888627
+      },
+      {
+        "token": 33,
+        "source": 0,
+        "experts": [
+          2,
+          1
+        ],
+        "owners": [
+          0,
+          0
+        ],
+        "returned_first_coordinate": [
+          -0.14100109645334838,
+          0.22065459353412584
+        ],
+        "combined_first_coordinate": 0.02420156278754103
+      },
+      {
+        "token": 34,
+        "source": 0,
+        "experts": [
+          5,
+          2
+        ],
+        "owners": [
+          0,
+          0
+        ],
+        "returned_first_coordinate": [
+          0.12959213597584365,
+          -0.1741750411273389
+        ],
+        "combined_first_coordinate": -0.012665707181602787
+      },
+      {
+        "token": 35,
+        "source": 0,
+        "experts": [
+          5,
+          3
+        ],
+        "owners": [
+          0,
+          0
+        ],
+        "returned_first_coordinate": [
+          0.1995119334166434,
+          -0.1862465141652908
+        ],
+        "combined_first_coordinate": 0.022761110217524305
+      },
+      {
+        "token": 36,
+        "source": 0,
+        "experts": [
+          6,
+          7
+        ],
+        "owners": [
+          0,
+          0
+        ],
+        "returned_first_coordinate": [
+          -0.15324395957891854,
+          0.03824947900749457
+        ],
+        "combined_first_coordinate": -0.06755074765997707
+      },
+      {
+        "token": 37,
+        "source": 0,
+        "experts": [
+          7,
+          0
+        ],
+        "owners": [
+          0,
+          0
+        ],
+        "returned_first_coordinate": [
+          -0.277186934502469,
+          0.17958977524674166
+        ],
+        "combined_first_coordinate": -0.05983003735038318
+      },
+      {
+        "token": 38,
+        "source": 0,
+        "experts": [
+          3,
+          7
+        ],
+        "owners": [
+          0,
+          0
+        ],
+        "returned_first_coordinate": [
+          0.28228081372146757,
+          -0.06946929052232174
+        ],
+        "combined_first_coordinate": 0.10903503574527855
+      },
+      {
+        "token": 39,
+        "source": 0,
+        "experts": [
+          2,
+          5
+        ],
+        "owners": [
+          0,
+          0
+        ],
+        "returned_first_coordinate": [
+          -0.5287197799166128,
+          0.04505154202170392
+        ],
+        "combined_first_coordinate": -0.24521718300506015
+      },
+      {
+        "token": 40,
+        "source": 0,
+        "experts": [
+          5,
+          6
+        ],
+        "owners": [
+          0,
+          0
+        ],
+        "returned_first_coordinate": [
+          -0.02109542650956007,
+          0.03813083631971119
+        ],
+        "combined_first_coordinate": 0.004220758470738939
+      },
+      {
+        "token": 41,
+        "source": 0,
+        "experts": [
+          5,
+          2
+        ],
+        "owners": [
+          0,
+          0
+        ],
+        "returned_first_coordinate": [
+          0.020130658800393827,
+          -0.33406370034823024
+        ],
+        "combined_first_coordinate": -0.15650732844991336
+      },
+      {
+        "token": 42,
+        "source": 0,
+        "experts": [
+          5,
+          6
+        ],
+        "owners": [
+          0,
+          0
+        ],
+        "returned_first_coordinate": [
+          -0.0548186190626671,
+          -0.0353098887940918
+        ],
+        "combined_first_coordinate": -0.04580799035956333
+      },
+      {
+        "token": 43,
+        "source": 0,
+        "experts": [
+          4,
+          0
+        ],
+        "owners": [
+          0,
+          0
+        ],
+        "returned_first_coordinate": [
+          -0.35843533811136313,
+          -0.25372867516104985
+        ],
+        "combined_first_coordinate": -0.3082358658344301
+      },
+      {
+        "token": 44,
+        "source": 0,
+        "experts": [
+          2,
+          5
+        ],
+        "owners": [
+          0,
+          0
+        ],
+        "returned_first_coordinate": [
+          -0.2852309353829192,
+          0.2698824416952995
+        ],
+        "combined_first_coordinate": -0.05987434357106014
+      },
+      {
+        "token": 45,
+        "source": 0,
+        "experts": [
+          2,
+          3
+        ],
+        "owners": [
+          0,
+          0
+        ],
+        "returned_first_coordinate": [
+          -0.09494076285905476,
+          -0.156612784215575
+        ],
+        "combined_first_coordinate": -0.12406725109536781
+      },
+      {
+        "token": 46,
+        "source": 0,
+        "experts": [
+          3,
+          7
+        ],
+        "owners": [
+          0,
+          0
+        ],
+        "returned_first_coordinate": [
+          -0.04269538580074229,
+          -0.005768409327351308
+        ],
+        "combined_first_coordinate": -0.02691320454311002
+      },
+      {
+        "token": 47,
+        "source": 0,
+        "experts": [
+          1,
+          4
+        ],
+        "owners": [
+          0,
+          0
+        ],
+        "returned_first_coordinate": [
+          0.3401441145656601,
+          0.0742770020823061
+        ],
+        "combined_first_coordinate": 0.2176386303124701
+      },
+      {
+        "token": 48,
+        "source": 0,
+        "experts": [
+          5,
+          6
+        ],
+        "owners": [
+          0,
+          0
+        ],
+        "returned_first_coordinate": [
+          -0.22907209786364938,
+          0.25941939871440445
+        ],
+        "combined_first_coordinate": -0.006737808191365907
+      },
+      {
+        "token": 49,
+        "source": 0,
+        "experts": [
+          2,
+          5
+        ],
+        "owners": [
+          0,
+          0
+        ],
+        "returned_first_coordinate": [
+          -0.47470116743418483,
+          -0.2308899009644058
+        ],
+        "combined_first_coordinate": -0.3558470059986484
+      },
+      {
+        "token": 50,
+        "source": 0,
+        "experts": [
+          6,
+          0
+        ],
+        "owners": [
+          0,
+          0
+        ],
+        "returned_first_coordinate": [
+          -0.19469781907611267,
+          -0.18333961926449935
+        ],
+        "combined_first_coordinate": -0.18914981056151772
+      },
+      {
+        "token": 51,
+        "source": 0,
+        "experts": [
+          7,
+          5
+        ],
+        "owners": [
+          0,
+          0
+        ],
+        "returned_first_coordinate": [
+          -0.30759104003063625,
+          0.07172116522895464
+        ],
+        "combined_first_coordinate": -0.12341415378802471
+      },
+      {
+        "token": 52,
+        "source": 0,
+        "experts": [
+          7,
+          4
+        ],
+        "owners": [
+          0,
+          0
+        ],
+        "returned_first_coordinate": [
+          -0.24378584770404851,
+          -0.00961856921854473
+        ],
+        "combined_first_coordinate": -0.13816920511029415
+      },
+      {
+        "token": 53,
+        "source": 0,
+        "experts": [
+          2,
+          5
+        ],
+        "owners": [
+          0,
+          0
+        ],
+        "returned_first_coordinate": [
+          -0.10775604670658755,
+          0.1830589494620072
+        ],
+        "combined_first_coordinate": 0.0219694284179843
+      },
+      {
+        "token": 54,
+        "source": 0,
+        "experts": [
+          7,
+          5
+        ],
+        "owners": [
+          0,
+          0
+        ],
+        "returned_first_coordinate": [
+          -0.332798532982439,
+          -0.21685281361252615
+        ],
+        "combined_first_coordinate": -0.28341027691795456
+      },
+      {
+        "token": 55,
+        "source": 0,
+        "experts": [
+          6,
+          5
+        ],
+        "owners": [
+          0,
+          0
+        ],
+        "returned_first_coordinate": [
+          0.08320471242627758,
+          -0.09074721746278948
+        ],
+        "combined_first_coordinate": 0.0014106979140505876
+      },
+      {
+        "token": 56,
+        "source": 0,
+        "experts": [
+          6,
+          0
+        ],
+        "owners": [
+          0,
+          0
+        ],
+        "returned_first_coordinate": [
+          0.06114022236470339,
+          0.01984401154743235
+        ],
+        "combined_first_coordinate": 0.041687141265235275
+      },
+      {
+        "token": 57,
+        "source": 0,
+        "experts": [
+          5,
+          6
+        ],
+        "owners": [
+          0,
+          0
+        ],
+        "returned_first_coordinate": [
+          0.1282946663614734,
+          -0.003898612731413751
+        ],
+        "combined_first_coordinate": 0.07090882596056199
+      },
+      {
+        "token": 58,
+        "source": 0,
+        "experts": [
+          6,
+          2
+        ],
+        "owners": [
+          0,
+          0
+        ],
+        "returned_first_coordinate": [
+          -0.21737958237983004,
+          -0.31255511124813845
+        ],
+        "combined_first_coordinate": -0.2626060146004442
+      },
+      {
+        "token": 59,
+        "source": 0,
+        "experts": [
+          7,
+          5
+        ],
+        "owners": [
+          0,
+          0
+        ],
+        "returned_first_coordinate": [
+          -0.3233841918815672,
+          0.4097723138726872
+        ],
+        "combined_first_coordinate": -0.02210552178973682
+      },
+      {
+        "token": 60,
+        "source": 0,
+        "experts": [
+          6,
+          5
+        ],
+        "owners": [
+          0,
+          0
+        ],
+        "returned_first_coordinate": [
+          -0.0011040928051724982,
+          -0.016028203655110682
+        ],
+        "combined_first_coordinate": -0.008311206133928356
+      },
+      {
+        "token": 61,
+        "source": 0,
+        "experts": [
+          5,
+          6
+        ],
+        "owners": [
+          0,
+          0
+        ],
+        "returned_first_coordinate": [
+          -0.08905665905621636,
+          0.023489808680923402
+        ],
+        "combined_first_coordinate": -0.03540465552282566
+      },
+      {
+        "token": 62,
+        "source": 0,
+        "experts": [
+          6,
+          0
+        ],
+        "owners": [
+          0,
+          0
+        ],
+        "returned_first_coordinate": [
+          0.14351655450808867,
+          -0.1990045614746936
+        ],
+        "combined_first_coordinate": 0.0010303505541379987
+      },
+      {
+        "token": 63,
+        "source": 0,
+        "experts": [
+          6,
+          7
+        ],
+        "owners": [
+          0,
+          0
+        ],
+        "returned_first_coordinate": [
+          -0.03741929594122379,
+          -0.08627932395101348
+        ],
+        "combined_first_coordinate": -0.055887823521281334
+      },
+      {
+        "token": 64,
+        "source": 0,
+        "experts": [
+          5,
+          2
+        ],
+        "owners": [
+          0,
+          0
+        ],
+        "returned_first_coordinate": [
+          0.17845991985431897,
+          -0.19102961810527075
+        ],
+        "combined_first_coordinate": 0.009861912404521223
+      },
+      {
+        "token": 65,
+        "source": 0,
+        "experts": [
+          7,
+          5
+        ],
+        "owners": [
+          0,
+          0
+        ],
+        "returned_first_coordinate": [
+          -0.2961386391014161,
+          0.26727488972828306
+        ],
+        "combined_first_coordinate": -0.018711426872132675
+      },
+      {
+        "token": 66,
+        "source": 0,
+        "experts": [
+          6,
+          0
+        ],
+        "owners": [
+          0,
+          0
+        ],
+        "returned_first_coordinate": [
+          0.02462050327025749,
+          0.07861577217277708
+        ],
+        "combined_first_coordinate": 0.04255249814478808
+      },
+      {
+        "token": 67,
+        "source": 0,
+        "experts": [
+          7,
+          2
+        ],
+        "owners": [
+          0,
+          0
+        ],
+        "returned_first_coordinate": [
+          -0.14804530047927586,
+          -0.20053012657570715
+        ],
+        "combined_first_coordinate": -0.17369665846261562
+      },
+      {
+        "token": 68,
+        "source": 0,
+        "experts": [
+          2,
+          3
+        ],
+        "owners": [
+          0,
+          0
+        ],
+        "returned_first_coordinate": [
+          -0.2969687260288156,
+          0.1266124759033979
+        ],
+        "combined_first_coordinate": -0.12695742386342843
+      },
+      {
+        "token": 69,
+        "source": 0,
+        "experts": [
+          5,
+          6
+        ],
+        "owners": [
+          0,
+          0
+        ],
+        "returned_first_coordinate": [
+          0.12223130474485518,
+          0.11089676703444372
+        ],
+        "combined_first_coordinate": 0.11669888088945356
+      },
+      {
+        "token": 70,
+        "source": 0,
+        "experts": [
+          2,
+          3
+        ],
+        "owners": [
+          0,
+          0
+        ],
+        "returned_first_coordinate": [
+          -0.38609757445746506,
+          0.059548751284341825
+        ],
+        "combined_first_coordinate": -0.19510970069960382
+      },
+      {
+        "token": 71,
+        "source": 0,
+        "experts": [
+          4,
+          1
+        ],
+        "owners": [
+          0,
+          0
+        ],
+        "returned_first_coordinate": [
+          -0.028620529336368116,
+          0.14773882093969037
+        ],
+        "combined_first_coordinate": 0.05313149468661782
+      },
+      {
+        "token": 72,
+        "source": 0,
+        "experts": [
+          5,
+          2
+        ],
+        "owners": [
+          0,
+          0
+        ],
+        "returned_first_coordinate": [
+          0.17169506821425615,
+          -0.39851954700273723
+        ],
+        "combined_first_coordinate": -0.10669208115532065
+      },
+      {
+        "token": 73,
+        "source": 0,
+        "experts": [
+          3,
+          0
+        ],
+        "owners": [
+          0,
+          0
+        ],
+        "returned_first_coordinate": [
+          -0.12998267783508466,
+          -0.16403336595573648
+        ],
+        "combined_first_coordinate": -0.14641197472816603
+      },
+      {
+        "token": 74,
+        "source": 0,
+        "experts": [
+          1,
+          7
+        ],
+        "owners": [
+          0,
+          0
+        ],
+        "returned_first_coordinate": [
+          0.25523815064493205,
+          -0.206391748559937
+        ],
+        "combined_first_coordinate": 0.030615610632523743
+      },
+      {
+        "token": 75,
+        "source": 0,
+        "experts": [
+          7,
+          0
+        ],
+        "owners": [
+          0,
+          0
+        ],
+        "returned_first_coordinate": [
+          -0.1311603474435003,
+          0.35736688096609204
+        ],
+        "combined_first_coordinate": 0.10865164436348003
+      },
+      {
+        "token": 76,
+        "source": 0,
+        "experts": [
+          4,
+          2
+        ],
+        "owners": [
+          0,
+          0
+        ],
+        "returned_first_coordinate": [
+          -0.2073473028696422,
+          -0.231408216876464
+        ],
+        "combined_first_coordinate": -0.2191812510770801
+      },
+      {
+        "token": 77,
+        "source": 0,
+        "experts": [
+          0,
+          1
+        ],
+        "owners": [
+          0,
+          0
+        ],
+        "returned_first_coordinate": [
+          0.1479637764512538,
+          -0.02728664392401943
+        ],
+        "combined_first_coordinate": 0.06992162377180941
+      },
+      {
+        "token": 78,
+        "source": 0,
+        "experts": [
+          6,
+          0
+        ],
+        "owners": [
+          0,
+          0
+        ],
+        "returned_first_coordinate": [
+          -0.18511845001036273,
+          -0.06532530906615887
+        ],
+        "combined_first_coordinate": -0.14114330833119942
+      },
+      {
+        "token": 79,
+        "source": 0,
+        "experts": [
+          1,
+          3
+        ],
+        "owners": [
+          0,
+          0
+        ],
+        "returned_first_coordinate": [
+          0.0013566339418757283,
+          -0.12268788876928985
+        ],
+        "combined_first_coordinate": -0.06034462337224178
+      },
+      {
+        "token": 80,
+        "source": 0,
+        "experts": [
+          6,
+          0
+        ],
+        "owners": [
+          0,
+          0
+        ],
+        "returned_first_coordinate": [
+          -0.0380140716838138,
+          0.10061509949777431
+        ],
+        "combined_first_coordinate": 0.017004460962043548
+      },
+      {
+        "token": 81,
+        "source": 0,
+        "experts": [
+          7,
+          2
+        ],
+        "owners": [
+          0,
+          0
+        ],
+        "returned_first_coordinate": [
+          -0.17661252938654085,
+          -0.36700156497565345
+        ],
+        "combined_first_coordinate": -0.2613078162606177
+      },
+      {
+        "token": 82,
+        "source": 0,
+        "experts": [
+          2,
+          0
+        ],
+        "owners": [
+          0,
+          0
+        ],
+        "returned_first_coordinate": [
+          -0.3485232661266001,
+          0.14406850667336812
+        ],
+        "combined_first_coordinate": -0.13752207824643606
+      },
+      {
+        "token": 83,
+        "source": 0,
+        "experts": [
+          7,
+          0
+        ],
+        "owners": [
+          0,
+          0
+        ],
+        "returned_first_coordinate": [
+          -0.15188666972579817,
+          -0.12136897817536253
+        ],
+        "combined_first_coordinate": -0.137117767724049
+      },
+      {
+        "token": 84,
+        "source": 0,
+        "experts": [
+          7,
+          1
+        ],
+        "owners": [
+          0,
+          0
+        ],
+        "returned_first_coordinate": [
+          -0.27849346324307317,
+          0.04369196960810047
+        ],
+        "combined_first_coordinate": -0.12246152286246932
+      },
+      {
+        "token": 85,
+        "source": 0,
+        "experts": [
+          5,
+          7
+        ],
+        "owners": [
+          0,
+          0
+        ],
+        "returned_first_coordinate": [
+          0.011596600643199098,
+          -0.030480844229153634
+        ],
+        "combined_first_coordinate": -0.008907221018104467
+      },
+      {
+        "token": 86,
+        "source": 0,
+        "experts": [
+          6,
+          1
+        ],
+        "owners": [
+          0,
+          0
+        ],
+        "returned_first_coordinate": [
+          0.07256427908015552,
+          0.08297443257920946
+        ],
+        "combined_first_coordinate": 0.0770348435707765
+      },
+      {
+        "token": 87,
+        "source": 0,
+        "experts": [
+          6,
+          3
+        ],
+        "owners": [
+          0,
+          0
+        ],
+        "returned_first_coordinate": [
+          -0.18067686052397244,
+          -0.1873034417886221
+        ],
+        "combined_first_coordinate": -0.18397323996701861
+      },
+      {
+        "token": 88,
+        "source": 0,
+        "experts": [
+          7,
+          3
+        ],
+        "owners": [
+          0,
+          0
+        ],
+        "returned_first_coordinate": [
+          -0.26009418226915265,
+          0.11757827701354608
+        ],
+        "combined_first_coordinate": -0.08955392347355538
+      },
+      {
+        "token": 89,
+        "source": 0,
+        "experts": [
+          5,
+          6
+        ],
+        "owners": [
+          0,
+          0
+        ],
+        "returned_first_coordinate": [
+          -0.20732628846513798,
+          -0.046493744717547275
+        ],
+        "combined_first_coordinate": -0.127813413286723
+      },
+      {
+        "token": 90,
+        "source": 0,
+        "experts": [
+          3,
+          7
+        ],
+        "owners": [
+          0,
+          0
+        ],
+        "returned_first_coordinate": [
+          0.1132425800771579,
+          -0.11448766474098142
+        ],
+        "combined_first_coordinate": 0.0035546121135247577
+      },
+      {
+        "token": 91,
+        "source": 0,
+        "experts": [
+          2,
+          1
+        ],
+        "owners": [
+          0,
+          0
+        ],
+        "returned_first_coordinate": [
+          -0.33731717586304166,
+          -0.0025817268185144935
+        ],
+        "combined_first_coordinate": -0.19503104593759402
+      },
+      {
+        "token": 92,
+        "source": 0,
+        "experts": [
+          2,
+          5
+        ],
+        "owners": [
+          0,
+          0
+        ],
+        "returned_first_coordinate": [
+          -0.10082509100569573,
+          -0.08755745100873466
+        ],
+        "combined_first_coordinate": -0.09450985939439456
+      },
+      {
+        "token": 93,
+        "source": 0,
+        "experts": [
+          7,
+          6
+        ],
+        "owners": [
+          0,
+          0
+        ],
+        "returned_first_coordinate": [
+          -0.03286743402038695,
+          0.07638884560914812
+        ],
+        "combined_first_coordinate": 0.020393901198125806
+      },
+      {
+        "token": 94,
+        "source": 0,
+        "experts": [
+          5,
+          2
+        ],
+        "owners": [
+          0,
+          0
+        ],
+        "returned_first_coordinate": [
+          -0.046234142805816586,
+          -0.494302544137733
+        ],
+        "combined_first_coordinate": -0.24447890379259113
+      },
+      {
+        "token": 95,
+        "source": 0,
+        "experts": [
+          2,
+          3
+        ],
+        "owners": [
+          0,
+          0
+        ],
+        "returned_first_coordinate": [
+          -0.14503617321859422,
+          -0.17758133959385297
+        ],
+        "combined_first_coordinate": -0.16026944868334436
+      },
+      {
+        "token": 96,
+        "source": 0,
+        "experts": [
+          3,
+          4
+        ],
+        "owners": [
+          0,
+          0
+        ],
+        "returned_first_coordinate": [
+          -0.14171487688619822,
+          -0.0669189120500262
+        ],
+        "combined_first_coordinate": -0.1046245496783956
+      },
+      {
+        "token": 97,
+        "source": 0,
+        "experts": [
+          7,
+          3
+        ],
+        "owners": [
+          0,
+          0
+        ],
+        "returned_first_coordinate": [
+          -0.160007610609388,
+          0.08072055356915353
+        ],
+        "combined_first_coordinate": -0.0611819945519499
+      },
+      {
+        "token": 98,
+        "source": 0,
+        "experts": [
+          6,
+          0
+        ],
+        "owners": [
+          0,
+          0
+        ],
+        "returned_first_coordinate": [
+          0.032923361686398235,
+          -0.04955644676819344
+        ],
+        "combined_first_coordinate": -0.002140424404658888
+      },
+      {
+        "token": 99,
+        "source": 0,
+        "experts": [
+          2,
+          7
+        ],
+        "owners": [
+          0,
+          0
+        ],
+        "returned_first_coordinate": [
+          -0.30042553641503483,
+          -0.2508201472523691
+        ],
+        "combined_first_coordinate": -0.27899201845802457
+      },
+      {
+        "token": 100,
+        "source": 0,
+        "experts": [
+          7,
+          6
+        ],
+        "owners": [
+          0,
+          0
+        ],
+        "returned_first_coordinate": [
+          -0.37137177065288574,
+          0.03364291062320428
+        ],
+        "combined_first_coordinate": -0.1792026999824321
+      },
+      {
+        "token": 101,
+        "source": 0,
+        "experts": [
+          5,
+          6
+        ],
+        "owners": [
+          0,
+          0
+        ],
+        "returned_first_coordinate": [
+          0.053509754885302095,
+          0.0572460861147289
+        ],
+        "combined_first_coordinate": 0.055370818278840904
+      },
+      {
+        "token": 102,
+        "source": 0,
+        "experts": [
+          2,
+          5
+        ],
+        "owners": [
+          0,
+          0
+        ],
+        "returned_first_coordinate": [
+          -0.33973319101281385,
+          0.20994241246905135
+        ],
+        "combined_first_coordinate": -0.09438309288379212
+      },
+      {
+        "token": 103,
+        "source": 0,
+        "experts": [
+          6,
+          2
+        ],
+        "owners": [
+          0,
+          0
+        ],
+        "returned_first_coordinate": [
+          -0.15604389486909856,
+          -0.44062549922023636
+        ],
+        "combined_first_coordinate": -0.2682322767465771
+      },
+      {
+        "token": 104,
+        "source": 0,
+        "experts": [
+          6,
+          3
+        ],
+        "owners": [
+          0,
+          0
+        ],
+        "returned_first_coordinate": [
+          -0.03107418248143275,
+          -0.04449853624456433
+        ],
+        "combined_first_coordinate": -0.036849642467110505
+      },
+      {
+        "token": 105,
+        "source": 0,
+        "experts": [
+          6,
+          3
+        ],
+        "owners": [
+          0,
+          0
+        ],
+        "returned_first_coordinate": [
+          0.04033639316241424,
+          0.1002037232136363
+        ],
+        "combined_first_coordinate": 0.062472850233401024
+      },
+      {
+        "token": 106,
+        "source": 0,
+        "experts": [
+          7,
+          2
+        ],
+        "owners": [
+          0,
+          0
+        ],
+        "returned_first_coordinate": [
+          -0.20573271102347976,
+          -0.1427441608748286
+        ],
+        "combined_first_coordinate": -0.17542559475024555
+      },
+      {
+        "token": 107,
+        "source": 0,
+        "experts": [
+          6,
+          0
+        ],
+        "owners": [
+          0,
+          0
+        ],
+        "returned_first_coordinate": [
+          -0.13007348378398492,
+          -0.02363199691585779
+        ],
+        "combined_first_coordinate": -0.0872489027591552
+      },
+      {
+        "token": 108,
+        "source": 0,
+        "experts": [
+          2,
+          3
+        ],
+        "owners": [
+          0,
+          0
+        ],
+        "returned_first_coordinate": [
+          -0.19841335249981462,
+          -0.20494252571745417
+        ],
+        "combined_first_coordinate": -0.20138552393490433
+      },
+      {
+        "token": 109,
+        "source": 0,
+        "experts": [
+          6,
+          2
+        ],
+        "owners": [
+          0,
+          0
+        ],
+        "returned_first_coordinate": [
+          -0.2353823573668875,
+          -0.1761102358001109
+        ],
+        "combined_first_coordinate": -0.2068415678730266
+      },
+      {
+        "token": 110,
+        "source": 0,
+        "experts": [
+          6,
+          0
+        ],
+        "owners": [
+          0,
+          0
+        ],
+        "returned_first_coordinate": [
+          0.11284094740142998,
+          -0.0216900434927681
+        ],
+        "combined_first_coordinate": 0.049915069756119416
+      },
+      {
+        "token": 111,
+        "source": 0,
+        "experts": [
+          2,
+          0
+        ],
+        "owners": [
+          0,
+          0
+        ],
+        "returned_first_coordinate": [
+          -0.45351269421064305,
+          -0.05867488577212473
+        ],
+        "combined_first_coordinate": -0.27544529363725756
+      },
+      {
+        "token": 112,
+        "source": 0,
+        "experts": [
+          6,
+          3
+        ],
+        "owners": [
+          0,
+          0
+        ],
+        "returned_first_coordinate": [
+          -0.11958060386246205,
+          -0.04974867674164431
+        ],
+        "combined_first_coordinate": -0.08640461484748319
+      },
+      {
+        "token": 113,
+        "source": 0,
+        "experts": [
+          5,
+          7
+        ],
+        "owners": [
+          0,
+          0
+        ],
+        "returned_first_coordinate": [
+          0.3832231656284546,
+          -0.2591327225738532
+        ],
+        "combined_first_coordinate": 0.08143157527152249
+      },
+      {
+        "token": 114,
+        "source": 0,
+        "experts": [
+          6,
+          0
+        ],
+        "owners": [
+          0,
+          0
+        ],
+        "returned_first_coordinate": [
+          0.21750840916909603,
+          -0.07205127773799387
+        ],
+        "combined_first_coordinate": 0.12002160954601328
+      },
+      {
+        "token": 115,
+        "source": 0,
+        "experts": [
+          1,
+          5
+        ],
+        "owners": [
+          0,
+          0
+        ],
+        "returned_first_coordinate": [
+          0.13245559823476438,
+          0.14982656001984332
+        ],
+        "combined_first_coordinate": 0.14037857102441034
+      },
+      {
+        "token": 116,
+        "source": 0,
+        "experts": [
+          6,
+          3
+        ],
+        "owners": [
+          0,
+          0
+        ],
+        "returned_first_coordinate": [
+          -0.02966267396232712,
+          -0.06316868452835135
+        ],
+        "combined_first_coordinate": -0.04468818344146315
+      },
+      {
+        "token": 117,
+        "source": 0,
+        "experts": [
+          7,
+          5
+        ],
+        "owners": [
+          0,
+          0
+        ],
+        "returned_first_coordinate": [
+          -0.10231390511667013,
+          0.10691724371888514
+        ],
+        "combined_first_coordinate": -0.0013783707137008175
+      },
+      {
+        "token": 118,
+        "source": 0,
+        "experts": [
+          5,
+          1
+        ],
+        "owners": [
+          0,
+          0
+        ],
+        "returned_first_coordinate": [
+          -0.012207870785365615,
+          0.20274928511479964
+        ],
+        "combined_first_coordinate": 0.0892650149880639
+      },
+      {
+        "token": 119,
+        "source": 0,
+        "experts": [
+          6,
+          5
+        ],
+        "owners": [
+          0,
+          0
+        ],
+        "returned_first_coordinate": [
+          -0.2965917729297884,
+          0.07657146283920423
+        ],
+        "combined_first_coordinate": -0.13198687495975595
+      },
+      {
+        "token": 120,
+        "source": 0,
+        "experts": [
+          5,
+          3
+        ],
+        "owners": [
+          0,
+          0
+        ],
+        "returned_first_coordinate": [
+          0.3844525089688631,
+          -0.3294966522072857
+        ],
+        "combined_first_coordinate": 0.04559901412425024
+      },
+      {
+        "token": 121,
+        "source": 0,
+        "experts": [
+          5,
+          3
+        ],
+        "owners": [
+          0,
+          0
+        ],
+        "returned_first_coordinate": [
+          0.26357494389442004,
+          -0.051520012454125304
+        ],
+        "combined_first_coordinate": 0.10609331615035886
+      },
+      {
+        "token": 122,
+        "source": 0,
+        "experts": [
+          6,
+          5
+        ],
+        "owners": [
+          0,
+          0
+        ],
+        "returned_first_coordinate": [
+          0.020434360002781593,
+          -0.05309923627571983
+        ],
+        "combined_first_coordinate": -0.015136945362133437
+      },
+      {
+        "token": 123,
+        "source": 0,
+        "experts": [
+          7,
+          3
+        ],
+        "owners": [
+          0,
+          0
+        ],
+        "returned_first_coordinate": [
+          -0.23817187568427803,
+          -0.051188682292629406
+        ],
+        "combined_first_coordinate": -0.1472955318612295
+      },
+      {
+        "token": 124,
+        "source": 0,
+        "experts": [
+          5,
+          7
+        ],
+        "owners": [
+          0,
+          0
+        ],
+        "returned_first_coordinate": [
+          -0.1021298352999787,
+          -0.21972503152704811
+        ],
+        "combined_first_coordinate": -0.1599833749423225
+      },
+      {
+        "token": 125,
+        "source": 0,
+        "experts": [
+          2,
+          4
+        ],
+        "owners": [
+          0,
+          0
+        ],
+        "returned_first_coordinate": [
+          -0.0692823170686031,
+          -0.1584780101463877
+        ],
+        "combined_first_coordinate": -0.11333013920718712
+      },
+      {
+        "token": 126,
+        "source": 0,
+        "experts": [
+          6,
+          5
+        ],
+        "owners": [
+          0,
+          0
+        ],
+        "returned_first_coordinate": [
+          0.122493857855777,
+          -0.3015674467583907
+        ],
+        "combined_first_coordinate": -0.037253720608499435
+      },
+      {
+        "token": 127,
+        "source": 0,
+        "experts": [
+          7,
+          0
+        ],
+        "owners": [
+          0,
+          0
+        ],
+        "returned_first_coordinate": [
+          -0.08880093540047237,
+          -0.07319337041953161
+        ],
+        "combined_first_coordinate": -0.08107003262442672
+      },
+      {
+        "token": 128,
+        "source": 0,
+        "experts": [
+          7,
+          2
+        ],
+        "owners": [
+          0,
+          0
+        ],
+        "returned_first_coordinate": [
+          -0.2938489571977998,
+          -0.11294263016026491
+        ],
+        "combined_first_coordinate": -0.20361918791111389
+      },
+      {
+        "token": 129,
+        "source": 0,
+        "experts": [
+          2,
+          7
+        ],
+        "owners": [
+          0,
+          0
+        ],
+        "returned_first_coordinate": [
+          -0.11973986997381547,
+          -0.30269726454678053
+        ],
+        "combined_first_coordinate": -0.18668637014723177
+      },
+      {
+        "token": 130,
+        "source": 0,
+        "experts": [
+          7,
+          0
+        ],
+        "owners": [
+          0,
+          0
+        ],
+        "returned_first_coordinate": [
+          0.01410308581829383,
+          -0.11179995415928731
+        ],
+        "combined_first_coordinate": -0.04839320416219242
+      },
+      {
+        "token": 131,
+        "source": 0,
+        "experts": [
+          7,
+          0
+        ],
+        "owners": [
+          0,
+          0
+        ],
+        "returned_first_coordinate": [
+          -0.2110885422787793,
+          -0.10760934447667697
+        ],
+        "combined_first_coordinate": -0.16148465860340677
+      },
+      {
+        "token": 132,
+        "source": 0,
+        "experts": [
+          7,
+          6
+        ],
+        "owners": [
+          0,
+          0
+        ],
+        "returned_first_coordinate": [
+          -0.24559475181074544,
+          0.13370273557266704
+        ],
+        "combined_first_coordinate": -0.06266152964220441
+      },
+      {
+        "token": 133,
+        "source": 0,
+        "experts": [
+          1,
+          7
+        ],
+        "owners": [
+          0,
+          0
+        ],
+        "returned_first_coordinate": [
+          0.010318347455934879,
+          -0.21605626767816472
+        ],
+        "combined_first_coordinate": -0.0998849205387933
+      },
+      {
+        "token": 134,
+        "source": 0,
+        "experts": [
+          5,
+          2
+        ],
+        "owners": [
+          0,
+          0
+        ],
+        "returned_first_coordinate": [
+          0.28796909229244066,
+          -0.29480496594104705
+        ],
+        "combined_first_coordinate": 0.04619083612511263
+      },
+      {
+        "token": 135,
+        "source": 0,
+        "experts": [
+          2,
+          6
+        ],
+        "owners": [
+          0,
+          0
+        ],
+        "returned_first_coordinate": [
+          -0.3479621928078568,
+          -0.21346928982450952
+        ],
+        "combined_first_coordinate": -0.2897991017771332
+      },
+      {
+        "token": 136,
+        "source": 0,
+        "experts": [
+          6,
+          5
+        ],
+        "owners": [
+          0,
+          0
+        ],
+        "returned_first_coordinate": [
+          -0.268124576832323,
+          -0.28853702740132847
+        ],
+        "combined_first_coordinate": -0.2780004278934304
+      },
+      {
+        "token": 137,
+        "source": 0,
+        "experts": [
+          7,
+          6
+        ],
+        "owners": [
+          0,
+          0
+        ],
+        "returned_first_coordinate": [
+          0.08019524381950048,
+          -0.16991301463333203
+        ],
+        "combined_first_coordinate": -0.04263716036907688
+      },
+      {
+        "token": 138,
+        "source": 0,
+        "experts": [
+          1,
+          7
+        ],
+        "owners": [
+          0,
+          0
+        ],
+        "returned_first_coordinate": [
+          0.09214858962176307,
+          -0.07485028259466919
+        ],
+        "combined_first_coordinate": 0.010734596240297413
+      },
+      {
+        "token": 139,
+        "source": 0,
+        "experts": [
+          0,
+          6
+        ],
+        "owners": [
+          0,
+          0
+        ],
+        "returned_first_coordinate": [
+          -0.09791091336486778,
+          -0.034058088273805256
+        ],
+        "combined_first_coordinate": -0.06862871180044
+      },
+      {
+        "token": 140,
+        "source": 0,
+        "experts": [
+          5,
+          2
+        ],
+        "owners": [
+          0,
+          0
+        ],
+        "returned_first_coordinate": [
+          0.14716477952265736,
+          -0.16594339360720786
+        ],
+        "combined_first_coordinate": -0.0019216225433514866
+      },
+      {
+        "token": 141,
+        "source": 0,
+        "experts": [
+          5,
+          2
+        ],
+        "owners": [
+          0,
+          0
+        ],
+        "returned_first_coordinate": [
+          0.18108774711651573,
+          -0.29961016326081874
+        ],
+        "combined_first_coordinate": -0.041163934815198505
+      },
+      {
+        "token": 142,
+        "source": 0,
+        "experts": [
+          2,
+          6
+        ],
+        "owners": [
+          0,
+          0
+        ],
+        "returned_first_coordinate": [
+          -0.3362617247288082,
+          -0.15871255263795794
+        ],
+        "combined_first_coordinate": -0.26279525446896274
+      },
+      {
+        "token": 143,
+        "source": 0,
+        "experts": [
+          1,
+          6
+        ],
+        "owners": [
+          0,
+          0
+        ],
+        "returned_first_coordinate": [
+          0.18857304185746712,
+          -0.023514227550305137
+        ],
+        "combined_first_coordinate": 0.09154865067922557
+      },
+      {
+        "token": 144,
+        "source": 0,
+        "experts": [
+          0,
+          7
+        ],
+        "owners": [
+          0,
+          0
+        ],
+        "returned_first_coordinate": [
+          0.22293817155282647,
+          -0.22301050092456387
+        ],
+        "combined_first_coordinate": 0.007895616975348477
+      },
+      {
+        "token": 145,
+        "source": 0,
+        "experts": [
+          6,
+          3
+        ],
+        "owners": [
+          0,
+          0
+        ],
+        "returned_first_coordinate": [
+          -0.2298985638891983,
+          0.05635115595401422
+        ],
+        "combined_first_coordinate": -0.09648956727604201
+      },
+      {
+        "token": 146,
+        "source": 0,
+        "experts": [
+          5,
+          7
+        ],
+        "owners": [
+          0,
+          0
+        ],
+        "returned_first_coordinate": [
+          0.05645279114071126,
+          -0.27532887704338593
+        ],
+        "combined_first_coordinate": -0.07037601587739346
+      },
+      {
+        "token": 147,
+        "source": 0,
+        "experts": [
+          7,
+          3
+        ],
+        "owners": [
+          0,
+          0
+        ],
+        "returned_first_coordinate": [
+          -0.28028288766766973,
+          -0.1803567623819277
+        ],
+        "combined_first_coordinate": -0.23066755649437465
+      },
+      {
+        "token": 148,
+        "source": 0,
+        "experts": [
+          1,
+          0
+        ],
+        "owners": [
+          0,
+          0
+        ],
+        "returned_first_coordinate": [
+          0.12160749420437167,
+          -0.03162564581506988
+        ],
+        "combined_first_coordinate": 0.04741844859111434
+      },
+      {
+        "token": 149,
+        "source": 0,
+        "experts": [
+          5,
+          0
+        ],
+        "owners": [
+          0,
+          0
+        ],
+        "returned_first_coordinate": [
+          0.06487418451220885,
+          -0.02848119520199416
+        ],
+        "combined_first_coordinate": 0.0221180173241414
+      },
+      {
+        "token": 150,
+        "source": 0,
+        "experts": [
+          6,
+          5
+        ],
+        "owners": [
+          0,
+          0
+        ],
+        "returned_first_coordinate": [
+          0.1940248925775036,
+          0.10832187847240543
+        ],
+        "combined_first_coordinate": 0.15440003412411019
+      },
+      {
+        "token": 151,
+        "source": 0,
+        "experts": [
+          6,
+          0
+        ],
+        "owners": [
+          0,
+          0
+        ],
+        "returned_first_coordinate": [
+          -0.2906039818666221,
+          0.09068708479471062
+        ],
+        "combined_first_coordinate": -0.11355338742301907
+      },
+      {
+        "token": 152,
+        "source": 0,
+        "experts": [
+          5,
+          0
+        ],
+        "owners": [
+          0,
+          0
+        ],
+        "returned_first_coordinate": [
+          0.19119621242825657,
+          0.022850790683867483
+        ],
+        "combined_first_coordinate": 0.10857533844974346
+      },
+      {
+        "token": 153,
+        "source": 0,
+        "experts": [
+          3,
+          6
+        ],
+        "owners": [
+          0,
+          0
+        ],
+        "returned_first_coordinate": [
+          -0.025961370133349752,
+          0.11814519209323811
+        ],
+        "combined_first_coordinate": 0.04484532719166609
+      },
+      {
+        "token": 154,
+        "source": 0,
+        "experts": [
+          5,
+          6
+        ],
+        "owners": [
+          0,
+          0
+        ],
+        "returned_first_coordinate": [
+          0.05281553022086966,
+          -0.011533958787857516
+        ],
+        "combined_first_coordinate": 0.021065688604965223
+      },
+      {
+        "token": 155,
+        "source": 0,
+        "experts": [
+          7,
+          2
+        ],
+        "owners": [
+          0,
+          0
+        ],
+        "returned_first_coordinate": [
+          -0.21277818362219092,
+          -0.01791982367526324
+        ],
+        "combined_first_coordinate": -0.1282484906535142
+      },
+      {
+        "token": 156,
+        "source": 0,
+        "experts": [
+          5,
+          2
+        ],
+        "owners": [
+          0,
+          0
+        ],
+        "returned_first_coordinate": [
+          0.011148409531044423,
+          -0.3128739694969127
+        ],
+        "combined_first_coordinate": -0.13707608019653
+      },
+      {
+        "token": 157,
+        "source": 0,
+        "experts": [
+          6,
+          5
+        ],
+        "owners": [
+          0,
+          0
+        ],
+        "returned_first_coordinate": [
+          0.12665284311531974,
+          0.21501621612421323
+        ],
+        "combined_first_coordinate": 0.17033143953965285
+      },
+      {
+        "token": 158,
+        "source": 0,
+        "experts": [
+          2,
+          0
+        ],
+        "owners": [
+          0,
+          0
+        ],
+        "returned_first_coordinate": [
+          -0.2757616578968348,
+          0.13857140315421565
+        ],
+        "combined_first_coordinate": -0.07721070144174973
+      },
+      {
+        "token": 159,
+        "source": 0,
+        "experts": [
+          7,
+          0
+        ],
+        "owners": [
+          0,
+          0
+        ],
+        "returned_first_coordinate": [
+          -0.39481006477731745,
+          0.26916832098110355
+        ],
+        "combined_first_coordinate": -0.07684412996719753
+      },
+      {
+        "token": 160,
+        "source": 0,
+        "experts": [
+          5,
+          2
+        ],
+        "owners": [
+          0,
+          0
+        ],
+        "returned_first_coordinate": [
+          0.07627546177083418,
+          -0.34122531967544445
+        ],
+        "combined_first_coordinate": -0.07557142275340797
+      },
+      {
+        "token": 161,
+        "source": 0,
+        "experts": [
+          6,
+          5
+        ],
+        "owners": [
+          0,
+          0
+        ],
+        "returned_first_coordinate": [
+          0.1184316316416861,
+          0.007057258101091619
+        ],
+        "combined_first_coordinate": 0.0720065726176721
+      },
+      {
+        "token": 162,
+        "source": 0,
+        "experts": [
+          7,
+          2
+        ],
+        "owners": [
+          0,
+          0
+        ],
+        "returned_first_coordinate": [
+          0.04775362229779585,
+          -0.2641461116135577
+        ],
+        "combined_first_coordinate": -0.08132892859409047
+      },
+      {
+        "token": 163,
+        "source": 0,
+        "experts": [
+          5,
+          7
+        ],
+        "owners": [
+          0,
+          0
+        ],
+        "returned_first_coordinate": [
+          -0.18533106471780672,
+          -0.14694697087530434
+        ],
+        "combined_first_coordinate": -0.16710087520266315
+      },
+      {
+        "token": 164,
+        "source": 0,
+        "experts": [
+          6,
+          3
+        ],
+        "owners": [
+          0,
+          0
+        ],
+        "returned_first_coordinate": [
+          -0.1360504900422502,
+          0.0723607052671399
+        ],
+        "combined_first_coordinate": -0.03306239561591757
+      },
+      {
+        "token": 165,
+        "source": 0,
+        "experts": [
+          3,
+          7
+        ],
+        "owners": [
+          0,
+          0
+        ],
+        "returned_first_coordinate": [
+          0.07592625886609307,
+          -0.2669414930564647
+        ],
+        "combined_first_coordinate": -0.09067206203557407
+      },
+      {
+        "token": 166,
+        "source": 0,
+        "experts": [
+          7,
+          3
+        ],
+        "owners": [
+          0,
+          0
+        ],
+        "returned_first_coordinate": [
+          -0.2901813031702241,
+          -0.0557654609464438
+        ],
+        "combined_first_coordinate": -0.19025696649861926
+      },
+      {
+        "token": 167,
+        "source": 0,
+        "experts": [
+          5,
+          1
+        ],
+        "owners": [
+          0,
+          0
+        ],
+        "returned_first_coordinate": [
+          0.09992021913523774,
+          0.05402072743367118
+        ],
+        "combined_first_coordinate": 0.07822590117516422
+      },
+      {
+        "token": 168,
+        "source": 0,
+        "experts": [
+          4,
+          1
+        ],
+        "owners": [
+          0,
+          0
+        ],
+        "returned_first_coordinate": [
+          0.0451514122809352,
+          0.3431950507354296
+        ],
+        "combined_first_coordinate": 0.18903876370491152
+      },
+      {
+        "token": 169,
+        "source": 0,
+        "experts": [
+          5,
+          6
+        ],
+        "owners": [
+          0,
+          0
+        ],
+        "returned_first_coordinate": [
+          -0.27368770285175503,
+          0.052513589918131945
+        ],
+        "combined_first_coordinate": -0.11668689116854741
+      },
+      {
+        "token": 170,
+        "source": 0,
+        "experts": [
+          4,
+          7
+        ],
+        "owners": [
+          0,
+          0
+        ],
+        "returned_first_coordinate": [
+          -0.02167396587390518,
+          -0.1590084938930277
+        ],
+        "combined_first_coordinate": -0.08738169294224972
+      },
+      {
+        "token": 171,
+        "source": 0,
+        "experts": [
+          7,
+          2
+        ],
+        "owners": [
+          0,
+          0
+        ],
+        "returned_first_coordinate": [
+          -0.25303836862396384,
+          -0.17042072019986357
+        ],
+        "combined_first_coordinate": -0.2123250562563634
+      },
+      {
+        "token": 172,
+        "source": 0,
+        "experts": [
+          0,
+          6
+        ],
+        "owners": [
+          0,
+          0
+        ],
+        "returned_first_coordinate": [
+          0.12739046739953325,
+          0.13055876517140097
+        ],
+        "combined_first_coordinate": 0.12893957779706278
+      },
+      {
+        "token": 173,
+        "source": 0,
+        "experts": [
+          7,
+          5
+        ],
+        "owners": [
+          0,
+          0
+        ],
+        "returned_first_coordinate": [
+          -0.47662596612047714,
+          0.1405973992745047
+        ],
+        "combined_first_coordinate": -0.18872143890114987
+      },
+      {
+        "token": 174,
+        "source": 0,
+        "experts": [
+          5,
+          2
+        ],
+        "owners": [
+          0,
+          0
+        ],
+        "returned_first_coordinate": [
+          0.14439203169148085,
+          -0.3000139805848333
+        ],
+        "combined_first_coordinate": -0.052988896534165233
+      },
+      {
+        "token": 175,
+        "source": 0,
+        "experts": [
+          6,
+          1
+        ],
+        "owners": [
+          0,
+          0
+        ],
+        "returned_first_coordinate": [
+          -0.04723739310455449,
+          0.206401673166394
+        ],
+        "combined_first_coordinate": 0.0673766580462476
+      },
+      {
+        "token": 176,
+        "source": 0,
+        "experts": [
+          5,
+          7
+        ],
+        "owners": [
+          0,
+          0
+        ],
+        "returned_first_coordinate": [
+          0.1387373660364848,
+          -0.314787591588606
+        ],
+        "combined_first_coordinate": -0.08117234720548652
+      },
+      {
+        "token": 177,
+        "source": 0,
+        "experts": [
+          4,
+          3
+        ],
+        "owners": [
+          0,
+          0
+        ],
+        "returned_first_coordinate": [
+          -0.00718722741069725,
+          -0.0749860571938119
+        ],
+        "combined_first_coordinate": -0.04067277707983259
+      },
+      {
+        "token": 178,
+        "source": 0,
+        "experts": [
+          5,
+          7
+        ],
+        "owners": [
+          0,
+          0
+        ],
+        "returned_first_coordinate": [
+          0.0210593200308699,
+          -0.16119230590188108
+        ],
+        "combined_first_coordinate": -0.06905580072381831
+      },
+      {
+        "token": 179,
+        "source": 0,
+        "experts": [
+          1,
+          6
+        ],
+        "owners": [
+          0,
+          0
+        ],
+        "returned_first_coordinate": [
+          0.2810868333686653,
+          -0.16996442824529584
+        ],
+        "combined_first_coordinate": 0.09782325068153903
+      },
+      {
+        "token": 180,
+        "source": 0,
+        "experts": [
+          5,
+          1
+        ],
+        "owners": [
+          0,
+          0
+        ],
+        "returned_first_coordinate": [
+          0.0074376963820236945,
+          0.025168997572498245
+        ],
+        "combined_first_coordinate": 0.01605821238481233
+      },
+      {
+        "token": 181,
+        "source": 0,
+        "experts": [
+          4,
+          0
+        ],
+        "owners": [
+          0,
+          0
+        ],
+        "returned_first_coordinate": [
+          -0.07899667547914084,
+          -0.014181857042922316
+        ],
+        "combined_first_coordinate": -0.04858649022780428
+      },
+      {
+        "token": 182,
+        "source": 0,
+        "experts": [
+          3,
+          6
+        ],
+        "owners": [
+          0,
+          0
+        ],
+        "returned_first_coordinate": [
+          0.06113697146159691,
+          -0.404201335568811
+        ],
+        "combined_first_coordinate": -0.1680241022271482
+      },
+      {
+        "token": 183,
+        "source": 0,
+        "experts": [
+          4,
+          5
+        ],
+        "owners": [
+          0,
+          0
+        ],
+        "returned_first_coordinate": [
+          -0.027574102315974052,
+          0.17349592791150517
+        ],
+        "combined_first_coordinate": 0.06465255890474993
+      },
+      {
+        "token": 184,
+        "source": 0,
+        "experts": [
+          1,
+          2
+        ],
+        "owners": [
+          0,
+          0
+        ],
+        "returned_first_coordinate": [
+          0.05735699544038379,
+          -0.26170046486088844
+        ],
+        "combined_first_coordinate": -0.08732985716803615
+      },
+      {
+        "token": 185,
+        "source": 0,
+        "experts": [
+          3,
+          0
+        ],
+        "owners": [
+          0,
+          0
+        ],
+        "returned_first_coordinate": [
+          -0.04360456489179244,
+          0.0800699953799973
+        ],
+        "combined_first_coordinate": 0.014789201302473794
+      },
+      {
+        "token": 186,
+        "source": 0,
+        "experts": [
+          6,
+          2
+        ],
+        "owners": [
+          0,
+          0
+        ],
+        "returned_first_coordinate": [
+          -0.05816138651709848,
+          -0.3880379220780878
+        ],
+        "combined_first_coordinate": -0.2204827175957136
+      },
+      {
+        "token": 187,
+        "source": 0,
+        "experts": [
+          7,
+          0
+        ],
+        "owners": [
+          0,
+          0
+        ],
+        "returned_first_coordinate": [
+          -0.12919949970093592,
+          -0.13257730404696388
+        ],
+        "combined_first_coordinate": -0.13088119115593888
+      },
+      {
+        "token": 188,
+        "source": 0,
+        "experts": [
+          6,
+          0
+        ],
+        "owners": [
+          0,
+          0
+        ],
+        "returned_first_coordinate": [
+          -0.03873652851010152,
+          -0.04245444690733624
+        ],
+        "combined_first_coordinate": -0.04051106236837623
+      },
+      {
+        "token": 189,
+        "source": 0,
+        "experts": [
+          5,
+          2
+        ],
+        "owners": [
+          0,
+          0
+        ],
+        "returned_first_coordinate": [
+          0.2846326881848313,
+          -0.23059812455271614
+        ],
+        "combined_first_coordinate": 0.043781953159423584
+      },
+      {
+        "token": 190,
+        "source": 0,
+        "experts": [
+          7,
+          1
+        ],
+        "owners": [
+          0,
+          0
+        ],
+        "returned_first_coordinate": [
+          -0.38738904409523106,
+          0.03998496070128604
+        ],
+        "combined_first_coordinate": -0.2045035354840908
+      },
+      {
+        "token": 191,
+        "source": 0,
+        "experts": [
+          0,
+          1
+        ],
+        "owners": [
+          0,
+          0
+        ],
+        "returned_first_coordinate": [
+          -0.22314778939751034,
+          0.06240539780163463
+        ],
+        "combined_first_coordinate": -0.08992701216362409
+      },
+      {
+        "token": 192,
+        "source": 0,
+        "experts": [
+          5,
+          6
+        ],
+        "owners": [
+          0,
+          0
+        ],
+        "returned_first_coordinate": [
+          -0.23286215236306176,
+          0.0029256308847599804
+        ],
+        "combined_first_coordinate": -0.11848711878549908
+      },
+      {
+        "token": 193,
+        "source": 0,
+        "experts": [
+          6,
+          0
+        ],
+        "owners": [
+          0,
+          0
+        ],
+        "returned_first_coordinate": [
+          -0.08451217455369342,
+          0.20344856533084793
+        ],
+        "combined_first_coordinate": 0.03827493333556562
+      },
+      {
+        "token": 194,
+        "source": 0,
+        "experts": [
+          6,
+          2
+        ],
+        "owners": [
+          0,
+          0
+        ],
+        "returned_first_coordinate": [
+          -0.06109903209296878,
+          -0.5311686635461925
+        ],
+        "combined_first_coordinate": -0.23805734647569632
+      },
+      {
+        "token": 195,
+        "source": 0,
+        "experts": [
+          4,
+          7
+        ],
+        "owners": [
+          0,
+          0
+        ],
+        "returned_first_coordinate": [
+          -0.06574865317924057,
+          -0.46130012003385845
+        ],
+        "combined_first_coordinate": -0.2587061023834869
+      },
+      {
+        "token": 196,
+        "source": 0,
+        "experts": [
+          2,
+          3
+        ],
+        "owners": [
+          0,
+          0
+        ],
+        "returned_first_coordinate": [
+          -0.21376840592384405,
+          0.005663995226541769
+        ],
+        "combined_first_coordinate": -0.10701517168310766
+      },
+      {
+        "token": 197,
+        "source": 0,
+        "experts": [
+          7,
+          5
+        ],
+        "owners": [
+          0,
+          0
+        ],
+        "returned_first_coordinate": [
+          -0.13412440145822102,
+          -0.009595602814341098
+        ],
+        "combined_first_coordinate": -0.07564875534052871
+      },
+      {
+        "token": 198,
+        "source": 0,
+        "experts": [
+          7,
+          2
+        ],
+        "owners": [
+          0,
+          0
+        ],
+        "returned_first_coordinate": [
+          -0.06793562439358489,
+          -0.29384326417806605
+        ],
+        "combined_first_coordinate": -0.1767114926167993
+      },
+      {
+        "token": 199,
+        "source": 0,
+        "experts": [
+          2,
+          6
+        ],
+        "owners": [
+          0,
+          0
+        ],
+        "returned_first_coordinate": [
+          -0.36819362366164077,
+          -0.23894284862810306
+        ],
+        "combined_first_coordinate": -0.31710469568316835
+      },
+      {
+        "token": 200,
+        "source": 0,
+        "experts": [
+          6,
+          5
+        ],
+        "owners": [
+          0,
+          0
+        ],
+        "returned_first_coordinate": [
+          0.07527210567466554,
+          -0.2245457569243369
+        ],
+        "combined_first_coordinate": -0.03613148633902373
+      },
+      {
+        "token": 201,
+        "source": 0,
+        "experts": [
+          2,
+          3
+        ],
+        "owners": [
+          0,
+          0
+        ],
+        "returned_first_coordinate": [
+          -0.19914847335161717,
+          -0.1948767576797008
+        ],
+        "combined_first_coordinate": -0.19706783041952816
+      },
+      {
+        "token": 202,
+        "source": 0,
+        "experts": [
+          6,
+          5
+        ],
+        "owners": [
+          0,
+          0
+        ],
+        "returned_first_coordinate": [
+          0.12987697141333268,
+          -0.022811374350073604
+        ],
+        "combined_first_coordinate": 0.05705229889340808
+      },
+      {
+        "token": 203,
+        "source": 0,
+        "experts": [
+          7,
+          2
+        ],
+        "owners": [
+          0,
+          0
+        ],
+        "returned_first_coordinate": [
+          -0.40808200787624843,
+          -0.38278094324455264
+        ],
+        "combined_first_coordinate": -0.39555621305118654
+      },
+      {
+        "token": 204,
+        "source": 0,
+        "experts": [
+          3,
+          2
+        ],
+        "owners": [
+          0,
+          0
+        ],
+        "returned_first_coordinate": [
+          -0.023083855147738887,
+          -0.13598914820585176
+        ],
+        "combined_first_coordinate": -0.07805106854796029
+      },
+      {
+        "token": 205,
+        "source": 0,
+        "experts": [
+          7,
+          2
+        ],
+        "owners": [
+          0,
+          0
+        ],
+        "returned_first_coordinate": [
+          -0.3026627915113415,
+          -0.17579531546979282
+        ],
+        "combined_first_coordinate": -0.2506218609564639
+      },
+      {
+        "token": 206,
+        "source": 0,
+        "experts": [
+          7,
+          5
+        ],
+        "owners": [
+          0,
+          0
+        ],
+        "returned_first_coordinate": [
+          -0.18139561884901553,
+          -0.06147384435075898
+        ],
+        "combined_first_coordinate": -0.12325203592550382
+      },
+      {
+        "token": 207,
+        "source": 0,
+        "experts": [
+          2,
+          4
+        ],
+        "owners": [
+          0,
+          0
+        ],
+        "returned_first_coordinate": [
+          -0.2959763558413603,
+          0.012978333131866377
+        ],
+        "combined_first_coordinate": -0.1435349395000598
+      },
+      {
+        "token": 208,
+        "source": 0,
+        "experts": [
+          2,
+          5
+        ],
+        "owners": [
+          0,
+          0
+        ],
+        "returned_first_coordinate": [
+          -0.2302222871815099,
+          0.05050513006066106
+        ],
+        "combined_first_coordinate": -0.09499048951487074
+      },
+      {
+        "token": 209,
+        "source": 0,
+        "experts": [
+          6,
+          5
+        ],
+        "owners": [
+          0,
+          0
+        ],
+        "returned_first_coordinate": [
+          -0.209055114717012,
+          0.1812213504858895
+        ],
+        "combined_first_coordinate": -0.029823116217249188
+      },
+      {
+        "token": 210,
+        "source": 0,
+        "experts": [
+          7,
+          2
+        ],
+        "owners": [
+          0,
+          0
+        ],
+        "returned_first_coordinate": [
+          -0.34638942885832236,
+          -0.3098691025153915
+        ],
+        "combined_first_coordinate": -0.33185767413475237
+      },
+      {
+        "token": 211,
+        "source": 0,
+        "experts": [
+          1,
+          3
+        ],
+        "owners": [
+          0,
+          0
+        ],
+        "returned_first_coordinate": [
+          0.09205639219178481,
+          -0.08789111384640794
+        ],
+        "combined_first_coordinate": 0.00649995238384489
+      },
+      {
+        "token": 212,
+        "source": 0,
+        "experts": [
+          7,
+          5
+        ],
+        "owners": [
+          0,
+          0
+        ],
+        "returned_first_coordinate": [
+          -0.38273532461298004,
+          -0.1524289780700157
+        ],
+        "combined_first_coordinate": -0.275616385855321
+      },
+      {
+        "token": 213,
+        "source": 0,
+        "experts": [
+          2,
+          6
+        ],
+        "owners": [
+          0,
+          0
+        ],
+        "returned_first_coordinate": [
+          -0.2367824506474653,
+          -0.203176815768454
+        ],
+        "combined_first_coordinate": -0.22134197117658017
+      },
+      {
+        "token": 214,
+        "source": 0,
+        "experts": [
+          7,
+          3
+        ],
+        "owners": [
+          0,
+          0
+        ],
+        "returned_first_coordinate": [
+          0.025996055066970086,
+          0.11297966932178988
+        ],
+        "combined_first_coordinate": 0.06768337155162626
+      },
+      {
+        "token": 215,
+        "source": 0,
+        "experts": [
+          7,
+          4
+        ],
+        "owners": [
+          0,
+          0
+        ],
+        "returned_first_coordinate": [
+          -0.04735871742742831,
+          0.14679603793233714
+        ],
+        "combined_first_coordinate": 0.043290854102082596
+      },
+      {
+        "token": 216,
+        "source": 0,
+        "experts": [
+          0,
+          1
+        ],
+        "owners": [
+          0,
+          0
+        ],
+        "returned_first_coordinate": [
+          0.09088274096675104,
+          -0.13074111121991203
+        ],
+        "combined_first_coordinate": -0.008367665874650793
+      },
+      {
+        "token": 217,
+        "source": 0,
+        "experts": [
+          6,
+          0
+        ],
+        "owners": [
+          0,
+          0
+        ],
+        "returned_first_coordinate": [
+          -0.018902452633523737,
+          -0.06256319049489706
+        ],
+        "combined_first_coordinate": -0.040156831464579004
+      },
+      {
+        "token": 218,
+        "source": 0,
+        "experts": [
+          5,
+          2
+        ],
+        "owners": [
+          0,
+          0
+        ],
+        "returned_first_coordinate": [
+          0.011600958107693253,
+          -0.2466841406226652
+        ],
+        "combined_first_coordinate": -0.08553958809327007
+      },
+      {
+        "token": 219,
+        "source": 0,
+        "experts": [
+          6,
+          3
+        ],
+        "owners": [
+          0,
+          0
+        ],
+        "returned_first_coordinate": [
+          -0.10717590728178562,
+          0.034634687643383726
+        ],
+        "combined_first_coordinate": -0.04322497209499552
+      },
+      {
+        "token": 220,
+        "source": 0,
+        "experts": [
+          7,
+          6
+        ],
+        "owners": [
+          0,
+          0
+        ],
+        "returned_first_coordinate": [
+          -0.21870080789013285,
+          -0.17674281082403107
+        ],
+        "combined_first_coordinate": -0.19858936561119456
+      },
+      {
+        "token": 221,
+        "source": 0,
+        "experts": [
+          5,
+          2
+        ],
+        "owners": [
+          0,
+          0
+        ],
+        "returned_first_coordinate": [
+          0.2506886654935416,
+          -0.15298162393974934
+        ],
+        "combined_first_coordinate": 0.06455513991835689
+      },
+      {
+        "token": 222,
+        "source": 0,
+        "experts": [
+          7,
+          3
+        ],
+        "owners": [
+          0,
+          0
+        ],
+        "returned_first_coordinate": [
+          -0.3931135589502223,
+          0.03499981833998921
+        ],
+        "combined_first_coordinate": -0.18052906533290725
+      },
+      {
+        "token": 223,
+        "source": 0,
+        "experts": [
+          7,
+          6
+        ],
+        "owners": [
+          0,
+          0
+        ],
+        "returned_first_coordinate": [
+          -0.16152556153341036,
+          0.18637951177016487
+        ],
+        "combined_first_coordinate": 0.0023814719245766613
+      },
+      {
+        "token": 224,
+        "source": 0,
+        "experts": [
+          6,
+          1
+        ],
+        "owners": [
+          0,
+          0
+        ],
+        "returned_first_coordinate": [
+          0.2262650808687004,
+          0.21763100521749779
+        ],
+        "combined_first_coordinate": 0.22219282913742422
+      },
+      {
+        "token": 225,
+        "source": 0,
+        "experts": [
+          6,
+          7
+        ],
+        "owners": [
+          0,
+          0
+        ],
+        "returned_first_coordinate": [
+          0.10443302278969924,
+          -0.18384826235146887
+        ],
+        "combined_first_coordinate": -0.021060383585883143
+      },
+      {
+        "token": 226,
+        "source": 0,
+        "experts": [
+          2,
+          5
+        ],
+        "owners": [
+          0,
+          0
+        ],
+        "returned_first_coordinate": [
+          -0.048076099074426414,
+          -0.055035196284468395
+        ],
+        "combined_first_coordinate": -0.051277186827423604
+      },
+      {
+        "token": 227,
+        "source": 0,
+        "experts": [
+          5,
+          2
+        ],
+        "owners": [
+          0,
+          0
+        ],
+        "returned_first_coordinate": [
+          -0.10013496574060829,
+          -0.19413629965978524
+        ],
+        "combined_first_coordinate": -0.14283791832716666
+      },
+      {
+        "token": 228,
+        "source": 0,
+        "experts": [
+          3,
+          6
+        ],
+        "owners": [
+          0,
+          0
+        ],
+        "returned_first_coordinate": [
+          0.012350791044177934,
+          0.020823866936070218
+        ],
+        "combined_first_coordinate": 0.016539783344266132
+      },
+      {
+        "token": 229,
+        "source": 0,
+        "experts": [
+          6,
+          7
+        ],
+        "owners": [
+          0,
+          0
+        ],
+        "returned_first_coordinate": [
+          -0.13453424406472858,
+          -0.11855534737163445
+        ],
+        "combined_first_coordinate": -0.12852051095454448
+      },
+      {
+        "token": 230,
+        "source": 0,
+        "experts": [
+          0,
+          7
+        ],
+        "owners": [
+          0,
+          0
+        ],
+        "returned_first_coordinate": [
+          -0.11138049176310094,
+          -0.03661821264557771
+        ],
+        "combined_first_coordinate": -0.0751609798329878
+      },
+      {
+        "token": 231,
+        "source": 0,
+        "experts": [
+          7,
+          5
+        ],
+        "owners": [
+          0,
+          0
+        ],
+        "returned_first_coordinate": [
+          -0.2583688829617395,
+          -0.019062588037961885
+        ],
+        "combined_first_coordinate": -0.14225340548837484
+      },
+      {
+        "token": 232,
+        "source": 0,
+        "experts": [
+          1,
+          6
+        ],
+        "owners": [
+          0,
+          0
+        ],
+        "returned_first_coordinate": [
+          0.2998470432130476,
+          0.15065608652476323
+        ],
+        "combined_first_coordinate": 0.22549958073926735
+      },
+      {
+        "token": 233,
+        "source": 0,
+        "experts": [
+          4,
+          2
+        ],
+        "owners": [
+          0,
+          0
+        ],
+        "returned_first_coordinate": [
+          0.047448300775823134,
+          -0.1302752830809735
+        ],
+        "combined_first_coordinate": -0.028087238250214717
+      },
+      {
+        "token": 234,
+        "source": 0,
+        "experts": [
+          6,
+          7
+        ],
+        "owners": [
+          0,
+          0
+        ],
+        "returned_first_coordinate": [
+          -0.09934381873664047,
+          -0.28769808156067633
+        ],
+        "combined_first_coordinate": -0.18659462521764505
+      },
+      {
+        "token": 235,
+        "source": 0,
+        "experts": [
+          3,
+          7
+        ],
+        "owners": [
+          0,
+          0
+        ],
+        "returned_first_coordinate": [
+          -0.15196432073595856,
+          -0.0027261019308716682
+        ],
+        "combined_first_coordinate": -0.09249911755283279
+      },
+      {
+        "token": 236,
+        "source": 0,
+        "experts": [
+          5,
+          2
+        ],
+        "owners": [
+          0,
+          0
+        ],
+        "returned_first_coordinate": [
+          0.1248671189371952,
+          -0.16067544315645743
+        ],
+        "combined_first_coordinate": -0.017326734097656185
+      },
+      {
+        "token": 237,
+        "source": 0,
+        "experts": [
+          3,
+          0
+        ],
+        "owners": [
+          0,
+          0
+        ],
+        "returned_first_coordinate": [
+          -0.193853529797896,
+          0.017436676684379704
+        ],
+        "combined_first_coordinate": -0.09148805590863714
+      },
+      {
+        "token": 238,
+        "source": 0,
+        "experts": [
+          3,
+          0
+        ],
+        "owners": [
+          0,
+          0
+        ],
+        "returned_first_coordinate": [
+          0.010232992799070306,
+          -0.08660670848340236
+        ],
+        "combined_first_coordinate": -0.038019999375363975
+      },
+      {
+        "token": 239,
+        "source": 0,
+        "experts": [
+          6,
+          2
+        ],
+        "owners": [
+          0,
+          0
+        ],
+        "returned_first_coordinate": [
+          -0.13015645897787445,
+          -0.15968274525064435
+        ],
+        "combined_first_coordinate": -0.14308219589922
+      },
+      {
+        "token": 240,
+        "source": 0,
+        "experts": [
+          2,
+          6
+        ],
+        "owners": [
+          0,
+          0
+        ],
+        "returned_first_coordinate": [
+          -0.38105772887674605,
+          -0.10946504220214262
+        ],
+        "combined_first_coordinate": -0.24780861086209222
+      },
+      {
+        "token": 241,
+        "source": 0,
+        "experts": [
+          0,
+          4
+        ],
+        "owners": [
+          0,
+          0
+        ],
+        "returned_first_coordinate": [
+          -0.12178661832995988,
+          -0.14440981580147635
+        ],
+        "combined_first_coordinate": -0.132687326740349
+      },
+      {
+        "token": 242,
+        "source": 0,
+        "experts": [
+          6,
+          3
+        ],
+        "owners": [
+          0,
+          0
+        ],
+        "returned_first_coordinate": [
+          -0.1708949232081343,
+          -0.04007874124713801
+        ],
+        "combined_first_coordinate": -0.10635963778918794
+      },
+      {
+        "token": 243,
+        "source": 0,
+        "experts": [
+          2,
+          5
+        ],
+        "owners": [
+          0,
+          0
+        ],
+        "returned_first_coordinate": [
+          -0.2749031756787555,
+          0.1917511296854854
+        ],
+        "combined_first_coordinate": -0.08620176807413367
+      },
+      {
+        "token": 244,
+        "source": 0,
+        "experts": [
+          2,
+          5
+        ],
+        "owners": [
+          0,
+          0
+        ],
+        "returned_first_coordinate": [
+          -0.30837168299674905,
+          0.11391516561191019
+        ],
+        "combined_first_coordinate": -0.10442466596558456
+      },
+      {
+        "token": 245,
+        "source": 0,
+        "experts": [
+          7,
+          3
+        ],
+        "owners": [
+          0,
+          0
+        ],
+        "returned_first_coordinate": [
+          -0.2829154970112931,
+          0.08166689812638318
+        ],
+        "combined_first_coordinate": -0.10513071641578126
+      },
+      {
+        "token": 246,
+        "source": 0,
+        "experts": [
+          5,
+          6
+        ],
+        "owners": [
+          0,
+          0
+        ],
+        "returned_first_coordinate": [
+          -0.05775260481242286,
+          0.08656338632986928
+        ],
+        "combined_first_coordinate": 0.004347626919095196
+      },
+      {
+        "token": 247,
+        "source": 0,
+        "experts": [
+          6,
+          3
+        ],
+        "owners": [
+          0,
+          0
+        ],
+        "returned_first_coordinate": [
+          -0.1627859623459925,
+          0.0893290618897644
+        ],
+        "combined_first_coordinate": -0.060952021611207746
+      },
+      {
+        "token": 248,
+        "source": 0,
+        "experts": [
+          0,
+          6
+        ],
+        "owners": [
+          0,
+          0
+        ],
+        "returned_first_coordinate": [
+          -0.05583393466091875,
+          0.13740223879517924
+        ],
+        "combined_first_coordinate": 0.03383537266215213
+      },
+      {
+        "token": 249,
+        "source": 0,
+        "experts": [
+          6,
+          3
+        ],
+        "owners": [
+          0,
+          0
+        ],
+        "returned_first_coordinate": [
+          -0.18095099147332352,
+          -0.0440695168734576
+        ],
+        "combined_first_coordinate": -0.11792704007682683
+      },
+      {
+        "token": 250,
+        "source": 0,
+        "experts": [
+          4,
+          7
+        ],
+        "owners": [
+          0,
+          0
+        ],
+        "returned_first_coordinate": [
+          -0.11907389024184602,
+          -0.316000404509063
+        ],
+        "combined_first_coordinate": -0.21572002925468003
+      },
+      {
+        "token": 251,
+        "source": 0,
+        "experts": [
+          0,
+          7
+        ],
+        "owners": [
+          0,
+          0
+        ],
+        "returned_first_coordinate": [
+          -0.11852109025992373,
+          0.025275761718034317
+        ],
+        "combined_first_coordinate": -0.04808589144454846
+      },
+      {
+        "token": 252,
+        "source": 0,
+        "experts": [
+          7,
+          5
+        ],
+        "owners": [
+          0,
+          0
+        ],
+        "returned_first_coordinate": [
+          -0.17694592437593953,
+          0.22129996893549023
+        ],
+        "combined_first_coordinate": 0.018029762758308615
+      },
+      {
+        "token": 253,
+        "source": 0,
+        "experts": [
+          7,
+          6
+        ],
+        "owners": [
+          0,
+          0
+        ],
+        "returned_first_coordinate": [
+          -0.152163815128858,
+          -0.12377926546516481
+        ],
+        "combined_first_coordinate": -0.13927728679504991
+      },
+      {
+        "token": 254,
+        "source": 0,
+        "experts": [
+          5,
+          0
+        ],
+        "owners": [
+          0,
+          0
+        ],
+        "returned_first_coordinate": [
+          0.08905720126132194,
+          0.13713328015492784
+        ],
+        "combined_first_coordinate": 0.11240526876111936
+      },
+      {
+        "token": 255,
+        "source": 0,
+        "experts": [
+          3,
+          6
+        ],
+        "owners": [
+          0,
+          0
+        ],
+        "returned_first_coordinate": [
+          0.13576558050249596,
+          -0.08201746062387763
+        ],
+        "combined_first_coordinate": 0.03231121678896305
+      }
+    ],
+    "parameter_changes": {
+      "token_encoder.0.weight": 0.005506381595914739,
+      "token_encoder.0.bias": 0.009064772257714074,
+      "router.weight": 0.0018937894069585154,
+      "router.bias": 0.002846765037844201,
+      "experts.0.0.weight": 0.002086905322210661,
+      "experts.0.0.bias": 0.004412514819952584,
+      "experts.0.2.weight": 0.002372192031026718,
+      "experts.0.2.bias": 0.0076879071879104866,
+      "experts.1.0.weight": 0.0013376892367738535,
+      "experts.1.0.bias": 0.003049199823923876,
+      "experts.1.2.weight": 0.001635385021304038,
+      "experts.1.2.bias": 0.005002900797057383,
+      "experts.2.0.weight": 0.00202460416765024,
+      "experts.2.0.bias": 0.007569905874734877,
+      "experts.2.2.weight": 0.0038567307905042064,
+      "experts.2.2.bias": 0.01414652102382137,
+      "experts.3.0.weight": 0.0015452333850710653,
+      "experts.3.0.bias": 0.004183373188363128,
+      "experts.3.2.weight": 0.0028190643191400855,
+      "experts.3.2.bias": 0.00809627346294138,
+      "experts.4.0.weight": 0.0009212811638706769,
+      "experts.4.0.bias": 0.0020551635356035325,
+      "experts.4.2.weight": 0.0013437354388610538,
+      "experts.4.2.bias": 0.003937759387390188,
+      "experts.5.0.weight": 0.003499181225838602,
+      "experts.5.0.bias": 0.009999445848128244,
+      "experts.5.2.weight": 0.003512000629302403,
+      "experts.5.2.bias": 0.013767409391350863,
+      "experts.6.0.weight": 0.0029064315628525295,
+      "experts.6.0.bias": 0.007056447756655634,
+      "experts.6.2.weight": 0.004355051283332529,
+      "experts.6.2.bias": 0.01598237772217699,
+      "experts.7.0.weight": 0.0026625688332272412,
+      "experts.7.0.bias": 0.006676817732332391,
+      "experts.7.2.weight": 0.003504901055577714,
+      "experts.7.2.bias": 0.013261483783419861
+    },
+    "parameter_bytes_per_rank": 278848,
+    "shared_parameter_bytes_per_rank": 10560
+  }
+]

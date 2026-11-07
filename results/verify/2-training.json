@@ -1,0 +1,3527 @@
+[
+  {
+    "rank": 0,
+    "config": {
+      "tokens": 65,
+      "epochs": 30,
+      "learning_rate": 0.15,
+      "routing": "learned",
+      "warmup": 0,
+      "tokens_per_rank": false,
+      "validate": true
+    },
+    "steps": [
+      {
+        "step": 0,
+        "global_loss": 0.09501465967084421,
+        "step_ms": 5.349333005142398,
+        "shared_grad_norm": 0.02161818291047588,
+        "expert_grad_norm": 0.02836681921429958,
+        "routing": {
+          "assignments": [
+            7,
+            3,
+            9,
+            5,
+            2,
+            17,
+            13,
+            10
+          ],
+          "remote_assignments": 42,
+          "activation_forward_bytes": 21504,
+          "activation_backward_bytes": 21504,
+          "metadata_bytes": 344,
+          "send": [
+            24,
+            42
+          ],
+          "receive": [
+            24,
+            21
+          ]
+        },
+        "reference_error": {
+          "output": 0.0,
+          "loss": 1.3877787807814457e-17,
+          "input_gradient": 0.0,
+          "parameter_gradient": 8.673617379884035e-19,
+          "parameter_update": 1.3877787807814457e-17
+        },
+        "warmup": false
+      },
+      {
+        "step": 1,
+        "global_loss": 0.0944468653585229,
+        "step_ms": 3.4758749970933422,
+        "shared_grad_norm": 0.02148960504916795,
+        "expert_grad_norm": 0.028252036544489472,
+        "routing": {
+          "assignments": [
+            7,
+            3,
+            9,
+            5,
+            2,
+            17,
+            13,
+            10
+          ],
+          "remote_assignments": 42,
+          "activation_forward_bytes": 21504,
+          "activation_backward_bytes": 21504,
+          "metadata_bytes": 344,
+          "send": [
+            24,
+            42
+          ],
+          "receive": [
+            24,
+            21
+          ]
+        },
+        "reference_error": {
+          "output": 5.551115123125783e-17,
+          "loss": 1.3877787807814457e-17,
+          "input_gradient": 3.3881317890172014e-20,
+          "parameter_gradient": 6.505213034913027e-19,
+          "parameter_update": 2.7755575615628914e-17
+        },
+        "warmup": false
+      },
+      {
+        "step": 2,
+        "global_loss": 0.09388520025527972,
+        "step_ms": 3.204665998055134,
+        "shared_grad_norm": 0.021364064928632902,
+        "expert_grad_norm": 0.02813808303126215,
+        "routing": {
+          "assignments": [
+            7,
+            3,
+            9,
+            5,
+            2,
+            17,
+            13,
+            10
+          ],
+          "remote_assignments": 42,
+          "activation_forward_bytes": 21504,
+          "activation_backward_bytes": 21504,
+          "metadata_bytes": 344,
+          "send": [
+            24,
+            42
+          ],
+          "receive": [
+            24,
+            21
+          ]
+        },
+        "reference_error": {
+          "output": 1.1102230246251565e-16,
+          "loss": 1.3877787807814457e-17,
+          "input_gradient": 4.0657581468206416e-20,
+          "parameter_gradient": 8.673617379884035e-19,
+          "parameter_update": 2.7755575615628914e-17
+        },
+        "warmup": false
+      },
+      {
+        "step": 3,
+        "global_loss": 0.09336066696826784,
+        "step_ms": 4.318790997785982,
+        "shared_grad_norm": 0.021218932454552853,
+        "expert_grad_norm": 0.02776590607596786,
+        "routing": {
+          "assignments": [
+            7,
+            3,
+            9,
+            4,
+            2,
+            17,
+            13,
+            11
+          ],
+          "remote_assignments": 43,
+          "activation_forward_bytes": 22016,
+          "activation_backward_bytes": 22016,
+          "metadata_bytes": 352,
+          "send": [
+            23,
+            43
+          ],
+          "receive": [
+            23,
+            21
+          ]
+        },
+        "reference_error": {
+          "output": 1.1102230246251565e-16,
+          "loss": 0.0,
+          "input_gradient": 5.421010862427522e-20,
+          "parameter_gradient": 1.3010426069826053e-18,
+          "parameter_update": 2.7755575615628914e-17
+        },
+        "warmup": false
+      },
+      {
+        "step": 4,
+        "global_loss": 0.09280806299617389,
+        "step_ms": 3.6650419933721423,
+        "shared_grad_norm": 0.021099161313800737,
+        "expert_grad_norm": 0.027654757811471645,
+        "routing": {
+          "assignments": [
+            7,
+            3,
+            9,
+            4,
+            2,
+            17,
+            13,
+            11
+          ],
+          "remote_assignments": 43,
+          "activation_forward_bytes": 22016,
+          "activation_backward_bytes": 22016,
+          "metadata_bytes": 352,
+          "send": [
+            23,
+            43
+          ],
+          "receive": [
+            23,
+            21
+          ]
+        },
+        "reference_error": {
+          "output": 1.1102230246251565e-16,
+          "loss": 1.3877787807814457e-17,
+          "input_gradient": 5.421010862427522e-20,
+          "parameter_gradient": 1.3010426069826053e-18,
+          "parameter_update": 2.7755575615628914e-17
+        },
+        "warmup": false
+      },
+      {
+        "step": 5,
+        "global_loss": 0.09226128189106993,
+        "step_ms": 3.6144999976386316,
+        "shared_grad_norm": 0.020982141313151365,
+        "expert_grad_norm": 0.02754439926951251,
+        "routing": {
+          "assignments": [
+            7,
+            3,
+            9,
+            4,
+            2,
+            17,
+            13,
+            11
+          ],
+          "remote_assignments": 43,
+          "activation_forward_bytes": 22016,
+          "activation_backward_bytes": 22016,
+          "metadata_bytes": 352,
+          "send": [
+            23,
+            43
+          ],
+          "receive": [
+            23,
+            21
+          ]
+        },
+        "reference_error": {
+          "output": 9.71445146547012e-17,
+          "loss": 0.0,
+          "input_gradient": 4.0657581468206416e-20,
+          "parameter_gradient": 1.0842021724855044e-18,
+          "parameter_update": 2.7755575615628914e-17
+        },
+        "warmup": false
+      },
+      {
+        "step": 6,
+        "global_loss": 0.09172021272924319,
+        "step_ms": 4.79441700008465,
+        "shared_grad_norm": 0.020867777020797923,
+        "expert_grad_norm": 0.027434819486878266,
+        "routing": {
+          "assignments": [
+            7,
+            3,
+            9,
+            4,
+            2,
+            17,
+            13,
+            11
+          ],
+          "remote_assignments": 43,
+          "activation_forward_bytes": 22016,
+          "activation_backward_bytes": 22016,
+          "metadata_bytes": 352,
+          "send": [
+            23,
+            43
+          ],
+          "receive": [
+            23,
+            21
+          ]
+        },
+        "reference_error": {
+          "output": 1.1102230246251565e-16,
+          "loss": 1.3877787807814457e-17,
+          "input_gradient": 4.0657581468206416e-20,
+          "parameter_gradient": 1.1926223897340549e-18,
+          "parameter_update": 2.7755575615628914e-17
+        },
+        "warmup": false
+      },
+      {
+        "step": 7,
+        "global_loss": 0.09118474806520903,
+        "step_ms": 6.340624997392297,
+        "shared_grad_norm": 0.02075597679925401,
+        "expert_grad_norm": 0.027326007699690142,
+        "routing": {
+          "assignments": [
+            7,
+            3,
+            9,
+            4,
+            2,
+            17,
+            13,
+            11
+          ],
+          "remote_assignments": 43,
+          "activation_forward_bytes": 22016,
+          "activation_backward_bytes": 22016,
+          "metadata_bytes": 352,
+          "send": [
+            23,
+            43
+          ],
+          "receive": [
+            23,
+            21
+          ]
+        },
+        "reference_error": {
+          "output": 8.326672684688674e-17,
+          "loss": 0.0,
+          "input_gradient": 5.421010862427522e-20,
+          "parameter_gradient": 8.673617379884035e-19,
+          "parameter_update": 2.7755575615628914e-17
+        },
+        "warmup": false
+      },
+      {
+        "step": 8,
+        "global_loss": 0.09065478378755479,
+        "step_ms": 5.166125003597699,
+        "shared_grad_norm": 0.020646652626372122,
+        "expert_grad_norm": 0.027217953340090622,
+        "routing": {
+          "assignments": [
+            7,
+            3,
+            9,
+            4,
+            2,
+            17,
+            13,
+            11
+          ],
+          "remote_assignments": 43,
+          "activation_forward_bytes": 22016,
+          "activation_backward_bytes": 22016,
+          "metadata_bytes": 352,
+          "send": [
+            23,
+            43
+          ],
+          "receive": [
+            23,
+            21
+          ]
+        },
+        "reference_error": {
+          "output": 1.249000902703301e-16,
+          "loss": 0.0,
+          "input_gradient": 6.776263578034403e-20,
+          "parameter_gradient": 1.0842021724855044e-18,
+          "parameter_update": 2.7755575615628914e-17
+        },
+        "warmup": false
+      },
+      {
+        "step": 9,
+        "global_loss": 0.09013021898214504,
+        "step_ms": 4.779707996931393,
+        "shared_grad_norm": 0.020539719926188426,
+        "expert_grad_norm": 0.02711064603295839,
+        "routing": {
+          "assignments": [
+            7,
+            3,
+            9,
+            4,
+            2,
+            17,
+            13,
+            11
+          ],
+          "remote_assignments": 43,
+          "activation_forward_bytes": 22016,
+          "activation_backward_bytes": 22016,
+          "metadata_bytes": 352,
+          "send": [
+            23,
+            43
+          ],
+          "receive": [
+            23,
+            21
+          ]
+        },
+        "reference_error": {
+          "output": 1.1102230246251565e-16,
+          "loss": 0.0,
+          "input_gradient": 5.421010862427522e-20,
+          "parameter_gradient": 9.75781955236954e-19,
+          "parameter_update": 2.7755575615628914e-17
+        },
+        "warmup": false
+      },
+      {
+        "step": 10,
+        "global_loss": 0.0896109558022413,
+        "step_ms": 4.590459000610281,
+        "shared_grad_norm": 0.02043509740898337,
+        "expert_grad_norm": 0.027004075592653224,
+        "routing": {
+          "assignments": [
+            7,
+            3,
+            9,
+            4,
+            2,
+            17,
+            13,
+            11
+          ],
+          "remote_assignments": 43,
+          "activation_forward_bytes": 22016,
+          "activation_backward_bytes": 22016,
+          "metadata_bytes": 352,
+          "send": [
+            23,
+            43
+          ],
+          "receive": [
+            23,
+            21
+          ]
+        },
+        "reference_error": {
+          "output": 1.3877787807814457e-16,
+          "loss": 1.3877787807814457e-17,
+          "input_gradient": 4.319868030996932e-20,
+          "parameter_gradient": 1.734723475976807e-18,
+          "parameter_update": 2.7755575615628914e-17
+        },
+        "warmup": false
+      },
+      {
+        "step": 11,
+        "global_loss": 0.08909689934512036,
+        "step_ms": 4.490125000302214,
+        "shared_grad_norm": 0.02033270691998993,
+        "expert_grad_norm": 0.026898232019793206,
+        "routing": {
+          "assignments": [
+            7,
+            3,
+            9,
+            4,
+            2,
+            17,
+            13,
+            11
+          ],
+          "remote_assignments": 43,
+          "activation_forward_bytes": 22016,
+          "activation_backward_bytes": 22016,
+          "metadata_bytes": 352,
+          "send": [
+            23,
+            43
+          ],
+          "receive": [
+            23,
+            21
+          ]
+        },
+        "reference_error": {
+          "output": 8.326672684688674e-17,
+          "loss": 0.0,
+          "input_gradient": 4.0657581468206416e-20,
+          "parameter_gradient": 8.673617379884035e-19,
+          "parameter_update": 2.7755575615628914e-17
+        },
+        "warmup": false
+      },
+      {
+        "step": 12,
+        "global_loss": 0.08858795753480471,
+        "step_ms": 4.272166996088345,
+        "shared_grad_norm": 0.020232473296220462,
+        "expert_grad_norm": 0.026793105498066416,
+        "routing": {
+          "assignments": [
+            7,
+            3,
+            9,
+            4,
+            2,
+            17,
+            13,
+            11
+          ],
+          "remote_assignments": 43,
+          "activation_forward_bytes": 22016,
+          "activation_backward_bytes": 22016,
+          "metadata_bytes": 352,
+          "send": [
+            23,
+            43
+          ],
+          "receive": [
+            23,
+            21
+          ]
+        },
+        "reference_error": {
+          "output": 1.1102230246251565e-16,
+          "loss": 0.0,
+          "input_gradient": 5.421010862427522e-20,
+          "parameter_gradient": 1.3010426069826053e-18,
+          "parameter_update": 2.7755575615628914e-17
+        },
+        "warmup": false
+      },
+      {
+        "step": 13,
+        "global_loss": 0.08808404101054382,
+        "step_ms": 3.6487499965005554,
+        "shared_grad_norm": 0.020134324230918987,
+        "expert_grad_norm": 0.026688686391078936,
+        "routing": {
+          "assignments": [
+            7,
+            3,
+            9,
+            4,
+            2,
+            17,
+            13,
+            11
+          ],
+          "remote_assignments": 43,
+          "activation_forward_bytes": 22016,
+          "activation_backward_bytes": 22016,
+          "metadata_bytes": 352,
+          "send": [
+            23,
+            43
+          ],
+          "receive": [
+            23,
+            21
+          ]
+        },
+        "reference_error": {
+          "output": 1.249000902703301e-16,
+          "loss": 0.0,
+          "input_gradient": 4.0657581468206416e-20,
+          "parameter_gradient": 6.505213034913027e-19,
+          "parameter_update": 2.7755575615628914e-17
+        },
+        "warmup": false
+      },
+      {
+        "step": 14,
+        "global_loss": 0.08758506302071087,
+        "step_ms": 8.435042000201065,
+        "shared_grad_norm": 0.020038190145179446,
+        "expert_grad_norm": 0.026584965239240737,
+        "routing": {
+          "assignments": [
+            7,
+            3,
+            9,
+            4,
+            2,
+            17,
+            13,
+            11
+          ],
+          "remote_assignments": 43,
+          "activation_forward_bytes": 22016,
+          "activation_backward_bytes": 22016,
+          "metadata_bytes": 352,
+          "send": [
+            23,
+            43
+          ],
+          "receive": [
+            23,
+            21
+          ]
+        },
+        "reference_error": {
+          "output": 1.6653345369377348e-16,
+          "loss": 0.0,
+          "input_gradient": 6.776263578034403e-20,
+          "parameter_gradient": 1.0842021724855044e-18,
+          "parameter_update": 2.7755575615628914e-17
+        },
+        "warmup": false
+      },
+      {
+        "step": 15,
+        "global_loss": 0.08709093932180093,
+        "step_ms": 4.880749998847023,
+        "shared_grad_norm": 0.019944004066300966,
+        "expert_grad_norm": 0.026481932756690772,
+        "routing": {
+          "assignments": [
+            7,
+            3,
+            9,
+            4,
+            2,
+            17,
+            13,
+            11
+          ],
+          "remote_assignments": 43,
+          "activation_forward_bytes": 22016,
+          "activation_backward_bytes": 22016,
+          "metadata_bytes": 352,
+          "send": [
+            23,
+            43
+          ],
+          "receive": [
+            23,
+            21
+          ]
+        },
+        "reference_error": {
+          "output": 1.6653345369377348e-16,
+          "loss": 0.0,
+          "input_gradient": 5.421010862427522e-20,
+          "parameter_gradient": 8.673617379884035e-19,
+          "parameter_update": 2.7755575615628914e-17
+        },
+        "warmup": false
+      },
+      {
+        "step": 16,
+        "global_loss": 0.0866015880822382,
+        "step_ms": 5.114667001180351,
+        "shared_grad_norm": 0.019851701512480183,
+        "expert_grad_norm": 0.02637957982826242,
+        "routing": {
+          "assignments": [
+            7,
+            3,
+            9,
+            4,
+            2,
+            17,
+            13,
+            11
+          ],
+          "remote_assignments": 43,
+          "activation_forward_bytes": 22016,
+          "activation_backward_bytes": 22016,
+          "metadata_bytes": 352,
+          "send": [
+            23,
+            43
+          ],
+          "receive": [
+            23,
+            21
+          ]
+        },
+        "reference_error": {
+          "output": 1.1102230246251565e-16,
+          "loss": 1.3877787807814457e-17,
+          "input_gradient": 4.785736151986797e-20,
+          "parameter_gradient": 9.75781955236954e-19,
+          "parameter_update": 2.7755575615628914e-17
+        },
+        "warmup": false
+      },
+      {
+        "step": 17,
+        "global_loss": 0.08611692979071911,
+        "step_ms": 4.9522909976076335,
+        "shared_grad_norm": 0.019761220383466827,
+        "expert_grad_norm": 0.026277897506490226,
+        "routing": {
+          "assignments": [
+            7,
+            3,
+            9,
+            4,
+            2,
+            17,
+            13,
+            11
+          ],
+          "remote_assignments": 43,
+          "activation_forward_bytes": 22016,
+          "activation_backward_bytes": 22016,
+          "metadata_bytes": 352,
+          "send": [
+            23,
+            43
+          ],
+          "receive": [
+            23,
+            21
+          ]
+        },
+        "reference_error": {
+          "output": 1.1102230246251565e-16,
+          "loss": 0.0,
+          "input_gradient": 5.421010862427522e-20,
+          "parameter_gradient": 1.3010426069826053e-18,
+          "parameter_update": 2.7755575615628914e-17
+        },
+        "warmup": false
+      },
+      {
+        "step": 18,
+        "global_loss": 0.08563688716883527,
+        "step_ms": 4.697249998571351,
+        "shared_grad_norm": 0.019672500856833565,
+        "expert_grad_norm": 0.02617687700865866,
+        "routing": {
+          "assignments": [
+            7,
+            3,
+            9,
+            4,
+            2,
+            17,
+            13,
+            11
+          ],
+          "remote_assignments": 43,
+          "activation_forward_bytes": 22016,
+          "activation_backward_bytes": 22016,
+          "metadata_bytes": 352,
+          "send": [
+            23,
+            43
+          ],
+          "receive": [
+            23,
+            21
+          ]
+        },
+        "reference_error": {
+          "output": 1.1102230246251565e-16,
+          "loss": 1.3877787807814457e-17,
+          "input_gradient": 5.421010862427522e-20,
+          "parameter_gradient": 8.673617379884035e-19,
+          "parameter_update": 2.7755575615628914e-17
+        },
+        "warmup": false
+      },
+      {
+        "step": 19,
+        "global_loss": 0.08516138508773832,
+        "step_ms": 4.283207999833394,
+        "shared_grad_norm": 0.019585485289533792,
+        "expert_grad_norm": 0.026076509713893505,
+        "routing": {
+          "assignments": [
+            7,
+            3,
+            9,
+            4,
+            2,
+            17,
+            13,
+            11
+          ],
+          "remote_assignments": 43,
+          "activation_forward_bytes": 22016,
+          "activation_backward_bytes": 22016,
+          "metadata_bytes": 352,
+          "send": [
+            23,
+            43
+          ],
+          "receive": [
+            23,
+            21
+          ]
+        },
+        "reference_error": {
+          "output": 1.1102230246251565e-16,
+          "loss": 0.0,
+          "input_gradient": 4.743384504624082e-20,
+          "parameter_gradient": 8.673617379884035e-19,
+          "parameter_update": 2.7755575615628914e-17
+        },
+        "warmup": false
+      },
+      {
+        "step": 20,
+        "global_loss": 0.08469035048862221,
+        "step_ms": 4.484707998926751,
+        "shared_grad_norm": 0.019500118124442203,
+        "expert_grad_norm": 0.025976787160296375,
+        "routing": {
+          "assignments": [
+            7,
+            3,
+            9,
+            4,
+            2,
+            17,
+            13,
+            11
+          ],
+          "remote_assignments": 43,
+          "activation_forward_bytes": 22016,
+          "activation_backward_bytes": 22016,
+          "metadata_bytes": 352,
+          "send": [
+            23,
+            43
+          ],
+          "receive": [
+            23,
+            21
+          ]
+        },
+        "reference_error": {
+          "output": 1.6653345369377348e-16,
+          "loss": 1.3877787807814457e-17,
+          "input_gradient": 5.421010862427522e-20,
+          "parameter_gradient": 8.673617379884035e-19,
+          "parameter_update": 2.7755575615628914e-17
+        },
+        "warmup": false
+      },
+      {
+        "step": 21,
+        "global_loss": 0.08422371230681457,
+        "step_ms": 3.707749994646292,
+        "shared_grad_norm": 0.01941634580159263,
+        "expert_grad_norm": 0.0258777010421226,
+        "routing": {
+          "assignments": [
+            7,
+            3,
+            9,
+            4,
+            2,
+            17,
+            13,
+            11
+          ],
+          "remote_assignments": 43,
+          "activation_forward_bytes": 22016,
+          "activation_backward_bytes": 22016,
+          "metadata_bytes": 352,
+          "send": [
+            23,
+            43
+          ],
+          "receive": [
+            23,
+            21
+          ]
+        },
+        "reference_error": {
+          "output": 1.1102230246251565e-16,
+          "loss": 1.3877787807814457e-17,
+          "input_gradient": 5.421010862427522e-20,
+          "parameter_gradient": 8.673617379884035e-19,
+          "parameter_update": 2.7755575615628914e-17
+        },
+        "warmup": false
+      },
+      {
+        "step": 22,
+        "global_loss": 0.08370200192842195,
+        "step_ms": 4.19833399791969,
+        "shared_grad_norm": 0.019328532613479533,
+        "expert_grad_norm": 0.02602234461632479,
+        "routing": {
+          "assignments": [
+            7,
+            3,
+            9,
+            5,
+            2,
+            17,
+            13,
+            10
+          ],
+          "remote_assignments": 42,
+          "activation_forward_bytes": 21504,
+          "activation_backward_bytes": 21504,
+          "metadata_bytes": 344,
+          "send": [
+            24,
+            42
+          ],
+          "receive": [
+            24,
+            21
+          ]
+        },
+        "reference_error": {
+          "output": 1.6653345369377348e-16,
+          "loss": 1.3877787807814457e-17,
+          "input_gradient": 5.421010862427522e-20,
+          "parameter_gradient": 8.673617379884035e-19,
+          "parameter_update": 2.7755575615628914e-17
+        },
+        "warmup": false
+      },
+      {
+        "step": 23,
+        "global_loss": 0.08324611808104884,
+        "step_ms": 3.9649579994147643,
+        "shared_grad_norm": 0.019248152959774955,
+        "expert_grad_norm": 0.025924112242039166,
+        "routing": {
+          "assignments": [
+            7,
+            3,
+            9,
+            5,
+            2,
+            17,
+            13,
+            10
+          ],
+          "remote_assignments": 42,
+          "activation_forward_bytes": 21504,
+          "activation_backward_bytes": 21504,
+          "metadata_bytes": 344,
+          "send": [
+            24,
+            42
+          ],
+          "receive": [
+            24,
+            21
+          ]
+        },
+        "reference_error": {
+          "output": 1.3877787807814457e-16,
+          "loss": 0.0,
+          "input_gradient": 5.421010862427522e-20,
+          "parameter_gradient": 8.673617379884035e-19,
+          "parameter_update": 2.7755575615628914e-17
+        },
+        "warmup": false
+      },
+      {
+        "step": 24,
+        "global_loss": 0.0827943941207753,
+        "step_ms": 4.262208000000101,
+        "shared_grad_norm": 0.01916921091898912,
+        "expert_grad_norm": 0.025826495966644304,
+        "routing": {
+          "assignments": [
+            7,
+            3,
+            9,
+            5,
+            2,
+            17,
+            13,
+            10
+          ],
+          "remote_assignments": 42,
+          "activation_forward_bytes": 21504,
+          "activation_backward_bytes": 21504,
+          "metadata_bytes": 344,
+          "send": [
+            24,
+            42
+          ],
+          "receive": [
+            24,
+            21
+          ]
+        },
+        "reference_error": {
+          "output": 1.249000902703301e-16,
+          "loss": 1.3877787807814457e-17,
+          "input_gradient": 5.082197683525802e-20,
+          "parameter_gradient": 8.673617379884035e-19,
+          "parameter_update": 2.7755575615628914e-17
+        },
+        "warmup": false
+      },
+      {
+        "step": 25,
+        "global_loss": 0.08234676690189566,
+        "step_ms": 3.989374999946449,
+        "shared_grad_norm": 0.019091660306385136,
+        "expert_grad_norm": 0.025729488008728752,
+        "routing": {
+          "assignments": [
+            7,
+            3,
+            9,
+            5,
+            2,
+            17,
+            13,
+            10
+          ],
+          "remote_assignments": 42,
+          "activation_forward_bytes": 21504,
+          "activation_backward_bytes": 21504,
+          "metadata_bytes": 344,
+          "send": [
+            24,
+            42
+          ],
+          "receive": [
+            24,
+            21
+          ]
+        },
+        "reference_error": {
+          "output": 1.3877787807814457e-16,
+          "loss": 0.0,
+          "input_gradient": 5.421010862427522e-20,
+          "parameter_gradient": 1.0842021724855044e-18,
+          "parameter_update": 2.7755575615628914e-17
+        },
+        "warmup": false
+      },
+      {
+        "step": 26,
+        "global_loss": 0.0819031749259003,
+        "step_ms": 3.8003750014468096,
+        "shared_grad_norm": 0.019015456549670542,
+        "expert_grad_norm": 0.025633080730934482,
+        "routing": {
+          "assignments": [
+            7,
+            3,
+            9,
+            5,
+            2,
+            17,
+            13,
+            10
+          ],
+          "remote_assignments": 42,
+          "activation_forward_bytes": 21504,
+          "activation_backward_bytes": 21504,
+          "metadata_bytes": 344,
+          "send": [
+            24,
+            42
+          ],
+          "receive": [
+            24,
+            21
+          ]
+        },
+        "reference_error": {
+          "output": 1.1102230246251565e-16,
+          "loss": 0.0,
+          "input_gradient": 5.421010862427522e-20,
+          "parameter_gradient": 1.0842021724855044e-18,
+          "parameter_update": 2.7755575615628914e-17
+        },
+        "warmup": false
+      },
+      {
+        "step": 27,
+        "global_loss": 0.08146355828393453,
+        "step_ms": 3.853374997561332,
+        "shared_grad_norm": 0.018940556623235332,
+        "expert_grad_norm": 0.025537266637365413,
+        "routing": {
+          "assignments": [
+            7,
+            3,
+            9,
+            5,
+            2,
+            17,
+            13,
+            10
+          ],
+          "remote_assignments": 42,
+          "activation_forward_bytes": 21504,
+          "activation_backward_bytes": 21504,
+          "metadata_bytes": 344,
+          "send": [
+            24,
+            42
+          ],
+          "receive": [
+            24,
+            21
+          ]
+        },
+        "reference_error": {
+          "output": 1.249000902703301e-16,
+          "loss": 1.3877787807814457e-17,
+          "input_gradient": 4.0657581468206416e-20,
+          "parameter_gradient": 1.3010426069826053e-18,
+          "parameter_update": 2.7755575615628914e-17
+        },
+        "warmup": false
+      },
+      {
+        "step": 28,
+        "global_loss": 0.08102785860171048,
+        "step_ms": 8.427875000052154,
+        "shared_grad_norm": 0.018866918985548996,
+        "expert_grad_norm": 0.025442038371039668,
+        "routing": {
+          "assignments": [
+            7,
+            3,
+            9,
+            5,
+            2,
+            17,
+            13,
+            10
+          ],
+          "remote_assignments": 42,
+          "activation_forward_bytes": 21504,
+          "activation_backward_bytes": 21504,
+          "metadata_bytes": 344,
+          "send": [
+            24,
+            42
+          ],
+          "receive": [
+            24,
+            21
+          ]
+        },
+        "reference_error": {
+          "output": 1.6653345369377348e-16,
+          "loss": 0.0,
+          "input_gradient": 5.421010862427522e-20,
+          "parameter_gradient": 8.673617379884035e-19,
+          "parameter_update": 2.7755575615628914e-17
+        },
+        "warmup": false
+      },
+      {
+        "step": 29,
+        "global_loss": 0.08059601898674623,
+        "step_ms": 4.493250002269633,
+        "shared_grad_norm": 0.018794503519544755,
+        "expert_grad_norm": 0.025347388711385203,
+        "routing": {
+          "assignments": [
+            7,
+            3,
+            9,
+            5,
+            2,
+            17,
+            13,
+            10
+          ],
+          "remote_assignments": 42,
+          "activation_forward_bytes": 21504,
+          "activation_backward_bytes": 21504,
+          "metadata_bytes": 344,
+          "send": [
+            24,
+            42
+          ],
+          "receive": [
+            24,
+            21
+          ]
+        },
+        "reference_error": {
+          "output": 1.1102230246251565e-16,
+          "loss": 0.0,
+          "input_gradient": 4.573977915173222e-20,
+          "parameter_gradient": 8.673617379884035e-19,
+          "parameter_update": 2.7755575615628914e-17
+        },
+        "warmup": false
+      }
+    ],
+    "trace": [
+      {
+        "token": 0,
+        "source": 0,
+        "experts": [
+          1,
+          3
+        ],
+        "owners": [
+          0,
+          0
+        ],
+        "returned_first_coordinate": [
+          0.17792945393211024,
+          -0.2816403201454643
+        ],
+        "combined_first_coordinate": -0.023891899834589628
+      },
+      {
+        "token": 1,
+        "source": 0,
+        "experts": [
+          6,
+          5
+        ],
+        "owners": [
+          1,
+          1
+        ],
+        "returned_first_coordinate": [
+          -0.11965312040278145,
+          0.1256297671458383
+        ],
+        "combined_first_coordinate": -0.0013825730365382774
+      },
+      {
+        "token": 2,
+        "source": 0,
+        "experts": [
+          7,
+          0
+        ],
+        "owners": [
+          1,
+          0
+        ],
+        "returned_first_coordinate": [
+          -0.0936530678795777,
+          0.19851894806000575
+        ],
+        "combined_first_coordinate": 0.021465470726578423
+      },
+      {
+        "token": 3,
+        "source": 0,
+        "experts": [
+          6,
+          5
+        ],
+        "owners": [
+          1,
+          1
+        ],
+        "returned_first_coordinate": [
+          -0.18239806769702088,
+          -0.047552786465104455
+        ],
+        "combined_first_coordinate": -0.11735866990351701
+      },
+      {
+        "token": 4,
+        "source": 0,
+        "experts": [
+          5,
+          6
+        ],
+        "owners": [
+          1,
+          1
+        ],
+        "returned_first_coordinate": [
+          -0.009678353662889447,
+          -0.051483378202717804
+        ],
+        "combined_first_coordinate": -0.02941266288288056
+      },
+      {
+        "token": 5,
+        "source": 0,
+        "experts": [
+          5,
+          3
+        ],
+        "owners": [
+          1,
+          0
+        ],
+        "returned_first_coordinate": [
+          0.3909271792034033,
+          0.016326480224657245
+        ],
+        "combined_first_coordinate": 0.21939702390984694
+      },
+      {
+        "token": 6,
+        "source": 0,
+        "experts": [
+          5,
+          4
+        ],
+        "owners": [
+          1,
+          1
+        ],
+        "returned_first_coordinate": [
+          0.2329411843074142,
+          -0.1814170843430626
+        ],
+        "combined_first_coordinate": 0.05111921921496526
+      },
+      {
+        "token": 7,
+        "source": 0,
+        "experts": [
+          7,
+          2
+        ],
+        "owners": [
+          1,
+          0
+        ],
+        "returned_first_coordinate": [
+          -0.26417873391889646,
+          -0.18696503603312448
+        ],
+        "combined_first_coordinate": -0.22799718792642
+      },
+      {
+        "token": 8,
+        "source": 0,
+        "experts": [
+          5,
+          6
+        ],
+        "owners": [
+          1,
+          1
+        ],
+        "returned_first_coordinate": [
+          -0.13091668587191627,
+          0.06899862331218498
+        ],
+        "combined_first_coordinate": -0.03336638300054091
+      },
+      {
+        "token": 9,
+        "source": 0,
+        "experts": [
+          6,
+          0
+        ],
+        "owners": [
+          1,
+          0
+        ],
+        "returned_first_coordinate": [
+          0.12927376870253632,
+          0.005038262413637695
+        ],
+        "combined_first_coordinate": 0.07314768042018838
+      },
+      {
+        "token": 10,
+        "source": 0,
+        "experts": [
+          2,
+          6
+        ],
+        "owners": [
+          0,
+          1
+        ],
+        "returned_first_coordinate": [
+          -0.3809622959880579,
+          -0.04788064404330669
+        ],
+        "combined_first_coordinate": -0.21761036311779497
+      },
+      {
+        "token": 11,
+        "source": 0,
+        "experts": [
+          5,
+          2
+        ],
+        "owners": [
+          1,
+          0
+        ],
+        "returned_first_coordinate": [
+          0.23485540598262353,
+          -0.05549421837310488
+        ],
+        "combined_first_coordinate": 0.10927482326615615
+      },
+      {
+        "token": 12,
+        "source": 0,
+        "experts": [
+          7,
+          5
+        ],
+        "owners": [
+          1,
+          1
+        ],
+        "returned_first_coordinate": [
+          -0.2732564993722652,
+          0.12954965896300816
+        ],
+        "combined_first_coordinate": -0.07590951451749114
+      },
+      {
+        "token": 13,
+        "source": 0,
+        "experts": [
+          1,
+          4
+        ],
+        "owners": [
+          0,
+          1
+        ],
+        "returned_first_coordinate": [
+          0.15416655678099914,
+          -0.03874895166543477
+        ],
+        "combined_first_coordinate": 0.06435157179834526
+      },
+      {
+        "token": 14,
+        "source": 0,
+        "experts": [
+          7,
+          2
+        ],
+        "owners": [
+          1,
+          0
+        ],
+        "returned_first_coordinate": [
+          -0.17818003077880148,
+          -0.20434097876684962
+        ],
+        "combined_first_coordinate": -0.19081099281091868
+      },
+      {
+        "token": 15,
+        "source": 0,
+        "experts": [
+          7,
+          3
+        ],
+        "owners": [
+          1,
+          0
+        ],
+        "returned_first_coordinate": [
+          -0.2257770619565735,
+          -0.2561370876537258
+        ],
+        "combined_first_coordinate": -0.24083498063262015
+      },
+      {
+        "token": 16,
+        "source": 0,
+        "experts": [
+          6,
+          3
+        ],
+        "owners": [
+          1,
+          0
+        ],
+        "returned_first_coordinate": [
+          -0.0019727310184290696,
+          -0.14591604065094355
+        ],
+        "combined_first_coordinate": -0.06473412185017981
+      },
+      {
+        "token": 17,
+        "source": 0,
+        "experts": [
+          7,
+          5
+        ],
+        "owners": [
+          1,
+          1
+        ],
+        "returned_first_coordinate": [
+          -0.08723231602165496,
+          0.06335256714524927
+        ],
+        "combined_first_coordinate": -0.02274168438809046
+      },
+      {
+        "token": 18,
+        "source": 0,
+        "experts": [
+          5,
+          2
+        ],
+        "owners": [
+          1,
+          0
+        ],
+        "returned_first_coordinate": [
+          0.11767151213917539,
+          -0.4959458616669944
+        ],
+        "combined_first_coordinate": -0.1699330118673836
+      },
+      {
+        "token": 19,
+        "source": 0,
+        "experts": [
+          6,
+          3
+        ],
+        "owners": [
+          1,
+          0
+        ],
+        "returned_first_coordinate": [
+          -0.05981668556593745,
+          0.10574283310619012
+        ],
+        "combined_first_coordinate": 0.0016877283837640408
+      },
+      {
+        "token": 20,
+        "source": 0,
+        "experts": [
+          7,
+          6
+        ],
+        "owners": [
+          1,
+          1
+        ],
+        "returned_first_coordinate": [
+          0.005012341638363108,
+          -0.2692273284677113
+        ],
+        "combined_first_coordinate": -0.12582745005214496
+      },
+      {
+        "token": 21,
+        "source": 0,
+        "experts": [
+          5,
+          2
+        ],
+        "owners": [
+          1,
+          0
+        ],
+        "returned_first_coordinate": [
+          0.08969176287212699,
+          -0.1851905699802797
+        ],
+        "combined_first_coordinate": -0.04345337977331732
+      },
+      {
+        "token": 22,
+        "source": 0,
+        "experts": [
+          0,
+          5
+        ],
+        "owners": [
+          0,
+          1
+        ],
+        "returned_first_coordinate": [
+          -0.08576057054258211,
+          -0.20073776624727174
+        ],
+        "combined_first_coordinate": -0.14320572738188705
+      },
+      {
+        "token": 23,
+        "source": 0,
+        "experts": [
+          2,
+          5
+        ],
+        "owners": [
+          0,
+          1
+        ],
+        "returned_first_coordinate": [
+          -0.3531085492975628,
+          -0.05350947092524223
+        ],
+        "combined_first_coordinate": -0.21851156758530868
+      },
+      {
+        "token": 24,
+        "source": 0,
+        "experts": [
+          5,
+          0
+        ],
+        "owners": [
+          1,
+          0
+        ],
+        "returned_first_coordinate": [
+          0.09546509495825266,
+          0.0652513561289072
+        ],
+        "combined_first_coordinate": 0.08210587512191515
+      },
+      {
+        "token": 25,
+        "source": 0,
+        "experts": [
+          7,
+          1
+        ],
+        "owners": [
+          1,
+          0
+        ],
+        "returned_first_coordinate": [
+          -0.40280641076271184,
+          0.08453165065450649
+        ],
+        "combined_first_coordinate": -0.18469496544937256
+      },
+      {
+        "token": 26,
+        "source": 0,
+        "experts": [
+          0,
+          7
+        ],
+        "owners": [
+          0,
+          1
+        ],
+        "returned_first_coordinate": [
+          -0.08736461074955838,
+          -0.19945226028661697
+        ],
+        "combined_first_coordinate": -0.1425980372563054
+      },
+      {
+        "token": 27,
+        "source": 0,
+        "experts": [
+          6,
+          7
+        ],
+        "owners": [
+          1,
+          1
+        ],
+        "returned_first_coordinate": [
+          0.057188507433267595,
+          -0.1211014427466711
+        ],
+        "combined_first_coordinate": -0.026005498378521983
+      },
+      {
+        "token": 28,
+        "source": 0,
+        "experts": [
+          2,
+          5
+        ],
+        "owners": [
+          0,
+          1
+        ],
+        "returned_first_coordinate": [
+          -0.247282358953361,
+          0.09165747499689765
+        ],
+        "combined_first_coordinate": -0.08090471188516929
+      },
+      {
+        "token": 29,
+        "source": 0,
+        "experts": [
+          6,
+          5
+        ],
+        "owners": [
+          1,
+          1
+        ],
+        "returned_first_coordinate": [
+          -0.19706231098892535,
+          0.35397409210858044
+        ],
+        "combined_first_coordinate": 0.07568316765917167
+      },
+      {
+        "token": 30,
+        "source": 0,
+        "experts": [
+          6,
+          2
+        ],
+        "owners": [
+          1,
+          0
+        ],
+        "returned_first_coordinate": [
+          -0.17485599338630445,
+          -0.27868846990755847
+        ],
+        "combined_first_coordinate": -0.2199539483836066
+      },
+      {
+        "token": 31,
+        "source": 0,
+        "experts": [
+          6,
+          0
+        ],
+        "owners": [
+          1,
+          0
+        ],
+        "returned_first_coordinate": [
+          -0.111772565973184,
+          -0.05744909192994027
+        ],
+        "combined_first_coordinate": -0.09188165047018389
+      },
+      {
+        "token": 32,
+        "source": 0,
+        "experts": [
+          5,
+          0
+        ],
+        "owners": [
+          1,
+          0
+        ],
+        "returned_first_coordinate": [
+          -0.13767643698531157,
+          -0.1887095972536503
+        ],
+        "combined_first_coordinate": -0.16291873682888627
+      }
+    ],
+    "parameter_changes": {
+      "token_encoder.0.weight": 0.010837302611413382,
+      "token_encoder.0.bias": 0.01112732378692341,
+      "router.weight": 0.0034292993617396905,
+      "router.bias": 0.003055413520869202,
+      "experts.0.0.weight": 0.0031502746156400786,
+      "experts.0.0.bias": 0.005279425905497709,
+      "experts.0.2.weight": 0.003528841491772568,
+      "experts.0.2.bias": 0.009184995483803277,
+      "experts.1.0.weight": 0.0018996710393499316,
+      "experts.1.0.bias": 0.003294363086620594,
+      "experts.1.2.weight": 0.002339369548839336,
+      "experts.1.2.bias": 0.005241594450290363,
+      "experts.2.0.weight": 0.0035252065821233386,
+      "experts.2.0.bias": 0.008707925477167915,
+      "experts.2.2.weight": 0.004313293721438679,
+      "experts.2.2.bias": 0.01589780417231894,
+      "experts.3.0.weight": 0.0015007801966395867,
+      "experts.3.0.bias": 0.003485259977277992,
+      "experts.3.2.weight": 0.0031832853508600573,
+      "experts.3.2.bias": 0.008204495622911923
+    },
+    "parameter_bytes_per_rank": 144704,
+    "shared_parameter_bytes_per_rank": 10560
+  },
+  {
+    "rank": 1,
+    "config": {
+      "tokens": 65,
+      "epochs": 30,
+      "learning_rate": 0.15,
+      "routing": "learned",
+      "warmup": 0,
+      "tokens_per_rank": false,
+      "validate": true
+    },
+    "steps": [
+      {
+        "step": 0,
+        "global_loss": 0.09501465967084421,
+        "step_ms": 5.349333005142398,
+        "shared_grad_norm": 0.02161818291047588,
+        "expert_grad_norm": 0.05023534436976989,
+        "routing": {
+          "assignments": [
+            5,
+            2,
+            10,
+            4,
+            3,
+            18,
+            13,
+            9
+          ],
+          "remote_assignments": 21,
+          "activation_forward_bytes": 10752,
+          "activation_backward_bytes": 10752,
+          "metadata_bytes": 176,
+          "send": [
+            21,
+            43
+          ],
+          "receive": [
+            42,
+            43
+          ]
+        },
+        "reference_error": {
+          "output": 0.0,
+          "loss": 1.3877787807814457e-17,
+          "input_gradient": 0.0,
+          "parameter_gradient": 8.673617379884035e-19,
+          "parameter_update": 1.3877787807814457e-17
+        },
+        "warmup": false
+      },
+      {
+        "step": 1,
+        "global_loss": 0.0944468653585229,
+        "step_ms": 3.4758749970933422,
+        "shared_grad_norm": 0.02148960504916795,
+        "expert_grad_norm": 0.0499456188938096,
+        "routing": {
+          "assignments": [
+            5,
+            2,
+            10,
+            4,
+            3,
+            18,
+            13,
+            9
+          ],
+          "remote_assignments": 21,
+          "activation_forward_bytes": 10752,
+          "activation_backward_bytes": 10752,
+          "metadata_bytes": 176,
+          "send": [
+            21,
+            43
+          ],
+          "receive": [
+            42,
+            43
+          ]
+        },
+        "reference_error": {
+          "output": 1.1102230246251565e-16,
+          "loss": 1.3877787807814457e-17,
+          "input_gradient": 4.0657581468206416e-20,
+          "parameter_gradient": 8.673617379884035e-19,
+          "parameter_update": 2.7755575615628914e-17
+        },
+        "warmup": false
+      },
+      {
+        "step": 2,
+        "global_loss": 0.09388520025527972,
+        "step_ms": 3.204665998055134,
+        "shared_grad_norm": 0.021364064928632902,
+        "expert_grad_norm": 0.04966002754421635,
+        "routing": {
+          "assignments": [
+            5,
+            2,
+            10,
+            4,
+            3,
+            18,
+            13,
+            9
+          ],
+          "remote_assignments": 21,
+          "activation_forward_bytes": 10752,
+          "activation_backward_bytes": 10752,
+          "metadata_bytes": 176,
+          "send": [
+            21,
+            43
+          ],
+          "receive": [
+            42,
+            43
+          ]
+        },
+        "reference_error": {
+          "output": 8.326672684688674e-17,
+          "loss": 1.3877787807814457e-17,
+          "input_gradient": 4.0657581468206416e-20,
+          "parameter_gradient": 8.673617379884035e-19,
+          "parameter_update": 2.7755575615628914e-17
+        },
+        "warmup": false
+      },
+      {
+        "step": 3,
+        "global_loss": 0.09336066696826784,
+        "step_ms": 4.318790997785982,
+        "shared_grad_norm": 0.021218932454552853,
+        "expert_grad_norm": 0.04972560232004077,
+        "routing": {
+          "assignments": [
+            5,
+            2,
+            10,
+            4,
+            3,
+            18,
+            13,
+            9
+          ],
+          "remote_assignments": 21,
+          "activation_forward_bytes": 10752,
+          "activation_backward_bytes": 10752,
+          "metadata_bytes": 176,
+          "send": [
+            21,
+            43
+          ],
+          "receive": [
+            43,
+            43
+          ]
+        },
+        "reference_error": {
+          "output": 9.71445146547012e-17,
+          "loss": 0.0,
+          "input_gradient": 4.0657581468206416e-20,
+          "parameter_gradient": 1.3010426069826053e-18,
+          "parameter_update": 2.7755575615628914e-17
+        },
+        "warmup": false
+      },
+      {
+        "step": 4,
+        "global_loss": 0.09280806299617389,
+        "step_ms": 3.6650419933721423,
+        "shared_grad_norm": 0.021099161313800737,
+        "expert_grad_norm": 0.0494454958649855,
+        "routing": {
+          "assignments": [
+            5,
+            2,
+            10,
+            4,
+            3,
+            18,
+            13,
+            9
+          ],
+          "remote_assignments": 21,
+          "activation_forward_bytes": 10752,
+          "activation_backward_bytes": 10752,
+          "metadata_bytes": 176,
+          "send": [
+            21,
+            43
+          ],
+          "receive": [
+            43,
+            43
+          ]
+        },
+        "reference_error": {
+          "output": 1.1102230246251565e-16,
+          "loss": 1.3877787807814457e-17,
+          "input_gradient": 5.421010862427522e-20,
+          "parameter_gradient": 1.3010426069826053e-18,
+          "parameter_update": 2.7755575615628914e-17
+        },
+        "warmup": false
+      },
+      {
+        "step": 5,
+        "global_loss": 0.09226128189106993,
+        "step_ms": 3.6144999976386316,
+        "shared_grad_norm": 0.020982141313151365,
+        "expert_grad_norm": 0.04916921455400178,
+        "routing": {
+          "assignments": [
+            5,
+            2,
+            10,
+            4,
+            3,
+            18,
+            13,
+            9
+          ],
+          "remote_assignments": 21,
+          "activation_forward_bytes": 10752,
+          "activation_backward_bytes": 10752,
+          "metadata_bytes": 176,
+          "send": [
+            21,
+            43
+          ],
+          "receive": [
+            43,
+            43
+          ]
+        },
+        "reference_error": {
+          "output": 1.3877787807814457e-16,
+          "loss": 0.0,
+          "input_gradient": 4.743384504624082e-20,
+          "parameter_gradient": 1.0842021724855044e-18,
+          "parameter_update": 2.7755575615628914e-17
+        },
+        "warmup": false
+      },
+      {
+        "step": 6,
+        "global_loss": 0.09172021272924319,
+        "step_ms": 4.79441700008465,
+        "shared_grad_norm": 0.020867777020797923,
+        "expert_grad_norm": 0.04889665557177883,
+        "routing": {
+          "assignments": [
+            5,
+            2,
+            10,
+            4,
+            3,
+            18,
+            13,
+            9
+          ],
+          "remote_assignments": 21,
+          "activation_forward_bytes": 10752,
+          "activation_backward_bytes": 10752,
+          "metadata_bytes": 176,
+          "send": [
+            21,
+            43
+          ],
+          "receive": [
+            43,
+            43
+          ]
+        },
+        "reference_error": {
+          "output": 1.1102230246251565e-16,
+          "loss": 1.3877787807814457e-17,
+          "input_gradient": 4.1081097941833566e-20,
+          "parameter_gradient": 1.1926223897340549e-18,
+          "parameter_update": 2.7755575615628914e-17
+        },
+        "warmup": false
+      },
+      {
+        "step": 7,
+        "global_loss": 0.09118474806520903,
+        "step_ms": 6.340624997392297,
+        "shared_grad_norm": 0.02075597679925401,
+        "expert_grad_norm": 0.04862771972708237,
+        "routing": {
+          "assignments": [
+            5,
+            2,
+            10,
+            4,
+            3,
+            18,
+            13,
+            9
+          ],
+          "remote_assignments": 21,
+          "activation_forward_bytes": 10752,
+          "activation_backward_bytes": 10752,
+          "metadata_bytes": 176,
+          "send": [
+            21,
+            43
+          ],
+          "receive": [
+            43,
+            43
+          ]
+        },
+        "reference_error": {
+          "output": 1.1102230246251565e-16,
+          "loss": 0.0,
+          "input_gradient": 5.421010862427522e-20,
+          "parameter_gradient": 8.673617379884035e-19,
+          "parameter_update": 2.7755575615628914e-17
+        },
+        "warmup": false
+      },
+      {
+        "step": 8,
+        "global_loss": 0.09065478378755479,
+        "step_ms": 5.166125003597699,
+        "shared_grad_norm": 0.020646652626372122,
+        "expert_grad_norm": 0.04836231129150857,
+        "routing": {
+          "assignments": [
+            5,
+            2,
+            10,
+            4,
+            3,
+            18,
+            13,
+            9
+          ],
+          "remote_assignments": 21,
+          "activation_forward_bytes": 10752,
+          "activation_backward_bytes": 10752,
+          "metadata_bytes": 176,
+          "send": [
+            21,
+            43
+          ],
+          "receive": [
+            43,
+            43
+          ]
+        },
+        "reference_error": {
+          "output": 1.249000902703301e-16,
+          "loss": 0.0,
+          "input_gradient": 4.0657581468206416e-20,
+          "parameter_gradient": 1.0842021724855044e-18,
+          "parameter_update": 2.7755575615628914e-17
+        },
+        "warmup": false
+      },
+      {
+        "step": 9,
+        "global_loss": 0.09013021898214504,
+        "step_ms": 4.779707996931393,
+        "shared_grad_norm": 0.020539719926188426,
+        "expert_grad_norm": 0.048100337847000074,
+        "routing": {
+          "assignments": [
+            5,
+            2,
+            10,
+            4,
+            3,
+            18,
+            13,
+            9
+          ],
+          "remote_assignments": 21,
+          "activation_forward_bytes": 10752,
+          "activation_backward_bytes": 10752,
+          "metadata_bytes": 176,
+          "send": [
+            21,
+            43
+          ],
+          "receive": [
+            43,
+            43
+          ]
+        },
+        "reference_error": {
+          "output": 1.1102230246251565e-16,
+          "loss": 0.0,
+          "input_gradient": 4.743384504624082e-20,
+          "parameter_gradient": 9.75781955236954e-19,
+          "parameter_update": 2.7755575615628914e-17
+        },
+        "warmup": false
+      },
+      {
+        "step": 10,
+        "global_loss": 0.0896109558022413,
+        "step_ms": 4.590459000610281,
+        "shared_grad_norm": 0.02043509740898337,
+        "expert_grad_norm": 0.047841710141571556,
+        "routing": {
+          "assignments": [
+            5,
+            2,
+            10,
+            4,
+            3,
+            18,
+            13,
+            9
+          ],
+          "remote_assignments": 21,
+          "activation_forward_bytes": 10752,
+          "activation_backward_bytes": 10752,
+          "metadata_bytes": 176,
+          "send": [
+            21,
+            43
+          ],
+          "receive": [
+            43,
+            43
+          ]
+        },
+        "reference_error": {
+          "output": 1.1102230246251565e-16,
+          "loss": 1.3877787807814457e-17,
+          "input_gradient": 5.421010862427522e-20,
+          "parameter_gradient": 1.734723475976807e-18,
+          "parameter_update": 2.7755575615628914e-17
+        },
+        "warmup": false
+      },
+      {
+        "step": 11,
+        "global_loss": 0.08909689934512036,
+        "step_ms": 4.490125000302214,
+        "shared_grad_norm": 0.02033270691998993,
+        "expert_grad_norm": 0.047586341952731454,
+        "routing": {
+          "assignments": [
+            5,
+            2,
+            10,
+            4,
+            3,
+            18,
+            13,
+            9
+          ],
+          "remote_assignments": 21,
+          "activation_forward_bytes": 10752,
+          "activation_backward_bytes": 10752,
+          "metadata_bytes": 176,
+          "send": [
+            21,
+            43
+          ],
+          "receive": [
+            43,
+            43
+          ]
+        },
+        "reference_error": {
+          "output": 1.249000902703301e-16,
+          "loss": 0.0,
+          "input_gradient": 5.421010862427522e-20,
+          "parameter_gradient": 1.3010426069826053e-18,
+          "parameter_update": 2.7755575615628914e-17
+        },
+        "warmup": false
+      },
+      {
+        "step": 12,
+        "global_loss": 0.08858795753480471,
+        "step_ms": 4.272166996088345,
+        "shared_grad_norm": 0.020232473296220462,
+        "expert_grad_norm": 0.04733414995812314,
+        "routing": {
+          "assignments": [
+            5,
+            2,
+            10,
+            4,
+            3,
+            18,
+            13,
+            9
+          ],
+          "remote_assignments": 21,
+          "activation_forward_bytes": 10752,
+          "activation_backward_bytes": 10752,
+          "metadata_bytes": 176,
+          "send": [
+            21,
+            43
+          ],
+          "receive": [
+            43,
+            43
+          ]
+        },
+        "reference_error": {
+          "output": 1.1102230246251565e-16,
+          "loss": 0.0,
+          "input_gradient": 5.421010862427522e-20,
+          "parameter_gradient": 1.3010426069826053e-18,
+          "parameter_update": 2.7755575615628914e-17
+        },
+        "warmup": false
+      },
+      {
+        "step": 13,
+        "global_loss": 0.08808404101054382,
+        "step_ms": 3.6487499965005554,
+        "shared_grad_norm": 0.020134324230918987,
+        "expert_grad_norm": 0.047085053612941796,
+        "routing": {
+          "assignments": [
+            5,
+            2,
+            10,
+            4,
+            3,
+            18,
+            13,
+            9
+          ],
+          "remote_assignments": 21,
+          "activation_forward_bytes": 10752,
+          "activation_backward_bytes": 10752,
+          "metadata_bytes": 176,
+          "send": [
+            21,
+            43
+          ],
+          "receive": [
+            43,
+            43
+          ]
+        },
+        "reference_error": {
+          "output": 2.220446049250313e-16,
+          "loss": 0.0,
+          "input_gradient": 5.421010862427522e-20,
+          "parameter_gradient": 8.673617379884035e-19,
+          "parameter_update": 2.7755575615628914e-17
+        },
+        "warmup": false
+      },
+      {
+        "step": 14,
+        "global_loss": 0.08758506302071087,
+        "step_ms": 8.435042000201065,
+        "shared_grad_norm": 0.020038190145179446,
+        "expert_grad_norm": 0.046838975033714675,
+        "routing": {
+          "assignments": [
+            5,
+            2,
+            10,
+            4,
+            3,
+            18,
+            13,
+            9
+          ],
+          "remote_assignments": 21,
+          "activation_forward_bytes": 10752,
+          "activation_backward_bytes": 10752,
+          "metadata_bytes": 176,
+          "send": [
+            21,
+            43
+          ],
+          "receive": [
+            43,
+            43
+          ]
+        },
+        "reference_error": {
+          "output": 1.3877787807814457e-16,
+          "loss": 0.0,
+          "input_gradient": 5.421010862427522e-20,
+          "parameter_gradient": 1.0842021724855044e-18,
+          "parameter_update": 2.7755575615628914e-17
+        },
+        "warmup": false
+      },
+      {
+        "step": 15,
+        "global_loss": 0.08709093932180093,
+        "step_ms": 4.880749998847023,
+        "shared_grad_norm": 0.019944004066300966,
+        "expert_grad_norm": 0.04659583888806024,
+        "routing": {
+          "assignments": [
+            5,
+            2,
+            10,
+            4,
+            3,
+            18,
+            13,
+            9
+          ],
+          "remote_assignments": 21,
+          "activation_forward_bytes": 10752,
+          "activation_backward_bytes": 10752,
+          "metadata_bytes": 176,
+          "send": [
+            21,
+            43
+          ],
+          "receive": [
+            43,
+            43
+          ]
+        },
+        "reference_error": {
+          "output": 1.249000902703301e-16,
+          "loss": 0.0,
+          "input_gradient": 5.421010862427522e-20,
+          "parameter_gradient": 1.3010426069826053e-18,
+          "parameter_update": 2.7755575615628914e-17
+        },
+        "warmup": false
+      },
+      {
+        "step": 16,
+        "global_loss": 0.0866015880822382,
+        "step_ms": 5.114667001180351,
+        "shared_grad_norm": 0.019851701512480183,
+        "expert_grad_norm": 0.046355572290068564,
+        "routing": {
+          "assignments": [
+            5,
+            2,
+            10,
+            4,
+            3,
+            18,
+            13,
+            9
+          ],
+          "remote_assignments": 21,
+          "activation_forward_bytes": 10752,
+          "activation_backward_bytes": 10752,
+          "metadata_bytes": 176,
+          "send": [
+            21,
+            43
+          ],
+          "receive": [
+            43,
+            43
+          ]
+        },
+        "reference_error": {
+          "output": 1.3877787807814457e-16,
+          "loss": 1.3877787807814457e-17,
+          "input_gradient": 5.421010862427522e-20,
+          "parameter_gradient": 1.3010426069826053e-18,
+          "parameter_update": 2.7755575615628914e-17
+        },
+        "warmup": false
+      },
+      {
+        "step": 17,
+        "global_loss": 0.08611692979071911,
+        "step_ms": 4.9522909976076335,
+        "shared_grad_norm": 0.019761220383466827,
+        "expert_grad_norm": 0.04611810470096918,
+        "routing": {
+          "assignments": [
+            5,
+            2,
+            10,
+            4,
+            3,
+            18,
+            13,
+            9
+          ],
+          "remote_assignments": 21,
+          "activation_forward_bytes": 10752,
+          "activation_backward_bytes": 10752,
+          "metadata_bytes": 176,
+          "send": [
+            21,
+            43
+          ],
+          "receive": [
+            43,
+            43
+          ]
+        },
+        "reference_error": {
+          "output": 1.3877787807814457e-16,
+          "loss": 0.0,
+          "input_gradient": 6.776263578034403e-20,
+          "parameter_gradient": 1.3010426069826053e-18,
+          "parameter_update": 2.7755575615628914e-17
+        },
+        "warmup": false
+      },
+      {
+        "step": 18,
+        "global_loss": 0.08563688716883527,
+        "step_ms": 4.697249998571351,
+        "shared_grad_norm": 0.019672500856833565,
+        "expert_grad_norm": 0.04588336783477516,
+        "routing": {
+          "assignments": [
+            5,
+            2,
+            10,
+            4,
+            3,
+            18,
+            13,
+            9
+          ],
+          "remote_assignments": 21,
+          "activation_forward_bytes": 10752,
+          "activation_backward_bytes": 10752,
+          "metadata_bytes": 176,
+          "send": [
+            21,
+            43
+          ],
+          "receive": [
+            43,
+            43
+          ]
+        },
+        "reference_error": {
+          "output": 1.1102230246251565e-16,
+          "loss": 1.3877787807814457e-17,
+          "input_gradient": 5.421010862427522e-20,
+          "parameter_gradient": 8.673617379884035e-19,
+          "parameter_update": 2.7755575615628914e-17
+        },
+        "warmup": false
+      },
+      {
+        "step": 19,
+        "global_loss": 0.08516138508773832,
+        "step_ms": 4.283207999833394,
+        "shared_grad_norm": 0.019585485289533792,
+        "expert_grad_norm": 0.04565129556861312,
+        "routing": {
+          "assignments": [
+            5,
+            2,
+            10,
+            4,
+            3,
+            18,
+            13,
+            9
+          ],
+          "remote_assignments": 21,
+          "activation_forward_bytes": 10752,
+          "activation_backward_bytes": 10752,
+          "metadata_bytes": 176,
+          "send": [
+            21,
+            43
+          ],
+          "receive": [
+            43,
+            43
+          ]
+        },
+        "reference_error": {
+          "output": 1.1102230246251565e-16,
+          "loss": 0.0,
+          "input_gradient": 5.421010862427522e-20,
+          "parameter_gradient": 8.673617379884035e-19,
+          "parameter_update": 2.7755575615628914e-17
+        },
+        "warmup": false
+      },
+      {
+        "step": 20,
+        "global_loss": 0.08469035048862221,
+        "step_ms": 4.484707998926751,
+        "shared_grad_norm": 0.019500118124442203,
+        "expert_grad_norm": 0.04542182385746779,
+        "routing": {
+          "assignments": [
+            5,
+            2,
+            10,
+            4,
+            3,
+            18,
+            13,
+            9
+          ],
+          "remote_assignments": 21,
+          "activation_forward_bytes": 10752,
+          "activation_backward_bytes": 10752,
+          "metadata_bytes": 176,
+          "send": [
+            21,
+            43
+          ],
+          "receive": [
+            43,
+            43
+          ]
+        },
+        "reference_error": {
+          "output": 1.5265566588595902e-16,
+          "loss": 1.3877787807814457e-17,
+          "input_gradient": 5.421010862427522e-20,
+          "parameter_gradient": 8.673617379884035e-19,
+          "parameter_update": 2.7755575615628914e-17
+        },
+        "warmup": false
+      },
+      {
+        "step": 21,
+        "global_loss": 0.08422371230681457,
+        "step_ms": 3.707749994646292,
+        "shared_grad_norm": 0.01941634580159263,
+        "expert_grad_norm": 0.045194890653087724,
+        "routing": {
+          "assignments": [
+            5,
+            2,
+            10,
+            4,
+            3,
+            18,
+            13,
+            9
+          ],
+          "remote_assignments": 21,
+          "activation_forward_bytes": 10752,
+          "activation_backward_bytes": 10752,
+          "metadata_bytes": 176,
+          "send": [
+            21,
+            43
+          ],
+          "receive": [
+            43,
+            43
+          ]
+        },
+        "reference_error": {
+          "output": 1.6653345369377348e-16,
+          "loss": 1.3877787807814457e-17,
+          "input_gradient": 5.421010862427522e-20,
+          "parameter_gradient": 8.673617379884035e-19,
+          "parameter_update": 2.7755575615628914e-17
+        },
+        "warmup": false
+      },
+      {
+        "step": 22,
+        "global_loss": 0.08370200192842195,
+        "step_ms": 4.19833399791969,
+        "shared_grad_norm": 0.019328532613479533,
+        "expert_grad_norm": 0.04467054503989106,
+        "routing": {
+          "assignments": [
+            5,
+            2,
+            10,
+            4,
+            3,
+            18,
+            13,
+            9
+          ],
+          "remote_assignments": 21,
+          "activation_forward_bytes": 10752,
+          "activation_backward_bytes": 10752,
+          "metadata_bytes": 176,
+          "send": [
+            21,
+            43
+          ],
+          "receive": [
+            42,
+            43
+          ]
+        },
+        "reference_error": {
+          "output": 1.3877787807814457e-16,
+          "loss": 1.3877787807814457e-17,
+          "input_gradient": 5.421010862427522e-20,
+          "parameter_gradient": 1.3010426069826053e-18,
+          "parameter_update": 2.7755575615628914e-17
+        },
+        "warmup": false
+      },
+      {
+        "step": 23,
+        "global_loss": 0.08324611808104884,
+        "step_ms": 3.9649579994147643,
+        "shared_grad_norm": 0.019248152959774955,
+        "expert_grad_norm": 0.04445021948239016,
+        "routing": {
+          "assignments": [
+            5,
+            2,
+            10,
+            4,
+            3,
+            18,
+            13,
+            9
+          ],
+          "remote_assignments": 21,
+          "activation_forward_bytes": 10752,
+          "activation_backward_bytes": 10752,
+          "metadata_bytes": 176,
+          "send": [
+            21,
+            43
+          ],
+          "receive": [
+            42,
+            43
+          ]
+        },
+        "reference_error": {
+          "output": 1.1102230246251565e-16,
+          "loss": 0.0,
+          "input_gradient": 6.776263578034403e-20,
+          "parameter_gradient": 8.673617379884035e-19,
+          "parameter_update": 2.7755575615628914e-17
+        },
+        "warmup": false
+      },
+      {
+        "step": 24,
+        "global_loss": 0.0827943941207753,
+        "step_ms": 4.262208000000101,
+        "shared_grad_norm": 0.01916921091898912,
+        "expert_grad_norm": 0.044232239784730835,
+        "routing": {
+          "assignments": [
+            5,
+            2,
+            10,
+            4,
+            3,
+            18,
+            13,
+            9
+          ],
+          "remote_assignments": 21,
+          "activation_forward_bytes": 10752,
+          "activation_backward_bytes": 10752,
+          "metadata_bytes": 176,
+          "send": [
+            21,
+            43
+          ],
+          "receive": [
+            42,
+            43
+          ]
+        },
+        "reference_error": {
+          "output": 1.1102230246251565e-16,
+          "loss": 1.3877787807814457e-17,
+          "input_gradient": 5.421010862427522e-20,
+          "parameter_gradient": 8.673617379884035e-19,
+          "parameter_update": 2.7755575615628914e-17
+        },
+        "warmup": false
+      },
+      {
+        "step": 25,
+        "global_loss": 0.08234676690189566,
+        "step_ms": 3.989374999946449,
+        "shared_grad_norm": 0.019091660306385136,
+        "expert_grad_norm": 0.04401655136009612,
+        "routing": {
+          "assignments": [
+            5,
+            2,
+            10,
+            4,
+            3,
+            18,
+            13,
+            9
+          ],
+          "remote_assignments": 21,
+          "activation_forward_bytes": 10752,
+          "activation_backward_bytes": 10752,
+          "metadata_bytes": 176,
+          "send": [
+            21,
+            43
+          ],
+          "receive": [
+            42,
+            43
+          ]
+        },
+        "reference_error": {
+          "output": 1.1102230246251565e-16,
+          "loss": 0.0,
+          "input_gradient": 4.097521882342678e-20,
+          "parameter_gradient": 1.0842021724855044e-18,
+          "parameter_update": 2.7755575615628914e-17
+        },
+        "warmup": false
+      },
+      {
+        "step": 26,
+        "global_loss": 0.0819031749259003,
+        "step_ms": 3.8003750014468096,
+        "shared_grad_norm": 0.019015456549670542,
+        "expert_grad_norm": 0.04380310126638232,
+        "routing": {
+          "assignments": [
+            5,
+            2,
+            10,
+            4,
+            3,
+            18,
+            13,
+            9
+          ],
+          "remote_assignments": 21,
+          "activation_forward_bytes": 10752,
+          "activation_backward_bytes": 10752,
+          "metadata_bytes": 176,
+          "send": [
+            21,
+            43
+          ],
+          "receive": [
+            42,
+            43
+          ]
+        },
+        "reference_error": {
+          "output": 1.3877787807814457e-16,
+          "loss": 0.0,
+          "input_gradient": 5.421010862427522e-20,
+          "parameter_gradient": 1.0842021724855044e-18,
+          "parameter_update": 2.7755575615628914e-17
+        },
+        "warmup": false
+      },
+      {
+        "step": 27,
+        "global_loss": 0.08146355828393453,
+        "step_ms": 3.853374997561332,
+        "shared_grad_norm": 0.018940556623235332,
+        "expert_grad_norm": 0.04359183814546702,
+        "routing": {
+          "assignments": [
+            5,
+            2,
+            10,
+            4,
+            3,
+            18,
+            13,
+            9
+          ],
+          "remote_assignments": 21,
+          "activation_forward_bytes": 10752,
+          "activation_backward_bytes": 10752,
+          "metadata_bytes": 176,
+          "send": [
+            21,
+            43
+          ],
+          "receive": [
+            42,
+            43
+          ]
+        },
+        "reference_error": {
+          "output": 1.6653345369377348e-16,
+          "loss": 1.3877787807814457e-17,
+          "input_gradient": 5.421010862427522e-20,
+          "parameter_gradient": 1.3010426069826053e-18,
+          "parameter_update": 2.7755575615628914e-17
+        },
+        "warmup": false
+      },
+      {
+        "step": 28,
+        "global_loss": 0.08102785860171048,
+        "step_ms": 8.427875000052154,
+        "shared_grad_norm": 0.018866918985548996,
+        "expert_grad_norm": 0.0433827121652772,
+        "routing": {
+          "assignments": [
+            5,
+            2,
+            10,
+            4,
+            3,
+            18,
+            13,
+            9
+          ],
+          "remote_assignments": 21,
+          "activation_forward_bytes": 10752,
+          "activation_backward_bytes": 10752,
+          "metadata_bytes": 176,
+          "send": [
+            21,
+            43
+          ],
+          "receive": [
+            42,
+            43
+          ]
+        },
+        "reference_error": {
+          "output": 1.3877787807814457e-16,
+          "loss": 0.0,
+          "input_gradient": 5.421010862427522e-20,
+          "parameter_gradient": 1.734723475976807e-18,
+          "parameter_update": 2.7755575615628914e-17
+        },
+        "warmup": false
+      },
+      {
+        "step": 29,
+        "global_loss": 0.08059601898674623,
+        "step_ms": 4.493250002269633,
+        "shared_grad_norm": 0.018794503519544755,
+        "expert_grad_norm": 0.04317567496450636,
+        "routing": {
+          "assignments": [
+            5,
+            2,
+            10,
+            4,
+            3,
+            18,
+            13,
+            9
+          ],
+          "remote_assignments": 21,
+          "activation_forward_bytes": 10752,
+          "activation_backward_bytes": 10752,
+          "metadata_bytes": 176,
+          "send": [
+            21,
+            43
+          ],
+          "receive": [
+            42,
+            43
+          ]
+        },
+        "reference_error": {
+          "output": 1.6653345369377348e-16,
+          "loss": 0.0,
+          "input_gradient": 7.453889935837843e-20,
+          "parameter_gradient": 8.673617379884035e-19,
+          "parameter_update": 2.7755575615628914e-17
+        },
+        "warmup": false
+      }
+    ],
+    "trace": [
+      {
+        "token": 33,
+        "source": 1,
+        "experts": [
+          2,
+          1
+        ],
+        "owners": [
+          0,
+          0
+        ],
+        "returned_first_coordinate": [
+          -0.14100109645334838,
+          0.22065459353412584
+        ],
+        "combined_first_coordinate": 0.02420156278754103
+      },
+      {
+        "token": 34,
+        "source": 1,
+        "experts": [
+          5,
+          2
+        ],
+        "owners": [
+          1,
+          0
+        ],
+        "returned_first_coordinate": [
+          0.12959213597584365,
+          -0.1741750411273389
+        ],
+        "combined_first_coordinate": -0.012665707181602787
+      },
+      {
+        "token": 35,
+        "source": 1,
+        "experts": [
+          5,
+          3
+        ],
+        "owners": [
+          1,
+          0
+        ],
+        "returned_first_coordinate": [
+          0.1995119334166434,
+          -0.1862465141652908
+        ],
+        "combined_first_coordinate": 0.022761110217524305
+      },
+      {
+        "token": 36,
+        "source": 1,
+        "experts": [
+          6,
+          7
+        ],
+        "owners": [
+          1,
+          1
+        ],
+        "returned_first_coordinate": [
+          -0.15324395957891854,
+          0.03824947900749457
+        ],
+        "combined_first_coordinate": -0.06755074765997707
+      },
+      {
+        "token": 37,
+        "source": 1,
+        "experts": [
+          7,
+          0
+        ],
+        "owners": [
+          1,
+          0
+        ],
+        "returned_first_coordinate": [
+          -0.277186934502469,
+          0.17958977524674166
+        ],
+        "combined_first_coordinate": -0.05983003735038318
+      },
+      {
+        "token": 38,
+        "source": 1,
+        "experts": [
+          3,
+          7
+        ],
+        "owners": [
+          0,
+          1
+        ],
+        "returned_first_coordinate": [
+          0.28228081372146757,
+          -0.06946929052232174
+        ],
+        "combined_first_coordinate": 0.10903503574527855
+      },
+      {
+        "token": 39,
+        "source": 1,
+        "experts": [
+          2,
+          5
+        ],
+        "owners": [
+          0,
+          1
+        ],
+        "returned_first_coordinate": [
+          -0.5287197799166128,
+          0.04505154202170392
+        ],
+        "combined_first_coordinate": -0.24521718300506015
+      },
+      {
+        "token": 40,
+        "source": 1,
+        "experts": [
+          5,
+          6
+        ],
+        "owners": [
+          1,
+          1
+        ],
+        "returned_first_coordinate": [
+          -0.02109542650956007,
+          0.03813083631971119
+        ],
+        "combined_first_coordinate": 0.004220758470738939
+      },
+      {
+        "token": 41,
+        "source": 1,
+        "experts": [
+          5,
+          2
+        ],
+        "owners": [
+          1,
+          0
+        ],
+        "returned_first_coordinate": [
+          0.020130658800393827,
+          -0.33406370034823024
+        ],
+        "combined_first_coordinate": -0.15650732844991336
+      },
+      {
+        "token": 42,
+        "source": 1,
+        "experts": [
+          5,
+          6
+        ],
+        "owners": [
+          1,
+          1
+        ],
+        "returned_first_coordinate": [
+          -0.0548186190626671,
+          -0.0353098887940918
+        ],
+        "combined_first_coordinate": -0.04580799035956333
+      },
+      {
+        "token": 43,
+        "source": 1,
+        "experts": [
+          4,
+          0
+        ],
+        "owners": [
+          1,
+          0
+        ],
+        "returned_first_coordinate": [
+          -0.35843533811136313,
+          -0.25372867516104985
+        ],
+        "combined_first_coordinate": -0.3082358658344301
+      },
+      {
+        "token": 44,
+        "source": 1,
+        "experts": [
+          2,
+          5
+        ],
+        "owners": [
+          0,
+          1
+        ],
+        "returned_first_coordinate": [
+          -0.2852309353829192,
+          0.2698824416952995
+        ],
+        "combined_first_coordinate": -0.05987434357106014
+      },
+      {
+        "token": 45,
+        "source": 1,
+        "experts": [
+          2,
+          3
+        ],
+        "owners": [
+          0,
+          0
+        ],
+        "returned_first_coordinate": [
+          -0.09494076285905476,
+          -0.156612784215575
+        ],
+        "combined_first_coordinate": -0.12406725109536781
+      },
+      {
+        "token": 46,
+        "source": 1,
+        "experts": [
+          3,
+          7
+        ],
+        "owners": [
+          0,
+          1
+        ],
+        "returned_first_coordinate": [
+          -0.04269538580074229,
+          -0.005768409327351308
+        ],
+        "combined_first_coordinate": -0.02691320454311002
+      },
+      {
+        "token": 47,
+        "source": 1,
+        "experts": [
+          1,
+          4
+        ],
+        "owners": [
+          0,
+          1
+        ],
+        "returned_first_coordinate": [
+          0.3401441145656601,
+          0.0742770020823061
+        ],
+        "combined_first_coordinate": 0.2176386303124701
+      },
+      {
+        "token": 48,
+        "source": 1,
+        "experts": [
+          5,
+          6
+        ],
+        "owners": [
+          1,
+          1
+        ],
+        "returned_first_coordinate": [
+          -0.22907209786364938,
+          0.25941939871440445
+        ],
+        "combined_first_coordinate": -0.006737808191365907
+      },
+      {
+        "token": 49,
+        "source": 1,
+        "experts": [
+          2,
+          5
+        ],
+        "owners": [
+          0,
+          1
+        ],
+        "returned_first_coordinate": [
+          -0.47470116743418483,
+          -0.2308899009644058
+        ],
+        "combined_first_coordinate": -0.3558470059986484
+      },
+      {
+        "token": 50,
+        "source": 1,
+        "experts": [
+          6,
+          0
+        ],
+        "owners": [
+          1,
+          0
+        ],
+        "returned_first_coordinate": [
+          -0.19469781907611267,
+          -0.18333961926449935
+        ],
+        "combined_first_coordinate": -0.18914981056151772
+      },
+      {
+        "token": 51,
+        "source": 1,
+        "experts": [
+          7,
+          5
+        ],
+        "owners": [
+          1,
+          1
+        ],
+        "returned_first_coordinate": [
+          -0.30759104003063625,
+          0.07172116522895464
+        ],
+        "combined_first_coordinate": -0.12341415378802471
+      },
+      {
+        "token": 52,
+        "source": 1,
+        "experts": [
+          7,
+          4
+        ],
+        "owners": [
+          1,
+          1
+        ],
+        "returned_first_coordinate": [
+          -0.24378584770404851,
+          -0.00961856921854473
+        ],
+        "combined_first_coordinate": -0.13816920511029415
+      },
+      {
+        "token": 53,
+        "source": 1,
+        "experts": [
+          2,
+          5
+        ],
+        "owners": [
+          0,
+          1
+        ],
+        "returned_first_coordinate": [
+          -0.10775604670658755,
+          0.1830589494620072
+        ],
+        "combined_first_coordinate": 0.0219694284179843
+      },
+      {
+        "token": 54,
+        "source": 1,
+        "experts": [
+          7,
+          5
+        ],
+        "owners": [
+          1,
+          1
+        ],
+        "returned_first_coordinate": [
+          -0.332798532982439,
+          -0.21685281361252615
+        ],
+        "combined_first_coordinate": -0.28341027691795456
+      },
+      {
+        "token": 55,
+        "source": 1,
+        "experts": [
+          6,
+          5
+        ],
+        "owners": [
+          1,
+          1
+        ],
+        "returned_first_coordinate": [
+          0.08320471242627758,
+          -0.09074721746278948
+        ],
+        "combined_first_coordinate": 0.0014106979140505876
+      },
+      {
+        "token": 56,
+        "source": 1,
+        "experts": [
+          6,
+          0
+        ],
+        "owners": [
+          1,
+          0
+        ],
+        "returned_first_coordinate": [
+          0.06114022236470339,
+          0.01984401154743235
+        ],
+        "combined_first_coordinate": 0.041687141265235275
+      },
+      {
+        "token": 57,
+        "source": 1,
+        "experts": [
+          5,
+          6
+        ],
+        "owners": [
+          1,
+          1
+        ],
+        "returned_first_coordinate": [
+          0.1282946663614734,
+          -0.003898612731413751
+        ],
+        "combined_first_coordinate": 0.07090882596056199
+      },
+      {
+        "token": 58,
+        "source": 1,
+        "experts": [
+          6,
+          2
+        ],
+        "owners": [
+          1,
+          0
+        ],
+        "returned_first_coordinate": [
+          -0.21737958237983004,
+          -0.31255511124813845
+        ],
+        "combined_first_coordinate": -0.2626060146004442
+      },
+      {
+        "token": 59,
+        "source": 1,
+        "experts": [
+          7,
+          5
+        ],
+        "owners": [
+          1,
+          1
+        ],
+        "returned_first_coordinate": [
+          -0.3233841918815672,
+          0.4097723138726872
+        ],
+        "combined_first_coordinate": -0.02210552178973682
+      },
+      {
+        "token": 60,
+        "source": 1,
+        "experts": [
+          6,
+          5
+        ],
+        "owners": [
+          1,
+          1
+        ],
+        "returned_first_coordinate": [
+          -0.0011040928051724982,
+          -0.016028203655110682
+        ],
+        "combined_first_coordinate": -0.008311206133928356
+      },
+      {
+        "token": 61,
+        "source": 1,
+        "experts": [
+          5,
+          6
+        ],
+        "owners": [
+          1,
+          1
+        ],
+        "returned_first_coordinate": [
+          -0.08905665905621636,
+          0.023489808680923402
+        ],
+        "combined_first_coordinate": -0.03540465552282566
+      },
+      {
+        "token": 62,
+        "source": 1,
+        "experts": [
+          6,
+          0
+        ],
+        "owners": [
+          1,
+          0
+        ],
+        "returned_first_coordinate": [
+          0.14351655450808867,
+          -0.1990045614746936
+        ],
+        "combined_first_coordinate": 0.0010303505541379987
+      },
+      {
+        "token": 63,
+        "source": 1,
+        "experts": [
+          6,
+          7
+        ],
+        "owners": [
+          1,
+          1
+        ],
+        "returned_first_coordinate": [
+          -0.03741929594122379,
+          -0.08627932395101348
+        ],
+        "combined_first_coordinate": -0.055887823521281334
+      },
+      {
+        "token": 64,
+        "source": 1,
+        "experts": [
+          5,
+          2
+        ],
+        "owners": [
+          1,
+          0
+        ],
+        "returned_first_coordinate": [
+          0.17845991985431897,
+          -0.19102961810527075
+        ],
+        "combined_first_coordinate": 0.009861912404521223
+      }
+    ],
+    "parameter_changes": {
+      "token_encoder.0.weight": 0.010837302611413382,
+      "token_encoder.0.bias": 0.01112732378692341,
+      "router.weight": 0.0034292993617396905,
+      "router.bias": 0.003055413520869202,
+      "experts.4.0.weight": 0.001670592079403864,
+      "experts.4.0.bias": 0.002751379972458917,
+      "experts.4.2.weight": 0.0022068819850030175,
+      "experts.4.2.bias": 0.004577542317848668,
+      "experts.5.0.weight": 0.006530432499773073,
+      "experts.5.0.bias": 0.01688862467053702,
+      "experts.5.2.weight": 0.0065720068444569055,
+      "experts.5.2.bias": 0.02341959412131947,
+      "experts.6.0.weight": 0.0033313497657798674,
+      "experts.6.0.bias": 0.009649414325757992,
+      "experts.6.2.weight": 0.0064638536994706675,
+      "experts.6.2.bias": 0.023890722941646333,
+      "experts.7.0.weight": 0.003322758112510607,
+      "experts.7.0.bias": 0.00684427441865583,
+      "experts.7.2.weight": 0.0050796057285414226,
+      "experts.7.2.bias": 0.01598006396877398
+    },
+    "parameter_bytes_per_rank": 144704,
+    "shared_parameter_bytes_per_rank": 10560
+  }
+]
