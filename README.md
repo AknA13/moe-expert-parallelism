@@ -30,7 +30,7 @@ python show_results.py  # view saved tables and trace
 2. `moe/parallel.py`: packing, token exchange, expert execution, inverse exchange, and shared-gradient synchronization.
 3. `moe/training.py`: one training loop, loss, step timing, and logs.
 4. `moe/setup.py`: deterministic model and data setup; `moe/validation.py`: optional reference comparisons.
-5. `run.py`: one worker for one config. `verify.py`, `scale.py`, and `tests/check_exchange.py` are external drivers.
+5. `run.py`: one worker for one config. `verify.py` and `scale.py` are external drivers.
 
 ## The forward journey
 
@@ -79,7 +79,7 @@ The router receives gradients from weighted combination on the source. The token
 
 The verification stage compares full outputs, global loss, input gradients, all owned/shared parameter gradients, and updated parameters to an independently executed full-model reference. Tolerances are `atol=1e-8`, `rtol=1e-6`, using float64. Every replica is explicitly compared with rank 0. The balanced fixture requires every parameter tensor to change.
 
-`verify.py` invokes ordinary training jobs with learned, balanced, skewed, and local routing on 1, 2, and 4 ranks. These cover all experts, unused experts, zero-receive ranks, and unequal shards (65 tokens). The standalone exchange test uses asymmetric split sizes and checks row order and backward gradients. A 30-epoch job checks reference equivalence on every step and requires loss reduction. Assertions live in `verify.py`; the worker only trains and records observations. Each JSON step records loss, routing counts, communication estimates, gradient norms, latency, and reference errors when validation is enabled.
+`verify.py` invokes ordinary training jobs with learned, balanced, skewed, and local routing on 1, 2, and 4 ranks. These cover all experts, unused experts, zero-receive ranks, and unequal shards (65 tokens). A 30-epoch job checks reference equivalence on every step and requires loss reduction. Assertions live in `verify.py`; the worker only trains and records observations. Each JSON step records loss, routing counts, communication estimates, gradient norms, latency, and reference errors when validation is enabled.
 
 See [RESULTS.md](RESULTS.md) for recorded tables, [results/summary.txt](results/summary.txt) for all timing rows, and [ONSITE.md](ONSITE.md) for rehearsal questions.
 

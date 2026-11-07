@@ -36,7 +36,7 @@ Tiny experts, process scheduling, metadata exchange, four activation exchanges a
 Profile dispatch, expert execution, return, and shared synchronization separately. Then consider larger workloads, grouped GEMMs, tensor packing, bucketed shared gradients, and overlap. Avoid treating modeled payload bytes as measured link utilization.
 
 **Can the reference conceal a shared routing bug?**
-It shares initialization and gate semantics but executes experts without communication. It strongly tests dispatch, return, distributed gradients, and optimizer equivalence. The separate exchange test checks row order and backward gradients independently. It does not establish model quality or validate every conceivable routing implementation.
+It shares initialization and gate semantics but executes experts without communication. It strongly tests dispatch, return, distributed gradients, and optimizer equivalence. It does not establish model quality or validate every conceivable routing implementation.
 
 **How would you change the number of ranks at restart?**
 Checkpoint by global expert ID rather than local module order. Redistribute experts and optimizer states to their new owners; restore shared state and the logical data/RNG position. This demo does not implement checkpointing.

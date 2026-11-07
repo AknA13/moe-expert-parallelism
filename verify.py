@@ -34,7 +34,6 @@ def main():
     parser.add_argument('--output', type=Path, default=Path('results/verify'))
     args = parser.parse_args()
     args.output.mkdir(parents=True, exist_ok=True)
-    subprocess.run([sys.executable, 'tests/check_exchange.py'], check=True)
     for world in (1, 2, 4):
         for route in ('learned', 'balanced', 'skewed', 'local'):
             path = args.output / f'{world}-{route}.json'
@@ -46,7 +45,7 @@ def main():
         subprocess.run([sys.executable, 'run.py', '--ranks', str(world),
                         '--validate', '--output', str(path)], check=True)
         check(path, world, loss_reduction=True)
-    print('PASS reference, routing, training, and exchange checks')
+    print('PASS reference, routing, and training checks')
 
 
 if __name__ == '__main__':

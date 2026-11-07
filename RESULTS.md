@@ -1,6 +1,6 @@
 # Recorded validation and measurements
 
-The single-job worker passed reference checks at 1, 2, and 4 ranks on ARM64 macOS with Python 3.13 and PyTorch 2.9.1. `verify.py` ran separate learned, balanced, skewed, local, and 30-epoch training jobs at each rank count. The standalone exchange test passed at all three rank counts. Linux was not tested.
+The single-job worker passed reference checks at 1, 2, and 4 ranks on ARM64 macOS with Python 3.13 and PyTorch 2.9.1. `verify.py` ran separate learned, balanced, skewed, local, and 30-epoch training jobs at each rank count. Linux was not tested.
 
 | Ranks | Max reference error | Training loss, first → last |
 |---:|---:|---:|
@@ -18,4 +18,4 @@ The single-job worker passed reference checks at 1, 2, and 4 ranks on ARM64 macO
 
 Expert parameter storage falls from 268,288 to 67,072 bytes/rank while shared storage stays 10,560 bytes/rank. These are parameter tensor bytes, not peak process memory. CPU latency increases with rank count for this small model.
 
-Each `results/verify/*.json` or `results/scale/*.json` file contains one training job: its config, every rank's per-epoch loss, timing, gradient norms, routing load, communication estimates, and optional reference errors. `verify.py` evaluates correctness; `tests/check_exchange.py` independently checks split exchange row order and backward gradients. `results/summary.txt` covers both scaling regimes. These CPU measurements do not establish a GPU speedup.
+Each `results/verify/*.json` or `results/scale/*.json` file contains one training job: its config, every rank's per-epoch loss, timing, gradient norms, routing load, communication estimates, and optional reference errors. `verify.py` evaluates correctness. `results/summary.txt` covers both scaling regimes. These CPU measurements do not establish a GPU speedup.
