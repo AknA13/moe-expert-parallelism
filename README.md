@@ -26,10 +26,9 @@ python show_results.py
 ## Read the code
 
 1. `moe/model.py`: `MoEModel` builds `StandardMoEBlock` or `ParallelMoEBlock` instances. `ModelConfig.num_blocks` controls the stack depth.
-2. `moe/parallel.py`: the differentiable variable-size all-to-all primitive and shared-gradient synchronization.
-3. `moe/setup.py`: identical initialization by global block and expert ID, plus deterministic data shards.
-4. `moe/training.py`: one loss and training loop that calls `model(x)` in either mode.
-5. `run.py`: one generic worker; `verify.py` and `scale.py` launch it with different inputs.
+2. `moe/communication.py`: the differentiable variable-size all-to-all primitive.
+3. `moe/training.py`: deterministic model initialization and data shards, shared-gradient synchronization, and one training loop that calls `model(x)` in either mode.
+4. `run.py`: one generic worker; `verify.py` and `scale.py` launch it with different inputs.
 
 Each block contains its own token projection (`Linear` + `Tanh`), router, and experts. In parallel mode, projection and router parameters are replicated, while each rank owns `8/world_size` experts per block. In standard mode, one process owns all experts. Both modes use the same output dimension, gate calculation, and global expert initialization. No test-only routing mode enters the model.
 

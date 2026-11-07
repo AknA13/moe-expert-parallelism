@@ -1,13 +1,13 @@
-"""One training loop for standard and expert-parallel MoE models."""
+"""Deterministic data, model setup, and one MoE training loop."""
 import time
 from dataclasses import asdict, dataclass
+from typing import NamedTuple
 
 import torch
 import torch.distributed as dist
+from torch import nn
 
-from .model import ModelConfig
-from .parallel import sync_replicated_gradients
-from .setup import prepare_rank
+from .model import ModelConfig, MoEModel
 
 
 @dataclass(frozen=True)
@@ -16,6 +16,57 @@ class TrainConfig:
     epochs: int = 30
     learning_rate: float = 0.15
     warmup: int = 0
+
+
+class RankData(NamedTuple):
+    model: MoEModel
+    x: torch.Tensor
+    target: torch.Tensor
+    indices: torch.Tensor
+    global_tokens: int
+
+
+def make_model(rank, world, config=ModelConfig()):
+    """Use global block and expert IDs so weights do not depend on rank count."""
+    with torch.random.fork_rng():
+        model = MoEModel(config, parallel=world > 1, rank=rank, world=world)
+
+        def reset_with_seed(module, seed):
+            torch.manual_seed(seed)
+            for layer in module.modules():
+                if isinstance(layer, nn.Linear):
+                    layer.reset_parameters()
+
+        for block_id, block in enumerate(model.blocks):
+            offset = block_id * 1000
+            reset_with_seed(block.token_projection, 10 + offset)
+            reset_with_seed(block.router, 11 + offset)
+            for expert_id, expert in block.experts.items():
+                reset_with_seed(expert, 100 + offset + int(expert_id))
+        return model.double()
+
+
+def synthetic_data(total_tokens, dimension):
+    generator = torch.Generator().manual_seed(42)
+    x = torch.randn(total_tokens, dimension, generator=generator,
+                    dtype=torch.float64)
+    return x, 0.3 * x.tanh() + 0.2
+
+
+def prepare_rank(rank, world, total_tokens, model_config):
+    model = make_model(rank, world, model_config)
+    full_x, full_target = synthetic_data(total_tokens, model_config.dimension)
+    indices = torch.tensor_split(torch.arange(total_tokens), world)[rank]
+    return RankData(model, full_x[indices].clone(), full_target[indices].clone(),
+                    indices, total_tokens)
+
+
+def sync_replicated_gradients(model):
+    for parameter in model.parameters():
+        if parameter.grad is None:
+            parameter.grad = torch.zeros_like(parameter)
+    for parameter in model.replicated_parameters():
+        dist.all_reduce(parameter.grad, op=dist.ReduceOp.SUM)
 
 
 def loss(prediction, target, global_tokens):

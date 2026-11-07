@@ -5,7 +5,7 @@ import torch
 import torch.distributed as dist
 from torch import nn
 
-from .parallel import Exchange
+from .communication import Exchange
 
 
 @dataclass(frozen=True)
