@@ -1,8 +1,13 @@
-# Correctness results
+# Correctness Results
 
-## Question and method
 
-Does expert-parallel training compute the same outputs, gradients, and Adam updates as one process owning all eight experts? We ran the same deterministic global batch and global expert initialization at 1, 2, and 4 ranks. The one-rank reference uses `StandardMoEBlock`; multi-rank jobs use `ParallelMoEBlock`. Every run used float64, learned top-2 routing, and Adam with learning rate 0.001. Comparisons use `atol=1e-08` and `rtol=1e-06`.
+Does our MoE parallelized training compute the same:
+- outputs
+- gradients
+- Adam updates
+as single-rank, non-parallelized MoE training?
+
+We ran the same deterministic global batch and global expert initialization at 1, 2, and 4 ranks. The one-rank reference uses `StandardMoEBlock`; multi-rank jobs use `ParallelMoEBlock`. Every run used float64, learned top-2 routing, and Adam with learning rate 0.001. Comparisons use `atol=1e-08` and `rtol=1e-06`.
 
 The primary fixture has one MoE block and 65 total tokens, split unevenly across ranks. One-epoch jobs test one complete optimizer step; 30-epoch jobs test the loss trajectory and final parameters. A second fixture has two blocks, 17 tokens, and two epochs.
 
