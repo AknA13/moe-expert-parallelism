@@ -4,7 +4,7 @@
     "train_config": {
       "total_tokens": 256,
       "epochs": 25,
-      "learning_rate": 0.15,
+      "learning_rate": 0.001,
       "warmup": 5
     },
     "model_config": {
@@ -14,12 +14,13 @@
       "expert_hidden": 64,
       "num_blocks": 1
     },
+    "optimizer": "Adam",
     "parallel": true,
     "epochs": [
       {
         "epoch": 0,
         "global_loss": 0.09327058582624563,
-        "step_ms": 5.795375007437542,
+        "step_ms": 6.851083002402447,
         "shared_grad_norm": 0.015629543221141542,
         "expert_grad_norm": 0.028807909320700244,
         "blocks": [
@@ -52,33 +53,33 @@
       },
       {
         "epoch": 1,
-        "global_loss": 0.09281506463294406,
-        "step_ms": 4.18270900263451,
-        "shared_grad_norm": 0.015541082017836935,
-        "expert_grad_norm": 0.02873447106473329,
+        "global_loss": 0.08761680239716674,
+        "step_ms": 4.425708000781015,
+        "shared_grad_norm": 0.014668991380602008,
+        "expert_grad_norm": 0.027764975196628197,
         "blocks": [
           {
             "assignments": [
-              27,
-              13,
+              28,
+              12,
               38,
-              27,
-              9,
-              54,
+              28,
+              8,
+              53,
               49,
-              39
+              40
             ],
-            "remote_assignments": 151,
-            "activation_forward_bytes": 77312,
-            "activation_backward_bytes": 77312,
-            "metadata_bytes": 1216,
+            "remote_assignments": 150,
+            "activation_forward_bytes": 76800,
+            "activation_backward_bytes": 76800,
+            "metadata_bytes": 1208,
             "send": [
-              105,
-              151
+              106,
+              150
             ],
             "receive": [
-              105,
-              106
+              106,
+              108
             ]
           }
         ],
@@ -86,21 +87,21 @@
       },
       {
         "epoch": 2,
-        "global_loss": 0.09240817959383119,
-        "step_ms": 3.76362499082461,
-        "shared_grad_norm": 0.015474902781197166,
-        "expert_grad_norm": 0.028634887937785174,
+        "global_loss": 0.08215795950292841,
+        "step_ms": 4.2644170025596395,
+        "shared_grad_norm": 0.01382768153805414,
+        "expert_grad_norm": 0.026163113654920512,
         "blocks": [
           {
             "assignments": [
-              27,
-              13,
+              28,
+              11,
               38,
-              27,
-              9,
+              28,
+              8,
               54,
               49,
-              39
+              40
             ],
             "remote_assignments": 151,
             "activation_forward_bytes": 77312,
@@ -120,33 +121,33 @@
       },
       {
         "epoch": 3,
-        "global_loss": 0.09200459434473993,
-        "step_ms": 3.5372499987715855,
-        "shared_grad_norm": 0.0154096929583484,
-        "expert_grad_norm": 0.028535917629303676,
+        "global_loss": 0.07707607168297184,
+        "step_ms": 4.149375003180467,
+        "shared_grad_norm": 0.013218719859752471,
+        "expert_grad_norm": 0.025192362633172045,
         "blocks": [
           {
             "assignments": [
-              27,
-              13,
+              29,
+              11,
               38,
-              27,
-              9,
-              54,
+              28,
+              8,
+              53,
               49,
-              39
+              40
             ],
-            "remote_assignments": 151,
-            "activation_forward_bytes": 77312,
-            "activation_backward_bytes": 77312,
-            "metadata_bytes": 1216,
+            "remote_assignments": 150,
+            "activation_forward_bytes": 76800,
+            "activation_backward_bytes": 76800,
+            "metadata_bytes": 1208,
             "send": [
-              105,
-              151
+              106,
+              150
             ],
             "receive": [
-              105,
-              106
+              106,
+              109
             ]
           }
         ],
@@ -154,33 +155,33 @@
       },
       {
         "epoch": 4,
-        "global_loss": 0.09158744416422382,
-        "step_ms": 3.4997500042663887,
-        "shared_grad_norm": 0.015349142728760177,
-        "expert_grad_norm": 0.028460060631738716,
+        "global_loss": 0.07255721515898514,
+        "step_ms": 4.111208996619098,
+        "shared_grad_norm": 0.012657777050465403,
+        "expert_grad_norm": 0.024025897996577932,
         "blocks": [
           {
             "assignments": [
-              27,
-              13,
-              38,
-              26,
+              30,
               9,
-              54,
+              38,
+              29,
+              9,
+              52,
               49,
               40
             ],
-            "remote_assignments": 152,
-            "activation_forward_bytes": 77824,
-            "activation_backward_bytes": 77824,
-            "metadata_bytes": 1224,
+            "remote_assignments": 150,
+            "activation_forward_bytes": 76800,
+            "activation_backward_bytes": 76800,
+            "metadata_bytes": 1208,
             "send": [
-              104,
-              152
+              106,
+              150
             ],
             "receive": [
-              104,
-              107
+              106,
+              109
             ]
           }
         ],
@@ -188,33 +189,33 @@
       },
       {
         "epoch": 5,
-        "global_loss": 0.09118980214370906,
-        "step_ms": 3.4847499919123948,
-        "shared_grad_norm": 0.015285641889083696,
-        "expert_grad_norm": 0.028362452705056645,
+        "global_loss": 0.06826156516590395,
+        "step_ms": 4.122582991840318,
+        "shared_grad_norm": 0.012209502066328459,
+        "expert_grad_norm": 0.022894341638166543,
         "blocks": [
           {
             "assignments": [
-              27,
-              13,
-              38,
-              26,
+              31,
               9,
-              54,
-              49,
+              37,
+              30,
+              9,
+              52,
+              48,
               40
             ],
-            "remote_assignments": 152,
-            "activation_forward_bytes": 77824,
-            "activation_backward_bytes": 77824,
-            "metadata_bytes": 1224,
+            "remote_assignments": 149,
+            "activation_forward_bytes": 76288,
+            "activation_backward_bytes": 76288,
+            "metadata_bytes": 1200,
             "send": [
-              104,
-              152
+              107,
+              149
             ],
             "receive": [
-              104,
-              107
+              107,
+              111
             ]
           }
         ],
@@ -222,33 +223,33 @@
       },
       {
         "epoch": 6,
-        "global_loss": 0.09079534157174002,
-        "step_ms": 3.5510410089045763,
-        "shared_grad_norm": 0.015223055057103429,
-        "expert_grad_norm": 0.02826543341021179,
+        "global_loss": 0.06401353277719043,
+        "step_ms": 4.121542006032541,
+        "shared_grad_norm": 0.011837239757715232,
+        "expert_grad_norm": 0.021913316733419008,
         "blocks": [
           {
             "assignments": [
-              27,
-              13,
-              38,
-              26,
+              34,
               9,
-              54,
-              49,
-              40
+              37,
+              30,
+              8,
+              52,
+              48,
+              38
             ],
-            "remote_assignments": 152,
-            "activation_forward_bytes": 77824,
-            "activation_backward_bytes": 77824,
-            "metadata_bytes": 1224,
+            "remote_assignments": 146,
+            "activation_forward_bytes": 74752,
+            "activation_backward_bytes": 74752,
+            "metadata_bytes": 1176,
             "send": [
-              104,
-              152
+              110,
+              146
             ],
             "receive": [
-              104,
-              107
+              110,
+              112
             ]
           }
         ],
@@ -256,33 +257,33 @@
       },
       {
         "epoch": 7,
-        "global_loss": 0.09031378761286327,
-        "step_ms": 3.632291001849808,
-        "shared_grad_norm": 0.01517967051589562,
-        "expert_grad_norm": 0.028297473831593974,
+        "global_loss": 0.060135859063675634,
+        "step_ms": 3.9712080033496022,
+        "shared_grad_norm": 0.011425686115059943,
+        "expert_grad_norm": 0.02071077621640086,
         "blocks": [
           {
             "assignments": [
-              28,
-              12,
-              38,
-              26,
+              33,
+              9,
+              37,
+              30,
               8,
-              54,
+              51,
               49,
-              41
+              39
             ],
-            "remote_assignments": 152,
-            "activation_forward_bytes": 77824,
-            "activation_backward_bytes": 77824,
-            "metadata_bytes": 1224,
+            "remote_assignments": 147,
+            "activation_forward_bytes": 75264,
+            "activation_backward_bytes": 75264,
+            "metadata_bytes": 1184,
             "send": [
-              104,
-              152
+              109,
+              147
             ],
             "receive": [
-              104,
-              108
+              109,
+              113
             ]
           }
         ],
@@ -290,33 +291,33 @@
       },
       {
         "epoch": 8,
-        "global_loss": 0.08992594267601986,
-        "step_ms": 3.4772920043906197,
-        "shared_grad_norm": 0.015118773517211262,
-        "expert_grad_norm": 0.02820091242164138,
+        "global_loss": 0.05645804372398945,
+        "step_ms": 4.015250000520609,
+        "shared_grad_norm": 0.01104820730373196,
+        "expert_grad_norm": 0.019725097641118426,
         "blocks": [
           {
             "assignments": [
-              28,
-              12,
-              38,
-              26,
+              34,
+              9,
+              37,
+              30,
               8,
-              54,
+              51,
               49,
-              41
+              38
             ],
-            "remote_assignments": 152,
-            "activation_forward_bytes": 77824,
-            "activation_backward_bytes": 77824,
-            "metadata_bytes": 1224,
+            "remote_assignments": 146,
+            "activation_forward_bytes": 74752,
+            "activation_backward_bytes": 74752,
+            "metadata_bytes": 1176,
             "send": [
-              104,
-              152
+              110,
+              146
             ],
             "receive": [
-              104,
-              108
+              110,
+              115
             ]
           }
         ],
@@ -324,33 +325,33 @@
       },
       {
         "epoch": 9,
-        "global_loss": 0.08954115940505808,
-        "step_ms": 3.6631249968195334,
-        "shared_grad_norm": 0.015058732966950792,
-        "expert_grad_norm": 0.028104921436273887,
+        "global_loss": 0.05307902667564178,
+        "step_ms": 4.11391600209754,
+        "shared_grad_norm": 0.01068828887913207,
+        "expert_grad_norm": 0.018761072069599913,
         "blocks": [
           {
             "assignments": [
-              28,
-              12,
-              38,
-              26,
+              34,
+              9,
+              37,
+              31,
               8,
-              54,
-              49,
-              41
+              51,
+              48,
+              38
             ],
-            "remote_assignments": 152,
-            "activation_forward_bytes": 77824,
-            "activation_backward_bytes": 77824,
-            "metadata_bytes": 1224,
+            "remote_assignments": 145,
+            "activation_forward_bytes": 74240,
+            "activation_backward_bytes": 74240,
+            "metadata_bytes": 1168,
             "send": [
-              104,
-              152
+              111,
+              145
             ],
             "receive": [
-              104,
-              108
+              111,
+              118
             ]
           }
         ],
@@ -358,33 +359,33 @@
       },
       {
         "epoch": 10,
-        "global_loss": 0.08915940010883656,
-        "step_ms": 3.386166994459927,
-        "shared_grad_norm": 0.014999531696640677,
-        "expert_grad_norm": 0.028009494124685643,
+        "global_loss": 0.049779196694581584,
+        "step_ms": 3.9591250097146258,
+        "shared_grad_norm": 0.010364543338853345,
+        "expert_grad_norm": 0.01767286574828454,
         "blocks": [
           {
             "assignments": [
-              28,
-              12,
-              38,
-              26,
+              35,
+              9,
+              37,
+              32,
               8,
-              54,
-              49,
-              41
+              51,
+              48,
+              36
             ],
-            "remote_assignments": 152,
-            "activation_forward_bytes": 77824,
-            "activation_backward_bytes": 77824,
-            "metadata_bytes": 1224,
+            "remote_assignments": 143,
+            "activation_forward_bytes": 73216,
+            "activation_backward_bytes": 73216,
+            "metadata_bytes": 1152,
             "send": [
-              104,
-              152
+              113,
+              143
             ],
             "receive": [
-              104,
-              108
+              113,
+              119
             ]
           }
         ],
@@ -392,33 +393,33 @@
       },
       {
         "epoch": 11,
-        "global_loss": 0.0887383261595141,
-        "step_ms": 3.5547500010579824,
-        "shared_grad_norm": 0.014930408642145504,
-        "expert_grad_norm": 0.02791462384280787,
+        "global_loss": 0.04690447946355232,
+        "step_ms": 3.943791991332546,
+        "shared_grad_norm": 0.009973003175620651,
+        "expert_grad_norm": 0.01660425547431414,
         "blocks": [
           {
             "assignments": [
-              28,
-              12,
-              38,
-              26,
+              35,
+              9,
+              37,
+              33,
               8,
-              54,
-              49,
-              41
+              50,
+              48,
+              36
             ],
-            "remote_assignments": 152,
-            "activation_forward_bytes": 77824,
-            "activation_backward_bytes": 77824,
-            "metadata_bytes": 1224,
+            "remote_assignments": 142,
+            "activation_forward_bytes": 72704,
+            "activation_backward_bytes": 72704,
+            "metadata_bytes": 1144,
             "send": [
-              104,
-              152
+              114,
+              142
             ],
             "receive": [
-              104,
-              108
+              114,
+              119
             ]
           }
         ],
@@ -426,33 +427,33 @@
       },
       {
         "epoch": 12,
-        "global_loss": 0.08836243837415615,
-        "step_ms": 3.548584005329758,
-        "shared_grad_norm": 0.014872742358248092,
-        "expert_grad_norm": 0.027820320594751164,
+        "global_loss": 0.04419270238570479,
+        "step_ms": 3.932916995836422,
+        "shared_grad_norm": 0.00953814001002921,
+        "expert_grad_norm": 0.015479848917501407,
         "blocks": [
           {
             "assignments": [
-              28,
-              12,
-              38,
-              26,
+              35,
+              9,
+              36,
+              35,
               8,
-              54,
-              49,
-              41
+              50,
+              48,
+              35
             ],
-            "remote_assignments": 152,
-            "activation_forward_bytes": 77824,
-            "activation_backward_bytes": 77824,
-            "metadata_bytes": 1224,
+            "remote_assignments": 141,
+            "activation_forward_bytes": 72192,
+            "activation_backward_bytes": 72192,
+            "metadata_bytes": 1136,
             "send": [
-              104,
-              152
+              115,
+              141
             ],
             "receive": [
-              104,
-              108
+              115,
+              120
             ]
           }
         ],
@@ -460,33 +461,33 @@
       },
       {
         "epoch": 13,
-        "global_loss": 0.08798946909291029,
-        "step_ms": 3.451666998444125,
-        "shared_grad_norm": 0.014815868957069215,
-        "expert_grad_norm": 0.027726561349842995,
+        "global_loss": 0.04167227992862893,
+        "step_ms": 3.900958996382542,
+        "shared_grad_norm": 0.009098584861333837,
+        "expert_grad_norm": 0.014403582227834158,
         "blocks": [
           {
             "assignments": [
-              28,
-              12,
-              38,
-              26,
+              37,
+              9,
+              36,
+              35,
               8,
-              54,
-              49,
-              41
+              48,
+              48,
+              35
             ],
-            "remote_assignments": 152,
-            "activation_forward_bytes": 77824,
-            "activation_backward_bytes": 77824,
-            "metadata_bytes": 1224,
+            "remote_assignments": 139,
+            "activation_forward_bytes": 71168,
+            "activation_backward_bytes": 71168,
+            "metadata_bytes": 1120,
             "send": [
-              104,
-              152
+              117,
+              139
             ],
             "receive": [
-              104,
-              108
+              117,
+              121
             ]
           }
         ],
@@ -494,33 +495,33 @@
       },
       {
         "epoch": 14,
-        "global_loss": 0.08761938328166699,
-        "step_ms": 3.598082999815233,
-        "shared_grad_norm": 0.01475977260132925,
-        "expert_grad_norm": 0.02763333977423985,
+        "global_loss": 0.03936358379305686,
+        "step_ms": 3.763417000300251,
+        "shared_grad_norm": 0.00861414965989561,
+        "expert_grad_norm": 0.01328149272968941,
         "blocks": [
           {
             "assignments": [
-              28,
-              12,
-              38,
-              26,
+              37,
+              9,
+              36,
+              36,
               8,
-              54,
-              49,
-              41
+              48,
+              48,
+              34
             ],
-            "remote_assignments": 152,
-            "activation_forward_bytes": 77824,
-            "activation_backward_bytes": 77824,
-            "metadata_bytes": 1224,
+            "remote_assignments": 138,
+            "activation_forward_bytes": 70656,
+            "activation_backward_bytes": 70656,
+            "metadata_bytes": 1112,
             "send": [
-              104,
-              152
+              118,
+              138
             ],
             "receive": [
-              104,
-              108
+              118,
+              120
             ]
           }
         ],
@@ -528,33 +529,33 @@
       },
       {
         "epoch": 15,
-        "global_loss": 0.08727151341445236,
-        "step_ms": 3.561707999324426,
-        "shared_grad_norm": 0.014732192062354387,
-        "expert_grad_norm": 0.027545415848350973,
+        "global_loss": 0.037453507461765415,
+        "step_ms": 3.970250007114373,
+        "shared_grad_norm": 0.008172376847786081,
+        "expert_grad_norm": 0.012333128109703884,
         "blocks": [
           {
             "assignments": [
-              28,
-              12,
               38,
-              26,
               8,
-              54,
+              36,
+              36,
+              8,
               49,
-              41
+              47,
+              34
             ],
-            "remote_assignments": 152,
-            "activation_forward_bytes": 77824,
-            "activation_backward_bytes": 77824,
-            "metadata_bytes": 1224,
+            "remote_assignments": 138,
+            "activation_forward_bytes": 70656,
+            "activation_backward_bytes": 70656,
+            "metadata_bytes": 1112,
             "send": [
-              104,
-              152
+              118,
+              138
             ],
             "receive": [
-              104,
-              108
+              118,
+              121
             ]
           }
         ],
@@ -562,33 +563,33 @@
       },
       {
         "epoch": 16,
-        "global_loss": 0.08690678255970505,
-        "step_ms": 3.2277499994961545,
-        "shared_grad_norm": 0.014677677318255915,
-        "expert_grad_norm": 0.027453320370543984,
+        "global_loss": 0.03554868757915303,
+        "step_ms": 3.897292001056485,
+        "shared_grad_norm": 0.0076704238795299575,
+        "expert_grad_norm": 0.011429738766564775,
         "blocks": [
           {
             "assignments": [
-              28,
-              12,
-              38,
-              26,
+              39,
               8,
-              54,
+              36,
+              36,
+              8,
               49,
-              41
+              46,
+              34
             ],
-            "remote_assignments": 152,
-            "activation_forward_bytes": 77824,
-            "activation_backward_bytes": 77824,
-            "metadata_bytes": 1224,
+            "remote_assignments": 137,
+            "activation_forward_bytes": 70144,
+            "activation_backward_bytes": 70144,
+            "metadata_bytes": 1104,
             "send": [
-              104,
-              152
+              119,
+              137
             ],
             "receive": [
-              104,
-              108
+              119,
+              124
             ]
           }
         ],
@@ -596,33 +597,33 @@
       },
       {
         "epoch": 17,
-        "global_loss": 0.08654483588172193,
-        "step_ms": 3.6566669878084213,
-        "shared_grad_norm": 0.014623891558293476,
-        "expert_grad_norm": 0.027361741657956115,
+        "global_loss": 0.03388897002067631,
+        "step_ms": 3.995249993749894,
+        "shared_grad_norm": 0.007222975748252701,
+        "expert_grad_norm": 0.010391739725150204,
         "blocks": [
           {
             "assignments": [
-              28,
-              12,
-              38,
-              26,
+              39,
+              7,
+              36,
+              35,
               8,
-              54,
-              49,
-              41
+              50,
+              46,
+              35
             ],
-            "remote_assignments": 152,
-            "activation_forward_bytes": 77824,
-            "activation_backward_bytes": 77824,
-            "metadata_bytes": 1224,
+            "remote_assignments": 139,
+            "activation_forward_bytes": 71168,
+            "activation_backward_bytes": 71168,
+            "metadata_bytes": 1120,
             "send": [
-              104,
-              152
+              117,
+              139
             ],
             "receive": [
-              104,
-              108
+              117,
+              124
             ]
           }
         ],
@@ -630,33 +631,33 @@
       },
       {
         "epoch": 18,
-        "global_loss": 0.08618564084690924,
-        "step_ms": 3.5867080005118623,
-        "shared_grad_norm": 0.01457082022893232,
-        "expert_grad_norm": 0.027270673803453323,
+        "global_loss": 0.032295205846492536,
+        "step_ms": 3.828375003649853,
+        "shared_grad_norm": 0.0067961670152889295,
+        "expert_grad_norm": 0.009569150614454628,
         "blocks": [
           {
             "assignments": [
-              28,
-              12,
-              38,
-              26,
+              39,
+              7,
+              36,
+              36,
               8,
-              54,
               49,
-              41
+              46,
+              35
             ],
-            "remote_assignments": 152,
-            "activation_forward_bytes": 77824,
-            "activation_backward_bytes": 77824,
-            "metadata_bytes": 1224,
+            "remote_assignments": 138,
+            "activation_forward_bytes": 70656,
+            "activation_backward_bytes": 70656,
+            "metadata_bytes": 1112,
             "send": [
-              104,
-              152
+              118,
+              138
             ],
             "receive": [
-              104,
-              108
+              118,
+              124
             ]
           }
         ],
@@ -664,33 +665,33 @@
       },
       {
         "epoch": 19,
-        "global_loss": 0.08582916551179018,
-        "step_ms": 3.7069999962113798,
-        "shared_grad_norm": 0.014518449078850672,
-        "expert_grad_norm": 0.027180110991953995,
+        "global_loss": 0.0308850563666266,
+        "step_ms": 3.8620419945800677,
+        "shared_grad_norm": 0.0064141351756282225,
+        "expert_grad_norm": 0.008923499734098485,
         "blocks": [
           {
             "assignments": [
-              28,
-              12,
               38,
-              26,
+              7,
+              35,
+              39,
               8,
-              54,
-              49,
-              41
+              48,
+              47,
+              34
             ],
-            "remote_assignments": 152,
-            "activation_forward_bytes": 77824,
-            "activation_backward_bytes": 77824,
-            "metadata_bytes": 1224,
+            "remote_assignments": 137,
+            "activation_forward_bytes": 70144,
+            "activation_backward_bytes": 70144,
+            "metadata_bytes": 1104,
             "send": [
-              104,
-              152
+              119,
+              137
             ],
             "receive": [
-              104,
-              108
+              119,
+              123
             ]
           }
         ],
@@ -698,33 +699,33 @@
       },
       {
         "epoch": 20,
-        "global_loss": 0.08547537850913951,
-        "step_ms": 3.6255829909350723,
-        "shared_grad_norm": 0.014466764151858246,
-        "expert_grad_norm": 0.02709004749886588,
+        "global_loss": 0.02970765620270996,
+        "step_ms": 3.843207989120856,
+        "shared_grad_norm": 0.0061504529257405925,
+        "expert_grad_norm": 0.008202566293092255,
         "blocks": [
           {
             "assignments": [
-              28,
-              12,
               38,
-              26,
-              8,
-              54,
-              49,
-              41
+              6,
+              35,
+              38,
+              10,
+              48,
+              47,
+              34
             ],
-            "remote_assignments": 152,
-            "activation_forward_bytes": 77824,
-            "activation_backward_bytes": 77824,
-            "metadata_bytes": 1224,
+            "remote_assignments": 139,
+            "activation_forward_bytes": 71168,
+            "activation_backward_bytes": 71168,
+            "metadata_bytes": 1120,
             "send": [
-              104,
-              152
+              117,
+              139
             ],
             "receive": [
-              104,
-              108
+              117,
+              120
             ]
           }
         ],
@@ -732,33 +733,33 @@
       },
       {
         "epoch": 21,
-        "global_loss": 0.08512424903450565,
-        "step_ms": 3.4658750082599,
-        "shared_grad_norm": 0.014415751780018356,
-        "expert_grad_norm": 0.027000477688553445,
+        "global_loss": 0.02865961753162869,
+        "step_ms": 3.8588750030612573,
+        "shared_grad_norm": 0.0059391446844844235,
+        "expert_grad_norm": 0.007767568216168906,
         "blocks": [
           {
             "assignments": [
-              28,
-              12,
               38,
-              26,
-              8,
-              54,
-              49,
-              41
+              5,
+              35,
+              39,
+              10,
+              48,
+              47,
+              34
             ],
-            "remote_assignments": 152,
-            "activation_forward_bytes": 77824,
-            "activation_backward_bytes": 77824,
-            "metadata_bytes": 1224,
+            "remote_assignments": 139,
+            "activation_forward_bytes": 71168,
+            "activation_backward_bytes": 71168,
+            "metadata_bytes": 1120,
             "send": [
-              104,
-              152
+              117,
+              139
             ],
             "receive": [
-              104,
-              108
+              117,
+              119
             ]
           }
         ],
@@ -766,33 +767,33 @@
       },
       {
         "epoch": 22,
-        "global_loss": 0.08477574683310768,
-        "step_ms": 3.432333003729582,
-        "shared_grad_norm": 0.014365398576966538,
-        "expert_grad_norm": 0.026911396012834973,
+        "global_loss": 0.027674903696098742,
+        "step_ms": 3.932167004677467,
+        "shared_grad_norm": 0.005806526454349261,
+        "expert_grad_norm": 0.007432933126436964,
         "blocks": [
           {
             "assignments": [
-              28,
-              12,
               38,
-              26,
-              8,
-              54,
-              49,
-              41
+              5,
+              35,
+              39,
+              10,
+              48,
+              47,
+              34
             ],
-            "remote_assignments": 152,
-            "activation_forward_bytes": 77824,
-            "activation_backward_bytes": 77824,
-            "metadata_bytes": 1224,
+            "remote_assignments": 139,
+            "activation_forward_bytes": 71168,
+            "activation_backward_bytes": 71168,
+            "metadata_bytes": 1120,
             "send": [
-              104,
-              152
+              117,
+              139
             ],
             "receive": [
-              104,
-              108
+              117,
+              119
             ]
           }
         ],
@@ -800,33 +801,33 @@
       },
       {
         "epoch": 23,
-        "global_loss": 0.08440690393120198,
-        "step_ms": 3.5900420043617487,
-        "shared_grad_norm": 0.01431451409864157,
-        "expert_grad_norm": 0.026910772364201734,
+        "global_loss": 0.0269141135613779,
+        "step_ms": 3.9524160092696548,
+        "shared_grad_norm": 0.005670413693416863,
+        "expert_grad_norm": 0.007142114148489502,
         "blocks": [
           {
             "assignments": [
-              28,
-              12,
               38,
-              27,
-              8,
-              53,
-              49,
-              41
+              6,
+              35,
+              39,
+              10,
+              47,
+              47,
+              34
             ],
-            "remote_assignments": 151,
-            "activation_forward_bytes": 77312,
-            "activation_backward_bytes": 77312,
-            "metadata_bytes": 1216,
+            "remote_assignments": 138,
+            "activation_forward_bytes": 70656,
+            "activation_backward_bytes": 70656,
+            "metadata_bytes": 1112,
             "send": [
-              105,
-              151
+              118,
+              138
             ],
             "receive": [
-              105,
-              108
+              118,
+              118
             ]
           }
         ],
@@ -834,33 +835,33 @@
       },
       {
         "epoch": 24,
-        "global_loss": 0.08406386139669841,
-        "step_ms": 4.00045799324289,
-        "shared_grad_norm": 0.014265571533633564,
-        "expert_grad_norm": 0.0268222451269426,
+        "global_loss": 0.026139378199057078,
+        "step_ms": 3.8595000078203157,
+        "shared_grad_norm": 0.005564481249204317,
+        "expert_grad_norm": 0.006859921155213291,
         "blocks": [
           {
             "assignments": [
-              28,
-              12,
               38,
-              27,
-              8,
-              53,
-              49,
-              41
+              6,
+              35,
+              38,
+              10,
+              47,
+              47,
+              35
             ],
-            "remote_assignments": 151,
-            "activation_forward_bytes": 77312,
-            "activation_backward_bytes": 77312,
-            "metadata_bytes": 1216,
+            "remote_assignments": 139,
+            "activation_forward_bytes": 71168,
+            "activation_backward_bytes": 71168,
+            "metadata_bytes": 1120,
             "send": [
-              105,
-              151
+              117,
+              139
             ],
             "receive": [
-              105,
-              108
+              117,
+              115
             ]
           }
         ],
@@ -3053,26 +3054,26 @@
     "first_step": null,
     "final_parameters": null,
     "parameter_changes": {
-      "blocks.0.token_projection.0.weight": 0.005506381595914739,
-      "blocks.0.token_projection.0.bias": 0.009064772257714074,
-      "blocks.0.router.weight": 0.0018937894069585154,
-      "blocks.0.router.bias": 0.002846765037844201,
-      "blocks.0.experts.0.0.weight": 0.002086905322210661,
-      "blocks.0.experts.0.0.bias": 0.004412514819952584,
-      "blocks.0.experts.0.2.weight": 0.002372192031026718,
-      "blocks.0.experts.0.2.bias": 0.0076879071879104866,
-      "blocks.0.experts.1.0.weight": 0.0013376892367738535,
-      "blocks.0.experts.1.0.bias": 0.003049199823923876,
-      "blocks.0.experts.1.2.weight": 0.001635385021304038,
-      "blocks.0.experts.1.2.bias": 0.005002900797057383,
-      "blocks.0.experts.2.0.weight": 0.00202460416765024,
-      "blocks.0.experts.2.0.bias": 0.007569905874734877,
-      "blocks.0.experts.2.2.weight": 0.0038567307905042064,
-      "blocks.0.experts.2.2.bias": 0.01414652102382137,
-      "blocks.0.experts.3.0.weight": 0.0015452333850710653,
-      "blocks.0.experts.3.0.bias": 0.004183373188363128,
-      "blocks.0.experts.3.2.weight": 0.0028190643191400994,
-      "blocks.0.experts.3.2.bias": 0.00809627346294138
+      "blocks.0.token_projection.0.weight": 0.026723127382507927,
+      "blocks.0.token_projection.0.bias": 0.025606700435448854,
+      "blocks.0.router.weight": 0.02577857269115845,
+      "blocks.0.router.bias": 0.022107268359980684,
+      "blocks.0.experts.0.0.weight": 0.026926941918219094,
+      "blocks.0.experts.0.0.bias": 0.02397957355997718,
+      "blocks.0.experts.0.2.weight": 0.026897525198986496,
+      "blocks.0.experts.0.2.bias": 0.022143799682602577,
+      "blocks.0.experts.1.0.weight": 0.026092378726848137,
+      "blocks.0.experts.1.0.bias": 0.025498552518287906,
+      "blocks.0.experts.1.2.weight": 0.026697178590990328,
+      "blocks.0.experts.1.2.bias": 0.02224618296642046,
+      "blocks.0.experts.2.0.weight": 0.02643154206175112,
+      "blocks.0.experts.2.0.bias": 0.026582161560158135,
+      "blocks.0.experts.2.2.weight": 0.02682328874971221,
+      "blocks.0.experts.2.2.bias": 0.022655427231617148,
+      "blocks.0.experts.3.0.weight": 0.02680082863073631,
+      "blocks.0.experts.3.0.bias": 0.025492566387291388,
+      "blocks.0.experts.3.2.weight": 0.026817164673730697,
+      "blocks.0.experts.3.2.bias": 0.02424493611475796
     },
     "parameter_bytes_per_rank": 144704,
     "shared_parameter_bytes_per_rank": 10560
@@ -3082,7 +3083,7 @@
     "train_config": {
       "total_tokens": 256,
       "epochs": 25,
-      "learning_rate": 0.15,
+      "learning_rate": 0.001,
       "warmup": 5
     },
     "model_config": {
@@ -3092,12 +3093,13 @@
       "expert_hidden": 64,
       "num_blocks": 1
     },
+    "optimizer": "Adam",
     "parallel": true,
     "epochs": [
       {
         "epoch": 0,
         "global_loss": 0.09327058582624563,
-        "step_ms": 5.795375007437542,
+        "step_ms": 6.851083002402447,
         "shared_grad_norm": 0.015629543221141542,
         "expert_grad_norm": 0.040818549229341736,
         "blocks": [
@@ -3130,33 +3132,33 @@
       },
       {
         "epoch": 1,
-        "global_loss": 0.09281506463294406,
-        "step_ms": 4.18270900263451,
-        "shared_grad_norm": 0.015541082017836935,
-        "expert_grad_norm": 0.04063135198085967,
+        "global_loss": 0.08761680239716674,
+        "step_ms": 4.425708000781015,
+        "shared_grad_norm": 0.014668991380602008,
+        "expert_grad_norm": 0.03839114752407027,
         "blocks": [
           {
             "assignments": [
-              26,
+              28,
               16,
               39,
               25,
               11,
-              42,
-              49,
+              41,
+              48,
               48
             ],
-            "remote_assignments": 106,
-            "activation_forward_bytes": 54272,
-            "activation_backward_bytes": 54272,
-            "metadata_bytes": 856,
+            "remote_assignments": 108,
+            "activation_forward_bytes": 55296,
+            "activation_backward_bytes": 55296,
+            "metadata_bytes": 872,
             "send": [
-              106,
-              150
+              108,
+              148
             ],
             "receive": [
-              151,
-              150
+              150,
+              148
             ]
           }
         ],
@@ -3164,20 +3166,20 @@
       },
       {
         "epoch": 2,
-        "global_loss": 0.09240817959383119,
-        "step_ms": 3.76362499082461,
-        "shared_grad_norm": 0.015474902781197166,
-        "expert_grad_norm": 0.04045494341060535,
+        "global_loss": 0.08215795950292841,
+        "step_ms": 4.2644170025596395,
+        "shared_grad_norm": 0.01382768153805414,
+        "expert_grad_norm": 0.0365372836127686,
         "blocks": [
           {
             "assignments": [
+              27,
+              15,
+              38,
               26,
-              16,
-              39,
-              25,
-              11,
+              12,
               42,
-              49,
+              48,
               48
             ],
             "remote_assignments": 106,
@@ -3198,33 +3200,33 @@
       },
       {
         "epoch": 3,
-        "global_loss": 0.09200459434473993,
-        "step_ms": 3.5372499987715855,
-        "shared_grad_norm": 0.0154096929583484,
-        "expert_grad_norm": 0.04028012872288417,
+        "global_loss": 0.07707607168297184,
+        "step_ms": 4.149375003180467,
+        "shared_grad_norm": 0.013218719859752471,
+        "expert_grad_norm": 0.03421537101985767,
         "blocks": [
           {
             "assignments": [
-              26,
-              16,
-              39,
-              25,
-              11,
-              42,
-              49,
-              48
+              28,
+              15,
+              38,
+              28,
+              12,
+              41,
+              45,
+              49
             ],
-            "remote_assignments": 106,
-            "activation_forward_bytes": 54272,
-            "activation_backward_bytes": 54272,
-            "metadata_bytes": 856,
+            "remote_assignments": 109,
+            "activation_forward_bytes": 55808,
+            "activation_backward_bytes": 55808,
+            "metadata_bytes": 880,
             "send": [
-              106,
-              150
+              109,
+              147
             ],
             "receive": [
-              151,
-              150
+              150,
+              147
             ]
           }
         ],
@@ -3232,33 +3234,33 @@
       },
       {
         "epoch": 4,
-        "global_loss": 0.09158744416422382,
-        "step_ms": 3.4997500042663887,
-        "shared_grad_norm": 0.015349142728760177,
-        "expert_grad_norm": 0.040133668049435085,
+        "global_loss": 0.07255721515898514,
+        "step_ms": 4.111208996619098,
+        "shared_grad_norm": 0.012657777050465403,
+        "expert_grad_norm": 0.03239864975018506,
         "blocks": [
           {
             "assignments": [
-              27,
-              16,
-              39,
-              25,
-              11,
-              42,
-              48,
-              48
+              28,
+              15,
+              38,
+              28,
+              12,
+              41,
+              45,
+              49
             ],
-            "remote_assignments": 107,
-            "activation_forward_bytes": 54784,
-            "activation_backward_bytes": 54784,
-            "metadata_bytes": 864,
+            "remote_assignments": 109,
+            "activation_forward_bytes": 55808,
+            "activation_backward_bytes": 55808,
+            "metadata_bytes": 880,
             "send": [
-              107,
-              149
+              109,
+              147
             ],
             "receive": [
-              152,
-              149
+              150,
+              147
             ]
           }
         ],
@@ -3266,33 +3268,33 @@
       },
       {
         "epoch": 5,
-        "global_loss": 0.09118980214370906,
-        "step_ms": 3.4847499919123948,
-        "shared_grad_norm": 0.015285641889083696,
-        "expert_grad_norm": 0.03996155541481196,
+        "global_loss": 0.06826156516590395,
+        "step_ms": 4.122582991840318,
+        "shared_grad_norm": 0.012209502066328459,
+        "expert_grad_norm": 0.030408293526618044,
         "blocks": [
           {
             "assignments": [
-              27,
-              16,
-              39,
-              25,
-              11,
-              42,
-              48,
-              48
+              30,
+              17,
+              36,
+              28,
+              13,
+              41,
+              44,
+              47
             ],
-            "remote_assignments": 107,
-            "activation_forward_bytes": 54784,
-            "activation_backward_bytes": 54784,
-            "metadata_bytes": 864,
+            "remote_assignments": 111,
+            "activation_forward_bytes": 56832,
+            "activation_backward_bytes": 56832,
+            "metadata_bytes": 896,
             "send": [
-              107,
-              149
+              111,
+              145
             ],
             "receive": [
-              152,
-              149
+              149,
+              145
             ]
           }
         ],
@@ -3300,33 +3302,33 @@
       },
       {
         "epoch": 6,
-        "global_loss": 0.09079534157174002,
-        "step_ms": 3.5510410089045763,
-        "shared_grad_norm": 0.015223055057103429,
-        "expert_grad_norm": 0.039790962299109306,
+        "global_loss": 0.06401353277719043,
+        "step_ms": 4.121542006032541,
+        "shared_grad_norm": 0.011837239757715232,
+        "expert_grad_norm": 0.028604967583164907,
         "blocks": [
           {
             "assignments": [
-              27,
-              16,
-              39,
-              25,
-              11,
-              42,
-              48,
-              48
+              30,
+              17,
+              36,
+              29,
+              13,
+              41,
+              44,
+              46
             ],
-            "remote_assignments": 107,
-            "activation_forward_bytes": 54784,
-            "activation_backward_bytes": 54784,
-            "metadata_bytes": 864,
+            "remote_assignments": 112,
+            "activation_forward_bytes": 57344,
+            "activation_backward_bytes": 57344,
+            "metadata_bytes": 904,
             "send": [
-              107,
-              149
+              112,
+              144
             ],
             "receive": [
-              152,
-              149
+              146,
+              144
             ]
           }
         ],
@@ -3334,33 +3336,33 @@
       },
       {
         "epoch": 7,
-        "global_loss": 0.09031378761286327,
-        "step_ms": 3.632291001849808,
-        "shared_grad_norm": 0.01517967051589562,
-        "expert_grad_norm": 0.039491741557390464,
+        "global_loss": 0.060135859063675634,
+        "step_ms": 3.9712080033496022,
+        "shared_grad_norm": 0.011425686115059943,
+        "expert_grad_norm": 0.02701596526197933,
         "blocks": [
           {
             "assignments": [
-              28,
-              16,
-              39,
-              25,
-              11,
+              31,
+              17,
+              36,
+              29,
+              14,
               41,
-              48,
-              48
+              43,
+              45
             ],
-            "remote_assignments": 108,
-            "activation_forward_bytes": 55296,
-            "activation_backward_bytes": 55296,
-            "metadata_bytes": 872,
+            "remote_assignments": 113,
+            "activation_forward_bytes": 57856,
+            "activation_backward_bytes": 57856,
+            "metadata_bytes": 912,
             "send": [
-              108,
-              148
+              113,
+              143
             ],
             "receive": [
-              152,
-              148
+              147,
+              143
             ]
           }
         ],
@@ -3368,33 +3370,33 @@
       },
       {
         "epoch": 8,
-        "global_loss": 0.08992594267601986,
-        "step_ms": 3.4772920043906197,
-        "shared_grad_norm": 0.015118773517211262,
-        "expert_grad_norm": 0.03932459523289351,
+        "global_loss": 0.05645804372398945,
+        "step_ms": 4.015250000520609,
+        "shared_grad_norm": 0.01104820730373196,
+        "expert_grad_norm": 0.025269527510350803,
         "blocks": [
           {
             "assignments": [
-              28,
-              16,
+              32,
+              17,
+              36,
+              30,
+              15,
               39,
-              25,
-              11,
-              41,
-              48,
-              48
+              42,
+              45
             ],
-            "remote_assignments": 108,
-            "activation_forward_bytes": 55296,
-            "activation_backward_bytes": 55296,
-            "metadata_bytes": 872,
+            "remote_assignments": 115,
+            "activation_forward_bytes": 58880,
+            "activation_backward_bytes": 58880,
+            "metadata_bytes": 928,
             "send": [
-              108,
-              148
+              115,
+              141
             ],
             "receive": [
-              152,
-              148
+              146,
+              141
             ]
           }
         ],
@@ -3402,33 +3404,33 @@
       },
       {
         "epoch": 9,
-        "global_loss": 0.08954115940505808,
-        "step_ms": 3.6631249968195334,
-        "shared_grad_norm": 0.015058732966950792,
-        "expert_grad_norm": 0.03915888768673311,
+        "global_loss": 0.05307902667564178,
+        "step_ms": 4.11391600209754,
+        "shared_grad_norm": 0.01068828887913207,
+        "expert_grad_norm": 0.02363955381999273,
         "blocks": [
           {
             "assignments": [
-              28,
-              16,
-              39,
-              25,
-              11,
-              41,
-              48,
-              48
+              35,
+              17,
+              36,
+              30,
+              15,
+              40,
+              40,
+              43
             ],
-            "remote_assignments": 108,
-            "activation_forward_bytes": 55296,
-            "activation_backward_bytes": 55296,
-            "metadata_bytes": 872,
+            "remote_assignments": 118,
+            "activation_forward_bytes": 60416,
+            "activation_backward_bytes": 60416,
+            "metadata_bytes": 952,
             "send": [
-              108,
-              148
+              118,
+              138
             ],
             "receive": [
-              152,
-              148
+              145,
+              138
             ]
           }
         ],
@@ -3436,33 +3438,33 @@
       },
       {
         "epoch": 10,
-        "global_loss": 0.08915940010883656,
-        "step_ms": 3.386166994459927,
-        "shared_grad_norm": 0.014999531696640677,
-        "expert_grad_norm": 0.03899459553656844,
+        "global_loss": 0.049779196694581584,
+        "step_ms": 3.9591250097146258,
+        "shared_grad_norm": 0.010364543338853345,
+        "expert_grad_norm": 0.021989910831940636,
         "blocks": [
           {
             "assignments": [
-              28,
+              36,
+              17,
+              35,
+              31,
               16,
               39,
-              25,
-              11,
-              41,
-              48,
-              48
+              40,
+              42
             ],
-            "remote_assignments": 108,
-            "activation_forward_bytes": 55296,
-            "activation_backward_bytes": 55296,
-            "metadata_bytes": 872,
+            "remote_assignments": 119,
+            "activation_forward_bytes": 60928,
+            "activation_backward_bytes": 60928,
+            "metadata_bytes": 960,
             "send": [
-              108,
-              148
+              119,
+              137
             ],
             "receive": [
-              152,
-              148
+              143,
+              137
             ]
           }
         ],
@@ -3470,33 +3472,33 @@
       },
       {
         "epoch": 11,
-        "global_loss": 0.0887383261595141,
-        "step_ms": 3.5547500010579824,
-        "shared_grad_norm": 0.014930408642145504,
-        "expert_grad_norm": 0.038841583670262504,
+        "global_loss": 0.04690447946355232,
+        "step_ms": 3.943791991332546,
+        "shared_grad_norm": 0.009973003175620651,
+        "expert_grad_norm": 0.02055581094494916,
         "blocks": [
           {
             "assignments": [
-              28,
+              36,
               16,
-              39,
-              25,
-              11,
-              42,
-              48,
-              47
+              35,
+              32,
+              17,
+              38,
+              40,
+              42
             ],
-            "remote_assignments": 108,
-            "activation_forward_bytes": 55296,
-            "activation_backward_bytes": 55296,
-            "metadata_bytes": 872,
+            "remote_assignments": 119,
+            "activation_forward_bytes": 60928,
+            "activation_backward_bytes": 60928,
+            "metadata_bytes": 960,
             "send": [
-              108,
-              148
+              119,
+              137
             ],
             "receive": [
-              152,
-              148
+              142,
+              137
             ]
           }
         ],
@@ -3504,33 +3506,33 @@
       },
       {
         "epoch": 12,
-        "global_loss": 0.08836243837415615,
-        "step_ms": 3.548584005329758,
-        "shared_grad_norm": 0.014872742358248092,
-        "expert_grad_norm": 0.0386798090539837,
+        "global_loss": 0.04419270238570479,
+        "step_ms": 3.932916995836422,
+        "shared_grad_norm": 0.00953814001002921,
+        "expert_grad_norm": 0.019147196560879483,
         "blocks": [
           {
             "assignments": [
-              28,
+              36,
               16,
+              34,
+              34,
+              17,
+              38,
               39,
-              25,
-              11,
-              42,
-              48,
-              47
+              42
             ],
-            "remote_assignments": 108,
-            "activation_forward_bytes": 55296,
-            "activation_backward_bytes": 55296,
-            "metadata_bytes": 872,
+            "remote_assignments": 120,
+            "activation_forward_bytes": 61440,
+            "activation_backward_bytes": 61440,
+            "metadata_bytes": 968,
             "send": [
-              108,
-              148
+              120,
+              136
             ],
             "receive": [
-              152,
-              148
+              141,
+              136
             ]
           }
         ],
@@ -3538,33 +3540,33 @@
       },
       {
         "epoch": 13,
-        "global_loss": 0.08798946909291029,
-        "step_ms": 3.451666998444125,
-        "shared_grad_norm": 0.014815868957069215,
-        "expert_grad_norm": 0.038519387240762516,
+        "global_loss": 0.04167227992862893,
+        "step_ms": 3.900958996382542,
+        "shared_grad_norm": 0.009098584861333837,
+        "expert_grad_norm": 0.017739874999586507,
         "blocks": [
           {
             "assignments": [
-              28,
+              37,
               16,
-              39,
-              25,
-              11,
-              42,
-              48,
-              47
+              34,
+              34,
+              17,
+              38,
+              38,
+              42
             ],
-            "remote_assignments": 108,
-            "activation_forward_bytes": 55296,
-            "activation_backward_bytes": 55296,
-            "metadata_bytes": 872,
+            "remote_assignments": 121,
+            "activation_forward_bytes": 61952,
+            "activation_backward_bytes": 61952,
+            "metadata_bytes": 976,
             "send": [
-              108,
-              148
+              121,
+              135
             ],
             "receive": [
-              152,
-              148
+              139,
+              135
             ]
           }
         ],
@@ -3572,33 +3574,33 @@
       },
       {
         "epoch": 14,
-        "global_loss": 0.08761938328166699,
-        "step_ms": 3.598082999815233,
-        "shared_grad_norm": 0.01475977260132925,
-        "expert_grad_norm": 0.038360296602312716,
+        "global_loss": 0.03936358379305686,
+        "step_ms": 3.763417000300251,
+        "shared_grad_norm": 0.00861414965989561,
+        "expert_grad_norm": 0.016539739430941107,
         "blocks": [
           {
             "assignments": [
-              28,
-              16,
-              39,
-              25,
-              11,
-              42,
-              48,
-              47
+              37,
+              15,
+              34,
+              34,
+              17,
+              38,
+              38,
+              43
             ],
-            "remote_assignments": 108,
-            "activation_forward_bytes": 55296,
-            "activation_backward_bytes": 55296,
-            "metadata_bytes": 872,
+            "remote_assignments": 120,
+            "activation_forward_bytes": 61440,
+            "activation_backward_bytes": 61440,
+            "metadata_bytes": 968,
             "send": [
-              108,
-              148
+              120,
+              136
             ],
             "receive": [
-              152,
-              148
+              138,
+              136
             ]
           }
         ],
@@ -3606,33 +3608,33 @@
       },
       {
         "epoch": 15,
-        "global_loss": 0.08727151341445236,
-        "step_ms": 3.561707999324426,
-        "shared_grad_norm": 0.014732192062354387,
-        "expert_grad_norm": 0.038215429711692964,
+        "global_loss": 0.037453507461765415,
+        "step_ms": 3.970250007114373,
+        "shared_grad_norm": 0.008172376847786081,
+        "expert_grad_norm": 0.0153779461162496,
         "blocks": [
           {
             "assignments": [
-              29,
+              37,
+              14,
+              35,
+              35,
               16,
+              36,
               39,
-              24,
-              11,
-              42,
-              48,
-              47
+              44
             ],
-            "remote_assignments": 108,
-            "activation_forward_bytes": 55296,
-            "activation_backward_bytes": 55296,
-            "metadata_bytes": 872,
+            "remote_assignments": 121,
+            "activation_forward_bytes": 61952,
+            "activation_backward_bytes": 61952,
+            "metadata_bytes": 976,
             "send": [
-              108,
-              148
+              121,
+              135
             ],
             "receive": [
-              152,
-              148
+              138,
+              135
             ]
           }
         ],
@@ -3640,33 +3642,33 @@
       },
       {
         "epoch": 16,
-        "global_loss": 0.08690678255970505,
-        "step_ms": 3.2277499994961545,
-        "shared_grad_norm": 0.014677677318255915,
-        "expert_grad_norm": 0.038058791221146054,
+        "global_loss": 0.03554868757915303,
+        "step_ms": 3.897292001056485,
+        "shared_grad_norm": 0.0076704238795299575,
+        "expert_grad_norm": 0.01405125640372606,
         "blocks": [
           {
             "assignments": [
-              29,
+              38,
+              14,
+              35,
+              37,
               16,
+              35,
               39,
-              24,
-              11,
-              42,
-              48,
-              47
+              42
             ],
-            "remote_assignments": 108,
-            "activation_forward_bytes": 55296,
-            "activation_backward_bytes": 55296,
-            "metadata_bytes": 872,
+            "remote_assignments": 124,
+            "activation_forward_bytes": 63488,
+            "activation_backward_bytes": 63488,
+            "metadata_bytes": 1000,
             "send": [
-              108,
-              148
+              124,
+              132
             ],
             "receive": [
-              152,
-              148
+              137,
+              132
             ]
           }
         ],
@@ -3674,33 +3676,33 @@
       },
       {
         "epoch": 17,
-        "global_loss": 0.08654483588172193,
-        "step_ms": 3.6566669878084213,
-        "shared_grad_norm": 0.014623891558293476,
-        "expert_grad_norm": 0.037903423188780094,
+        "global_loss": 0.03388897002067631,
+        "step_ms": 3.995249993749894,
+        "shared_grad_norm": 0.007222975748252701,
+        "expert_grad_norm": 0.013077653682441064,
         "blocks": [
           {
             "assignments": [
-              29,
+              38,
+              14,
+              34,
+              38,
               16,
+              35,
               39,
-              24,
-              11,
-              42,
-              48,
-              47
+              42
             ],
-            "remote_assignments": 108,
-            "activation_forward_bytes": 55296,
-            "activation_backward_bytes": 55296,
-            "metadata_bytes": 872,
+            "remote_assignments": 124,
+            "activation_forward_bytes": 63488,
+            "activation_backward_bytes": 63488,
+            "metadata_bytes": 1000,
             "send": [
-              108,
-              148
+              124,
+              132
             ],
             "receive": [
-              152,
-              148
+              139,
+              132
             ]
           }
         ],
@@ -3708,33 +3710,33 @@
       },
       {
         "epoch": 18,
-        "global_loss": 0.08618564084690924,
-        "step_ms": 3.5867080005118623,
-        "shared_grad_norm": 0.01457082022893232,
-        "expert_grad_norm": 0.03774930564457337,
+        "global_loss": 0.032295205846492536,
+        "step_ms": 3.828375003649853,
+        "shared_grad_norm": 0.0067961670152889295,
+        "expert_grad_norm": 0.011974232690280303,
         "blocks": [
           {
             "assignments": [
-              29,
-              16,
               39,
-              24,
-              11,
-              42,
-              48,
-              47
+              13,
+              34,
+              38,
+              16,
+              35,
+              39,
+              42
             ],
-            "remote_assignments": 108,
-            "activation_forward_bytes": 55296,
-            "activation_backward_bytes": 55296,
-            "metadata_bytes": 872,
+            "remote_assignments": 124,
+            "activation_forward_bytes": 63488,
+            "activation_backward_bytes": 63488,
+            "metadata_bytes": 1000,
             "send": [
-              108,
-              148
+              124,
+              132
             ],
             "receive": [
-              152,
-              148
+              138,
+              132
             ]
           }
         ],
@@ -3742,33 +3744,33 @@
       },
       {
         "epoch": 19,
-        "global_loss": 0.08582916551179018,
-        "step_ms": 3.7069999962113798,
-        "shared_grad_norm": 0.014518449078850672,
-        "expert_grad_norm": 0.03759641901807018,
+        "global_loss": 0.0308850563666266,
+        "step_ms": 3.8620419945800677,
+        "shared_grad_norm": 0.0064141351756282225,
+        "expert_grad_norm": 0.010952706027957192,
         "blocks": [
           {
             "assignments": [
-              29,
-              16,
               39,
-              24,
-              11,
-              42,
-              48,
-              47
+              12,
+              34,
+              38,
+              16,
+              35,
+              39,
+              43
             ],
-            "remote_assignments": 108,
-            "activation_forward_bytes": 55296,
-            "activation_backward_bytes": 55296,
-            "metadata_bytes": 872,
+            "remote_assignments": 123,
+            "activation_forward_bytes": 62976,
+            "activation_backward_bytes": 62976,
+            "metadata_bytes": 992,
             "send": [
-              108,
-              148
+              123,
+              133
             ],
             "receive": [
-              152,
-              148
+              137,
+              133
             ]
           }
         ],
@@ -3776,33 +3778,33 @@
       },
       {
         "epoch": 20,
-        "global_loss": 0.08547537850913951,
-        "step_ms": 3.6255829909350723,
-        "shared_grad_norm": 0.014466764151858246,
-        "expert_grad_norm": 0.037444744128895584,
+        "global_loss": 0.02970765620270996,
+        "step_ms": 3.843207989120856,
+        "shared_grad_norm": 0.0061504529257405925,
+        "expert_grad_norm": 0.010241474421528948,
         "blocks": [
           {
             "assignments": [
-              29,
-              16,
               39,
-              24,
-              11,
-              42,
-              48,
-              47
+              12,
+              31,
+              38,
+              16,
+              35,
+              40,
+              45
             ],
-            "remote_assignments": 108,
-            "activation_forward_bytes": 55296,
-            "activation_backward_bytes": 55296,
-            "metadata_bytes": 872,
+            "remote_assignments": 120,
+            "activation_forward_bytes": 61440,
+            "activation_backward_bytes": 61440,
+            "metadata_bytes": 968,
             "send": [
-              108,
-              148
+              120,
+              136
             ],
             "receive": [
-              152,
-              148
+              139,
+              136
             ]
           }
         ],
@@ -3810,33 +3812,33 @@
       },
       {
         "epoch": 21,
-        "global_loss": 0.08512424903450565,
-        "step_ms": 3.4658750082599,
-        "shared_grad_norm": 0.014415751780018356,
-        "expert_grad_norm": 0.03729426217754478,
+        "global_loss": 0.02865961753162869,
+        "step_ms": 3.8588750030612573,
+        "shared_grad_norm": 0.0059391446844844235,
+        "expert_grad_norm": 0.009523467154144039,
         "blocks": [
           {
             "assignments": [
-              29,
-              16,
               39,
-              24,
-              11,
-              42,
-              48,
-              47
+              12,
+              31,
+              37,
+              16,
+              36,
+              39,
+              46
             ],
-            "remote_assignments": 108,
-            "activation_forward_bytes": 55296,
-            "activation_backward_bytes": 55296,
-            "metadata_bytes": 872,
+            "remote_assignments": 119,
+            "activation_forward_bytes": 60928,
+            "activation_backward_bytes": 60928,
+            "metadata_bytes": 960,
             "send": [
-              108,
-              148
+              119,
+              137
             ],
             "receive": [
-              152,
-              148
+              139,
+              137
             ]
           }
         ],
@@ -3844,33 +3846,33 @@
       },
       {
         "epoch": 22,
-        "global_loss": 0.08477574683310768,
-        "step_ms": 3.432333003729582,
-        "shared_grad_norm": 0.014365398576966538,
-        "expert_grad_norm": 0.03714495473643785,
+        "global_loss": 0.027674903696098742,
+        "step_ms": 3.932167004677467,
+        "shared_grad_norm": 0.005806526454349261,
+        "expert_grad_norm": 0.00880373143079751,
         "blocks": [
           {
             "assignments": [
-              29,
-              16,
-              39,
-              24,
+              40,
               11,
-              42,
-              48,
-              47
+              31,
+              37,
+              17,
+              35,
+              39,
+              46
             ],
-            "remote_assignments": 108,
-            "activation_forward_bytes": 55296,
-            "activation_backward_bytes": 55296,
-            "metadata_bytes": 872,
+            "remote_assignments": 119,
+            "activation_forward_bytes": 60928,
+            "activation_backward_bytes": 60928,
+            "metadata_bytes": 960,
             "send": [
-              108,
-              148
+              119,
+              137
             ],
             "receive": [
-              152,
-              148
+              139,
+              137
             ]
           }
         ],
@@ -3878,33 +3880,33 @@
       },
       {
         "epoch": 23,
-        "global_loss": 0.08440690393120198,
-        "step_ms": 3.5900420043617487,
-        "shared_grad_norm": 0.01431451409864157,
-        "expert_grad_norm": 0.036906701073987094,
+        "global_loss": 0.0269141135613779,
+        "step_ms": 3.9524160092696548,
+        "shared_grad_norm": 0.005670413693416863,
+        "expert_grad_norm": 0.008221148114983479,
         "blocks": [
           {
             "assignments": [
-              29,
-              16,
-              39,
-              24,
+              40,
               11,
-              42,
-              48,
-              47
+              30,
+              37,
+              22,
+              36,
+              35,
+              45
             ],
-            "remote_assignments": 108,
-            "activation_forward_bytes": 55296,
-            "activation_backward_bytes": 55296,
-            "metadata_bytes": 872,
+            "remote_assignments": 118,
+            "activation_forward_bytes": 60416,
+            "activation_backward_bytes": 60416,
+            "metadata_bytes": 952,
             "send": [
-              108,
-              148
+              118,
+              138
             ],
             "receive": [
-              151,
-              148
+              138,
+              138
             ]
           }
         ],
@@ -3912,33 +3914,33 @@
       },
       {
         "epoch": 24,
-        "global_loss": 0.08406386139669841,
-        "step_ms": 4.00045799324289,
-        "shared_grad_norm": 0.014265571533633564,
-        "expert_grad_norm": 0.03676016439491399,
+        "global_loss": 0.026139378199057078,
+        "step_ms": 3.8595000078203157,
+        "shared_grad_norm": 0.005564481249204317,
+        "expert_grad_norm": 0.007807610213978004,
         "blocks": [
           {
             "assignments": [
+              40,
+              10,
               29,
-              16,
-              39,
-              24,
-              11,
-              42,
-              48,
-              47
+              36,
+              22,
+              37,
+              36,
+              46
             ],
-            "remote_assignments": 108,
-            "activation_forward_bytes": 55296,
-            "activation_backward_bytes": 55296,
-            "metadata_bytes": 872,
+            "remote_assignments": 115,
+            "activation_forward_bytes": 58880,
+            "activation_backward_bytes": 58880,
+            "metadata_bytes": 928,
             "send": [
-              108,
-              148
+              115,
+              141
             ],
             "receive": [
-              151,
-              148
+              139,
+              141
             ]
           }
         ],
@@ -6131,26 +6133,26 @@
     "first_step": null,
     "final_parameters": null,
     "parameter_changes": {
-      "blocks.0.token_projection.0.weight": 0.005506381595914739,
-      "blocks.0.token_projection.0.bias": 0.009064772257714074,
-      "blocks.0.router.weight": 0.0018937894069585154,
-      "blocks.0.router.bias": 0.002846765037844201,
-      "blocks.0.experts.4.0.weight": 0.0009212811638706769,
-      "blocks.0.experts.4.0.bias": 0.0020551635356035325,
-      "blocks.0.experts.4.2.weight": 0.0013437354388610538,
-      "blocks.0.experts.4.2.bias": 0.003937759387390188,
-      "blocks.0.experts.5.0.weight": 0.003499181225838602,
-      "blocks.0.experts.5.0.bias": 0.009999445848128244,
-      "blocks.0.experts.5.2.weight": 0.003512000629302403,
-      "blocks.0.experts.5.2.bias": 0.013767409391350863,
-      "blocks.0.experts.6.0.weight": 0.0029064315628525295,
-      "blocks.0.experts.6.0.bias": 0.007056447756655634,
-      "blocks.0.experts.6.2.weight": 0.004355051283332528,
-      "blocks.0.experts.6.2.bias": 0.01598237772217699,
-      "blocks.0.experts.7.0.weight": 0.0026625688332272412,
-      "blocks.0.experts.7.0.bias": 0.006676817732332391,
-      "blocks.0.experts.7.2.weight": 0.003504901055577714,
-      "blocks.0.experts.7.2.bias": 0.013261483783419861
+      "blocks.0.token_projection.0.weight": 0.026723127382507927,
+      "blocks.0.token_projection.0.bias": 0.025606700435448854,
+      "blocks.0.router.weight": 0.02577857269115845,
+      "blocks.0.router.bias": 0.022107268359980684,
+      "blocks.0.experts.4.0.weight": 0.026465695228484645,
+      "blocks.0.experts.4.0.bias": 0.024849759189827573,
+      "blocks.0.experts.4.2.weight": 0.02682586496444231,
+      "blocks.0.experts.4.2.bias": 0.02471067724733937,
+      "blocks.0.experts.5.0.weight": 0.02669182133897284,
+      "blocks.0.experts.5.0.bias": 0.025489516809540425,
+      "blocks.0.experts.5.2.weight": 0.026644174062257865,
+      "blocks.0.experts.5.2.bias": 0.02284873895250987,
+      "blocks.0.experts.6.0.weight": 0.026823275988085454,
+      "blocks.0.experts.6.0.bias": 0.026278111508454147,
+      "blocks.0.experts.6.2.weight": 0.02676234638857449,
+      "blocks.0.experts.6.2.bias": 0.021638976813983024,
+      "blocks.0.experts.7.0.weight": 0.02661593432228508,
+      "blocks.0.experts.7.0.bias": 0.025451280595903597,
+      "blocks.0.experts.7.2.weight": 0.026651580884109946,
+      "blocks.0.experts.7.2.bias": 0.02614408009467893
     },
     "parameter_bytes_per_rank": 144704,
     "shared_parameter_bytes_per_rank": 10560
