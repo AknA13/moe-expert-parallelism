@@ -8,28 +8,9 @@ A private CPU/Gloo teaching demo with learned top-2 routing, a configurable expe
 
 The default model has one MoE block, token dimension 32, eight experts, and top-2 routing. In this two-rank example, each rank gets different input tokens. Each has its own copy of the **same** token-projection and router weights, while the eight expert MLPs are split into disjoint owner groups.
 
-```mermaid
-flowchart TB
-    subgraph rank0["Rank 0: token shard A"]
-        direction LR
-        x0["tokens A"] --> p0["token projection<br/>replicated weights"]
-        p0 --> g0["router + top-2<br/>replicated weights"]
-        g0 --> e0["experts 0–3<br/>owned by rank 0"]
-    end
-    subgraph rank1["Rank 1: token shard B"]
-        direction LR
-        x1["tokens B"] --> p1["token projection<br/>replicated weights"]
-        p1 --> g1["router + top-2<br/>replicated weights"]
-        g1 --> e1["experts 4–7<br/>owned by rank 1"]
-    end
-    rank0 ~~~ rank1
-    classDef shared fill:#eaf1ff,stroke:#4a6ca8
-    classDef owned fill:#e7f7ef,stroke:#2b8a5e
-    class p0,p1,g0,g1 shared
-    class e0,e1 owned
-```
+![Two-rank MoE block with bordered projection and router weight groups and neural-network expert glyphs](assets/model-architecture.svg)
 
-The boxes show **parameter placement**; tokens can also route across the rank boundary, as the forward diagram shows. The projection is `Linear(32, 32) + Tanh`, the router is `Linear(32, 8)`, and each expert is `Linear(32, H) + Tanh + Linear(H, 32)`. The router selects two expert IDs per token and softmax-normalizes their two selected logits into combination weights. There is no capacity limit, token dropping, or load-balancing loss. With more blocks, this structure repeats with new weights at every block. The single-rank `StandardMoEBlock` owns all eight experts and serves as the numerical reference.
+The two tall borders group the matching projection and router weights across the ranks. Each small network glyph represents a separate expert MLP. This is a **parameter-placement view**; tokens can route across the rank boundary, as the forward diagram shows. The projection is `Linear(32, 32) + Tanh`, the router is `Linear(32, 8)`, and each expert is `Linear(32, H) + Tanh + Linear(H, 32)`. The router selects two expert IDs per token and softmax-normalizes their two selected logits into combination weights. There is no capacity limit, token dropping, or load-balancing loss. With more blocks, this structure repeats with new weights at every block. The single-rank `StandardMoEBlock` owns all eight experts and serves as the numerical reference.
 
 ### Forward pass: dispatch, compute, return
 

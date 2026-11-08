@@ -1,0 +1,87 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 1360 520" role="img" aria-labelledby="title desc">
+  <title id="title">One MoE block across two ranks</title>
+  <desc id="desc">Rank 0 processes token shard A and has experts 0 through 3. Rank 1 processes token shard B and has experts 4 through 7. A border around both token projections and another around both routers indicate matching weights on the two ranks. Four independent neural-network glyphs show the experts on each rank.</desc>
+  <defs>
+    <marker id="arrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse">
+      <path d="M1 1 L9 5 L1 9" fill="none" stroke="#536479" stroke-width="1.7"/>
+    </marker>
+    <symbol id="expert" viewBox="0 0 76 68">
+      <g fill="none" stroke="#87a9a2" stroke-width="1.5">
+        <path d="M8 17L37 9M8 17L37 34M8 17L37 59M8 51L37 9M8 51L37 34M8 51L37 59"/>
+        <path d="M37 9L68 17M37 9L68 51M37 34L68 17M37 34L68 51M37 59L68 17M37 59L68 51"/>
+      </g>
+      <g fill="#c9ebe2" stroke="#21836e" stroke-width="1.8">
+        <circle cx="8" cy="17" r="5"/><circle cx="8" cy="51" r="5"/>
+        <circle cx="37" cy="9" r="5"/><circle cx="37" cy="34" r="5"/><circle cx="37" cy="59" r="5"/>
+        <circle cx="68" cy="17" r="5"/><circle cx="68" cy="51" r="5"/>
+      </g>
+    </symbol>
+  </defs>
+
+  <rect width="1360" height="520" fill="#fff"/>
+  <text x="40" y="43" fill="#202a3a" font-family="system-ui, sans-serif" font-size="27" font-weight="700">One MoE block across two ranks</text>
+  <text x="1315" y="42" text-anchor="end" fill="#64748b" font-family="system-ui, sans-serif" font-size="16">8 experts · top-2 · token dimension 32</text>
+
+  <line x1="38" y1="305" x2="1322" y2="305" stroke="#d5dde7" stroke-width="1.5" stroke-dasharray="6 7"/>
+  <text x="42" y="188" fill="#202a3a" font-family="system-ui, sans-serif" font-size="25" font-weight="700">Rank 0</text>
+  <text x="42" y="216" fill="#526176" font-family="system-ui, sans-serif" font-size="17">token shard A</text>
+  <text x="42" y="373" fill="#202a3a" font-family="system-ui, sans-serif" font-size="25" font-weight="700">Rank 1</text>
+  <text x="42" y="401" fill="#526176" font-family="system-ui, sans-serif" font-size="17">token shard B</text>
+
+  <!-- These are the only parameter-group borders: each spans both ranks. -->
+  <rect x="338" y="77" width="215" height="398" rx="18" fill="#f4f8ff" stroke="#5579bb" stroke-width="2.4"/>
+  <rect x="613" y="77" width="215" height="398" rx="18" fill="#f8f5ff" stroke="#8666b7" stroke-width="2.4"/>
+  <text x="445" y="106" text-anchor="middle" fill="#2b4f91" font-family="system-ui, sans-serif" font-size="18" font-weight="700">TOKEN PROJECTION</text>
+  <text x="445" y="129" text-anchor="middle" fill="#2b4f91" font-family="system-ui, sans-serif" font-size="15">WEIGHTS</text>
+  <text x="720" y="106" text-anchor="middle" fill="#684496" font-family="system-ui, sans-serif" font-size="18" font-weight="700">ROUTER</text>
+  <text x="720" y="129" text-anchor="middle" fill="#684496" font-family="system-ui, sans-serif" font-size="15">WEIGHTS</text>
+
+  <!-- Rank 0: tokens, projection and router. -->
+  <g fill="#edf3fa" stroke="#6e8197" stroke-width="1.7">
+    <rect x="227" y="179" width="35" height="26" rx="5"/>
+    <rect x="238" y="190" width="35" height="26" rx="5"/>
+    <rect x="249" y="201" width="35" height="26" rx="5"/>
+  </g>
+  <path d="M289 210H405M485 210H680M760 210H866" fill="none" stroke="#536479" stroke-width="2.5" marker-end="url(#arrow)"/>
+  <circle cx="445" cy="210" r="39" fill="#dfeaff" stroke="#5579bb" stroke-width="2"/>
+  <circle cx="720" cy="210" r="39" fill="#ece2ff" stroke="#8666b7" stroke-width="2"/>
+  <text x="445" y="217" text-anchor="middle" fill="#254b8b" font-family="system-ui, sans-serif" font-size="24" font-weight="700">P</text>
+  <text x="720" y="217" text-anchor="middle" fill="#63418e" font-family="system-ui, sans-serif" font-size="24" font-weight="700">R</text>
+  <text x="445" y="270" text-anchor="middle" fill="#526176" font-family="system-ui, sans-serif" font-size="14">Linear + Tanh</text>
+  <text x="720" y="270" text-anchor="middle" fill="#526176" font-family="system-ui, sans-serif" font-size="14">top-2 gate</text>
+
+  <!-- Rank 1 has its own copies of P and R with matching values. -->
+  <g fill="#edf3fa" stroke="#6e8197" stroke-width="1.7">
+    <rect x="227" y="364" width="35" height="26" rx="5"/>
+    <rect x="238" y="375" width="35" height="26" rx="5"/>
+    <rect x="249" y="386" width="35" height="26" rx="5"/>
+  </g>
+  <path d="M289 395H405M485 395H680M760 395H866" fill="none" stroke="#536479" stroke-width="2.5" marker-end="url(#arrow)"/>
+  <circle cx="445" cy="395" r="39" fill="#dfeaff" stroke="#5579bb" stroke-width="2"/>
+  <circle cx="720" cy="395" r="39" fill="#ece2ff" stroke="#8666b7" stroke-width="2"/>
+  <text x="445" y="402" text-anchor="middle" fill="#254b8b" font-family="system-ui, sans-serif" font-size="24" font-weight="700">P</text>
+  <text x="720" y="402" text-anchor="middle" fill="#63418e" font-family="system-ui, sans-serif" font-size="24" font-weight="700">R</text>
+  <text x="445" y="455" text-anchor="middle" fill="#526176" font-family="system-ui, sans-serif" font-size="14">Linear + Tanh</text>
+  <text x="720" y="455" text-anchor="middle" fill="#526176" font-family="system-ui, sans-serif" font-size="14">top-2 gate</text>
+
+  <!-- Four unboxed MLP glyphs per rank. -->
+  <text x="1086" y="147" text-anchor="middle" fill="#176d5a" font-family="system-ui, sans-serif" font-size="21" font-weight="700">experts 0–3</text>
+  <use xlink:href="#expert" x="896" y="173" width="76" height="68"/>
+  <use xlink:href="#expert" x="992" y="173" width="76" height="68"/>
+  <use xlink:href="#expert" x="1088" y="173" width="76" height="68"/>
+  <use xlink:href="#expert" x="1184" y="173" width="76" height="68"/>
+  <text x="934" y="259" text-anchor="middle" fill="#526176" font-family="system-ui, sans-serif" font-size="15">0</text>
+  <text x="1030" y="259" text-anchor="middle" fill="#526176" font-family="system-ui, sans-serif" font-size="15">1</text>
+  <text x="1126" y="259" text-anchor="middle" fill="#526176" font-family="system-ui, sans-serif" font-size="15">2</text>
+  <text x="1222" y="259" text-anchor="middle" fill="#526176" font-family="system-ui, sans-serif" font-size="15">3</text>
+
+  <text x="1086" y="332" text-anchor="middle" fill="#176d5a" font-family="system-ui, sans-serif" font-size="21" font-weight="700">experts 4–7</text>
+  <use xlink:href="#expert" x="896" y="358" width="76" height="68"/>
+  <use xlink:href="#expert" x="992" y="358" width="76" height="68"/>
+  <use xlink:href="#expert" x="1088" y="358" width="76" height="68"/>
+  <use xlink:href="#expert" x="1184" y="358" width="76" height="68"/>
+  <text x="934" y="444" text-anchor="middle" fill="#526176" font-family="system-ui, sans-serif" font-size="15">4</text>
+  <text x="1030" y="444" text-anchor="middle" fill="#526176" font-family="system-ui, sans-serif" font-size="15">5</text>
+  <text x="1126" y="444" text-anchor="middle" fill="#526176" font-family="system-ui, sans-serif" font-size="15">6</text>
+  <text x="1222" y="444" text-anchor="middle" fill="#526176" font-family="system-ui, sans-serif" font-size="15">7</text>
+</svg>
