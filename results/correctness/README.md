@@ -1,14 +1,14 @@
 # Correctness Results
 
 
-Does our MoE parallelized training compute the same:
+Does our multi-rank expert-parallel training compute the same:
 - outputs
 - gradients
 - Adam updates
   
-as single-rank, non-parallelized MoE training?
+as single-rank naive MoE training?
 
-We ran the same deterministic global batch and global expert initialization at 1, 2, and 4 ranks. The one-rank reference uses `StandardMoEBlock`; multi-rank jobs use `ParallelMoEBlock`. Every run used float64, learned top-2 routing, and Adam with learning rate 0.001. Comparisons use `atol=1e-08` and `rtol=1e-06`.
+We ran deterministic experiments with the same training dataset and weight initializations, comparing one-rank training using `StandardMoEBlock` (no communication code; meant to run on a single device) with 2- and 4-rank training using `ParallelMoEBlock`, which uses expert parallelism. We also keep the learning hyperparams the same in this comparison.
 
 The primary fixture has one MoE block and 65 total tokens, split unevenly across ranks. One-epoch jobs test one complete optimizer step; 30-epoch jobs test the loss trajectory and final parameters. A second fixture has two blocks, 17 tokens, and two epochs.
 
