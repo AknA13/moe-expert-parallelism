@@ -20,15 +20,6 @@ class StepResult:
     local_loss: torch.Tensor
 
 
-def sync_replicated_gradients(model):
-    for parameter in model.replicated_parameters():
-        dist.all_reduce(parameter.grad, op=dist.ReduceOp.SUM)
-
-
-def loss(prediction, target, global_tokens):
-    return (prediction - target).square().mean(-1).sum() / global_tokens
-
-
 def parameter_values(model, *, gradients=False):
     return {
         name: (parameter.grad if gradients else parameter).detach().tolist()
@@ -41,10 +32,11 @@ def train_step(model, x, target, optimizer, global_tokens):
     world = dist.get_world_size()
     optimizer.zero_grad(set_to_none=True)
     prediction = model(x)
-    local_loss = loss(prediction, target, global_tokens)
+    local_loss = (prediction - target).square().mean(-1).sum() / global_tokens
     local_loss.backward()
     if world > 1:
-        sync_replicated_gradients(model)
+        for parameter in model.replicated_parameters():
+            dist.all_reduce(parameter.grad, op=dist.ReduceOp.SUM)
     optimizer.step()
     return StepResult(prediction, local_loss)
 
