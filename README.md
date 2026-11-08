@@ -16,12 +16,12 @@ python reproduce.py
 `reproduce.py` launches the correctness and scaling jobs, then writes `results/summary.txt`. You can run one job directly:
 
 ```sh
-python run.py --ranks 2 --tokens 65 --epochs 30 --lr 0.15 --blocks 1
+python run.py --ranks 2 --tokens 65 --epochs 30 --lr 0.001 --blocks 1
 python run.py --ranks 4 --tokens 1024 --epochs 25 --warmup 5
 python show_results.py
 ```
 
-`--tokens` is always the **total** batch size; `torch.tensor_split` divides it as evenly as possible. The target is deterministic regression to `0.3*tanh(x)+0.2`. Each epoch reuses that batch. Every run uses learned routing and SGD without momentum or weight decay. The default learning rate is 0.15.
+`--tokens` is always the **total** batch size; `torch.tensor_split` divides it as evenly as possible. The target is deterministic regression to `0.3*tanh(x)+0.2`. Each epoch reuses that batch. Every run uses learned routing and Adam with its default betas and no weight decay. The default learning rate is 0.001.
 
 ## Read the code
 
@@ -56,13 +56,13 @@ L_r = (1/N) · Σ_{tokens i on rank r} mean_j (prediction_ij - target_ij)²
 L_global = Σ_r L_r
 ```
 
-| Parameters | Placement | Action before SGD |
+| Parameters | Placement | Action before Adam |
 |---|---|---|
 | Token projection in every block | Replicated | SUM all-reduce gradients |
 | Router in every block | Replicated | SUM all-reduce gradients |
 | Experts in every block | Unique owner | Use accumulated local gradient; no expert-gradient all-reduce |
 
-An expert owner receives assignments from every source, so its backward pass already accumulates the complete gradient for that expert. Shared replicas initially see only their source tokens, so they need the SUM. The global denominator handles unequal shards such as `[33, 32]` for 65 tokens on two ranks. Top-k indices are discrete; gradients reach selected router logits through the two selected softmax weights.
+An expert owner receives assignments from every source, so its backward pass already accumulates the complete gradient for that expert. Shared replicas initially see only their source tokens, so they need the SUM. The global denominator handles unequal shards such as `[33, 32]` for 65 tokens on two ranks. Top-k indices are discrete; gradients reach selected router logits through the two selected softmax weights. Missing gradients are materialized as zeros before Adam; an expert with no assignments this step can still move through momentum from earlier steps.
 
 ## Correctness runs
 
@@ -88,7 +88,7 @@ See [RESULTS.md](RESULTS.md) and [results/summary.txt](results/summary.txt) for 
 4. **5 min:** show the standard-versus-parallel checks and the two-block run.
 5. **7 min:** interpret storage, payload, learned expert loads, and CPU latency.
 
-For production discussion: expert-data-parallel replica groups need separate expert-gradient synchronization; GPU/NCCL execution needs device timing and transport validation; grouped expert GEMMs and overlap may reduce overhead; capacity limits and balancing objectives change model semantics; Adam state and checkpoint resharding add memory and state-management work. None of these extensions is implemented here.
+For production discussion: expert-data-parallel replica groups need separate expert-gradient synchronization; GPU/NCCL execution needs device timing and transport validation; grouped expert GEMMs and overlap may reduce overhead; capacity limits and balancing objectives change model semantics; checkpoint resharding must account for Adam's moment state. None of these extensions is implemented here.
 
 ## Study guides
 

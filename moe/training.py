@@ -10,7 +10,7 @@ import torch.distributed as dist
 class TrainConfig:
     total_tokens: int = 65
     epochs: int = 30
-    learning_rate: float = 0.15
+    learning_rate: float = 0.001
     warmup: int = 0
 
 
@@ -111,7 +111,7 @@ def run_training(model, x, target, train_config, *, token_ids, capture_state=Fal
     """Train the initialized model on this rank's data shard."""
     world = dist.get_world_size()
     initial = {name: p.detach().clone() for name, p in model.named_parameters()}
-    optimizer = torch.optim.SGD(model.parameters(), lr=train_config.learning_rate)
+    optimizer = torch.optim.Adam(model.parameters(), lr=train_config.learning_rate)
     steps, trace, first_step = [], None, None
 
     for epoch in range(train_config.epochs):
@@ -138,6 +138,7 @@ def run_training(model, x, target, train_config, *, token_ids, capture_state=Fal
     return {
         'train_config': asdict(train_config),
         'model_config': asdict(model.config),
+        'optimizer': type(optimizer).__name__,
         'parallel': model.parallel,
         'epochs': steps,
         'trace': trace,

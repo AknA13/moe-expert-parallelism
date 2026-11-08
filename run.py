@@ -68,7 +68,7 @@ def main():
     parser.add_argument('--tokens', type=int, default=65,
                         help='total tokens across all ranks')
     parser.add_argument('--epochs', type=int, default=30)
-    parser.add_argument('--lr', type=float, default=0.15)
+    parser.add_argument('--lr', type=float, default=TrainConfig().learning_rate)
     parser.add_argument('--warmup', type=int, default=0)
     parser.add_argument('--blocks', type=int, default=1)
     parser.add_argument('--capture-state', action='store_true',
