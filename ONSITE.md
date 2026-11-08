@@ -1,6 +1,6 @@
 # Walkthrough and questions to rehearse
 
-The README is the presentation. Open `moe/model.py` beside it and run `python show_results.py` before starting; that displays saved evidence without a live distributed run.
+The README is the presentation. Open `moe/model.py` beside it and keep `results/correctness/loss.svg`, `results/correctness/parameter-updates.json`, and `results/scaling/scaling.svg` ready; they display saved evidence without a live distributed run.
 
 ## Demonstration sequence
 
@@ -8,7 +8,7 @@ The README is the presentation. Open `moe/model.py` beside it and run `python sh
 2. Find token 2 in the two-rank learned-routing trace: expert 7 is remote, expert 0 is local. Follow both assignment rows through packing, expert work, return, and weighted combination.
 3. Open `ParallelMoEBlock.forward`: its two autograd-aware all-to-all calls communicate activation rows and expert outputs. In backward, PyTorch reverses their split sizes to communicate gradients. Each parallel block owns that sequence.
 4. Derive the global loss denominator before explaining why each block's replicated projection and router need a SUM, while owned experts do not.
-5. Show `results/verify/comparison-summary.json`. Explain the first-step output/gradient comparison, the 30-epoch loss trajectory, final parameter comparison, and the two-block check.
+5. Show `results/correctness/comparison-summary.json` and `parameter-updates.json`. Explain the first-step output/gradient comparison, actual parameter changes, the 30-epoch loss trajectory, final parameter comparison, and the two-block check.
 6. Compare saved 256-token runs at 1, 2, and 4 ranks. Then show the 512- and 1,024-token jobs. Interpret storage and payload alongside latency.
 
 ## Questions with concrete answers
@@ -38,4 +38,4 @@ The model is small and CPU workers share a host. Metadata exchange, activation c
 Profile dispatch, expert compute, return, and shared synchronization separately. Validate NCCL behavior, synchronized device timing, grouped GEMMs, and communication overlap with representative workloads.
 
 **What does the reference fail to prove?**
-The two execution paths share router and expert definitions, so a bug in those shared definitions might affect both. The suite checks observed learned routes, but does not guarantee an empty owner or update to every expert.
+The two execution paths share router and expert definitions, so a bug in those shared definitions might affect both. The 65-token one-step fixture updates every expert, but the suite does not force an empty owner.

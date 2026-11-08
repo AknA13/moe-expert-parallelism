@@ -1,0 +1,152 @@
+[
+  {
+    "ranks": 2,
+    "parameters": [
+      {
+        "parameter": "token_projection",
+        "owner": null,
+        "assignments": null,
+        "minimum_tensor_gradient": 0.002478285291319286,
+        "minimum_tensor_change": 0.000999995964968324
+      },
+      {
+        "parameter": "router",
+        "owner": null,
+        "assignments": null,
+        "minimum_tensor_gradient": 0.0008705545179259573,
+        "minimum_tensor_change": 0.0009999885132005726
+      },
+      {
+        "parameter": "experts.0",
+        "owner": 0,
+        "assignments": 12,
+        "minimum_tensor_gradient": 0.0007354197692159592,
+        "minimum_tensor_change": 0.0009999864025085486
+      },
+      {
+        "parameter": "experts.1",
+        "owner": 0,
+        "assignments": 5,
+        "minimum_tensor_gradient": 0.00043903319596736063,
+        "minimum_tensor_change": 0.000999977223197862
+      },
+      {
+        "parameter": "experts.2",
+        "owner": 0,
+        "assignments": 19,
+        "minimum_tensor_gradient": 0.0008517913384177943,
+        "minimum_tensor_change": 0.0009999882601734178
+      },
+      {
+        "parameter": "experts.3",
+        "owner": 0,
+        "assignments": 9,
+        "minimum_tensor_gradient": 0.0003455791723839412,
+        "minimum_tensor_change": 0.000999971063908249
+      },
+      {
+        "parameter": "experts.4",
+        "owner": 1,
+        "assignments": 5,
+        "minimum_tensor_gradient": 0.00038216067426668127,
+        "minimum_tensor_change": 0.0009999738336804176
+      },
+      {
+        "parameter": "experts.5",
+        "owner": 1,
+        "assignments": 35,
+        "minimum_tensor_gradient": 0.0016143211530888135,
+        "minimum_tensor_change": 0.0009999938054841007
+      },
+      {
+        "parameter": "experts.6",
+        "owner": 1,
+        "assignments": 26,
+        "minimum_tensor_gradient": 0.000790554847901777,
+        "minimum_tensor_change": 0.0009999873508162727
+      },
+      {
+        "parameter": "experts.7",
+        "owner": 1,
+        "assignments": 19,
+        "minimum_tensor_gradient": 0.000775840866275183,
+        "minimum_tensor_change": 0.000999987110925006
+      }
+    ]
+  },
+  {
+    "ranks": 4,
+    "parameters": [
+      {
+        "parameter": "token_projection",
+        "owner": null,
+        "assignments": null,
+        "minimum_tensor_gradient": 0.0024782852913192866,
+        "minimum_tensor_change": 0.000999995964968324
+      },
+      {
+        "parameter": "router",
+        "owner": null,
+        "assignments": null,
+        "minimum_tensor_gradient": 0.0008705545179259573,
+        "minimum_tensor_change": 0.0009999885132005726
+      },
+      {
+        "parameter": "experts.0",
+        "owner": 0,
+        "assignments": 12,
+        "minimum_tensor_gradient": 0.0007354197692159592,
+        "minimum_tensor_change": 0.0009999864025085486
+      },
+      {
+        "parameter": "experts.1",
+        "owner": 0,
+        "assignments": 5,
+        "minimum_tensor_gradient": 0.00043903319596736063,
+        "minimum_tensor_change": 0.000999977223197862
+      },
+      {
+        "parameter": "experts.2",
+        "owner": 1,
+        "assignments": 19,
+        "minimum_tensor_gradient": 0.0008517913384177943,
+        "minimum_tensor_change": 0.0009999882601734178
+      },
+      {
+        "parameter": "experts.3",
+        "owner": 1,
+        "assignments": 9,
+        "minimum_tensor_gradient": 0.0003455791723839412,
+        "minimum_tensor_change": 0.000999971063908249
+      },
+      {
+        "parameter": "experts.4",
+        "owner": 2,
+        "assignments": 5,
+        "minimum_tensor_gradient": 0.00038216067426668127,
+        "minimum_tensor_change": 0.0009999738336804176
+      },
+      {
+        "parameter": "experts.5",
+        "owner": 2,
+        "assignments": 35,
+        "minimum_tensor_gradient": 0.0016143211530888135,
+        "minimum_tensor_change": 0.0009999938054841007
+      },
+      {
+        "parameter": "experts.6",
+        "owner": 3,
+        "assignments": 26,
+        "minimum_tensor_gradient": 0.000790554847901777,
+        "minimum_tensor_change": 0.0009999873508162727
+      },
+      {
+        "parameter": "experts.7",
+        "owner": 3,
+        "assignments": 19,
+        "minimum_tensor_gradient": 0.000775840866275183,
+        "minimum_tensor_change": 0.000999987110925006
+      }
+    ]
+  }
+]

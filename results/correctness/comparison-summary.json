@@ -3,6 +3,36 @@
     "blocks": 1,
     "ranks": 2,
     "total_tokens": 65,
+    "epochs": 1,
+    "max_errors": {
+      "loss": 1.3877787807814457e-17,
+      "output": 0.0,
+      "input_gradient": 0.0,
+      "parameter_gradient": 8.673617379884035e-19,
+      "parameter_after_step": 5.551115123125783e-17,
+      "final_parameter": 5.551115123125783e-17,
+      "expert_output": 0.0
+    }
+  },
+  {
+    "blocks": 1,
+    "ranks": 4,
+    "total_tokens": 65,
+    "epochs": 1,
+    "max_errors": {
+      "loss": 1.3877787807814457e-17,
+      "output": 0.0,
+      "input_gradient": 0.0,
+      "parameter_gradient": 1.0842021724855044e-18,
+      "parameter_after_step": 3.469446951953614e-17,
+      "final_parameter": 3.469446951953614e-17,
+      "expert_output": 0.0
+    }
+  },
+  {
+    "blocks": 1,
+    "ranks": 2,
+    "total_tokens": 65,
     "epochs": 30,
     "max_errors": {
       "loss": 2.7755575615628914e-17,

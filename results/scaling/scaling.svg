@@ -1,0 +1,41 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 420">
+<rect width="100%" height="100%" fill="white"/>
+<text x="35" y="36" font-family="sans-serif" font-size="23">CPU expert-parallel scaling</text>
+<text x="35" y="78" font-family="sans-serif" font-size="17">Fixed 256 total tokens</text>
+<text x="35" y="101" font-family="sans-serif" font-size="12" fill="#555">ms</text>
+<line x1="53" x2="335" y1="350" y2="350" stroke="#777"/>
+<rect x="67" y="280.4" width="53" height="69.6" fill="#315a9b"/>
+<text x="93.5" y="272.4" text-anchor="middle" font-family="sans-serif" font-size="13">2.61</text>
+<text x="93.5" y="374" text-anchor="middle" font-family="sans-serif" font-size="13">1 rank</text>
+<rect x="161" y="247.0" width="53" height="103.0" fill="#315a9b"/>
+<text x="187.5" y="239.0" text-anchor="middle" font-family="sans-serif" font-size="13">3.86</text>
+<text x="187.5" y="374" text-anchor="middle" font-family="sans-serif" font-size="13">2 rank</text>
+<rect x="255" y="159.3" width="53" height="190.7" fill="#315a9b"/>
+<text x="281.5" y="151.3" text-anchor="middle" font-family="sans-serif" font-size="13">7.14</text>
+<text x="281.5" y="374" text-anchor="middle" font-family="sans-serif" font-size="13">4 rank</text>
+<text x="360" y="78" font-family="sans-serif" font-size="17">Fixed 256 tokens/rank</text>
+<text x="360" y="101" font-family="sans-serif" font-size="12" fill="#555">ms</text>
+<line x1="378" x2="660" y1="350" y2="350" stroke="#777"/>
+<rect x="392" y="288.4" width="53" height="61.6" fill="#16866a"/>
+<text x="418.5" y="280.4" text-anchor="middle" font-family="sans-serif" font-size="13">2.61</text>
+<text x="418.5" y="374" text-anchor="middle" font-family="sans-serif" font-size="13">1 rank</text>
+<rect x="486" y="244.7" width="53" height="105.3" fill="#16866a"/>
+<text x="512.5" y="236.7" text-anchor="middle" font-family="sans-serif" font-size="13">4.45</text>
+<text x="512.5" y="374" text-anchor="middle" font-family="sans-serif" font-size="13">2 rank</text>
+<rect x="580" y="159.3" width="53" height="190.7" fill="#16866a"/>
+<text x="606.5" y="151.3" text-anchor="middle" font-family="sans-serif" font-size="13">8.06</text>
+<text x="606.5" y="374" text-anchor="middle" font-family="sans-serif" font-size="13">4 rank</text>
+<text x="685" y="78" font-family="sans-serif" font-size="17">Model bytes per rank</text>
+<text x="685" y="101" font-family="sans-serif" font-size="12" fill="#555">KiB</text>
+<line x1="703" x2="985" y1="350" y2="350" stroke="#777"/>
+<rect x="717" y="159.3" width="53" height="190.7" fill="#c8713e"/>
+<text x="743.5" y="151.3" text-anchor="middle" font-family="sans-serif" font-size="13">272.31</text>
+<text x="743.5" y="374" text-anchor="middle" font-family="sans-serif" font-size="13">1 rank</text>
+<rect x="811" y="251.1" width="53" height="98.9" fill="#c8713e"/>
+<text x="837.5" y="243.1" text-anchor="middle" font-family="sans-serif" font-size="13">141.31</text>
+<text x="837.5" y="374" text-anchor="middle" font-family="sans-serif" font-size="13">2 rank</text>
+<rect x="905" y="296.9" width="53" height="53.1" fill="#c8713e"/>
+<text x="931.5" y="288.9" text-anchor="middle" font-family="sans-serif" font-size="13">75.81</text>
+<text x="931.5" y="374" text-anchor="middle" font-family="sans-serif" font-size="13">4 rank</text>
+<text x="35" y="405" font-family="sans-serif" font-size="12" fill="#555">Median of 20 measured steps after 5 warmup steps; one CPU thread per worker.</text>
+</svg>

@@ -10,15 +10,14 @@ Use Python 3.13. The recorded environment was ARM64 macOS with PyTorch 2.9.1; pi
 python3 -m venv .venv
 . .venv/bin/activate
 pip install -r requirements.txt
-python reproduce.py
+python correctness.py && python scaling.py
 ```
 
-`reproduce.py` launches the correctness and scaling jobs, then writes `results/summary.txt`. You can run one job directly:
+`correctness.py` prints named pass/fail checks and saves a loss plot. `scaling.py` runs the timing jobs and saves a summary and scaling plot. Both launch experiments only through `run.py`. You can also run one job directly:
 
 ```sh
 python run.py --ranks 2 --tokens 65 --epochs 30 --lr 0.001 --blocks 1
 python run.py --ranks 4 --tokens 1024 --epochs 25 --warmup 5
-python show_results.py
 ```
 
 `--tokens` is always the **total** batch size; `torch.tensor_split` divides it as evenly as possible. The target is deterministic regression to `0.3*tanh(x)+0.2`. Each epoch reuses that batch. Every run uses learned routing and Adam with its default betas and no weight decay. The default learning rate is 0.001.
@@ -27,7 +26,7 @@ python show_results.py
 
 1. `moe/model.py`: `MoEModel` builds `StandardMoEBlock` or `ParallelMoEBlock` instances. `ModelConfig.num_blocks` controls the stack depth. The parallel block uses PyTorch's autograd-aware variable-size all-to-all for activations.
 2. `moe/training.py`: the training step, step reporting, shared-gradient synchronization, and one training loop that calls `model(x)` in either mode.
-3. `run.py`: one generic worker that initializes the model and data shard; `verify.py` and `scale.py` launch it with different inputs.
+3. `run.py`: one generic worker that initializes the model and data shard; `correctness.py` and `scaling.py` launch it with different inputs.
 
 Each block contains its own token projection (`Linear` + `Tanh`), router, and experts. In parallel mode, projection and router parameters are replicated, while each rank owns `8/world_size` experts per block. In standard mode, one process owns all experts. Both modes use the same output dimension, gate calculation, and global expert initialization. No test-only routing mode enters the model.
 
@@ -66,19 +65,19 @@ An expert owner receives assignments from every source, so its backward pass alr
 
 ## Correctness runs
 
-`verify.py` launches three one-block jobs with **65 total tokens and 30 epochs** at 1, 2, and 4 ranks. The one-rank job builds `MoEModel(parallel=False)`; the others build `MoEModel(parallel=True)` with their rank and world size. It compares every epoch's global loss, first-step token outputs and input gradients, every owned/shared parameter gradient and post-step value, each block's selected IDs and returned values, and final parameters. The first epoch supplies the one-step check. Shared layers must update and loss must decrease. Numerical comparisons use float64, `atol=1e-8`, and `rtol=1e-6`.
+`correctness.py` launches one-block jobs with **65 total tokens** at 1, 2, and 4 ranks. One-epoch jobs check one-step outputs, input gradients, every owned/shared parameter gradient and post-step value. They also check that the projection, router, and all eight routed experts get nonzero gradients and change after the step. Thirty-epoch jobs compare global loss at every epoch and final parameters. The one-rank job builds `MoEModel(parallel=False)`; the others build `MoEModel(parallel=True)`. Numerical comparisons use float64, `atol=1e-8`, and `rtol=1e-6`.
 
-It also launches a short **two-block** job at 1, 2, and 4 ranks to check that stacked blocks preserve those equivalences. `--capture-state` captures full tensors for external comparison in temporary files; it does not execute a reference model inside parallel workers. Only the comparison summary and a two-token trace are kept in `results/verify`. Each worker initializes its model and data shard, trains, and records its result.
+It also launches a short **two-block** job at 1, 2, and 4 ranks to check that stacked blocks preserve those equivalences. `--capture-state` captures full tensors for external comparison in temporary files; it does not execute a reference model inside parallel workers. Compact checks, parameter-update evidence, a two-token trace, and [the loss plot](results/correctness/loss.svg) are saved in `results/correctness`. Each worker initializes its model and data shard, trains, and records its result.
 
-The learned router may leave an expert unused in a particular run. These tests verify the observed routes; they do not guarantee an empty destination or all-expert update case. The code supports an empty owner through graph-preserving empty expert calls and matching collectives, but that edge case is not forced by the submitted suite.
+The 65-token one-step fixture reaches and updates all eight experts. These tests do not force an empty destination. The code supports an empty owner through graph-preserving empty expert calls and matching collectives, but that edge case is not forced by the submitted suite.
 
 ## Scaling runs
 
-`scale.py` launches five one-block jobs. For fixed total work it uses `(ranks, total tokens) = (1,256), (2,256), (4,256)`. For growing total work it adds `(2,512), (4,1024)` and reuses the one-rank 256-token baseline. Each job runs 25 epochs, with 5 warmup epochs and 20 measured epochs. Workers use one CPU thread each; a barrier precedes timing, and an all-reduced maximum makes the slowest rank define step latency. Startup, result serialization, and verification comparisons are excluded.
+`scaling.py` launches five one-block jobs. For fixed total work it uses `(ranks, total tokens) = (1,256), (2,256), (4,256)`. For fixed local work it adds `(2,512), (4,1024)` and reuses the one-rank 256-token baseline. Each job runs 25 epochs, with 5 warmup epochs and 20 measured epochs. Workers use one CPU thread each; a barrier precedes timing, and an all-reduced maximum makes the slowest rank define step latency. Startup, result serialization, and correctness comparisons are excluded.
 
-Scaling logs contain per-rank parameter bytes and per-epoch loss, latency, expert assignments, and remote assignment counts. `show_results.py` derives load imbalance and logical payload from those counts. For `R` remote assignments, dimension `d`, element size `b`, and `W` ranks, each forward or backward activation phase moves `2Rdb` bytes across the cluster; routing IDs and count exchange add `8R + 8W(W-1)` metadata bytes. These are logical tensor payloads, not measured physical network traffic. Parameter storage excludes gradients, optimizer state, activations, and process memory. The ring all-reduce traffic formula, when discussed, is analytical rather than an observation of Gloo's chosen algorithm.
+Scaling logs contain per-rank parameter bytes and per-epoch loss, latency, expert assignments, and remote assignment counts. `scaling.py` derives load imbalance, token throughput, and logical payload from those counts, then saves [a scaling plot](results/scaling/scaling.svg). For `R` remote assignments, dimension `d`, element size `b`, and `W` ranks, each forward or backward activation phase moves `2Rdb` bytes across the cluster; routing IDs and count exchange add `8R + 8W(W-1)` metadata bytes. These are logical tensor payloads, not measured physical network traffic. Parameter storage excludes gradients, optimizer state, activations, and process memory. The ring all-reduce traffic formula, when discussed, is analytical rather than an observation of Gloo's chosen algorithm.
 
-See [RESULTS.md](RESULTS.md) and [results/summary.txt](results/summary.txt) for saved measurements. This small single-host CPU experiment does not establish a GPU speedup.
+See [RESULTS.md](RESULTS.md), [correctness results](results/correctness/comparison-summary.json), and [scaling results](results/scaling/summary.json) for saved measurements. This small single-host CPU experiment does not establish a GPU speedup.
 
 ## Onsite walkthrough (~30 minutes plus discussion)
 
