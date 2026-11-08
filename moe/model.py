@@ -67,17 +67,27 @@ class StandardMoEBlock(MoEBlock):
     """All experts execute in one process; no distributed calls."""
 
     def __init__(self, config):
+        # The local reference owns every global expert ID.
         super().__init__(config, range(config.experts))
 
     def forward(self, x):
+        # Project tokens and choose their experts and gate weights.
         hidden, ids, weights = self.route(x)
+
+        # Make one row per token-expert assignment in token/slot order.
         rows = hidden.repeat_interleave(self.config.top_k, dim=0)
+
+        # Run each expert on its matching rows without changing row positions.
         returned = torch.zeros_like(rows)
         for expert_id, expert in self.experts.items():
             positions = (ids.flatten() == int(expert_id)).nonzero().flatten()
             returned = returned.index_add(0, positions, expert(rows[positions]))
+
+        # Restore token/slot shape and combine selected expert outputs.
         returned = returned.reshape(len(x), self.config.top_k, self.config.dimension)
         combined = (returned * weights[..., None]).sum(1)
+
+        # Save the route and outputs for the trace and measurements.
         self.record(ids, returned, combined, [len(rows)], [len(rows)], 0, 1)
         return combined
 
@@ -86,6 +96,7 @@ class ParallelMoEBlock(MoEBlock):
     """Route activations to the ranks that own their selected experts."""
 
     def __init__(self, config, rank, world):
+        # Give each rank a contiguous, equal-sized range of expert IDs.
         if config.experts % world:
             raise ValueError('number of experts must be divisible by world size')
         self.rank = rank
@@ -95,28 +106,40 @@ class ParallelMoEBlock(MoEBlock):
         super().__init__(config, range(first, first + experts_per_rank))
 
     def forward(self, x):
+        # Route locally, then group assignment rows by destination rank.
         hidden, ids, weights = self.route(x)
         owners = ids.flatten() // (self.config.experts // self.world)
         order = owners.argsort(stable=True)
+
+        # Exchange counts to learn how many rows arrive from each source.
         send_counts = torch.bincount(owners, minlength=self.world)
         receive_counts = torch.empty_like(send_counts)
         dist.all_to_all_single(receive_counts, send_counts)
         send, receive = send_counts.tolist(), receive_counts.tolist()
 
+        # Send global expert IDs in the same packed order as activation rows.
         packed_ids = ids.flatten()[order].contiguous()
         received_ids = packed_ids.new_empty(sum(receive))
         dist.all_to_all_single(received_ids, packed_ids, receive, send)
 
+        # Dispatch projected activations to the ranks owning their experts.
         packed = hidden.repeat_interleave(self.config.top_k, dim=0)[order]
         received = Exchange.apply(packed, send, receive)
-        computed = received * 0  # Keep the backward exchange for empty owners.
+
+        # Preserve an autograd path for empty owners; run local expert work.
+        computed = received * 0
         for expert_id, expert in self.experts.items():
             positions = (received_ids == int(expert_id)).nonzero().flatten()
             computed = computed.index_add(0, positions, expert(received[positions]))
 
+        # Return outputs to sources and undo their packing permutation.
         returned = Exchange.apply(computed, receive, send)[order.argsort()]
+
+        # Combine each token's weighted expert outputs on its source rank.
         returned = returned.reshape(len(x), self.config.top_k, self.config.dimension)
         combined = (returned * weights[..., None]).sum(1)
+
+        # Save the route and communication counts for the trace and measurements.
         self.record(ids, returned, combined, send, receive, self.rank, self.world)
         return combined
 
