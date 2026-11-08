@@ -16,6 +16,40 @@ from moe.model import ModelConfig, MoEModel
 from moe.training import TrainConfig, run_training
 
 
+def build_model(model_config, rank, world):
+    """Initialize the same global layers and experts at every world size."""
+    with torch.random.fork_rng():
+        model = MoEModel(model_config, parallel=world > 1, rank=rank, world=world)
+
+        def reset_with_seed(module, seed):
+            torch.manual_seed(seed)
+            for layer in module.modules():
+                if isinstance(layer, nn.Linear):
+                    layer.reset_parameters()
+
+        # Seed by global block/expert ID so all rank counts start identically.
+        for block_id, block in enumerate(model.blocks):
+            offset = block_id * 1000
+            reset_with_seed(block.token_projection, 10 + offset)
+            reset_with_seed(block.router, 11 + offset)
+            for expert_id, expert in block.experts.items():
+                reset_with_seed(expert, 100 + offset + int(expert_id))
+    return model.double()
+
+
+def make_training_data(train_config, model_config, rank, world, capture_state):
+    """Generate one global batch, then take this rank's token shard."""
+    generator = torch.Generator().manual_seed(42)
+    full_x = torch.randn(train_config.total_tokens, model_config.dimension,
+                         generator=generator, dtype=torch.float64)
+    full_target = 0.3 * full_x.tanh() + 0.2
+    token_ids = torch.tensor_split(
+        torch.arange(train_config.total_tokens), world)[rank]
+    x = full_x[token_ids].clone().requires_grad_(capture_state)
+    target = full_target[token_ids].clone()
+    return x, target, token_ids
+
+
 def worker(rank, world, init_url, train_config, model_config, capture_state, output):
     """Run one training job on this rank and collect the rank logs."""
     torch.set_num_threads(1)
@@ -24,32 +58,9 @@ def worker(rank, world, init_url, train_config, model_config, capture_state, out
         timeout=datetime.timedelta(seconds=90),
     )
     try:
-        with torch.random.fork_rng():
-            model = MoEModel(model_config, parallel=world > 1, rank=rank, world=world)
-
-            def reset_with_seed(module, seed):
-                torch.manual_seed(seed)
-                for layer in module.modules():
-                    if isinstance(layer, nn.Linear):
-                        layer.reset_parameters()
-
-            # Seed by global block/expert ID so all rank counts start identically.
-            for block_id, block in enumerate(model.blocks):
-                offset = block_id * 1000
-                reset_with_seed(block.token_projection, 10 + offset)
-                reset_with_seed(block.router, 11 + offset)
-                for expert_id, expert in block.experts.items():
-                    reset_with_seed(expert, 100 + offset + int(expert_id))
-        model = model.double()
-
-        generator = torch.Generator().manual_seed(42)
-        full_x = torch.randn(train_config.total_tokens, model_config.dimension,
-                             generator=generator, dtype=torch.float64)
-        full_target = 0.3 * full_x.tanh() + 0.2
-        token_ids = torch.tensor_split(
-            torch.arange(train_config.total_tokens), world)[rank]
-        x = full_x[token_ids].clone().requires_grad_(capture_state)
-        target = full_target[token_ids].clone()
+        model = build_model(model_config, rank, world)
+        x, target, token_ids = make_training_data(
+            train_config, model_config, rank, world, capture_state)
 
         result = {'rank': rank, **run_training(
             model, x, target, train_config, token_ids=token_ids,
