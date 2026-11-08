@@ -1,0 +1,79 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1400 1350" role="img" aria-labelledby="title desc">
+  <title id="title">Backward flow for token 2 across two ranks</title>
+  <desc id="desc">The loss gradient on rank 0 passes through the weighted combination, splitting into expert output and gate-weight gradients. The remote expert 7 output gradient crosses to rank 1 in the backward of the output return. Expert 7 accumulates its parameter gradient and sends its projected-input gradient back in the backward of the activation dispatch. Rank 0 combines local expert, remote expert, and router hidden gradients, backpropagates through token projection, then sums replicated projection and router gradients across ranks.</desc>
+  <defs>
+    <marker id="dark-arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="9" markerHeight="9" orient="auto"><path d="M1 1L9 5L1 9" fill="none" stroke="#475569" stroke-width="1.8"/></marker>
+    <marker id="red-arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="9" markerHeight="9" orient="auto"><path d="M1 1L9 5L1 9" fill="none" stroke="#b94e4e" stroke-width="1.8"/></marker>
+    <marker id="purple-arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="9" markerHeight="9" orient="auto"><path d="M1 1L9 5L1 9" fill="none" stroke="#7c4caf" stroke-width="1.8"/></marker>
+    <marker id="teal-arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="9" markerHeight="9" orient="auto"><path d="M1 1L9 5L1 9" fill="none" stroke="#16806c" stroke-width="1.8"/></marker>
+  </defs>
+  <rect width="1400" height="1350" fill="#fff"/>
+  <text x="40" y="48" fill="#202a3a" font-family="system-ui,sans-serif" font-size="28" font-weight="700">Backward pass · follow token 2's gradients</text>
+  <text x="40" y="80" fill="#5c6a7e" font-family="system-ui,sans-serif" font-size="17">Reverse the two activation exchanges. Integer counts and expert IDs do not participate in autograd.</text>
+  <rect x="40" y="106" width="650" height="1180" rx="17" fill="#f8faff" stroke="#d9e2ee" stroke-width="2"/>
+  <rect x="710" y="106" width="650" height="1180" rx="17" fill="#f7fbfa" stroke="#d7e7e2" stroke-width="2"/>
+  <text x="68" y="143" fill="#202a3a" font-family="system-ui,sans-serif" font-size="23" font-weight="700">Rank 0 · token source + expert 0</text>
+  <text x="738" y="143" fill="#202a3a" font-family="system-ui,sans-serif" font-size="23" font-weight="700">Rank 1 · expert 7 owner</text>
+
+  <g font-family="system-ui,sans-serif" text-anchor="middle">
+    <rect x="275" y="170" width="240" height="58" rx="12" fill="#edf3fa" stroke="#6e8197" stroke-width="2"/>
+    <text x="395" y="195" fill="#26384c" font-size="18" font-weight="700">loss backward</text>
+    <text x="395" y="217" fill="#526176" font-size="15">∂L / ∂prediction</text>
+    <rect x="250" y="268" width="290" height="75" rx="12" fill="#f1eaff" stroke="#8666b7" stroke-width="2"/>
+    <text x="395" y="297" fill="#684496" font-size="19" font-weight="700">weighted sum backward</text>
+    <text x="395" y="321" fill="#526176" font-size="15">split into ∂L/∂y₀, ∂L/∂y₇, ∂L/∂w</text>
+    <rect x="285" y="420" width="220" height="61" rx="12" fill="#fff0ef" stroke="#bd6666" stroke-width="2"/>
+    <text x="395" y="447" fill="#923d3d" font-size="18" font-weight="700">expert output grads</text>
+    <text x="395" y="469" fill="#526176" font-size="15">local ∂L/∂y₀; remote ∂L/∂y₇</text>
+    <rect x="265" y="544" width="260" height="78" rx="12" fill="#e4f4ef" stroke="#21836e" stroke-width="2"/>
+    <text x="395" y="572" fill="#176d5a" font-size="19" font-weight="700">expert 0 backward</text>
+    <text x="395" y="596" fill="#526176" font-size="15">local parameter grad + ∂L/∂h₀</text>
+    <rect x="100" y="765" width="230" height="78" rx="12" fill="#f1eaff" stroke="#8666b7" stroke-width="2"/>
+    <text x="215" y="794" fill="#684496" font-size="18" font-weight="700">router backward</text>
+    <text x="215" y="819" fill="#526176" font-size="15">∂L/∂θᵣ + ∂L/∂hᵣ</text>
+    <rect x="335" y="906" width="225" height="70" rx="12" fill="#e8f2ff" stroke="#5a83b6" stroke-width="2"/>
+    <text x="447" y="935" fill="#275685" font-size="18" font-weight="700">sum hidden grads</text>
+    <text x="447" y="960" fill="#526176" font-size="15">expert 0 + expert 7 + router</text>
+    <rect x="305" y="1016" width="285" height="76" rx="12" fill="#e6efff" stroke="#5579bb" stroke-width="2"/>
+    <text x="447" y="1045" fill="#254b8b" font-size="18" font-weight="700">token projection backward</text>
+    <text x="447" y="1069" fill="#526176" font-size="15">∂L/∂θₚ + ∂L/∂x₂</text>
+    <rect x="333" y="1127" width="228" height="54" rx="12" fill="#edf3fa" stroke="#6e8197" stroke-width="2"/>
+    <text x="447" y="1160" fill="#26384c" font-size="18" font-weight="700">input gradient ∂L/∂x₂</text>
+    <rect x="862" y="544" width="316" height="84" rx="12" fill="#e4f4ef" stroke="#21836e" stroke-width="2"/>
+    <text x="1020" y="575" fill="#176d5a" font-size="19" font-weight="700">expert 7 backward</text>
+    <text x="1020" y="601" fill="#526176" font-size="15">parameter grad + ∂L/∂h₇</text>
+    <rect x="855" y="673" width="330" height="72" rx="12" fill="#f4f8f7" stroke="#86a89f" stroke-width="2"/>
+    <text x="1020" y="703" fill="#176d5a" font-size="18" font-weight="700">expert 7 parameter gradient</text>
+    <text x="1020" y="726" fill="#526176" font-size="15">sum contributions from all sources</text>
+    <rect x="834" y="997" width="372" height="83" rx="12" fill="#f1eaff" stroke="#8666b7" stroke-width="2"/>
+    <text x="1020" y="1028" fill="#684496" font-size="18" font-weight="700">rank 1's shared gradients</text>
+    <text x="1020" y="1054" fill="#526176" font-size="15">from its own source tokens</text>
+  </g>
+
+  <!-- Local autograd branches. -->
+  <g fill="none" stroke="#475569" stroke-width="2.8" marker-end="url(#dark-arrow)">
+    <path d="M395 228V264"/><path d="M395 343V416"/><path d="M395 481V540"/>
+    <path d="M395 622V902"/><path d="M447 976V1012"/><path d="M447 1092V1123"/>
+  </g>
+  <path d="M250 306H174V761" fill="none" stroke="#7c4caf" stroke-width="2.8" marker-end="url(#purple-arrow)"/>
+  <text x="145" y="607" fill="#7c4caf" font-family="system-ui,sans-serif" font-size="16" transform="rotate(-90 145 607)">gate-weight gradient</text>
+  <path d="M215 843V940H331" fill="none" stroke="#7c4caf" stroke-width="2.8" marker-end="url(#purple-arrow)"/>
+
+  <!-- B1 and B2 are inverse all-to-alls supplied by autograd. -->
+  <path d="M505 450H1020V540" fill="none" stroke="#b94e4e" stroke-width="3" marker-end="url(#red-arrow)"/>
+  <text x="745" y="405" fill="#b94e4e" font-family="system-ui,sans-serif" font-size="17" font-weight="700">B1 · ∂L/∂y₇ to expert owner</text>
+  <text x="745" y="430" fill="#64748b" font-family="system-ui,sans-serif" font-size="14">backward of C4 output return</text>
+  <path d="M1178 586H1225V868H500V902" fill="none" stroke="#16806c" stroke-width="3" marker-end="url(#teal-arrow)"/>
+  <text x="745" y="844" fill="#16806c" font-family="system-ui,sans-serif" font-size="17" font-weight="700">B2 · ∂L/∂h₇ back to token source</text>
+  <text x="745" y="891" fill="#64748b" font-family="system-ui,sans-serif" font-size="14">backward of C3 activation dispatch</text>
+  <path d="M1080 628V669" fill="none" stroke="#16806c" stroke-width="2.6" marker-end="url(#teal-arrow)"/>
+
+  <!-- Parameter gradients meet at an all-reduce; owned expert grads stay local. -->
+  <path d="M100 807H71V1217H576" fill="none" stroke="#7c4caf" stroke-width="2.5" marker-end="url(#purple-arrow)"/>
+  <path d="M590 1052H642V1217" fill="none" stroke="#7c4caf" stroke-width="2.5" marker-end="url(#purple-arrow)"/>
+  <path d="M1020 1080V1217H824" fill="none" stroke="#7c4caf" stroke-width="2.5" marker-end="url(#purple-arrow)"/>
+  <rect x="580" y="1188" width="240" height="62" rx="12" fill="#f1eaff" stroke="#8666b7" stroke-width="2"/>
+  <text x="700" y="1212" text-anchor="middle" fill="#684496" font-family="system-ui,sans-serif" font-size="18" font-weight="700">B3 · SUM</text>
+  <text x="700" y="1235" text-anchor="middle" fill="#526176" font-family="system-ui,sans-serif" font-size="15">all-reduce shared grads</text>
+  <text x="700" y="1318" text-anchor="middle" fill="#526176" font-family="system-ui,sans-serif" font-size="16">Then Adam updates matching projection/router copies and each rank's own experts. Expert gradients are never all-reduced.</text>
+</svg>

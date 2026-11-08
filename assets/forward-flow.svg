@@ -1,0 +1,77 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1400 1250" role="img" aria-labelledby="title desc">
+  <title id="title">Forward flow for token 2 across two ranks</title>
+  <desc id="desc">Rank 0 projects token 2, routes it to local expert 0 and remote expert 7, exchanges counts and expert IDs, dispatches the projected activation to rank 1, receives expert 7's output, combines both expert outputs using router weights, and computes the loss.</desc>
+  <defs>
+    <marker id="dark-arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="9" markerHeight="9" orient="auto"><path d="M1 1L9 5L1 9" fill="none" stroke="#475569" stroke-width="1.8"/></marker>
+    <marker id="blue-arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="9" markerHeight="9" orient="auto"><path d="M1 1L9 5L1 9" fill="none" stroke="#2563a6" stroke-width="1.8"/></marker>
+    <marker id="purple-arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="9" markerHeight="9" orient="auto"><path d="M1 1L9 5L1 9" fill="none" stroke="#7c4caf" stroke-width="1.8"/></marker>
+    <marker id="teal-arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="9" markerHeight="9" orient="auto"><path d="M1 1L9 5L1 9" fill="none" stroke="#16806c" stroke-width="1.8"/></marker>
+  </defs>
+  <rect width="1400" height="1250" fill="#fff"/>
+  <text x="40" y="48" fill="#202a3a" font-family="system-ui,sans-serif" font-size="28" font-weight="700">Forward pass · follow token 2</text>
+  <text x="40" y="80" fill="#5c6a7e" font-family="system-ui,sans-serif" font-size="17">One token on rank 0 selects expert 0 (local) and expert 7 (remote). Both ranks execute the same collectives.</text>
+  <rect x="40" y="106" width="650" height="1114" rx="17" fill="#f8faff" stroke="#d9e2ee" stroke-width="2"/>
+  <rect x="710" y="106" width="650" height="1114" rx="17" fill="#f7fbfa" stroke="#d7e7e2" stroke-width="2"/>
+  <text x="68" y="143" fill="#202a3a" font-family="system-ui,sans-serif" font-size="23" font-weight="700">Rank 0 · token source + expert 0</text>
+  <text x="738" y="143" fill="#202a3a" font-family="system-ui,sans-serif" font-size="23" font-weight="700">Rank 1 · expert 7 owner</text>
+
+  <!-- Source-side layers and their direct data dependencies. -->
+  <g font-family="system-ui,sans-serif" text-anchor="middle">
+    <rect x="290" y="170" width="210" height="55" rx="12" fill="#edf3fa" stroke="#6e8197" stroke-width="2"/>
+    <text x="395" y="205" fill="#26384c" font-size="20" font-weight="700">input x₂</text>
+    <rect x="260" y="264" width="270" height="67" rx="12" fill="#e6efff" stroke="#5579bb" stroke-width="2"/>
+    <text x="395" y="293" fill="#254b8b" font-size="19" font-weight="700">token projection</text>
+    <text x="395" y="317" fill="#526176" font-size="15">Linear + Tanh</text>
+    <rect x="290" y="371" width="210" height="55" rx="12" fill="#edf3fa" stroke="#6e8197" stroke-width="2"/>
+    <text x="395" y="405" fill="#26384c" font-size="19" font-weight="700">hidden row h₂</text>
+    <rect x="260" y="466" width="270" height="67" rx="12" fill="#f1eaff" stroke="#8666b7" stroke-width="2"/>
+    <text x="395" y="495" fill="#684496" font-size="19" font-weight="700">router</text>
+    <text x="395" y="519" fill="#526176" font-size="15">Linear → top-2 → softmax</text>
+    <rect x="250" y="570" width="290" height="65" rx="12" fill="#f1eaff" stroke="#8666b7" stroke-width="2"/>
+    <text x="395" y="597" fill="#684496" font-size="18" font-weight="700">IDs [7, 0] · weights [w₇, w₀]</text>
+    <text x="395" y="621" fill="#526176" font-size="15">two token–expert assignments</text>
+    <rect x="265" y="705" width="260" height="67" rx="12" fill="#e8f2ff" stroke="#5a83b6" stroke-width="2"/>
+    <text x="395" y="734" fill="#275685" font-size="18" font-weight="700">repeat h₂; pack by owner</text>
+    <text x="395" y="757" fill="#526176" font-size="15">expert 0 row, expert 7 row</text>
+    <rect x="262" y="884" width="266" height="68" rx="12" fill="#e4f4ef" stroke="#21836e" stroke-width="2"/>
+    <text x="395" y="912" fill="#176d5a" font-size="19" font-weight="700">expert 0 MLP</text>
+    <text x="395" y="936" fill="#526176" font-size="15">local output y₀</text>
+    <rect x="250" y="1030" width="290" height="68" rx="12" fill="#f1eaff" stroke="#8666b7" stroke-width="2"/>
+    <text x="395" y="1057" fill="#684496" font-size="19" font-weight="700">weighted combination</text>
+    <text x="395" y="1082" fill="#526176" font-size="16">prediction = w₀y₀ + w₇y₇</text>
+    <rect x="275" y="1140" width="240" height="56" rx="12" fill="#edf3fa" stroke="#6e8197" stroke-width="2"/>
+    <text x="395" y="1175" fill="#26384c" font-size="19" font-weight="700">token loss</text>
+  </g>
+  <g fill="none" stroke="#475569" stroke-width="2.7" marker-end="url(#dark-arrow)">
+    <path d="M395 225V260"/><path d="M395 331V367"/><path d="M395 426V462"/><path d="M395 533V566"/><path d="M395 635V701"/><path d="M395 772V880"/><path d="M395 952V1026"/><path d="M395 1098V1136"/>
+  </g>
+  <path d="M290 399H225V738H261" fill="none" stroke="#2563a6" stroke-width="2.8" marker-end="url(#blue-arrow)"/>
+  <text x="210" y="642" fill="#2563a6" font-family="system-ui,sans-serif" font-size="15" transform="rotate(-90 210 642)">h₂ also feeds both experts</text>
+  <path d="M250 604H184V1064H246" fill="none" stroke="#7c4caf" stroke-width="2.8" marker-end="url(#purple-arrow)"/>
+  <text x="157" y="845" fill="#7c4caf" font-family="system-ui,sans-serif" font-size="16" transform="rotate(-90 157 845)">selected gate weights</text>
+
+  <!-- Metadata all-to-alls, activation dispatch, owner compute, and output return. -->
+  <g font-family="system-ui,sans-serif" text-anchor="middle">
+    <rect x="865" y="570" width="310" height="92" rx="12" fill="#f4f8f7" stroke="#86a89f" stroke-width="2"/>
+    <text x="1020" y="597" fill="#176d5a" font-size="18" font-weight="700">receive counts + expert IDs</text>
+    <text x="1020" y="622" fill="#526176" font-size="15">counts define the row splits;</text>
+    <text x="1020" y="643" fill="#526176" font-size="15">IDs select the owned expert</text>
+    <rect x="885" y="831" width="270" height="68" rx="12" fill="#e4f4ef" stroke="#21836e" stroke-width="2"/>
+    <text x="1020" y="860" fill="#176d5a" font-size="19" font-weight="700">expert 7 MLP</text>
+    <text x="1020" y="884" fill="#526176" font-size="15">remote output y₇</text>
+  </g>
+  <g font-family="system-ui,sans-serif" font-size="16" fill="#526176">
+    <text x="735" y="577">C1 · row counts</text>
+    <text x="735" y="650">C2 · expert IDs</text>
+    <text x="735" y="782" fill="#2563a6">C3 · projected activation row</text>
+    <text x="735" y="990" fill="#16806c">C4 · expert output row</text>
+  </g>
+  <g fill="none" stroke-width="2.8">
+    <path d="M540 592H861" stroke="#8793a4" marker-end="url(#dark-arrow)"/>
+    <path d="M540 622H861" stroke="#8793a4" marker-end="url(#dark-arrow)"/>
+    <path d="M525 741H817V803H1020V827" stroke="#2563a6" marker-end="url(#blue-arrow)"/>
+    <path d="M1020 899V963H575V1064H544" stroke="#16806c" marker-end="url(#teal-arrow)"/>
+  </g>
+  <text x="743" y="688" fill="#64748b" font-family="system-ui,sans-serif" font-size="14">Each C1–C4 is a collective: rank 1 also sends its own assignments.</text>
+  <text x="718" y="1239" fill="#64748b" font-family="system-ui,sans-serif" font-size="14" text-anchor="middle">The local expert 0 row stays on rank 0; the expert 7 row crosses the rank boundary and returns.</text>
+</svg>

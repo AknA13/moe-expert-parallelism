@@ -14,28 +14,11 @@ The two tall borders group the matching projection and router weights across the
 
 ### Forward pass: dispatch, compute, return
 
-Follow token 2 from rank 0 in the [saved trace](results/correctness/demo.json): its router selects **expert 7** on rank 1 and **expert 0** on rank 0. Rank 0 repeats its projected token row once per selected expert, then packs assignment rows by destination rank. The arrows below show the remote assignment; both ranks run the same sequence for their own token shards.
+Follow token 2 from rank 0 in the [saved trace](results/correctness/demo.json): its router selects **expert 7** on rank 1 and **expert 0** on rank 0. The figure follows the token through the projection, router, both selected experts, weighted combination, and loss. Rank 1 simultaneously processes its own token shard through the same layers.
 
-```mermaid
-sequenceDiagram
-    participant S as Rank 0: token source
-    participant O as Rank 1: expert 7 owner
-    Note right of S: Token 2 selects experts 7 and 0
-    Note over S,O: Each arrow pair is one all-to-all call
-    S->>O: C1 counts: rows rank 1 will receive
-    O->>S: C1 counts: rows rank 0 will receive
-    S->>O: C2 expert IDs in packed row order
-    O->>S: C2 expert IDs for rank 0's owned rows
-    S->>O: C3 projected token rows for remote experts
-    O->>S: C3 projected rows for rank 0's experts
-    Note left of O: Run expert 7 on token 2
-    Note right of S: Run expert 0 on token 2
-    O->>S: C4 expert outputs back to token sources
-    S->>O: C4 outputs for rank 1's source tokens
-    Note right of S: Restore order and combine outputs
-```
+![Forward layer flow for token 2, with count, expert ID, activation, and output exchanges labeled C1 through C4](assets/forward-flow.svg)
 
-**C1** and **C2** are `dist.all_to_all_single` calls that exchange counts and integer expert IDs. **C3** and **C4** use autograd-aware `all_to_all_single` for activation rows. Rows destined for a rank's own experts remain local within those collectives. The return uses inverse split sizes; the source undoes its packing permutation, restores token/slot order, and combines the two expert outputs with the selected weights. Every rank participates even when it has zero rows for a destination.
+**C1** and **C2** are `dist.all_to_all_single` calls that exchange counts and integer expert IDs for the rank's whole batch, not only token 2. **C3** and **C4** use autograd-aware `all_to_all_single` for activation rows. Rows destined for a rank's own experts remain local within those collectives. The return uses inverse split sizes; the source undoes its packing permutation, restores token/slot order, and combines the two expert outputs with the selected weights. Every rank participates even when it has zero rows for a destination.
 
 ### Backward pass: reverse the activation exchanges
 
@@ -46,22 +29,9 @@ L_r = (1/N) · Σ_{tokens i on rank r} mean_j (prediction_ij - target_ij)²
 L_global = L_0 + L_1
 ```
 
-For token 2, the source first differentiates the weighted combination. The gradient for expert 7's output goes to its owner; the expert backpropagates and sends its input gradient back to the source.
+For token 2, the loss gradient passes through the weighted combination into both expert outputs and the selected router weights. The gradient for expert 7's output goes to its owner; expert 7 backpropagates and sends its projected-input gradient back to the source. The source adds that gradient to the local expert and router paths before backpropagating through the token projection.
 
-```mermaid
-sequenceDiagram
-    participant S as Rank 0: token source
-    participant O as Rank 1: expert 7 owner
-    Note right of S: Backpropagate weighted sum
-    S->>O: B1 expert 7 output gradient, backward of C4
-    Note left of O: Expert 7 backward, owner gradients
-    O->>S: B2 projected-row gradient, backward of C3
-    Note right of S: Local and remote gradients meet
-    Note over S,O: B3 SUM all-reduce shared gradients
-    S->>O: B3 rank 0 shared-gradient contribution
-    O->>S: B3 rank 1 shared-gradient contribution
-    Note over S,O: Both ranks now run Adam
-```
+![Backward layer flow for token 2, with output-gradient exchange B1, projected-input gradient exchange B2, and shared-gradient all-reduce B3](assets/backward-flow.svg)
 
 **B1** and **B2** are the backward calls of the two autograd-aware activation exchanges. The arrows at **B3** show the logical contributions to one `dist.all_reduce(SUM)` per replicated parameter, not Gloo's physical algorithm. We **do not divide by rank count again**: each local loss already uses the global `N`. Expert gradients accumulate on their owner from every source rank and are **not all-reduced**. Integer routing IDs and counts have no backward exchange; gradients reach selected router logits through the combination weights. All experts, including those with zero received rows, retain an autograd path.
 
