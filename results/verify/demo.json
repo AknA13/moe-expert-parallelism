@@ -1,0 +1,40 @@
+{
+  "initial_loss": 0.09501465967084423,
+  "final_loss": 0.014079357835476479,
+  "mixed_owner_tokens": [
+    {
+      "token": 2,
+      "source": 0,
+      "experts": [
+        7,
+        0
+      ],
+      "owners": [
+        1,
+        0
+      ],
+      "returned_first_coordinate": [
+        -0.0936530678795777,
+        0.19851894806000575
+      ],
+      "combined_first_coordinate": 0.021465470726578423
+    },
+    {
+      "token": 34,
+      "source": 1,
+      "experts": [
+        5,
+        2
+      ],
+      "owners": [
+        1,
+        0
+      ],
+      "returned_first_coordinate": [
+        0.12959213597584365,
+        -0.1741750411273389
+      ],
+      "combined_first_coordinate": -0.012665707181602787
+    }
+  ]
+}
