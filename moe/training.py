@@ -17,6 +17,14 @@ class TrainConfig:
     warmup: int = 0
 
 
+@dataclass(frozen=True)
+class StepResult:
+    prediction: torch.Tensor
+    local_loss: torch.Tensor
+    shared_grad_norm: float
+    expert_grad_norm: float
+
+
 def sync_replicated_gradients(model):
     for parameter in model.parameters():
         if parameter.grad is None:
@@ -36,6 +44,72 @@ def parameter_values(model, *, gradients=False):
     }
 
 
+def train_step(model, x, target, optimizer, global_tokens):
+    """Update the model once using this rank's data shard."""
+    world = dist.get_world_size()
+    optimizer.zero_grad(set_to_none=True)
+    x.grad = None
+    prediction = model(x)
+    local_loss = loss(prediction, target, global_tokens)
+    local_loss.backward()
+    if world > 1:
+        sync_replicated_gradients(model)
+    else:
+        for parameter in model.parameters():
+            if parameter.grad is None:
+                parameter.grad = torch.zeros_like(parameter)
+    shared_norm = sum(float(p.grad.square().sum())
+                      for p in model.replicated_parameters()) ** 0.5
+    expert_norm = sum(float(p.grad.square().sum())
+                      for block in model.blocks
+                      for expert in block.experts.values()
+                      for p in expert.parameters()) ** 0.5
+    optimizer.step()
+    return StepResult(prediction, local_loss, shared_norm, expert_norm)
+
+
+def record_step(model, x, step, elapsed, epoch, config, token_ids, *, capture_state):
+    """Collect metrics and the first-step trace outside the measured step."""
+    world = dist.get_world_size()
+    global_loss = step.local_loss.detach().clone()
+    if world > 1:
+        dist.all_reduce(global_loss)
+    reports = model.reports()
+    trace, first_step = None, None
+    if epoch == 0:
+        trace = [
+            {'block': block_id,
+             'tokens': [
+                 {'token': int(token), 'source': dist.get_rank(),
+                  'experts': report['ids'][i].tolist(),
+                  'owners': (report['ids'][i] //
+                             (model.config.experts // world)).tolist(),
+                  'returned_first_coordinate':
+                      report['returned'][i, :, 0].tolist(),
+                  'combined_first_coordinate':
+                      float(report['combined'][i, 0])}
+                 for i, token in enumerate(token_ids)]}
+            for block_id, report in enumerate(reports)
+        ]
+        if capture_state:
+            first_step = {
+                'output': step.prediction.detach().tolist(),
+                'input_gradient': x.grad.detach().tolist(),
+                'parameter_gradient': parameter_values(model, gradients=True),
+                'parameter_after_step': parameter_values(model),
+            }
+    log = {
+        'epoch': epoch,
+        'global_loss': float(global_loss),
+        'step_ms': float(elapsed) * 1000,
+        'shared_grad_norm': step.shared_grad_norm,
+        'expert_grad_norm': step.expert_grad_norm,
+        'blocks': [report['routing'] for report in reports],
+        'warmup': epoch < config.warmup,
+    }
+    return log, trace, first_step
+
+
 def train_loop(model, x, target, config, *, token_ids, capture_state=False):
     """Train one data shard; the model chooses local or parallel execution."""
     x = x.requires_grad_(capture_state)
@@ -47,63 +121,17 @@ def train_loop(model, x, target, config, *, token_ids, capture_state=False):
         if world > 1:
             dist.barrier()
         start = time.perf_counter()
-        optimizer.zero_grad(set_to_none=True)
-        x.grad = None
-        prediction = model(x)
-        local_loss = loss(prediction, target, config.total_tokens)
-        local_loss.backward()
-        if world > 1:
-            sync_replicated_gradients(model)
-        else:
-            for parameter in model.parameters():
-                if parameter.grad is None:
-                    parameter.grad = torch.zeros_like(parameter)
-        shared_norm = sum(float(p.grad.square().sum())
-                          for p in model.replicated_parameters()) ** 0.5
-        expert_norm = sum(float(p.grad.square().sum())
-                          for block in model.blocks
-                          for expert in block.experts.values()
-                          for p in expert.parameters()) ** 0.5
-        optimizer.step()
+        step = train_step(model, x, target, optimizer, config.total_tokens)
         elapsed = torch.tensor(time.perf_counter() - start, dtype=torch.float64)
         if world > 1:
             dist.all_reduce(elapsed, op=dist.ReduceOp.MAX)
 
-        global_loss = local_loss.detach().clone()
-        if world > 1:
-            dist.all_reduce(global_loss)
-        reports = model.reports()
+        log, epoch_trace, epoch_first_step = record_step(
+            model, x, step, elapsed, epoch, config, token_ids,
+            capture_state=capture_state)
+        logs.append(log)
         if epoch == 0:
-            trace = [
-                {'block': block_id,
-                 'tokens': [
-                     {'token': int(token), 'source': dist.get_rank(),
-                      'experts': report['ids'][i].tolist(),
-                      'owners': (report['ids'][i] //
-                                 (model.config.experts // world)).tolist(),
-                      'returned_first_coordinate':
-                          report['returned'][i, :, 0].tolist(),
-                      'combined_first_coordinate':
-                          float(report['combined'][i, 0])}
-                     for i, token in enumerate(token_ids)]}
-                for block_id, report in enumerate(reports)
-            ]
-            if capture_state:
-                first_step = {
-                    'output': prediction.detach().tolist(),
-                    'input_gradient': x.grad.detach().tolist(),
-                    'parameter_gradient': parameter_values(model, gradients=True),
-                    'parameter_after_step': parameter_values(model),
-                }
-        logs.append({
-            'epoch': epoch,
-            'global_loss': float(global_loss),
-            'step_ms': float(elapsed) * 1000,
-            'shared_grad_norm': shared_norm,
-            'expert_grad_norm': expert_norm,
-            'blocks': [report['routing'] for report in reports],
-            'warmup': epoch < config.warmup,
-        })
+            trace, first_step = epoch_trace, epoch_first_step
     return logs, trace, first_step
 
 
