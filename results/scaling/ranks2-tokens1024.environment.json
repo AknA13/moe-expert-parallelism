@@ -1,0 +1,11 @@
+{
+  "python": "3.13.5",
+  "torch": "2.9.1",
+  "platform": "macOS-15.6-arm64-arm-64bit-Mach-O",
+  "machine": "arm64",
+  "threads_per_worker": 1,
+  "dtype": "float64",
+  "backend": "gloo",
+  "transport": "variable-split all_to_all_single",
+  "timestamp_utc": "2026-11-08T10:03:41.337578+00:00"
+}
