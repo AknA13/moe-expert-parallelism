@@ -75,14 +75,14 @@ class StandardMoEBlock(MoEBlock):
         hidden, chosen_exp, exp_weights = self.route(x)
 
         # Repeat each hidden row once per selected expert: (T, D) -> (T*K, D).
-        assignment_hidden = hidden.repeat_interleave(self.config.top_k, dim=0)
+        hidden = hidden.repeat_interleave(self.config.top_k, dim=0)
 
         # Run each expert on its assignment rows without changing row order.
-        expert_results = torch.zeros_like(assignment_hidden)
+        expert_results = torch.zeros_like(hidden)
         for expert_id, expert in self.experts.items():
-            assignment_rows = (chosen_exp.flatten() == int(expert_id)).nonzero().flatten()
+            chosen_tokens = (chosen_exp.flatten() == int(expert_id)).nonzero().flatten()
             expert_results = expert_results.index_add(
-                0, assignment_rows, expert(assignment_hidden[assignment_rows]))
+                0, chosen_tokens, expert(hidden[chosen_tokens]))
 
         # Restore token/slot shape and combine the weighted expert results.
         expert_results = expert_results.reshape(len(x), self.config.top_k, self.config.dimension)
@@ -90,7 +90,7 @@ class StandardMoEBlock(MoEBlock):
 
         # Save the route and outputs for the trace and measurements.
         self.record(chosen_exp, expert_results, output,
-                    [len(assignment_hidden)], [len(assignment_hidden)], 0, 1)
+                    [len(hidden)], [len(hidden)], 0, 1)
         return output
 
 
@@ -108,38 +108,43 @@ class ParallelMoEBlock(MoEBlock):
         super().__init__(config, range(first, first + experts_per_rank))
 
     def forward(self, x):
-        # Project tokens and choose experts and weights on the source rank.
+        # Project tokens and choose experts and weights: (T, D), (T, K), (T, K).
         hidden, chosen_exp, exp_weights = self.route(x)
 
         # Group assignment rows by the ranks owning their chosen experts.
-        owners = chosen_exp.flatten() // (self.config.experts // self.world)
-        order = owners.argsort(stable=True)
+        expert_rank = chosen_exp.flatten() // (self.config.experts // self.world)  # (T*K,)
+        order = expert_rank.argsort(stable=True)
 
-        # Exchange counts to learn how many rows arrive from each source.
-        send_counts = torch.bincount(owners, minlength=self.world)
+        # All-to-all to learn how many assignment rows arrive from each rank.
+        send_counts = torch.bincount(expert_rank, minlength=self.world)  # (world,)
         receive_counts = torch.empty_like(send_counts)
         dist.all_to_all_single(receive_counts, send_counts)
         send, receive = send_counts.tolist(), receive_counts.tolist()
+        # send[d] counts assignments sent to destination d.
+        # receive[s] counts assignments received from source s.
 
-        # Send global expert IDs in the same packed order as activation rows.
-        packed_ids = chosen_exp.flatten()[order].contiguous()
-        received_ids = packed_ids.new_empty(sum(receive))
-        dist.all_to_all_single(received_ids, packed_ids, receive, send)
+        # Send one expert ID per assignment row to its owner.
+        dispatched_expert_ids = chosen_exp.flatten()[order].contiguous()
+        received_expert_ids = dispatched_expert_ids.new_empty(sum(receive))
+        dist.all_to_all_single(received_expert_ids, dispatched_expert_ids, receive, send)
+        # ID shapes: (T*K,) outgoing and (sum(receive),) incoming.
 
         # Repeat hidden rows per assignment, pack them, and dispatch to owners.
-        assignment_hidden = hidden.repeat_interleave(self.config.top_k, dim=0)
-        packed_hidden = assignment_hidden[order]
-        received = Exchange.apply(packed_hidden, send, receive)
+        dispatched_hidden = hidden.repeat_interleave(self.config.top_k, dim=0)
+        dispatched_hidden = dispatched_hidden[order]
+        received_hidden = Exchange.apply(dispatched_hidden, send, receive)
+        # received_hidden has shape (sum(receive), D), aligned with received_expert_ids.
 
-        # Keep an autograd path for empty owners; run each owned expert.
-        owned_results = received * 0
+        # Compute expert results for each local expert.
+        local_expert_results = received_hidden * 0
         for expert_id, expert in self.experts.items():
-            assignment_rows = (received_ids == int(expert_id)).nonzero().flatten()
-            owned_results = owned_results.index_add(
-                0, assignment_rows, expert(received[assignment_rows]))
+            chosen_tokens = (received_expert_ids == int(expert_id)).nonzero().flatten()
+            local_expert_results = local_expert_results.index_add(
+                0, chosen_tokens, expert(received_hidden[chosen_tokens]))
 
         # Return expert results to sources and restore token/slot order.
-        expert_results = Exchange.apply(owned_results, receive, send)[order.argsort()]
+        expert_results = Exchange.apply(local_expert_results, receive, send)[order.argsort()]
+        # One expert result per original assignment row: (T*K, D).
 
         # Combine each token's weighted expert outputs on its source rank.
         expert_results = expert_results.reshape(
