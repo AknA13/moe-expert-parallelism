@@ -25,10 +25,9 @@ python show_results.py
 
 ## Read the code
 
-1. `moe/model.py`: `MoEModel` builds `StandardMoEBlock` or `ParallelMoEBlock` instances. `ModelConfig.num_blocks` controls the stack depth.
-2. `moe/communication.py`: the differentiable variable-size all-to-all primitive.
-3. `moe/training.py`: deterministic model initialization and data shards, shared-gradient synchronization, and one training loop that calls `model(x)` in either mode.
-4. `run.py`: one generic worker; `verify.py` and `scale.py` launch it with different inputs.
+1. `moe/model.py`: `MoEModel` builds `StandardMoEBlock` or `ParallelMoEBlock` instances. `ModelConfig.num_blocks` controls the stack depth. The parallel block uses PyTorch's autograd-aware variable-size all-to-all for activations.
+2. `moe/training.py`: deterministic model initialization and data shards, shared-gradient synchronization, and one training loop that calls `model(x)` in either mode.
+3. `run.py`: one generic worker; `verify.py` and `scale.py` launch it with different inputs.
 
 Each block contains its own token projection (`Linear` + `Tanh`), router, and experts. In parallel mode, projection and router parameters are replicated, while each rank owns `8/world_size` experts per block. In standard mode, one process owns all experts. Both modes use the same output dimension, gate calculation, and global expert initialization. No test-only routing mode enters the model.
 
@@ -44,7 +43,7 @@ rank 0 receives both outputs ← inverse packing ←─────────�
 rank 0 combines them with the selected router weights → token output/loss
 ```
 
-Each `ParallelMoEBlock.forward` sorts assignments by owner, exchanges counts and expert IDs, sends activation rows, runs its owned experts, returns their outputs, restores token/slot order, and combines them. Each block can do this independently, so a model can contain multiple blocks. `Exchange.backward` reverses split sizes to return activation gradients to the original rows. Empty owners still enter the same collective sequence and retain zero-valued graph paths.
+Each `ParallelMoEBlock.forward` sorts assignments by owner, exchanges counts and expert IDs, sends activation rows, runs its owned experts, returns their outputs, restores token/slot order, and combines them. Each block can do this independently, so a model can contain multiple blocks. PyTorch's differentiable all-to-all reverses split sizes in backward to return activation gradients to the original rows. Empty owners still enter the same collective sequence and retain zero-valued graph paths.
 
 The local `StandardMoEBlock` executes the same selected experts and gate combination without distributed calls. It is the independent one-rank baseline for numerical checks.
 

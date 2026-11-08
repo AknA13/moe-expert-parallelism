@@ -6,7 +6,7 @@ The README is the presentation. Open `moe/model.py` beside it and run `python sh
 
 1. Show that `MoEModel(parallel=False)` builds blocks with all eight experts, while `parallel=True` builds blocks with a rank-specific subset. Both modes use the same router and expert definitions.
 2. Find token 2 in the two-rank learned-routing trace: expert 7 is remote, expert 0 is local. Follow both assignment rows through packing, expert work, return, and weighted combination.
-3. Open `Exchange`: forward communicates activation rows; backward communicates their adjoints with reversed split sizes. Each parallel block owns that sequence.
+3. Open `ParallelMoEBlock.forward`: its two autograd-aware all-to-all calls communicate activation rows and expert outputs. In backward, PyTorch reverses their split sizes to communicate gradients. Each parallel block owns that sequence.
 4. Derive the global loss denominator before explaining why each block's replicated projection and router need a SUM, while owned experts do not.
 5. Show `results/verify/comparison-summary.json`. Explain the first-step output/gradient comparison, the 30-epoch loss trajectory, final parameter comparison, and the two-block check.
 6. Compare saved 256-token runs at 1, 2, and 4 ranks. Then show the 512- and 1,024-token jobs. Interpret storage and payload alongside latency.

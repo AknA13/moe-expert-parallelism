@@ -3,9 +3,8 @@ from dataclasses import dataclass
 
 import torch
 import torch.distributed as dist
+from torch.distributed.nn.functional import all_to_all_single as autograd_all_to_all_single
 from torch import nn
-
-from .communication import Exchange
 
 
 @dataclass(frozen=True)
@@ -133,7 +132,12 @@ class ParallelMoEBlock(MoEBlock):
         # Repeat hidden rows per assignment, pack them, and dispatch to owners.
         dispatched_hidden = hidden.repeat_interleave(self.config.top_k, dim=0)
         dispatched_hidden = dispatched_hidden[order]
-        received_hidden = Exchange.apply(dispatched_hidden, send, receive) #(world_size), contains token activations tensor receive each rank (aligned with received_expert_ids)
+        received_hidden = autograd_all_to_all_single(
+            dispatched_hidden.new_empty((sum(receive), *dispatched_hidden.shape[1:])),
+            dispatched_hidden.contiguous(),
+            output_split_sizes=receive,
+            input_split_sizes=send,
+        ) #(world_size), contains token activations tensor receive each rank (aligned with received_expert_ids)
 
         # Compute expert results for each local expert
         local_expert_results = received_hidden * 0
@@ -143,7 +147,12 @@ class ParallelMoEBlock(MoEBlock):
                 0, chosen_tokens, expert(received_hidden[chosen_tokens]))
 
         # Return expert results to sources and restore token/slot order.
-        expert_results = Exchange.apply(local_expert_results, receive, send)[order.argsort()]
+        expert_results = autograd_all_to_all_single(
+            local_expert_results.new_empty((sum(send), *local_expert_results.shape[1:])),
+            local_expert_results.contiguous(),
+            output_split_sizes=send,
+            input_split_sizes=receive,
+        )[order.argsort()]
         #(N*K, D) contains each token dispatched's expert-processed result
 
         # Combine each token's weighted expert outputs on its source rank.
