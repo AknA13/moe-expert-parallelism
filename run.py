@@ -82,6 +82,9 @@ def main():
     parser.add_argument('--lr', type=float, default=TrainConfig().learning_rate)
     parser.add_argument('--warmup', type=int, default=0)
     parser.add_argument('--blocks', type=int, default=1)
+    parser.add_argument('--expert-hidden', type=int,
+                        default=ModelConfig().expert_hidden,
+                        help='hidden width of each expert MLP')
     parser.add_argument('--capture-state', action='store_true',
                         help='save first-step tensors and final parameters for verification')
     parser.add_argument('--output', type=Path, default=Path('results/training.json'))
@@ -90,11 +93,12 @@ def main():
         parser.error('tokens must cover every rank; epochs and learning rate must be positive')
     if args.warmup < 0 or args.warmup >= args.epochs:
         parser.error('warmup must be between zero and epochs - 1')
-    if args.blocks < 1:
-        parser.error('blocks must be positive')
+    if args.blocks < 1 or args.expert_hidden < 1:
+        parser.error('blocks and expert hidden width must be positive')
 
     train_config = TrainConfig(args.tokens, args.epochs, args.lr, args.warmup)
-    model_config = ModelConfig(num_blocks=args.blocks)
+    model_config = ModelConfig(num_blocks=args.blocks,
+                               expert_hidden=args.expert_hidden)
     args.output.parent.mkdir(parents=True, exist_ok=True)
     environment = {
         'python': platform.python_version(), 'torch': torch.__version__,

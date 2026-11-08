@@ -20,7 +20,7 @@
       {
         "epoch": 0,
         "global_loss": 0.09327058582624563,
-        "step_ms": 6.198707997100428,
+        "step_ms": 4.365083994343877,
         "blocks": [
           {
             "assignments": [
@@ -41,7 +41,7 @@
       {
         "epoch": 1,
         "global_loss": 0.08761680239716674,
-        "step_ms": 2.738167007919401,
+        "step_ms": 2.896416001021862,
         "blocks": [
           {
             "assignments": [
@@ -62,7 +62,7 @@
       {
         "epoch": 2,
         "global_loss": 0.08215795950292841,
-        "step_ms": 2.9171250062063336,
+        "step_ms": 2.578416999313049,
         "blocks": [
           {
             "assignments": [
@@ -83,7 +83,7 @@
       {
         "epoch": 3,
         "global_loss": 0.07707607168297184,
-        "step_ms": 2.420542004983872,
+        "step_ms": 2.600499996333383,
         "blocks": [
           {
             "assignments": [
@@ -104,7 +104,7 @@
       {
         "epoch": 4,
         "global_loss": 0.07255721515898514,
-        "step_ms": 2.433457993902266,
+        "step_ms": 2.5421250029467046,
         "blocks": [
           {
             "assignments": [
@@ -125,7 +125,7 @@
       {
         "epoch": 5,
         "global_loss": 0.06826156516590395,
-        "step_ms": 2.347417001146823,
+        "step_ms": 2.176750000216998,
         "blocks": [
           {
             "assignments": [
@@ -146,7 +146,7 @@
       {
         "epoch": 6,
         "global_loss": 0.06401353277719043,
-        "step_ms": 2.4229159898823127,
+        "step_ms": 2.5259160029236227,
         "blocks": [
           {
             "assignments": [
@@ -167,7 +167,7 @@
       {
         "epoch": 7,
         "global_loss": 0.060135859063675634,
-        "step_ms": 2.5501250056549907,
+        "step_ms": 2.480916999047622,
         "blocks": [
           {
             "assignments": [
@@ -188,7 +188,7 @@
       {
         "epoch": 8,
         "global_loss": 0.05645804372398945,
-        "step_ms": 2.3957090015755966,
+        "step_ms": 2.5522499927319586,
         "blocks": [
           {
             "assignments": [
@@ -209,7 +209,7 @@
       {
         "epoch": 9,
         "global_loss": 0.05307902667564178,
-        "step_ms": 2.4482079898007214,
+        "step_ms": 2.5526669924147427,
         "blocks": [
           {
             "assignments": [
@@ -230,7 +230,7 @@
       {
         "epoch": 10,
         "global_loss": 0.049779196694581584,
-        "step_ms": 2.383416998782195,
+        "step_ms": 2.47424999543,
         "blocks": [
           {
             "assignments": [
@@ -251,7 +251,7 @@
       {
         "epoch": 11,
         "global_loss": 0.04690447946355232,
-        "step_ms": 2.4268330016639084,
+        "step_ms": 2.529042001697235,
         "blocks": [
           {
             "assignments": [
@@ -272,7 +272,7 @@
       {
         "epoch": 12,
         "global_loss": 0.04419270238570479,
-        "step_ms": 2.3610000062035397,
+        "step_ms": 2.464167002472095,
         "blocks": [
           {
             "assignments": [
@@ -293,7 +293,7 @@
       {
         "epoch": 13,
         "global_loss": 0.04167227992862893,
-        "step_ms": 2.346041990676895,
+        "step_ms": 2.393250004388392,
         "blocks": [
           {
             "assignments": [
@@ -314,7 +314,7 @@
       {
         "epoch": 14,
         "global_loss": 0.03936358379305686,
-        "step_ms": 2.2825000050943345,
+        "step_ms": 2.537458000006154,
         "blocks": [
           {
             "assignments": [
@@ -335,7 +335,7 @@
       {
         "epoch": 15,
         "global_loss": 0.037453507461765415,
-        "step_ms": 2.4143339978763834,
+        "step_ms": 2.512791004846804,
         "blocks": [
           {
             "assignments": [
@@ -356,7 +356,7 @@
       {
         "epoch": 16,
         "global_loss": 0.03554868757915303,
-        "step_ms": 2.275750011904165,
+        "step_ms": 2.4618750030640513,
         "blocks": [
           {
             "assignments": [
@@ -377,7 +377,7 @@
       {
         "epoch": 17,
         "global_loss": 0.03388897002067631,
-        "step_ms": 2.315582998562604,
+        "step_ms": 2.5303340080427006,
         "blocks": [
           {
             "assignments": [
@@ -398,7 +398,7 @@
       {
         "epoch": 18,
         "global_loss": 0.032295205846492536,
-        "step_ms": 2.479916001902893,
+        "step_ms": 2.4834579962771386,
         "blocks": [
           {
             "assignments": [
@@ -419,7 +419,7 @@
       {
         "epoch": 19,
         "global_loss": 0.0308850563666266,
-        "step_ms": 2.303166998899542,
+        "step_ms": 2.489040998625569,
         "blocks": [
           {
             "assignments": [
@@ -440,7 +440,7 @@
       {
         "epoch": 20,
         "global_loss": 0.02970765620270996,
-        "step_ms": 2.399707998847589,
+        "step_ms": 2.41650000680238,
         "blocks": [
           {
             "assignments": [
@@ -461,7 +461,7 @@
       {
         "epoch": 21,
         "global_loss": 0.02865961753162869,
-        "step_ms": 2.3680839949520305,
+        "step_ms": 2.4602079938631505,
         "blocks": [
           {
             "assignments": [
@@ -482,7 +482,7 @@
       {
         "epoch": 22,
         "global_loss": 0.027674903696098742,
-        "step_ms": 2.391041998635046,
+        "step_ms": 2.430291991913691,
         "blocks": [
           {
             "assignments": [
@@ -503,7 +503,7 @@
       {
         "epoch": 23,
         "global_loss": 0.0269141135613779,
-        "step_ms": 2.543334005167708,
+        "step_ms": 2.434209003695287,
         "blocks": [
           {
             "assignments": [
@@ -524,7 +524,7 @@
       {
         "epoch": 24,
         "global_loss": 0.026139378199057078,
-        "step_ms": 2.647125002113171,
+        "step_ms": 2.4736249906709418,
         "blocks": [
           {
             "assignments": [
@@ -571,7 +571,7 @@
       {
         "epoch": 0,
         "global_loss": 0.09327058582624563,
-        "step_ms": 6.198707997100428,
+        "step_ms": 4.365083994343877,
         "blocks": [
           {
             "assignments": [
@@ -592,7 +592,7 @@
       {
         "epoch": 1,
         "global_loss": 0.08761680239716674,
-        "step_ms": 2.738167007919401,
+        "step_ms": 2.896416001021862,
         "blocks": [
           {
             "assignments": [
@@ -613,7 +613,7 @@
       {
         "epoch": 2,
         "global_loss": 0.08215795950292841,
-        "step_ms": 2.9171250062063336,
+        "step_ms": 2.578416999313049,
         "blocks": [
           {
             "assignments": [
@@ -634,7 +634,7 @@
       {
         "epoch": 3,
         "global_loss": 0.07707607168297184,
-        "step_ms": 2.420542004983872,
+        "step_ms": 2.600499996333383,
         "blocks": [
           {
             "assignments": [
@@ -655,7 +655,7 @@
       {
         "epoch": 4,
         "global_loss": 0.07255721515898514,
-        "step_ms": 2.433457993902266,
+        "step_ms": 2.5421250029467046,
         "blocks": [
           {
             "assignments": [
@@ -676,7 +676,7 @@
       {
         "epoch": 5,
         "global_loss": 0.06826156516590395,
-        "step_ms": 2.347417001146823,
+        "step_ms": 2.176750000216998,
         "blocks": [
           {
             "assignments": [
@@ -697,7 +697,7 @@
       {
         "epoch": 6,
         "global_loss": 0.06401353277719043,
-        "step_ms": 2.4229159898823127,
+        "step_ms": 2.5259160029236227,
         "blocks": [
           {
             "assignments": [
@@ -718,7 +718,7 @@
       {
         "epoch": 7,
         "global_loss": 0.060135859063675634,
-        "step_ms": 2.5501250056549907,
+        "step_ms": 2.480916999047622,
         "blocks": [
           {
             "assignments": [
@@ -739,7 +739,7 @@
       {
         "epoch": 8,
         "global_loss": 0.05645804372398945,
-        "step_ms": 2.3957090015755966,
+        "step_ms": 2.5522499927319586,
         "blocks": [
           {
             "assignments": [
@@ -760,7 +760,7 @@
       {
         "epoch": 9,
         "global_loss": 0.05307902667564178,
-        "step_ms": 2.4482079898007214,
+        "step_ms": 2.5526669924147427,
         "blocks": [
           {
             "assignments": [
@@ -781,7 +781,7 @@
       {
         "epoch": 10,
         "global_loss": 0.049779196694581584,
-        "step_ms": 2.383416998782195,
+        "step_ms": 2.47424999543,
         "blocks": [
           {
             "assignments": [
@@ -802,7 +802,7 @@
       {
         "epoch": 11,
         "global_loss": 0.04690447946355232,
-        "step_ms": 2.4268330016639084,
+        "step_ms": 2.529042001697235,
         "blocks": [
           {
             "assignments": [
@@ -823,7 +823,7 @@
       {
         "epoch": 12,
         "global_loss": 0.04419270238570479,
-        "step_ms": 2.3610000062035397,
+        "step_ms": 2.464167002472095,
         "blocks": [
           {
             "assignments": [
@@ -844,7 +844,7 @@
       {
         "epoch": 13,
         "global_loss": 0.04167227992862893,
-        "step_ms": 2.346041990676895,
+        "step_ms": 2.393250004388392,
         "blocks": [
           {
             "assignments": [
@@ -865,7 +865,7 @@
       {
         "epoch": 14,
         "global_loss": 0.03936358379305686,
-        "step_ms": 2.2825000050943345,
+        "step_ms": 2.537458000006154,
         "blocks": [
           {
             "assignments": [
@@ -886,7 +886,7 @@
       {
         "epoch": 15,
         "global_loss": 0.037453507461765415,
-        "step_ms": 2.4143339978763834,
+        "step_ms": 2.512791004846804,
         "blocks": [
           {
             "assignments": [
@@ -907,7 +907,7 @@
       {
         "epoch": 16,
         "global_loss": 0.03554868757915303,
-        "step_ms": 2.275750011904165,
+        "step_ms": 2.4618750030640513,
         "blocks": [
           {
             "assignments": [
@@ -928,7 +928,7 @@
       {
         "epoch": 17,
         "global_loss": 0.03388897002067631,
-        "step_ms": 2.315582998562604,
+        "step_ms": 2.5303340080427006,
         "blocks": [
           {
             "assignments": [
@@ -949,7 +949,7 @@
       {
         "epoch": 18,
         "global_loss": 0.032295205846492536,
-        "step_ms": 2.479916001902893,
+        "step_ms": 2.4834579962771386,
         "blocks": [
           {
             "assignments": [
@@ -970,7 +970,7 @@
       {
         "epoch": 19,
         "global_loss": 0.0308850563666266,
-        "step_ms": 2.303166998899542,
+        "step_ms": 2.489040998625569,
         "blocks": [
           {
             "assignments": [
@@ -991,7 +991,7 @@
       {
         "epoch": 20,
         "global_loss": 0.02970765620270996,
-        "step_ms": 2.399707998847589,
+        "step_ms": 2.41650000680238,
         "blocks": [
           {
             "assignments": [
@@ -1012,7 +1012,7 @@
       {
         "epoch": 21,
         "global_loss": 0.02865961753162869,
-        "step_ms": 2.3680839949520305,
+        "step_ms": 2.4602079938631505,
         "blocks": [
           {
             "assignments": [
@@ -1033,7 +1033,7 @@
       {
         "epoch": 22,
         "global_loss": 0.027674903696098742,
-        "step_ms": 2.391041998635046,
+        "step_ms": 2.430291991913691,
         "blocks": [
           {
             "assignments": [
@@ -1054,7 +1054,7 @@
       {
         "epoch": 23,
         "global_loss": 0.0269141135613779,
-        "step_ms": 2.543334005167708,
+        "step_ms": 2.434209003695287,
         "blocks": [
           {
             "assignments": [
@@ -1075,7 +1075,7 @@
       {
         "epoch": 24,
         "global_loss": 0.026139378199057078,
-        "step_ms": 2.647125002113171,
+        "step_ms": 2.4736249906709418,
         "blocks": [
           {
             "assignments": [
