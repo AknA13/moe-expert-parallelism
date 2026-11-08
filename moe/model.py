@@ -111,31 +111,31 @@ class ParallelMoEBlock(MoEBlock):
         # Project tokens and choose experts and weights: (T, D), (T, K), (T, K).
         hidden, chosen_exp, exp_weights = self.route(x)
 
-        # Group assignment rows by the ranks owning their chosen experts.
-        expert_rank = chosen_exp.flatten() // (self.config.experts // self.world)  # (T*K,)
+        # Group token rows by the ranks owning their chosen experts.
+        expert_rank = chosen_exp.flatten() // (self.config.experts // self.world) #(N*K)
         order = expert_rank.argsort(stable=True)
 
-        # All-to-all to learn how many assignment rows arrive from each rank.
-        send_counts = torch.bincount(expert_rank, minlength=self.world)  # (world,)
+        # All-to-all to learn how many token rows arrive from each rank.
+        send_counts = torch.bincount(expert_rank, minlength=self.world) #(world_size)
         receive_counts = torch.empty_like(send_counts)
         dist.all_to_all_single(receive_counts, send_counts)
         send, receive = send_counts.tolist(), receive_counts.tolist()
-        # send[d] counts assignments sent to destination d.
-        # receive[s] counts assignments received from source s.
+        #send -> (world_size) how many tokens we dispatch to each rank
+        #receive -> (world_size) how many tokens we receive from each rank
 
-        # Send one expert ID per assignment row to its owner.
+        # All-to-all to send the expert id needed each token row
         dispatched_expert_ids = chosen_exp.flatten()[order].contiguous()
         received_expert_ids = dispatched_expert_ids.new_empty(sum(receive))
         dist.all_to_all_single(received_expert_ids, dispatched_expert_ids, receive, send)
-        # ID shapes: (T*K,) outgoing and (sum(receive),) incoming.
+        #dispatched_expert_ids -> (world_size) expert ids tensor to send to each rank
+        #received_expert_ids -> (world_size) expert ids tensor to received from each rank
 
         # Repeat hidden rows per assignment, pack them, and dispatch to owners.
         dispatched_hidden = hidden.repeat_interleave(self.config.top_k, dim=0)
         dispatched_hidden = dispatched_hidden[order]
-        received_hidden = Exchange.apply(dispatched_hidden, send, receive)
-        # received_hidden has shape (sum(receive), D), aligned with received_expert_ids.
+        received_hidden = Exchange.apply(dispatched_hidden, send, receive) #(world_size), contains token activations tensor receive each rank (aligned with received_expert_ids)
 
-        # Compute expert results for each local expert.
+        # Compute expert results for each local expert
         local_expert_results = received_hidden * 0
         for expert_id, expert in self.experts.items():
             chosen_tokens = (received_expert_ids == int(expert_id)).nonzero().flatten()
@@ -144,7 +144,7 @@ class ParallelMoEBlock(MoEBlock):
 
         # Return expert results to sources and restore token/slot order.
         expert_results = Exchange.apply(local_expert_results, receive, send)[order.argsort()]
-        # One expert result per original assignment row: (T*K, D).
+        #(N*K, D) contains each token dispatched's expert-processed result
 
         # Combine each token's weighted expert outputs on its source rank.
         expert_results = expert_results.reshape(
