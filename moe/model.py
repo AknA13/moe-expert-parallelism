@@ -71,25 +71,27 @@ class StandardMoEBlock(MoEBlock):
         super().__init__(config, range(config.experts))
 
     def forward(self, x):
-        # Project tokens and choose their experts and gate weights.
-        hidden, ids, weights = self.route(x)
+        # Project tokens and choose experts and weights: (T, D), (T, K), (T, K).
+        hidden, chosen_exp, exp_weights = self.route(x)
 
-        # Make one row per token-expert assignment in token/slot order.
-        rows = hidden.repeat_interleave(self.config.top_k, dim=0)
+        # Repeat each hidden row once per selected expert: (T, D) -> (T*K, D).
+        assignment_hidden = hidden.repeat_interleave(self.config.top_k, dim=0)
 
-        # Run each expert on its matching rows without changing row positions.
-        returned = torch.zeros_like(rows)
+        # Run each expert on its assignment rows without changing row order.
+        expert_results = torch.zeros_like(assignment_hidden)
         for expert_id, expert in self.experts.items():
-            positions = (ids.flatten() == int(expert_id)).nonzero().flatten()
-            returned = returned.index_add(0, positions, expert(rows[positions]))
+            assignment_rows = (chosen_exp.flatten() == int(expert_id)).nonzero().flatten()
+            expert_results = expert_results.index_add(
+                0, assignment_rows, expert(assignment_hidden[assignment_rows]))
 
-        # Restore token/slot shape and combine selected expert outputs.
-        returned = returned.reshape(len(x), self.config.top_k, self.config.dimension)
-        combined = (returned * weights[..., None]).sum(1)
+        # Restore token/slot shape and combine the weighted expert results.
+        expert_results = expert_results.reshape(len(x), self.config.top_k, self.config.dimension)
+        output = (expert_results * exp_weights[..., None]).sum(1)
 
         # Save the route and outputs for the trace and measurements.
-        self.record(ids, returned, combined, [len(rows)], [len(rows)], 0, 1)
-        return combined
+        self.record(chosen_exp, expert_results, output,
+                    [len(assignment_hidden)], [len(assignment_hidden)], 0, 1)
+        return output
 
 
 class ParallelMoEBlock(MoEBlock):
@@ -106,9 +108,11 @@ class ParallelMoEBlock(MoEBlock):
         super().__init__(config, range(first, first + experts_per_rank))
 
     def forward(self, x):
-        # Route locally, then group assignment rows by destination rank.
-        hidden, ids, weights = self.route(x)
-        owners = ids.flatten() // (self.config.experts // self.world)
+        # Project tokens and choose experts and weights on the source rank.
+        hidden, chosen_exp, exp_weights = self.route(x)
+
+        # Group assignment rows by the ranks owning their chosen experts.
+        owners = chosen_exp.flatten() // (self.config.experts // self.world)
         order = owners.argsort(stable=True)
 
         # Exchange counts to learn how many rows arrive from each source.
@@ -118,30 +122,34 @@ class ParallelMoEBlock(MoEBlock):
         send, receive = send_counts.tolist(), receive_counts.tolist()
 
         # Send global expert IDs in the same packed order as activation rows.
-        packed_ids = ids.flatten()[order].contiguous()
+        packed_ids = chosen_exp.flatten()[order].contiguous()
         received_ids = packed_ids.new_empty(sum(receive))
         dist.all_to_all_single(received_ids, packed_ids, receive, send)
 
-        # Dispatch projected activations to the ranks owning their experts.
-        packed = hidden.repeat_interleave(self.config.top_k, dim=0)[order]
-        received = Exchange.apply(packed, send, receive)
+        # Repeat hidden rows per assignment, pack them, and dispatch to owners.
+        assignment_hidden = hidden.repeat_interleave(self.config.top_k, dim=0)
+        packed_hidden = assignment_hidden[order]
+        received = Exchange.apply(packed_hidden, send, receive)
 
-        # Preserve an autograd path for empty owners; run local expert work.
-        computed = received * 0
+        # Keep an autograd path for empty owners; run each owned expert.
+        owned_results = received * 0
         for expert_id, expert in self.experts.items():
-            positions = (received_ids == int(expert_id)).nonzero().flatten()
-            computed = computed.index_add(0, positions, expert(received[positions]))
+            assignment_rows = (received_ids == int(expert_id)).nonzero().flatten()
+            owned_results = owned_results.index_add(
+                0, assignment_rows, expert(received[assignment_rows]))
 
-        # Return outputs to sources and undo their packing permutation.
-        returned = Exchange.apply(computed, receive, send)[order.argsort()]
+        # Return expert results to sources and restore token/slot order.
+        expert_results = Exchange.apply(owned_results, receive, send)[order.argsort()]
 
         # Combine each token's weighted expert outputs on its source rank.
-        returned = returned.reshape(len(x), self.config.top_k, self.config.dimension)
-        combined = (returned * weights[..., None]).sum(1)
+        expert_results = expert_results.reshape(
+            len(x), self.config.top_k, self.config.dimension)
+        output = (expert_results * exp_weights[..., None]).sum(1)
 
         # Save the route and communication counts for the trace and measurements.
-        self.record(ids, returned, combined, send, receive, self.rank, self.world)
-        return combined
+        self.record(chosen_exp, expert_results, output,
+                    send, receive, self.rank, self.world)
+        return output
 
 
 class MoEModel(nn.Module):
