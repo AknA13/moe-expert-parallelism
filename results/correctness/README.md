@@ -5,6 +5,7 @@ Does our MoE parallelized training compute the same:
 - outputs
 - gradients
 - Adam updates
+  
 as single-rank, non-parallelized MoE training?
 
 We ran the same deterministic global batch and global expert initialization at 1, 2, and 4 ranks. The one-rank reference uses `StandardMoEBlock`; multi-rank jobs use `ParallelMoEBlock`. Every run used float64, learned top-2 routing, and Adam with learning rate 0.001. Comparisons use `atol=1e-08` and `rtol=1e-06`.
