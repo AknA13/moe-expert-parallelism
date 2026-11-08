@@ -45,7 +45,7 @@ The 4-rank, single-step training run routed assignments to every expert. The num
 | experts.6 | 3 | 26 | 0.000791 | 0.001 |
 | experts.7 | 3 | 19 | 0.000776 | 0.001 |
 
-The router and token projection are replicated across ranks, so their gradients are SUM all-reduced before Adam. Each expert has a single owning rank.
+The router and token projection layers are replicated across ranks, so their gradients are SUM all-reduced across ranks before Adam. Whereas, each expert layer has a single rank that computes and stores its gradients.
 
 ## Training trajectory
 
