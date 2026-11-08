@@ -1,7 +1,6 @@
 """Deterministic data, model setup, and one MoE training loop."""
 import time
 from dataclasses import asdict, dataclass
-from typing import NamedTuple
 
 import torch
 import torch.distributed as dist
@@ -16,49 +15,6 @@ class TrainConfig:
     epochs: int = 30
     learning_rate: float = 0.15
     warmup: int = 0
-
-
-class RankData(NamedTuple):
-    model: MoEModel
-    x: torch.Tensor
-    target: torch.Tensor
-    indices: torch.Tensor
-    global_tokens: int
-
-
-def make_model(rank, world, config=ModelConfig()):
-    """Use global block and expert IDs so weights do not depend on rank count."""
-    with torch.random.fork_rng():
-        model = MoEModel(config, parallel=world > 1, rank=rank, world=world)
-
-        def reset_with_seed(module, seed):
-            torch.manual_seed(seed)
-            for layer in module.modules():
-                if isinstance(layer, nn.Linear):
-                    layer.reset_parameters()
-
-        for block_id, block in enumerate(model.blocks):
-            offset = block_id * 1000
-            reset_with_seed(block.token_projection, 10 + offset)
-            reset_with_seed(block.router, 11 + offset)
-            for expert_id, expert in block.experts.items():
-                reset_with_seed(expert, 100 + offset + int(expert_id))
-        return model.double()
-
-
-def synthetic_data(total_tokens, dimension):
-    generator = torch.Generator().manual_seed(42)
-    x = torch.randn(total_tokens, dimension, generator=generator,
-                    dtype=torch.float64)
-    return x, 0.3 * x.tanh() + 0.2
-
-
-def prepare_rank(rank, world, total_tokens, model_config):
-    model = make_model(rank, world, model_config)
-    full_x, full_target = synthetic_data(total_tokens, model_config.dimension)
-    indices = torch.tensor_split(torch.arange(total_tokens), world)[rank]
-    return RankData(model, full_x[indices].clone(), full_target[indices].clone(),
-                    indices, total_tokens)
 
 
 def sync_replicated_gradients(model):
@@ -80,10 +36,9 @@ def parameter_values(model, *, gradients=False):
     }
 
 
-def train_loop(prepared, config, *, capture_state=False):
+def train_loop(model, x, target, config, *, token_ids, capture_state=False):
     """Train one data shard; the model chooses local or parallel execution."""
-    model = prepared.model
-    x = prepared.x.requires_grad_(capture_state)
+    x = x.requires_grad_(capture_state)
     world = dist.get_world_size()
     optimizer = torch.optim.SGD(model.parameters(), lr=config.learning_rate)
     logs, trace, first_step = [], None, None
@@ -95,7 +50,7 @@ def train_loop(prepared, config, *, capture_state=False):
         optimizer.zero_grad(set_to_none=True)
         x.grad = None
         prediction = model(x)
-        local_loss = loss(prediction, prepared.target, prepared.global_tokens)
+        local_loss = loss(prediction, target, config.total_tokens)
         local_loss.backward()
         if world > 1:
             sync_replicated_gradients(model)
@@ -130,7 +85,7 @@ def train_loop(prepared, config, *, capture_state=False):
                           report['returned'][i, :, 0].tolist(),
                       'combined_first_coordinate':
                           float(report['combined'][i, 0])}
-                     for i, token in enumerate(prepared.indices)]}
+                     for i, token in enumerate(token_ids)]}
                 for block_id, report in enumerate(reports)
             ]
             if capture_state:
@@ -154,11 +109,36 @@ def train_loop(prepared, config, *, capture_state=False):
 
 def run_training(rank, world, train_config, model_config=ModelConfig(),
                  *, capture_state=False):
-    prepared = prepare_rank(rank, world, train_config.total_tokens, model_config)
-    model = prepared.model
+    with torch.random.fork_rng():
+        model = MoEModel(model_config, parallel=world > 1, rank=rank, world=world)
+
+        def reset_with_seed(module, seed):
+            torch.manual_seed(seed)
+            for layer in module.modules():
+                if isinstance(layer, nn.Linear):
+                    layer.reset_parameters()
+
+        # Seed by global block/expert ID so all rank counts start identically.
+        for block_id, block in enumerate(model.blocks):
+            offset = block_id * 1000
+            reset_with_seed(block.token_projection, 10 + offset)
+            reset_with_seed(block.router, 11 + offset)
+            for expert_id, expert in block.experts.items():
+                reset_with_seed(expert, 100 + offset + int(expert_id))
+    model = model.double()
+
+    generator = torch.Generator().manual_seed(42)
+    full_x = torch.randn(train_config.total_tokens, model_config.dimension,
+                         generator=generator, dtype=torch.float64)
+    full_target = 0.3 * full_x.tanh() + 0.2
+    token_ids = torch.tensor_split(
+        torch.arange(train_config.total_tokens), world)[rank]
+    x, target = full_x[token_ids].clone(), full_target[token_ids].clone()
+
     initial = {name: p.detach().clone() for name, p in model.named_parameters()}
     steps, trace, first_step = train_loop(
-        prepared, train_config, capture_state=capture_state)
+        model, x, target, train_config, token_ids=token_ids,
+        capture_state=capture_state)
     changes = {name: float((p.detach() - initial[name]).abs().max())
                for name, p in model.named_parameters()}
     shared_bytes = sum(p.numel() * p.element_size()
