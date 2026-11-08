@@ -4,6 +4,7 @@ import argparse
 import json
 import subprocess
 import sys
+import tempfile
 from pathlib import Path
 
 import torch
@@ -98,18 +99,34 @@ def main():
     args = parser.parse_args()
     args.output.mkdir(parents=True, exist_ok=True)
     summary = []
-    for blocks, tokens, epochs in ((1, 65, 30), (2, 17, 2)):
-        standard = run(args.output, 1, blocks, tokens, epochs)
-        for world in (2, 4):
-            parallel = run(args.output, world, blocks, tokens, epochs)
-            errors = compare(standard, parallel)
-            summary.append({'blocks': blocks, 'ranks': world,
-                            'total_tokens': tokens, 'epochs': epochs,
-                            'max_errors': errors})
-            print(f'PASS {blocks} blocks, {world} ranks: '
-                  f'max error {max(errors.values()):.3g}', flush=True)
+    with tempfile.TemporaryDirectory() as directory:
+        raw_output = Path(directory)
+        for blocks, tokens, epochs in ((1, 65, 30), (2, 17, 2)):
+            standard = run(raw_output, 1, blocks, tokens, epochs)
+            for world in (2, 4):
+                parallel = run(raw_output, world, blocks, tokens, epochs)
+                errors = compare(standard, parallel)
+                summary.append({'blocks': blocks, 'ranks': world,
+                                'total_tokens': tokens, 'epochs': epochs,
+                                'max_errors': errors})
+                print(f'PASS {blocks} blocks, {world} ranks: '
+                      f'max error {max(errors.values()):.3g}', flush=True)
+                if blocks == 1 and world == 2:
+                    mixed_tokens = []
+                    for rank in parallel:
+                        rows = rank['trace'][0]['tokens']
+                        mixed_tokens.append(next(
+                            (row for row in rows if len(set(row['owners'])) == 2),
+                            rows[0],
+                        ))
+                    demo = {
+                        'initial_loss': standard[0]['epochs'][0]['global_loss'],
+                        'final_loss': standard[0]['epochs'][-1]['global_loss'],
+                        'mixed_owner_tokens': mixed_tokens,
+                    }
     (args.output / 'comparison-summary.json').write_text(
         json.dumps(summary, indent=2) + '\n')
+    (args.output / 'demo.json').write_text(json.dumps(demo, indent=2) + '\n')
     print('PASS standard versus expert-parallel training')
 
 

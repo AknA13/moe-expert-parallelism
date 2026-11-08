@@ -34,6 +34,7 @@ class MoEBlock(nn.Module):
             for expert_id in expert_ids
         })
         self.last_report = None
+        self.capture_trace = False
 
     def route(self, x):
         hidden = self.token_projection(x)
@@ -42,24 +43,20 @@ class MoEBlock(nn.Module):
         weights = logits.gather(1, ids).softmax(-1)
         return hidden, ids, weights
 
-    def record(self, ids, returned, combined, send, receive, rank, world):
-        remote = sum(send) - send[rank]
-        row_bytes = returned.element_size() * self.config.dimension
+    def record(self, ids, returned, combined, remote_assignments):
         self.last_report = {
-            'ids': ids.detach(),
-            'returned': returned.detach(),
-            'combined': combined.detach(),
             'routing': {
                 'assignments': torch.bincount(
                     ids.flatten(), minlength=self.config.experts).tolist(),
-                'remote_assignments': remote,
-                'activation_forward_bytes': 2 * remote * row_bytes,
-                'activation_backward_bytes': 2 * remote * row_bytes,
-                'metadata_bytes': 8 * remote + 8 * (world - 1),
-                'send': send,
-                'receive': receive,
+                'remote_assignments': remote_assignments,
             },
         }
+        if self.capture_trace:
+            self.last_report.update({
+                'ids': ids.detach(),
+                'returned': returned.detach(),
+                'combined': combined.detach(),
+            })
 
 
 class StandardMoEBlock(MoEBlock):
@@ -88,8 +85,7 @@ class StandardMoEBlock(MoEBlock):
         output = (expert_results * exp_weights[..., None]).sum(1)
 
         # Save the route and outputs for the trace and measurements.
-        self.record(chosen_exp, expert_results, output,
-                    [len(hidden)], [len(hidden)], 0, 1)
+        self.record(chosen_exp, expert_results, output, 0)
         return output
 
 
@@ -162,7 +158,7 @@ class ParallelMoEBlock(MoEBlock):
 
         # Save the route and communication counts for the trace and measurements.
         self.record(chosen_exp, expert_results, output,
-                    send, receive, self.rank, self.world)
+                    sum(send) - send[self.rank])
         return output
 
 

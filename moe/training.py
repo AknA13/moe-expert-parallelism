@@ -18,8 +18,6 @@ class TrainConfig:
 class StepResult:
     prediction: torch.Tensor
     local_loss: torch.Tensor
-    shared_grad_norm: float
-    expert_grad_norm: float
 
 
 def sync_replicated_gradients(model):
@@ -55,14 +53,8 @@ def train_step(model, x, target, optimizer, global_tokens):
         for parameter in model.parameters():
             if parameter.grad is None:
                 parameter.grad = torch.zeros_like(parameter)
-    shared_norm = sum(float(p.grad.square().sum())
-                      for p in model.replicated_parameters()) ** 0.5
-    expert_norm = sum(float(p.grad.square().sum())
-                      for block in model.blocks
-                      for expert in block.experts.values()
-                      for p in expert.parameters()) ** 0.5
     optimizer.step()
-    return StepResult(prediction, local_loss, shared_norm, expert_norm)
+    return StepResult(prediction, local_loss)
 
 
 def record_step(model, x, step, elapsed, epoch, config, token_ids, *, capture_state):
@@ -73,7 +65,7 @@ def record_step(model, x, step, elapsed, epoch, config, token_ids, *, capture_st
         dist.all_reduce(global_loss)
     reports = model.reports()
     trace, first_step = None, None
-    if epoch == 0:
+    if epoch == 0 and capture_state:
         trace = [
             {'block': block_id,
              'tokens': [
@@ -88,19 +80,16 @@ def record_step(model, x, step, elapsed, epoch, config, token_ids, *, capture_st
                  for i, token in enumerate(token_ids)]}
             for block_id, report in enumerate(reports)
         ]
-        if capture_state:
-            first_step = {
-                'output': step.prediction.detach().tolist(),
-                'input_gradient': x.grad.detach().tolist(),
-                'parameter_gradient': parameter_values(model, gradients=True),
-                'parameter_after_step': parameter_values(model),
-            }
+        first_step = {
+            'output': step.prediction.detach().tolist(),
+            'input_gradient': x.grad.detach().tolist(),
+            'parameter_gradient': parameter_values(model, gradients=True),
+            'parameter_after_step': parameter_values(model),
+        }
     log = {
         'epoch': epoch,
         'global_loss': float(global_loss),
         'step_ms': float(elapsed) * 1000,
-        'shared_grad_norm': step.shared_grad_norm,
-        'expert_grad_norm': step.expert_grad_norm,
         'blocks': [report['routing'] for report in reports],
         'warmup': epoch < config.warmup,
     }
@@ -110,9 +99,12 @@ def record_step(model, x, step, elapsed, epoch, config, token_ids, *, capture_st
 def run_training(model, x, target, train_config, *, token_ids, capture_state=False):
     """Train the initialized model on this rank's data shard."""
     world = dist.get_world_size()
-    initial = {name: p.detach().clone() for name, p in model.named_parameters()}
+    initial = ({name: p.detach().clone() for name, p in model.named_parameters()}
+               if capture_state else None)
     optimizer = torch.optim.Adam(model.parameters(), lr=train_config.learning_rate)
     steps, trace, first_step = [], None, None
+    for block in model.blocks:
+        block.capture_trace = capture_state
 
     for epoch in range(train_config.epochs):
         if world > 1:
@@ -129,8 +121,11 @@ def run_training(model, x, target, train_config, *, token_ids, capture_state=Fal
         steps.append(log)
         if epoch == 0:
             trace, first_step = epoch_trace, epoch_first_step
-    changes = {name: float((p.detach() - initial[name]).abs().max())
-               for name, p in model.named_parameters()}
+            for block in model.blocks:
+                block.capture_trace = False
+    changes = ({name: float((p.detach() - initial[name]).abs().max())
+                for name, p in model.named_parameters()}
+               if capture_state else None)
     shared_bytes = sum(p.numel() * p.element_size()
                        for p in model.replicated_parameters())
     total_bytes = sum(p.numel() * p.element_size()

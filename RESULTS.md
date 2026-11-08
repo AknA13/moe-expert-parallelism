@@ -13,16 +13,16 @@ The first step compares token outputs, input gradients, every owned or replicate
 
 ## One-block CPU scaling
 
-Each job ran 25 epochs, with 5 warmup and 20 measured epochs. The slowest rank defines step latency. The 256-token one-rank job is the baseline for both fixed-total and growing-total comparisons.
+Each job ran 25 epochs, with 5 warmup and 20 measured epochs. The slowest rank defines step latency. Payload columns are average logical bytes per measured step across the cluster. The 256-token one-rank job is the baseline for both fixed-total and growing-total comparisons.
 
-| Ranks | Total tokens | Parameter bytes/rank | Median ms | p95 ms | Forward / backward activation bytes (cluster) |
-|---:|---:|---:|---:|---:|---:|
-| 1 | 256 | 278,848 | 2.783 | 2.827 | 0 / 0 |
-| 2 | 256 | 144,704 | 3.938 | 4.122 | 132,966 / 132,966 |
-| 4 | 256 | 77,632 | 7.350 | 8.004 | 192,077 / 192,077 |
-| 2 | 512 | 144,704 | 4.566 | 4.751 | 250,573 / 250,573 |
-| 4 | 1,024 | 77,632 | 8.551 | 9.208 | 789,581 / 789,581 |
+| Ranks | Total tokens | Parameter bytes/rank | Median ms | p95 ms | Forward / backward activation bytes | Routing metadata bytes |
+|---:|---:|---:|---:|---:|---:|---:|
+| 1 | 256 | 278,848 | 2.684 | 3.397 | 0 / 0 | 0 |
+| 2 | 256 | 144,704 | 3.798 | 3.945 | 132,966 / 132,966 | 2,094 |
+| 4 | 256 | 77,632 | 7.130 | 7.718 | 192,077 / 192,077 | 3,097 |
+| 2 | 512 | 144,704 | 4.973 | 18.832 | 250,573 / 250,573 | 3,931 |
+| 4 | 1,024 | 77,632 | 8.380 | 9.430 | 789,581 / 789,581 | 12,433 |
 
-Expert parameter storage falls from 268,288 to 67,072 bytes/rank at four ranks. Shared storage stays 10,560 bytes/rank. The single-rank baseline avoids distributed exchange entirely; multi-rank runs perform it inside each parallel block. These are parameter tensor bytes; Adam's moment tensors, gradients, activations, and process memory are excluded. Logical payload estimates exclude transport overhead. The small CPU model gets slower with more ranks; no GPU speedup is claimed.
+Expert parameter storage falls from 268,288 to 67,072 bytes/rank at four ranks. Shared storage stays 10,560 bytes/rank. The single-rank baseline avoids distributed exchange entirely; multi-rank runs perform it inside each parallel block. These are parameter tensor bytes; Adam's moment tensors, gradients, activations, and process memory are excluded. Logical payload estimates exclude transport overhead. The 2-rank, 512-token job has a high p95 relative to its median; 20 measured steps are descriptive rather than a reliable tail estimate. The small CPU model gets slower with more ranks; no GPU speedup is claimed.
 
-Every saved job records its training and model configuration, environment, per-epoch loss, step latency, expert assignments, gradient norms, and logical communication estimates. See `results/summary.txt` for the full measured table and token trace. Linux and GPU executions were not tested.
+Saved scaling jobs record their training and model configuration, environment, per-epoch loss and latency, and expert assignment counts. The verification suite uses full tensors temporarily, then saves only `results/verify/comparison-summary.json` and `results/verify/demo.json`. `show_results.py` derives logical activation and metadata payload from remote assignment counts. See `results/summary.txt` for the measured table and token trace. Linux and GPU executions were not tested.
