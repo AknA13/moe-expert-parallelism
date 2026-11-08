@@ -1,0 +1,6010 @@
+[
+  {
+    "rank": 0,
+    "train_config": {
+      "total_tokens": 4096,
+      "epochs": 25,
+      "learning_rate": 0.001,
+      "warmup": 5
+    },
+    "model_config": {
+      "dimension": 32,
+      "experts": 16,
+      "top_k": 2,
+      "expert_hidden": 2048,
+      "num_blocks": 1
+    },
+    "optimizer": "Adam",
+    "parallel": true,
+    "epochs": [
+      {
+        "epoch": 0,
+        "global_loss": 0.08769370071552285,
+        "step_ms": 90.55141700082459,
+        "blocks": [
+          {
+            "assignments": [
+              39,
+              33,
+              42,
+              56,
+              50,
+              79,
+              143,
+              51,
+              140,
+              54,
+              21,
+              58,
+              35,
+              61,
+              128,
+              34
+            ],
+            "remote_assignments": 952
+          }
+        ],
+        "warmup": true
+      },
+      {
+        "epoch": 1,
+        "global_loss": 0.038032700451895066,
+        "step_ms": 85.95504199911375,
+        "blocks": [
+          {
+            "assignments": [
+              37,
+              32,
+              43,
+              54,
+              52,
+              78,
+              141,
+              51,
+              141,
+              55,
+              22,
+              58,
+              32,
+              62,
+              131,
+              35
+            ],
+            "remote_assignments": 955
+          }
+        ],
+        "warmup": true
+      },
+      {
+        "epoch": 2,
+        "global_loss": 0.040551126687423604,
+        "step_ms": 101.87533400312532,
+        "blocks": [
+          {
+            "assignments": [
+              37,
+              32,
+              43,
+              53,
+              52,
+              78,
+              142,
+              49,
+              141,
+              58,
+              23,
+              56,
+              31,
+              60,
+              133,
+              36
+            ],
+            "remote_assignments": 955
+          }
+        ],
+        "warmup": true
+      },
+      {
+        "epoch": 3,
+        "global_loss": 0.03371493356121874,
+        "step_ms": 113.03629100439139,
+        "blocks": [
+          {
+            "assignments": [
+              38,
+              32,
+              43,
+              53,
+              52,
+              74,
+              142,
+              49,
+              142,
+              62,
+              22,
+              52,
+              30,
+              58,
+              139,
+              36
+            ],
+            "remote_assignments": 954
+          }
+        ],
+        "warmup": true
+      },
+      {
+        "epoch": 4,
+        "global_loss": 0.024406358279709158,
+        "step_ms": 89.91629199590534,
+        "blocks": [
+          {
+            "assignments": [
+              40,
+              33,
+              43,
+              49,
+              52,
+              72,
+              142,
+              49,
+              145,
+              62,
+              22,
+              49,
+              29,
+              56,
+              146,
+              35
+            ],
+            "remote_assignments": 951
+          }
+        ],
+        "warmup": true
+      },
+      {
+        "epoch": 5,
+        "global_loss": 0.02159868044477263,
+        "step_ms": 92.76741699432023,
+        "blocks": [
+          {
+            "assignments": [
+              39,
+              33,
+              43,
+              47,
+              57,
+              71,
+              144,
+              48,
+              146,
+              61,
+              23,
+              48,
+              26,
+              52,
+              151,
+              35
+            ],
+            "remote_assignments": 952
+          }
+        ],
+        "warmup": false
+      },
+      {
+        "epoch": 6,
+        "global_loss": 0.022048267059022197,
+        "step_ms": 104.1246249951655,
+        "blocks": [
+          {
+            "assignments": [
+              38,
+              33,
+              42,
+              47,
+              58,
+              66,
+              144,
+              44,
+              151,
+              61,
+              22,
+              52,
+              26,
+              51,
+              155,
+              34
+            ],
+            "remote_assignments": 953
+          }
+        ],
+        "warmup": false
+      },
+      {
+        "epoch": 7,
+        "global_loss": 0.020897650695950277,
+        "step_ms": 102.3610410047695,
+        "blocks": [
+          {
+            "assignments": [
+              37,
+              31,
+              41,
+              46,
+              60,
+              68,
+              144,
+              39,
+              155,
+              67,
+              22,
+              53,
+              22,
+              46,
+              159,
+              34
+            ],
+            "remote_assignments": 956
+          }
+        ],
+        "warmup": false
+      },
+      {
+        "epoch": 8,
+        "global_loss": 0.017854287340536044,
+        "step_ms": 98.19912500097416,
+        "blocks": [
+          {
+            "assignments": [
+              36,
+              30,
+              41,
+              44,
+              62,
+              68,
+              145,
+              39,
+              157,
+              68,
+              21,
+              53,
+              21,
+              45,
+              160,
+              34
+            ],
+            "remote_assignments": 958
+          }
+        ],
+        "warmup": false
+      },
+      {
+        "epoch": 9,
+        "global_loss": 0.015161309682227252,
+        "step_ms": 99.27166700072121,
+        "blocks": [
+          {
+            "assignments": [
+              35,
+              29,
+              40,
+              42,
+              62,
+              69,
+              145,
+              39,
+              159,
+              67,
+              22,
+              52,
+              20,
+              45,
+              164,
+              34
+            ],
+            "remote_assignments": 960
+          }
+        ],
+        "warmup": false
+      },
+      {
+        "epoch": 10,
+        "global_loss": 0.014201907859870543,
+        "step_ms": 95.80570799880661,
+        "blocks": [
+          {
+            "assignments": [
+              35,
+              28,
+              40,
+              38,
+              63,
+              69,
+              148,
+              36,
+              165,
+              69,
+              22,
+              50,
+              21,
+              42,
+              164,
+              34
+            ],
+            "remote_assignments": 961
+          }
+        ],
+        "warmup": false
+      },
+      {
+        "epoch": 11,
+        "global_loss": 0.014298161072612635,
+        "step_ms": 101.01954199490137,
+        "blocks": [
+          {
+            "assignments": [
+              35,
+              29,
+              39,
+              38,
+              64,
+              69,
+              151,
+              35,
+              168,
+              64,
+              22,
+              50,
+              22,
+              40,
+              165,
+              33
+            ],
+            "remote_assignments": 960
+          }
+        ],
+        "warmup": false
+      },
+      {
+        "epoch": 12,
+        "global_loss": 0.01401814364325319,
+        "step_ms": 96.79091699945275,
+        "blocks": [
+          {
+            "assignments": [
+              33,
+              28,
+              38,
+              35,
+              63,
+              67,
+              154,
+              33,
+              174,
+              64,
+              22,
+              46,
+              22,
+              40,
+              172,
+              33
+            ],
+            "remote_assignments": 963
+          }
+        ],
+        "warmup": false
+      },
+      {
+        "epoch": 13,
+        "global_loss": 0.012818962300455086,
+        "step_ms": 104.48120800720062,
+        "blocks": [
+          {
+            "assignments": [
+              33,
+              27,
+              37,
+              31,
+              63,
+              65,
+              155,
+              33,
+              178,
+              65,
+              22,
+              44,
+              20,
+              40,
+              179,
+              32
+            ],
+            "remote_assignments": 964
+          }
+        ],
+        "warmup": false
+      },
+      {
+        "epoch": 14,
+        "global_loss": 0.011345941733326726,
+        "step_ms": 94.83229200122878,
+        "blocks": [
+          {
+            "assignments": [
+              33,
+              26,
+              35,
+              30,
+              64,
+              66,
+              157,
+              30,
+              183,
+              64,
+              22,
+              41,
+              20,
+              38,
+              183,
+              32
+            ],
+            "remote_assignments": 965
+          }
+        ],
+        "warmup": false
+      },
+      {
+        "epoch": 15,
+        "global_loss": 0.010369440980066825,
+        "step_ms": 106.88654199475423,
+        "blocks": [
+          {
+            "assignments": [
+              32,
+              24,
+              34,
+              29,
+              65,
+              64,
+              159,
+              30,
+              183,
+              63,
+              23,
+              42,
+              21,
+              37,
+              187,
+              31
+            ],
+            "remote_assignments": 968
+          }
+        ],
+        "warmup": false
+      },
+      {
+        "epoch": 16,
+        "global_loss": 0.01006513302699395,
+        "step_ms": 97.45141699386295,
+        "blocks": [
+          {
+            "assignments": [
+              31,
+              24,
+              34,
+              29,
+              65,
+              64,
+              159,
+              30,
+              187,
+              62,
+              22,
+              40,
+              21,
+              37,
+              188,
+              31
+            ],
+            "remote_assignments": 969
+          }
+        ],
+        "warmup": false
+      },
+      {
+        "epoch": 17,
+        "global_loss": 0.009964076380432164,
+        "step_ms": 94.5099999953527,
+        "blocks": [
+          {
+            "assignments": [
+              27,
+              23,
+              33,
+              29,
+              66,
+              65,
+              160,
+              30,
+              192,
+              61,
+              22,
+              40,
+              21,
+              36,
+              189,
+              30
+            ],
+            "remote_assignments": 974
+          }
+        ],
+        "warmup": false
+      },
+      {
+        "epoch": 18,
+        "global_loss": 0.00957554881643621,
+        "step_ms": 104.45454200089443,
+        "blocks": [
+          {
+            "assignments": [
+              26,
+              23,
+              35,
+              29,
+              66,
+              63,
+              162,
+              27,
+              197,
+              58,
+              22,
+              40,
+              22,
+              35,
+              189,
+              30
+            ],
+            "remote_assignments": 975
+          }
+        ],
+        "warmup": false
+      },
+      {
+        "epoch": 19,
+        "global_loss": 0.008873524078173,
+        "step_ms": 98.88087499712128,
+        "blocks": [
+          {
+            "assignments": [
+              25,
+              23,
+              34,
+              29,
+              64,
+              62,
+              165,
+              27,
+              197,
+              57,
+              22,
+              39,
+              23,
+              35,
+              193,
+              29
+            ],
+            "remote_assignments": 976
+          }
+        ],
+        "warmup": false
+      },
+      {
+        "epoch": 20,
+        "global_loss": 0.008147898525085386,
+        "step_ms": 105.39087498909794,
+        "blocks": [
+          {
+            "assignments": [
+              26,
+              23,
+              34,
+              27,
+              64,
+              63,
+              166,
+              26,
+              198,
+              57,
+              22,
+              39,
+              23,
+              35,
+              193,
+              28
+            ],
+            "remote_assignments": 975
+          }
+        ],
+        "warmup": false
+      },
+      {
+        "epoch": 21,
+        "global_loss": 0.007706515524633913,
+        "step_ms": 105.30333399947267,
+        "blocks": [
+          {
+            "assignments": [
+              25,
+              22,
+              34,
+              28,
+              65,
+              63,
+              168,
+              26,
+              201,
+              55,
+              21,
+              40,
+              22,
+              33,
+              193,
+              28
+            ],
+            "remote_assignments": 977
+          }
+        ],
+        "warmup": false
+      },
+      {
+        "epoch": 22,
+        "global_loss": 0.007523274621744309,
+        "step_ms": 97.1116660075495,
+        "blocks": [
+          {
+            "assignments": [
+              23,
+              24,
+              34,
+              28,
+              65,
+              63,
+              169,
+              25,
+              203,
+              54,
+              21,
+              39,
+              22,
+              33,
+              195,
+              26
+            ],
+            "remote_assignments": 977
+          }
+        ],
+        "warmup": false
+      },
+      {
+        "epoch": 23,
+        "global_loss": 0.007391456591041719,
+        "step_ms": 99.15937499317806,
+        "blocks": [
+          {
+            "assignments": [
+              22,
+              24,
+              34,
+              25,
+              64,
+              64,
+              171,
+              24,
+              204,
+              55,
+              19,
+              41,
+              22,
+              32,
+              197,
+              26
+            ],
+            "remote_assignments": 978
+          }
+        ],
+        "warmup": false
+      },
+      {
+        "epoch": 24,
+        "global_loss": 0.007106394555572356,
+        "step_ms": 98.77233300358057,
+        "blocks": [
+          {
+            "assignments": [
+              22,
+              24,
+              33,
+              25,
+              64,
+              65,
+              171,
+              24,
+              206,
+              54,
+              19,
+              41,
+              22,
+              32,
+              196,
+              26
+            ],
+            "remote_assignments": 978
+          }
+        ],
+        "warmup": false
+      }
+    ],
+    "trace": null,
+    "first_step": null,
+    "final_parameters": null,
+    "parameter_changes": null,
+    "parameter_bytes_per_rank": 2143104,
+    "shared_parameter_bytes_per_rank": 12672
+  },
+  {
+    "rank": 1,
+    "train_config": {
+      "total_tokens": 4096,
+      "epochs": 25,
+      "learning_rate": 0.001,
+      "warmup": 5
+    },
+    "model_config": {
+      "dimension": 32,
+      "experts": 16,
+      "top_k": 2,
+      "expert_hidden": 2048,
+      "num_blocks": 1
+    },
+    "optimizer": "Adam",
+    "parallel": true,
+    "epochs": [
+      {
+        "epoch": 0,
+        "global_loss": 0.08769370071552285,
+        "step_ms": 90.55141700082459,
+        "blocks": [
+          {
+            "assignments": [
+              40,
+              22,
+              57,
+              45,
+              52,
+              80,
+              127,
+              30,
+              155,
+              39,
+              25,
+              65,
+              33,
+              65,
+              139,
+              50
+            ],
+            "remote_assignments": 922
+          }
+        ],
+        "warmup": true
+      },
+      {
+        "epoch": 1,
+        "global_loss": 0.038032700451895066,
+        "step_ms": 85.95504199911375,
+        "blocks": [
+          {
+            "assignments": [
+              40,
+              22,
+              56,
+              42,
+              48,
+              79,
+              129,
+              31,
+              157,
+              43,
+              24,
+              62,
+              32,
+              65,
+              141,
+              53
+            ],
+            "remote_assignments": 926
+          }
+        ],
+        "warmup": true
+      },
+      {
+        "epoch": 2,
+        "global_loss": 0.040551126687423604,
+        "step_ms": 101.87533400312532,
+        "blocks": [
+          {
+            "assignments": [
+              37,
+              22,
+              54,
+              41,
+              49,
+              76,
+              129,
+              31,
+              156,
+              45,
+              24,
+              61,
+              33,
+              65,
+              146,
+              55
+            ],
+            "remote_assignments": 929
+          }
+        ],
+        "warmup": true
+      },
+      {
+        "epoch": 3,
+        "global_loss": 0.03371493356121874,
+        "step_ms": 113.03629100439139,
+        "blocks": [
+          {
+            "assignments": [
+              37,
+              22,
+              54,
+              41,
+              49,
+              75,
+              130,
+              31,
+              159,
+              46,
+              24,
+              57,
+              31,
+              63,
+              151,
+              54
+            ],
+            "remote_assignments": 929
+          }
+        ],
+        "warmup": true
+      },
+      {
+        "epoch": 4,
+        "global_loss": 0.024406358279709158,
+        "step_ms": 89.91629199590534,
+        "blocks": [
+          {
+            "assignments": [
+              39,
+              21,
+              52,
+              37,
+              50,
+              74,
+              132,
+              31,
+              161,
+              49,
+              20,
+              58,
+              31,
+              62,
+              152,
+              55
+            ],
+            "remote_assignments": 935
+          }
+        ],
+        "warmup": true
+      },
+      {
+        "epoch": 5,
+        "global_loss": 0.02159868044477263,
+        "step_ms": 92.76741699432023,
+        "blocks": [
+          {
+            "assignments": [
+              38,
+              20,
+              52,
+              35,
+              52,
+              74,
+              133,
+              30,
+              165,
+              50,
+              18,
+              57,
+              30,
+              62,
+              152,
+              56
+            ],
+            "remote_assignments": 937
+          }
+        ],
+        "warmup": false
+      },
+      {
+        "epoch": 6,
+        "global_loss": 0.022048267059022197,
+        "step_ms": 104.1246249951655,
+        "blocks": [
+          {
+            "assignments": [
+              38,
+              19,
+              50,
+              33,
+              53,
+              74,
+              136,
+              30,
+              167,
+              50,
+              16,
+              58,
+              29,
+              60,
+              157,
+              54
+            ],
+            "remote_assignments": 941
+          }
+        ],
+        "warmup": false
+      },
+      {
+        "epoch": 7,
+        "global_loss": 0.020897650695950277,
+        "step_ms": 102.3610410047695,
+        "blocks": [
+          {
+            "assignments": [
+              38,
+              19,
+              47,
+              31,
+              55,
+              72,
+              135,
+              28,
+              172,
+              50,
+              16,
+              61,
+              28,
+              60,
+              159,
+              53
+            ],
+            "remote_assignments": 946
+          }
+        ],
+        "warmup": false
+      },
+      {
+        "epoch": 8,
+        "global_loss": 0.017854287340536044,
+        "step_ms": 98.19912500097416,
+        "blocks": [
+          {
+            "assignments": [
+              38,
+              19,
+              47,
+              31,
+              55,
+              71,
+              134,
+              27,
+              174,
+              49,
+              15,
+              61,
+              28,
+              59,
+              164,
+              52
+            ],
+            "remote_assignments": 946
+          }
+        ],
+        "warmup": false
+      },
+      {
+        "epoch": 9,
+        "global_loss": 0.015161309682227252,
+        "step_ms": 99.27166700072121,
+        "blocks": [
+          {
+            "assignments": [
+              37,
+              19,
+              47,
+              30,
+              56,
+              70,
+              132,
+              27,
+              176,
+              51,
+              15,
+              59,
+              27,
+              55,
+              171,
+              52
+            ],
+            "remote_assignments": 947
+          }
+        ],
+        "warmup": false
+      },
+      {
+        "epoch": 10,
+        "global_loss": 0.014201907859870543,
+        "step_ms": 95.80570799880661,
+        "blocks": [
+          {
+            "assignments": [
+              36,
+              19,
+              45,
+              30,
+              58,
+              71,
+              133,
+              26,
+              175,
+              53,
+              15,
+              58,
+              27,
+              53,
+              174,
+              51
+            ],
+            "remote_assignments": 949
+          }
+        ],
+        "warmup": false
+      },
+      {
+        "epoch": 11,
+        "global_loss": 0.014298161072612635,
+        "step_ms": 101.01954199490137,
+        "blocks": [
+          {
+            "assignments": [
+              35,
+              19,
+              44,
+              30,
+              60,
+              69,
+              133,
+              25,
+              179,
+              52,
+              16,
+              55,
+              26,
+              54,
+              177,
+              50
+            ],
+            "remote_assignments": 950
+          }
+        ],
+        "warmup": false
+      },
+      {
+        "epoch": 12,
+        "global_loss": 0.01401814364325319,
+        "step_ms": 96.79091699945275,
+        "blocks": [
+          {
+            "assignments": [
+              33,
+              17,
+              42,
+              29,
+              62,
+              70,
+              134,
+              26,
+              181,
+              50,
+              16,
+              54,
+              26,
+              54,
+              179,
+              51
+            ],
+            "remote_assignments": 953
+          }
+        ],
+        "warmup": false
+      },
+      {
+        "epoch": 13,
+        "global_loss": 0.012818962300455086,
+        "step_ms": 104.48120800720062,
+        "blocks": [
+          {
+            "assignments": [
+              31,
+              16,
+              42,
+              29,
+              61,
+              71,
+              134,
+              25,
+              184,
+              50,
+              14,
+              55,
+              26,
+              54,
+              181,
+              51
+            ],
+            "remote_assignments": 953
+          }
+        ],
+        "warmup": false
+      },
+      {
+        "epoch": 14,
+        "global_loss": 0.011345941733326726,
+        "step_ms": 94.83229200122878,
+        "blocks": [
+          {
+            "assignments": [
+              30,
+              15,
+              41,
+              29,
+              61,
+              70,
+              136,
+              25,
+              185,
+              50,
+              11,
+              55,
+              26,
+              54,
+              187,
+              49
+            ],
+            "remote_assignments": 954
+          }
+        ],
+        "warmup": false
+      },
+      {
+        "epoch": 15,
+        "global_loss": 0.010369440980066825,
+        "step_ms": 106.88654199475423,
+        "blocks": [
+          {
+            "assignments": [
+              29,
+              14,
+              40,
+              29,
+              61,
+              70,
+              138,
+              23,
+              187,
+              48,
+              11,
+              55,
+              26,
+              54,
+              190,
+              49
+            ],
+            "remote_assignments": 955
+          }
+        ],
+        "warmup": false
+      },
+      {
+        "epoch": 16,
+        "global_loss": 0.01006513302699395,
+        "step_ms": 97.45141699386295,
+        "blocks": [
+          {
+            "assignments": [
+              28,
+              14,
+              40,
+              30,
+              61,
+              70,
+              136,
+              22,
+              191,
+              48,
+              11,
+              55,
+              26,
+              52,
+              192,
+              48
+            ],
+            "remote_assignments": 954
+          }
+        ],
+        "warmup": false
+      },
+      {
+        "epoch": 17,
+        "global_loss": 0.009964076380432164,
+        "step_ms": 94.5099999953527,
+        "blocks": [
+          {
+            "assignments": [
+              27,
+              13,
+              38,
+              30,
+              61,
+              70,
+              137,
+              22,
+              194,
+              48,
+              10,
+              56,
+              27,
+              52,
+              192,
+              47
+            ],
+            "remote_assignments": 956
+          }
+        ],
+        "warmup": false
+      },
+      {
+        "epoch": 18,
+        "global_loss": 0.00957554881643621,
+        "step_ms": 104.45454200089443,
+        "blocks": [
+          {
+            "assignments": [
+              26,
+              13,
+              38,
+              29,
+              61,
+              70,
+              140,
+              22,
+              196,
+              47,
+              9,
+              55,
+              26,
+              52,
+              195,
+              45
+            ],
+            "remote_assignments": 957
+          }
+        ],
+        "warmup": false
+      },
+      {
+        "epoch": 19,
+        "global_loss": 0.008873524078173,
+        "step_ms": 98.88087499712128,
+        "blocks": [
+          {
+            "assignments": [
+              25,
+              12,
+              38,
+              29,
+              60,
+              70,
+              140,
+              22,
+              199,
+              47,
+              9,
+              55,
+              26,
+              52,
+              195,
+              45
+            ],
+            "remote_assignments": 957
+          }
+        ],
+        "warmup": false
+      },
+      {
+        "epoch": 20,
+        "global_loss": 0.008147898525085386,
+        "step_ms": 105.39087498909794,
+        "blocks": [
+          {
+            "assignments": [
+              25,
+              11,
+              36,
+              30,
+              61,
+              70,
+              144,
+              20,
+              200,
+              46,
+              7,
+              55,
+              26,
+              50,
+              197,
+              46
+            ],
+            "remote_assignments": 958
+          }
+        ],
+        "warmup": false
+      },
+      {
+        "epoch": 21,
+        "global_loss": 0.007706515524633913,
+        "step_ms": 105.30333399947267,
+        "blocks": [
+          {
+            "assignments": [
+              22,
+              12,
+              35,
+              30,
+              63,
+              69,
+              145,
+              19,
+              202,
+              46,
+              7,
+              56,
+              26,
+              48,
+              199,
+              45
+            ],
+            "remote_assignments": 959
+          }
+        ],
+        "warmup": false
+      },
+      {
+        "epoch": 22,
+        "global_loss": 0.007523274621744309,
+        "step_ms": 97.1116660075495,
+        "blocks": [
+          {
+            "assignments": [
+              23,
+              12,
+              35,
+              29,
+              64,
+              66,
+              146,
+              18,
+              203,
+              45,
+              7,
+              56,
+              25,
+              48,
+              203,
+              44
+            ],
+            "remote_assignments": 960
+          }
+        ],
+        "warmup": false
+      },
+      {
+        "epoch": 23,
+        "global_loss": 0.007391456591041719,
+        "step_ms": 99.15937499317806,
+        "blocks": [
+          {
+            "assignments": [
+              25,
+              10,
+              34,
+              27,
+              64,
+              64,
+              147,
+              18,
+              208,
+              45,
+              7,
+              55,
+              25,
+              47,
+              204,
+              44
+            ],
+            "remote_assignments": 963
+          }
+        ],
+        "warmup": false
+      },
+      {
+        "epoch": 24,
+        "global_loss": 0.007106394555572356,
+        "step_ms": 98.77233300358057,
+        "blocks": [
+          {
+            "assignments": [
+              23,
+              10,
+              34,
+              26,
+              62,
+              63,
+              150,
+              18,
+              208,
+              45,
+              8,
+              53,
+              25,
+              45,
+              210,
+              44
+            ],
+            "remote_assignments": 964
+          }
+        ],
+        "warmup": false
+      }
+    ],
+    "trace": null,
+    "first_step": null,
+    "final_parameters": null,
+    "parameter_changes": null,
+    "parameter_bytes_per_rank": 2143104,
+    "shared_parameter_bytes_per_rank": 12672
+  },
+  {
+    "rank": 2,
+    "train_config": {
+      "total_tokens": 4096,
+      "epochs": 25,
+      "learning_rate": 0.001,
+      "warmup": 5
+    },
+    "model_config": {
+      "dimension": 32,
+      "experts": 16,
+      "top_k": 2,
+      "expert_hidden": 2048,
+      "num_blocks": 1
+    },
+    "optimizer": "Adam",
+    "parallel": true,
+    "epochs": [
+      {
+        "epoch": 0,
+        "global_loss": 0.08769370071552285,
+        "step_ms": 90.55141700082459,
+        "blocks": [
+          {
+            "assignments": [
+              41,
+              29,
+              44,
+              47,
+              58,
+              93,
+              122,
+              40,
+              128,
+              46,
+              21,
+              63,
+              30,
+              71,
+              145,
+              46
+            ],
+            "remote_assignments": 873
+          }
+        ],
+        "warmup": true
+      },
+      {
+        "epoch": 1,
+        "global_loss": 0.038032700451895066,
+        "step_ms": 85.95504199911375,
+        "blocks": [
+          {
+            "assignments": [
+              40,
+              29,
+              45,
+              47,
+              57,
+              94,
+              119,
+              39,
+              125,
+              47,
+              21,
+              62,
+              30,
+              71,
+              150,
+              48
+            ],
+            "remote_assignments": 873
+          }
+        ],
+        "warmup": true
+      },
+      {
+        "epoch": 2,
+        "global_loss": 0.040551126687423604,
+        "step_ms": 101.87533400312532,
+        "blocks": [
+          {
+            "assignments": [
+              40,
+              29,
+              44,
+              46,
+              56,
+              92,
+              122,
+              39,
+              125,
+              49,
+              21,
+              59,
+              29,
+              70,
+              153,
+              50
+            ],
+            "remote_assignments": 876
+          }
+        ],
+        "warmup": true
+      },
+      {
+        "epoch": 3,
+        "global_loss": 0.03371493356121874,
+        "step_ms": 113.03629100439139,
+        "blocks": [
+          {
+            "assignments": [
+              40,
+              29,
+              43,
+              42,
+              58,
+              91,
+              123,
+              39,
+              127,
+              50,
+              20,
+              58,
+              29,
+              70,
+              156,
+              49
+            ],
+            "remote_assignments": 875
+          }
+        ],
+        "warmup": true
+      },
+      {
+        "epoch": 4,
+        "global_loss": 0.024406358279709158,
+        "step_ms": 89.91629199590534,
+        "blocks": [
+          {
+            "assignments": [
+              41,
+              29,
+              43,
+              42,
+              58,
+              88,
+              124,
+              39,
+              130,
+              51,
+              20,
+              56,
+              30,
+              68,
+              159,
+              46
+            ],
+            "remote_assignments": 878
+          }
+        ],
+        "warmup": true
+      },
+      {
+        "epoch": 5,
+        "global_loss": 0.02159868044477263,
+        "step_ms": 92.76741699432023,
+        "blocks": [
+          {
+            "assignments": [
+              39,
+              29,
+              43,
+              41,
+              58,
+              85,
+              124,
+              36,
+              135,
+              52,
+              19,
+              56,
+              31,
+              67,
+              161,
+              48
+            ],
+            "remote_assignments": 881
+          }
+        ],
+        "warmup": false
+      },
+      {
+        "epoch": 6,
+        "global_loss": 0.022048267059022197,
+        "step_ms": 104.1246249951655,
+        "blocks": [
+          {
+            "assignments": [
+              38,
+              28,
+              43,
+              39,
+              61,
+              85,
+              126,
+              36,
+              135,
+              53,
+              19,
+              56,
+              30,
+              66,
+              162,
+              47
+            ],
+            "remote_assignments": 878
+          }
+        ],
+        "warmup": false
+      },
+      {
+        "epoch": 7,
+        "global_loss": 0.020897650695950277,
+        "step_ms": 102.3610410047695,
+        "blocks": [
+          {
+            "assignments": [
+              38,
+              28,
+              42,
+              38,
+              64,
+              83,
+              128,
+              36,
+              136,
+              54,
+              19,
+              53,
+              30,
+              65,
+              165,
+              45
+            ],
+            "remote_assignments": 877
+          }
+        ],
+        "warmup": false
+      },
+      {
+        "epoch": 8,
+        "global_loss": 0.017854287340536044,
+        "step_ms": 98.19912500097416,
+        "blocks": [
+          {
+            "assignments": [
+              36,
+              29,
+              43,
+              38,
+              65,
+              81,
+              130,
+              36,
+              139,
+              54,
+              17,
+              52,
+              29,
+              60,
+              170,
+              45
+            ],
+            "remote_assignments": 878
+          }
+        ],
+        "warmup": false
+      },
+      {
+        "epoch": 9,
+        "global_loss": 0.015161309682227252,
+        "step_ms": 99.27166700072121,
+        "blocks": [
+          {
+            "assignments": [
+              35,
+              29,
+              43,
+              37,
+              67,
+              80,
+              130,
+              34,
+              142,
+              55,
+              17,
+              50,
+              29,
+              60,
+              172,
+              44
+            ],
+            "remote_assignments": 877
+          }
+        ],
+        "warmup": false
+      },
+      {
+        "epoch": 10,
+        "global_loss": 0.014201907859870543,
+        "step_ms": 95.80570799880661,
+        "blocks": [
+          {
+            "assignments": [
+              35,
+              27,
+              40,
+              36,
+              70,
+              78,
+              132,
+              32,
+              146,
+              54,
+              16,
+              52,
+              29,
+              58,
+              176,
+              43
+            ],
+            "remote_assignments": 876
+          }
+        ],
+        "warmup": false
+      },
+      {
+        "epoch": 11,
+        "global_loss": 0.014298161072612635,
+        "step_ms": 101.01954199490137,
+        "blocks": [
+          {
+            "assignments": [
+              33,
+              25,
+              38,
+              34,
+              70,
+              75,
+              134,
+              31,
+              153,
+              53,
+              16,
+              51,
+              30,
+              57,
+              182,
+              42
+            ],
+            "remote_assignments": 879
+          }
+        ],
+        "warmup": false
+      },
+      {
+        "epoch": 12,
+        "global_loss": 0.01401814364325319,
+        "step_ms": 96.79091699945275,
+        "blocks": [
+          {
+            "assignments": [
+              33,
+              25,
+              35,
+              34,
+              71,
+              72,
+              138,
+              30,
+              156,
+              55,
+              15,
+              47,
+              30,
+              55,
+              187,
+              41
+            ],
+            "remote_assignments": 881
+          }
+        ],
+        "warmup": false
+      },
+      {
+        "epoch": 13,
+        "global_loss": 0.012818962300455086,
+        "step_ms": 104.48120800720062,
+        "blocks": [
+          {
+            "assignments": [
+              34,
+              25,
+              34,
+              32,
+              70,
+              73,
+              139,
+              28,
+              159,
+              54,
+              14,
+              46,
+              30,
+              54,
+              191,
+              41
+            ],
+            "remote_assignments": 881
+          }
+        ],
+        "warmup": false
+      },
+      {
+        "epoch": 14,
+        "global_loss": 0.011345941733326726,
+        "step_ms": 94.83229200122878,
+        "blocks": [
+          {
+            "assignments": [
+              34,
+              25,
+              34,
+              30,
+              68,
+              74,
+              141,
+              26,
+              165,
+              54,
+              13,
+              47,
+              30,
+              52,
+              192,
+              39
+            ],
+            "remote_assignments": 882
+          }
+        ],
+        "warmup": false
+      },
+      {
+        "epoch": 15,
+        "global_loss": 0.010369440980066825,
+        "step_ms": 106.88654199475423,
+        "blocks": [
+          {
+            "assignments": [
+              33,
+              24,
+              34,
+              31,
+              70,
+              74,
+              142,
+              24,
+              166,
+              54,
+              12,
+              45,
+              30,
+              51,
+              196,
+              38
+            ],
+            "remote_assignments": 880
+          }
+        ],
+        "warmup": false
+      },
+      {
+        "epoch": 16,
+        "global_loss": 0.01006513302699395,
+        "step_ms": 97.45141699386295,
+        "blocks": [
+          {
+            "assignments": [
+              33,
+              21,
+              31,
+              31,
+              70,
+              75,
+              143,
+              23,
+              169,
+              56,
+              12,
+              44,
+              29,
+              49,
+              200,
+              38
+            ],
+            "remote_assignments": 879
+          }
+        ],
+        "warmup": false
+      },
+      {
+        "epoch": 17,
+        "global_loss": 0.009964076380432164,
+        "step_ms": 94.5099999953527,
+        "blocks": [
+          {
+            "assignments": [
+              33,
+              21,
+              31,
+              31,
+              69,
+              75,
+              144,
+              22,
+              169,
+              57,
+              12,
+              43,
+              29,
+              48,
+              201,
+              39
+            ],
+            "remote_assignments": 880
+          }
+        ],
+        "warmup": false
+      },
+      {
+        "epoch": 18,
+        "global_loss": 0.00957554881643621,
+        "step_ms": 104.45454200089443,
+        "blocks": [
+          {
+            "assignments": [
+              34,
+              21,
+              29,
+              30,
+              69,
+              77,
+              146,
+              18,
+              174,
+              58,
+              11,
+              43,
+              28,
+              47,
+              202,
+              37
+            ],
+            "remote_assignments": 878
+          }
+        ],
+        "warmup": false
+      },
+      {
+        "epoch": 19,
+        "global_loss": 0.008873524078173,
+        "step_ms": 98.88087499712128,
+        "blocks": [
+          {
+            "assignments": [
+              34,
+              21,
+              29,
+              30,
+              70,
+              77,
+              148,
+              18,
+              175,
+              56,
+              11,
+              43,
+              27,
+              46,
+              202,
+              37
+            ],
+            "remote_assignments": 877
+          }
+        ],
+        "warmup": false
+      },
+      {
+        "epoch": 20,
+        "global_loss": 0.008147898525085386,
+        "step_ms": 105.39087498909794,
+        "blocks": [
+          {
+            "assignments": [
+              34,
+              18,
+              30,
+              29,
+              69,
+              77,
+              149,
+              18,
+              178,
+              55,
+              11,
+              45,
+              28,
+              45,
+              202,
+              36
+            ],
+            "remote_assignments": 878
+          }
+        ],
+        "warmup": false
+      },
+      {
+        "epoch": 21,
+        "global_loss": 0.007706515524633913,
+        "step_ms": 105.30333399947267,
+        "blocks": [
+          {
+            "assignments": [
+              32,
+              18,
+              29,
+              27,
+              69,
+              77,
+              151,
+              18,
+              181,
+              53,
+              10,
+              46,
+              29,
+              45,
+              205,
+              34
+            ],
+            "remote_assignments": 878
+          }
+        ],
+        "warmup": false
+      },
+      {
+        "epoch": 22,
+        "global_loss": 0.007523274621744309,
+        "step_ms": 97.1116660075495,
+        "blocks": [
+          {
+            "assignments": [
+              32,
+              18,
+              29,
+              25,
+              70,
+              77,
+              152,
+              18,
+              183,
+              50,
+              9,
+              46,
+              29,
+              45,
+              207,
+              34
+            ],
+            "remote_assignments": 877
+          }
+        ],
+        "warmup": false
+      },
+      {
+        "epoch": 23,
+        "global_loss": 0.007391456591041719,
+        "step_ms": 99.15937499317806,
+        "blocks": [
+          {
+            "assignments": [
+              32,
+              17,
+              29,
+              24,
+              72,
+              77,
+              152,
+              18,
+              186,
+              48,
+              9,
+              46,
+              29,
+              45,
+              207,
+              33
+            ],
+            "remote_assignments": 875
+          }
+        ],
+        "warmup": false
+      },
+      {
+        "epoch": 24,
+        "global_loss": 0.007106394555572356,
+        "step_ms": 98.77233300358057,
+        "blocks": [
+          {
+            "assignments": [
+              32,
+              17,
+              27,
+              24,
+              72,
+              79,
+              152,
+              18,
+              187,
+              46,
+              8,
+              47,
+              28,
+              44,
+              210,
+              33
+            ],
+            "remote_assignments": 873
+          }
+        ],
+        "warmup": false
+      }
+    ],
+    "trace": null,
+    "first_step": null,
+    "final_parameters": null,
+    "parameter_changes": null,
+    "parameter_bytes_per_rank": 2143104,
+    "shared_parameter_bytes_per_rank": 12672
+  },
+  {
+    "rank": 3,
+    "train_config": {
+      "total_tokens": 4096,
+      "epochs": 25,
+      "learning_rate": 0.001,
+      "warmup": 5
+    },
+    "model_config": {
+      "dimension": 32,
+      "experts": 16,
+      "top_k": 2,
+      "expert_hidden": 2048,
+      "num_blocks": 1
+    },
+    "optimizer": "Adam",
+    "parallel": true,
+    "epochs": [
+      {
+        "epoch": 0,
+        "global_loss": 0.08769370071552285,
+        "step_ms": 90.55141700082459,
+        "blocks": [
+          {
+            "assignments": [
+              48,
+              19,
+              38,
+              63,
+              51,
+              90,
+              154,
+              37,
+              134,
+              48,
+              21,
+              59,
+              27,
+              61,
+              138,
+              36
+            ],
+            "remote_assignments": 833
+          }
+        ],
+        "warmup": true
+      },
+      {
+        "epoch": 1,
+        "global_loss": 0.038032700451895066,
+        "step_ms": 85.95504199911375,
+        "blocks": [
+          {
+            "assignments": [
+              47,
+              19,
+              38,
+              63,
+              49,
+              88,
+              153,
+              38,
+              135,
+              51,
+              22,
+              55,
+              27,
+              62,
+              140,
+              37
+            ],
+            "remote_assignments": 833
+          }
+        ],
+        "warmup": true
+      },
+      {
+        "epoch": 2,
+        "global_loss": 0.040551126687423604,
+        "step_ms": 101.87533400312532,
+        "blocks": [
+          {
+            "assignments": [
+              45,
+              19,
+              38,
+              62,
+              48,
+              86,
+              152,
+              36,
+              133,
+              54,
+              22,
+              55,
+              26,
+              62,
+              148,
+              38
+            ],
+            "remote_assignments": 836
+          }
+        ],
+        "warmup": true
+      },
+      {
+        "epoch": 3,
+        "global_loss": 0.03371493356121874,
+        "step_ms": 113.03629100439139,
+        "blocks": [
+          {
+            "assignments": [
+              44,
+              20,
+              39,
+              60,
+              50,
+              85,
+              152,
+              35,
+              133,
+              58,
+              22,
+              54,
+              25,
+              63,
+              148,
+              36
+            ],
+            "remote_assignments": 837
+          }
+        ],
+        "warmup": true
+      },
+      {
+        "epoch": 4,
+        "global_loss": 0.024406358279709158,
+        "step_ms": 89.91629199590534,
+        "blocks": [
+          {
+            "assignments": [
+              43,
+              19,
+              35,
+              59,
+              51,
+              83,
+              156,
+              35,
+              134,
+              62,
+              22,
+              54,
+              26,
+              60,
+              149,
+              36
+            ],
+            "remote_assignments": 833
+          }
+        ],
+        "warmup": true
+      },
+      {
+        "epoch": 5,
+        "global_loss": 0.02159868044477263,
+        "step_ms": 92.76741699432023,
+        "blocks": [
+          {
+            "assignments": [
+              43,
+              18,
+              33,
+              60,
+              51,
+              82,
+              157,
+              33,
+              137,
+              63,
+              21,
+              52,
+              26,
+              57,
+              156,
+              35
+            ],
+            "remote_assignments": 834
+          }
+        ],
+        "warmup": false
+      },
+      {
+        "epoch": 6,
+        "global_loss": 0.022048267059022197,
+        "step_ms": 104.1246249951655,
+        "blocks": [
+          {
+            "assignments": [
+              43,
+              18,
+              31,
+              59,
+              54,
+              80,
+              159,
+              32,
+              139,
+              64,
+              19,
+              51,
+              25,
+              56,
+              159,
+              35
+            ],
+            "remote_assignments": 833
+          }
+        ],
+        "warmup": false
+      },
+      {
+        "epoch": 7,
+        "global_loss": 0.020897650695950277,
+        "step_ms": 102.3610410047695,
+        "blocks": [
+          {
+            "assignments": [
+              41,
+              17,
+              31,
+              57,
+              55,
+              79,
+              160,
+              32,
+              143,
+              64,
+              19,
+              52,
+              24,
+              53,
+              161,
+              36
+            ],
+            "remote_assignments": 832
+          }
+        ],
+        "warmup": false
+      },
+      {
+        "epoch": 8,
+        "global_loss": 0.017854287340536044,
+        "step_ms": 98.19912500097416,
+        "blocks": [
+          {
+            "assignments": [
+              40,
+              18,
+              31,
+              53,
+              57,
+              75,
+              160,
+              32,
+              146,
+              64,
+              19,
+              50,
+              24,
+              53,
+              166,
+              36
+            ],
+            "remote_assignments": 832
+          }
+        ],
+        "warmup": false
+      },
+      {
+        "epoch": 9,
+        "global_loss": 0.015161309682227252,
+        "step_ms": 99.27166700072121,
+        "blocks": [
+          {
+            "assignments": [
+              40,
+              18,
+              32,
+              51,
+              57,
+              74,
+              160,
+              32,
+              148,
+              63,
+              20,
+              50,
+              24,
+              49,
+              168,
+              38
+            ],
+            "remote_assignments": 832
+          }
+        ],
+        "warmup": false
+      },
+      {
+        "epoch": 10,
+        "global_loss": 0.014201907859870543,
+        "step_ms": 95.80570799880661,
+        "blocks": [
+          {
+            "assignments": [
+              39,
+              18,
+              29,
+              49,
+              56,
+              74,
+              162,
+              32,
+              150,
+              63,
+              20,
+              52,
+              24,
+              48,
+              169,
+              39
+            ],
+            "remote_assignments": 830
+          }
+        ],
+        "warmup": false
+      },
+      {
+        "epoch": 11,
+        "global_loss": 0.014298161072612635,
+        "step_ms": 101.01954199490137,
+        "blocks": [
+          {
+            "assignments": [
+              37,
+              18,
+              28,
+              47,
+              60,
+              75,
+              160,
+              31,
+              155,
+              62,
+              19,
+              50,
+              23,
+              46,
+              174,
+              39
+            ],
+            "remote_assignments": 833
+          }
+        ],
+        "warmup": false
+      },
+      {
+        "epoch": 12,
+        "global_loss": 0.01401814364325319,
+        "step_ms": 96.79091699945275,
+        "blocks": [
+          {
+            "assignments": [
+              37,
+              18,
+              27,
+              45,
+              58,
+              75,
+              163,
+              30,
+              160,
+              62,
+              17,
+              47,
+              23,
+              46,
+              179,
+              37
+            ],
+            "remote_assignments": 831
+          }
+        ],
+        "warmup": false
+      },
+      {
+        "epoch": 13,
+        "global_loss": 0.012818962300455086,
+        "step_ms": 104.48120800720062,
+        "blocks": [
+          {
+            "assignments": [
+              36,
+              17,
+              26,
+              43,
+              62,
+              75,
+              166,
+              29,
+              160,
+              62,
+              17,
+              46,
+              22,
+              46,
+              181,
+              36
+            ],
+            "remote_assignments": 829
+          }
+        ],
+        "warmup": false
+      },
+      {
+        "epoch": 14,
+        "global_loss": 0.011345941733326726,
+        "step_ms": 94.83229200122878,
+        "blocks": [
+          {
+            "assignments": [
+              36,
+              16,
+              25,
+              42,
+              62,
+              77,
+              166,
+              27,
+              160,
+              61,
+              17,
+              46,
+              22,
+              45,
+              186,
+              36
+            ],
+            "remote_assignments": 831
+          }
+        ],
+        "warmup": false
+      },
+      {
+        "epoch": 15,
+        "global_loss": 0.010369440980066825,
+        "step_ms": 106.88654199475423,
+        "blocks": [
+          {
+            "assignments": [
+              36,
+              16,
+              25,
+              41,
+              63,
+              76,
+              168,
+              26,
+              161,
+              60,
+              17,
+              46,
+              22,
+              44,
+              187,
+              36
+            ],
+            "remote_assignments": 830
+          }
+        ],
+        "warmup": false
+      },
+      {
+        "epoch": 16,
+        "global_loss": 0.01006513302699395,
+        "step_ms": 97.45141699386295,
+        "blocks": [
+          {
+            "assignments": [
+              35,
+              15,
+              25,
+              40,
+              63,
+              75,
+              170,
+              26,
+              163,
+              59,
+              17,
+              47,
+              22,
+              44,
+              187,
+              36
+            ],
+            "remote_assignments": 828
+          }
+        ],
+        "warmup": false
+      },
+      {
+        "epoch": 17,
+        "global_loss": 0.009964076380432164,
+        "step_ms": 94.5099999953527,
+        "blocks": [
+          {
+            "assignments": [
+              34,
+              16,
+              23,
+              39,
+              64,
+              75,
+              170,
+              25,
+              165,
+              59,
+              16,
+              48,
+              22,
+              44,
+              188,
+              36
+            ],
+            "remote_assignments": 829
+          }
+        ],
+        "warmup": false
+      },
+      {
+        "epoch": 18,
+        "global_loss": 0.00957554881643621,
+        "step_ms": 104.45454200089443,
+        "blocks": [
+          {
+            "assignments": [
+              34,
+              13,
+              23,
+              39,
+              64,
+              71,
+              173,
+              24,
+              168,
+              60,
+              16,
+              48,
+              21,
+              44,
+              190,
+              36
+            ],
+            "remote_assignments": 827
+          }
+        ],
+        "warmup": false
+      },
+      {
+        "epoch": 19,
+        "global_loss": 0.008873524078173,
+        "step_ms": 98.88087499712128,
+        "blocks": [
+          {
+            "assignments": [
+              35,
+              13,
+              23,
+              38,
+              65,
+              71,
+              175,
+              24,
+              169,
+              57,
+              15,
+              47,
+              22,
+              43,
+              192,
+              35
+            ],
+            "remote_assignments": 825
+          }
+        ],
+        "warmup": false
+      },
+      {
+        "epoch": 20,
+        "global_loss": 0.008147898525085386,
+        "step_ms": 105.39087498909794,
+        "blocks": [
+          {
+            "assignments": [
+              34,
+              13,
+              22,
+              37,
+              64,
+              72,
+              177,
+              24,
+              171,
+              56,
+              15,
+              48,
+              22,
+              42,
+              193,
+              34
+            ],
+            "remote_assignments": 823
+          }
+        ],
+        "warmup": false
+      },
+      {
+        "epoch": 21,
+        "global_loss": 0.007706515524633913,
+        "step_ms": 105.30333399947267,
+        "blocks": [
+          {
+            "assignments": [
+              35,
+              13,
+              23,
+              35,
+              62,
+              72,
+              178,
+              23,
+              172,
+              56,
+              16,
+              46,
+              22,
+              41,
+              197,
+              33
+            ],
+            "remote_assignments": 823
+          }
+        ],
+        "warmup": false
+      },
+      {
+        "epoch": 22,
+        "global_loss": 0.007523274621744309,
+        "step_ms": 97.1116660075495,
+        "blocks": [
+          {
+            "assignments": [
+              35,
+              13,
+              23,
+              35,
+              62,
+              71,
+              178,
+              23,
+              173,
+              56,
+              16,
+              44,
+              21,
+              40,
+              201,
+              33
+            ],
+            "remote_assignments": 823
+          }
+        ],
+        "warmup": false
+      },
+      {
+        "epoch": 23,
+        "global_loss": 0.007391456591041719,
+        "step_ms": 99.15937499317806,
+        "blocks": [
+          {
+            "assignments": [
+              34,
+              13,
+              22,
+              35,
+              61,
+              71,
+              178,
+              23,
+              176,
+              56,
+              15,
+              44,
+              19,
+              40,
+              204,
+              33
+            ],
+            "remote_assignments": 823
+          }
+        ],
+        "warmup": false
+      },
+      {
+        "epoch": 24,
+        "global_loss": 0.007106394555572356,
+        "step_ms": 98.77233300358057,
+        "blocks": [
+          {
+            "assignments": [
+              34,
+              12,
+              22,
+              35,
+              60,
+              72,
+              181,
+              22,
+              179,
+              54,
+              14,
+              45,
+              19,
+              40,
+              204,
+              31
+            ],
+            "remote_assignments": 821
+          }
+        ],
+        "warmup": false
+      }
+    ],
+    "trace": null,
+    "first_step": null,
+    "final_parameters": null,
+    "parameter_changes": null,
+    "parameter_bytes_per_rank": 2143104,
+    "shared_parameter_bytes_per_rank": 12672
+  },
+  {
+    "rank": 4,
+    "train_config": {
+      "total_tokens": 4096,
+      "epochs": 25,
+      "learning_rate": 0.001,
+      "warmup": 5
+    },
+    "model_config": {
+      "dimension": 32,
+      "experts": 16,
+      "top_k": 2,
+      "expert_hidden": 2048,
+      "num_blocks": 1
+    },
+    "optimizer": "Adam",
+    "parallel": true,
+    "epochs": [
+      {
+        "epoch": 0,
+        "global_loss": 0.08769370071552285,
+        "step_ms": 90.55141700082459,
+        "blocks": [
+          {
+            "assignments": [
+              44,
+              22,
+              36,
+              53,
+              50,
+              98,
+              125,
+              41,
+              137,
+              53,
+              31,
+              53,
+              30,
+              65,
+              152,
+              34
+            ],
+            "remote_assignments": 834
+          }
+        ],
+        "warmup": true
+      },
+      {
+        "epoch": 1,
+        "global_loss": 0.038032700451895066,
+        "step_ms": 85.95504199911375,
+        "blocks": [
+          {
+            "assignments": [
+              43,
+              21,
+              36,
+              52,
+              48,
+              98,
+              125,
+              41,
+              141,
+              56,
+              31,
+              53,
+              28,
+              62,
+              152,
+              37
+            ],
+            "remote_assignments": 827
+          }
+        ],
+        "warmup": true
+      },
+      {
+        "epoch": 2,
+        "global_loss": 0.040551126687423604,
+        "step_ms": 101.87533400312532,
+        "blocks": [
+          {
+            "assignments": [
+              43,
+              20,
+              36,
+              50,
+              48,
+              97,
+              124,
+              40,
+              139,
+              60,
+              31,
+              53,
+              29,
+              62,
+              154,
+              38
+            ],
+            "remote_assignments": 825
+          }
+        ],
+        "warmup": true
+      },
+      {
+        "epoch": 3,
+        "global_loss": 0.03371493356121874,
+        "step_ms": 113.03629100439139,
+        "blocks": [
+          {
+            "assignments": [
+              45,
+              19,
+              35,
+              48,
+              49,
+              95,
+              125,
+              39,
+              141,
+              62,
+              28,
+              50,
+              30,
+              60,
+              160,
+              38
+            ],
+            "remote_assignments": 821
+          }
+        ],
+        "warmup": true
+      },
+      {
+        "epoch": 4,
+        "global_loss": 0.024406358279709158,
+        "step_ms": 89.91629199590534,
+        "blocks": [
+          {
+            "assignments": [
+              46,
+              18,
+              36,
+              45,
+              50,
+              93,
+              125,
+              39,
+              142,
+              64,
+              28,
+              50,
+              29,
+              59,
+              163,
+              37
+            ],
+            "remote_assignments": 818
+          }
+        ],
+        "warmup": true
+      },
+      {
+        "epoch": 5,
+        "global_loss": 0.02159868044477263,
+        "step_ms": 92.76741699432023,
+        "blocks": [
+          {
+            "assignments": [
+              47,
+              18,
+              35,
+              42,
+              51,
+              92,
+              126,
+              38,
+              141,
+              67,
+              27,
+              52,
+              28,
+              58,
+              168,
+              34
+            ],
+            "remote_assignments": 816
+          }
+        ],
+        "warmup": false
+      },
+      {
+        "epoch": 6,
+        "global_loss": 0.022048267059022197,
+        "step_ms": 104.1246249951655,
+        "blocks": [
+          {
+            "assignments": [
+              46,
+              16,
+              33,
+              41,
+              52,
+              92,
+              128,
+              38,
+              142,
+              67,
+              26,
+              52,
+              29,
+              58,
+              171,
+              33
+            ],
+            "remote_assignments": 815
+          }
+        ],
+        "warmup": false
+      },
+      {
+        "epoch": 7,
+        "global_loss": 0.020897650695950277,
+        "step_ms": 102.3610410047695,
+        "blocks": [
+          {
+            "assignments": [
+              47,
+              15,
+              32,
+              41,
+              54,
+              90,
+              129,
+              34,
+              145,
+              67,
+              26,
+              51,
+              27,
+              57,
+              174,
+              35
+            ],
+            "remote_assignments": 812
+          }
+        ],
+        "warmup": false
+      },
+      {
+        "epoch": 8,
+        "global_loss": 0.017854287340536044,
+        "step_ms": 98.19912500097416,
+        "blocks": [
+          {
+            "assignments": [
+              46,
+              15,
+              32,
+              39,
+              55,
+              89,
+              129,
+              34,
+              147,
+              68,
+              26,
+              51,
+              26,
+              56,
+              177,
+              34
+            ],
+            "remote_assignments": 809
+          }
+        ],
+        "warmup": false
+      },
+      {
+        "epoch": 9,
+        "global_loss": 0.015161309682227252,
+        "step_ms": 99.27166700072121,
+        "blocks": [
+          {
+            "assignments": [
+              45,
+              14,
+              31,
+              38,
+              60,
+              86,
+              129,
+              34,
+              152,
+              67,
+              25,
+              52,
+              25,
+              54,
+              179,
+              33
+            ],
+            "remote_assignments": 805
+          }
+        ],
+        "warmup": false
+      },
+      {
+        "epoch": 10,
+        "global_loss": 0.014201907859870543,
+        "step_ms": 95.80570799880661,
+        "blocks": [
+          {
+            "assignments": [
+              43,
+              14,
+              28,
+              38,
+              61,
+              84,
+              133,
+              32,
+              152,
+              68,
+              26,
+              49,
+              25,
+              52,
+              186,
+              33
+            ],
+            "remote_assignments": 804
+          }
+        ],
+        "warmup": false
+      },
+      {
+        "epoch": 11,
+        "global_loss": 0.014298161072612635,
+        "step_ms": 101.01954199490137,
+        "blocks": [
+          {
+            "assignments": [
+              43,
+              13,
+              28,
+              38,
+              64,
+              81,
+              135,
+              30,
+              154,
+              67,
+              25,
+              49,
+              25,
+              50,
+              188,
+              34
+            ],
+            "remote_assignments": 803
+          }
+        ],
+        "warmup": false
+      },
+      {
+        "epoch": 12,
+        "global_loss": 0.01401814364325319,
+        "step_ms": 96.79091699945275,
+        "blocks": [
+          {
+            "assignments": [
+              43,
+              13,
+              27,
+              38,
+              62,
+              80,
+              135,
+              29,
+              156,
+              67,
+              24,
+              49,
+              25,
+              47,
+              195,
+              34
+            ],
+            "remote_assignments": 801
+          }
+        ],
+        "warmup": false
+      },
+      {
+        "epoch": 13,
+        "global_loss": 0.012818962300455086,
+        "step_ms": 104.48120800720062,
+        "blocks": [
+          {
+            "assignments": [
+              40,
+              13,
+              27,
+              38,
+              62,
+              79,
+              140,
+              28,
+              156,
+              67,
+              24,
+              49,
+              22,
+              48,
+              197,
+              34
+            ],
+            "remote_assignments": 801
+          }
+        ],
+        "warmup": false
+      },
+      {
+        "epoch": 14,
+        "global_loss": 0.011345941733326726,
+        "step_ms": 94.83229200122878,
+        "blocks": [
+          {
+            "assignments": [
+              39,
+              11,
+              24,
+              36,
+              68,
+              76,
+              140,
+              27,
+              161,
+              68,
+              24,
+              48,
+              21,
+              45,
+              202,
+              34
+            ],
+            "remote_assignments": 795
+          }
+        ],
+        "warmup": false
+      },
+      {
+        "epoch": 15,
+        "global_loss": 0.010369440980066825,
+        "step_ms": 106.88654199475423,
+        "blocks": [
+          {
+            "assignments": [
+              38,
+              11,
+              22,
+              35,
+              67,
+              78,
+              142,
+              25,
+              161,
+              67,
+              25,
+              46,
+              22,
+              43,
+              207,
+              35
+            ],
+            "remote_assignments": 796
+          }
+        ],
+        "warmup": false
+      },
+      {
+        "epoch": 16,
+        "global_loss": 0.01006513302699395,
+        "step_ms": 97.45141699386295,
+        "blocks": [
+          {
+            "assignments": [
+              37,
+              11,
+              21,
+              34,
+              68,
+              77,
+              147,
+              24,
+              163,
+              68,
+              23,
+              45,
+              22,
+              43,
+              209,
+              32
+            ],
+            "remote_assignments": 793
+          }
+        ],
+        "warmup": false
+      },
+      {
+        "epoch": 17,
+        "global_loss": 0.009964076380432164,
+        "step_ms": 94.5099999953527,
+        "blocks": [
+          {
+            "assignments": [
+              34,
+              11,
+              21,
+              34,
+              67,
+              76,
+              151,
+              24,
+              166,
+              67,
+              22,
+              44,
+              22,
+              41,
+              213,
+              31
+            ],
+            "remote_assignments": 791
+          }
+        ],
+        "warmup": false
+      },
+      {
+        "epoch": 18,
+        "global_loss": 0.00957554881643621,
+        "step_ms": 104.45454200089443,
+        "blocks": [
+          {
+            "assignments": [
+              33,
+              10,
+              21,
+              32,
+              69,
+              76,
+              152,
+              23,
+              167,
+              66,
+              22,
+              42,
+              22,
+              41,
+              217,
+              31
+            ],
+            "remote_assignments": 791
+          }
+        ],
+        "warmup": false
+      },
+      {
+        "epoch": 19,
+        "global_loss": 0.008873524078173,
+        "step_ms": 98.88087499712128,
+        "blocks": [
+          {
+            "assignments": [
+              32,
+              9,
+              22,
+              31,
+              69,
+              77,
+              156,
+              22,
+              167,
+              65,
+              22,
+              41,
+              22,
+              41,
+              217,
+              31
+            ],
+            "remote_assignments": 792
+          }
+        ],
+        "warmup": false
+      },
+      {
+        "epoch": 20,
+        "global_loss": 0.008147898525085386,
+        "step_ms": 105.39087498909794,
+        "blocks": [
+          {
+            "assignments": [
+              32,
+              7,
+              22,
+              30,
+              71,
+              77,
+              158,
+              22,
+              169,
+              65,
+              21,
+              41,
+              21,
+              41,
+              217,
+              30
+            ],
+            "remote_assignments": 790
+          }
+        ],
+        "warmup": false
+      },
+      {
+        "epoch": 21,
+        "global_loss": 0.007706515524633913,
+        "step_ms": 105.30333399947267,
+        "blocks": [
+          {
+            "assignments": [
+              33,
+              7,
+              22,
+              26,
+              71,
+              77,
+              158,
+              22,
+              173,
+              64,
+              21,
+              42,
+              21,
+              40,
+              217,
+              30
+            ],
+            "remote_assignments": 787
+          }
+        ],
+        "warmup": false
+      },
+      {
+        "epoch": 22,
+        "global_loss": 0.007523274621744309,
+        "step_ms": 97.1116660075495,
+        "blocks": [
+          {
+            "assignments": [
+              34,
+              7,
+              22,
+              26,
+              70,
+              78,
+              159,
+              22,
+              174,
+              64,
+              21,
+              42,
+              21,
+              38,
+              216,
+              30
+            ],
+            "remote_assignments": 786
+          }
+        ],
+        "warmup": false
+      },
+      {
+        "epoch": 23,
+        "global_loss": 0.007391456591041719,
+        "step_ms": 99.15937499317806,
+        "blocks": [
+          {
+            "assignments": [
+              32,
+              6,
+              21,
+              27,
+              70,
+              78,
+              162,
+              20,
+              176,
+              65,
+              21,
+              40,
+              21,
+              37,
+              218,
+              30
+            ],
+            "remote_assignments": 783
+          }
+        ],
+        "warmup": false
+      },
+      {
+        "epoch": 24,
+        "global_loss": 0.007106394555572356,
+        "step_ms": 98.77233300358057,
+        "blocks": [
+          {
+            "assignments": [
+              33,
+              6,
+              21,
+              26,
+              69,
+              77,
+              165,
+              20,
+              177,
+              64,
+              21,
+              40,
+              21,
+              37,
+              218,
+              29
+            ],
+            "remote_assignments": 783
+          }
+        ],
+        "warmup": false
+      }
+    ],
+    "trace": null,
+    "first_step": null,
+    "final_parameters": null,
+    "parameter_changes": null,
+    "parameter_bytes_per_rank": 2143104,
+    "shared_parameter_bytes_per_rank": 12672
+  },
+  {
+    "rank": 5,
+    "train_config": {
+      "total_tokens": 4096,
+      "epochs": 25,
+      "learning_rate": 0.001,
+      "warmup": 5
+    },
+    "model_config": {
+      "dimension": 32,
+      "experts": 16,
+      "top_k": 2,
+      "expert_hidden": 2048,
+      "num_blocks": 1
+    },
+    "optimizer": "Adam",
+    "parallel": true,
+    "epochs": [
+      {
+        "epoch": 0,
+        "global_loss": 0.08769370071552285,
+        "step_ms": 90.55141700082459,
+        "blocks": [
+          {
+            "assignments": [
+              48,
+              18,
+              37,
+              52,
+              46,
+              86,
+              131,
+              40,
+              145,
+              53,
+              29,
+              69,
+              38,
+              62,
+              131,
+              39
+            ],
+            "remote_assignments": 926
+          }
+        ],
+        "warmup": true
+      },
+      {
+        "epoch": 1,
+        "global_loss": 0.038032700451895066,
+        "step_ms": 85.95504199911375,
+        "blocks": [
+          {
+            "assignments": [
+              45,
+              16,
+              37,
+              51,
+              44,
+              88,
+              134,
+              39,
+              147,
+              55,
+              30,
+              69,
+              38,
+              59,
+              133,
+              39
+            ],
+            "remote_assignments": 925
+          }
+        ],
+        "warmup": true
+      },
+      {
+        "epoch": 2,
+        "global_loss": 0.040551126687423604,
+        "step_ms": 101.87533400312532,
+        "blocks": [
+          {
+            "assignments": [
+              43,
+              15,
+              36,
+              51,
+              43,
+              86,
+              134,
+              39,
+              148,
+              59,
+              31,
+              67,
+              38,
+              56,
+              138,
+              40
+            ],
+            "remote_assignments": 926
+          }
+        ],
+        "warmup": true
+      },
+      {
+        "epoch": 3,
+        "global_loss": 0.03371493356121874,
+        "step_ms": 113.03629100439139,
+        "blocks": [
+          {
+            "assignments": [
+              42,
+              16,
+              35,
+              49,
+              45,
+              87,
+              135,
+              39,
+              149,
+              61,
+              31,
+              66,
+              35,
+              53,
+              141,
+              40
+            ],
+            "remote_assignments": 927
+          }
+        ],
+        "warmup": true
+      },
+      {
+        "epoch": 4,
+        "global_loss": 0.024406358279709158,
+        "step_ms": 89.91629199590534,
+        "blocks": [
+          {
+            "assignments": [
+              44,
+              18,
+              35,
+              44,
+              46,
+              86,
+              136,
+              39,
+              151,
+              62,
+              28,
+              65,
+              32,
+              53,
+              146,
+              39
+            ],
+            "remote_assignments": 931
+          }
+        ],
+        "warmup": true
+      },
+      {
+        "epoch": 5,
+        "global_loss": 0.02159868044477263,
+        "step_ms": 92.76741699432023,
+        "blocks": [
+          {
+            "assignments": [
+              45,
+              19,
+              35,
+              42,
+              49,
+              84,
+              137,
+              39,
+              149,
+              62,
+              27,
+              63,
+              32,
+              53,
+              148,
+              40
+            ],
+            "remote_assignments": 934
+          }
+        ],
+        "warmup": false
+      },
+      {
+        "epoch": 6,
+        "global_loss": 0.022048267059022197,
+        "step_ms": 104.1246249951655,
+        "blocks": [
+          {
+            "assignments": [
+              45,
+              18,
+              34,
+              40,
+              52,
+              84,
+              137,
+              39,
+              150,
+              62,
+              25,
+              63,
+              31,
+              51,
+              152,
+              41
+            ],
+            "remote_assignments": 936
+          }
+        ],
+        "warmup": false
+      },
+      {
+        "epoch": 7,
+        "global_loss": 0.020897650695950277,
+        "step_ms": 102.3610410047695,
+        "blocks": [
+          {
+            "assignments": [
+              44,
+              18,
+              35,
+              38,
+              53,
+              82,
+              137,
+              37,
+              154,
+              63,
+              25,
+              64,
+              29,
+              50,
+              154,
+              41
+            ],
+            "remote_assignments": 935
+          }
+        ],
+        "warmup": false
+      },
+      {
+        "epoch": 8,
+        "global_loss": 0.017854287340536044,
+        "step_ms": 98.19912500097416,
+        "blocks": [
+          {
+            "assignments": [
+              42,
+              17,
+              34,
+              39,
+              52,
+              81,
+              138,
+              37,
+              156,
+              64,
+              25,
+              65,
+              27,
+              46,
+              160,
+              41
+            ],
+            "remote_assignments": 934
+          }
+        ],
+        "warmup": false
+      },
+      {
+        "epoch": 9,
+        "global_loss": 0.015161309682227252,
+        "step_ms": 99.27166700072121,
+        "blocks": [
+          {
+            "assignments": [
+              41,
+              17,
+              34,
+              39,
+              54,
+              79,
+              139,
+              37,
+              157,
+              65,
+              24,
+              65,
+              26,
+              47,
+              161,
+              39
+            ],
+            "remote_assignments": 935
+          }
+        ],
+        "warmup": false
+      },
+      {
+        "epoch": 10,
+        "global_loss": 0.014201907859870543,
+        "step_ms": 95.80570799880661,
+        "blocks": [
+          {
+            "assignments": [
+              41,
+              17,
+              34,
+              39,
+              54,
+              79,
+              140,
+              36,
+              159,
+              63,
+              23,
+              65,
+              26,
+              47,
+              162,
+              39
+            ],
+            "remote_assignments": 936
+          }
+        ],
+        "warmup": false
+      },
+      {
+        "epoch": 11,
+        "global_loss": 0.014298161072612635,
+        "step_ms": 101.01954199490137,
+        "blocks": [
+          {
+            "assignments": [
+              41,
+              17,
+              32,
+              38,
+              54,
+              79,
+              141,
+              35,
+              164,
+              60,
+              23,
+              63,
+              26,
+              46,
+              166,
+              39
+            ],
+            "remote_assignments": 938
+          }
+        ],
+        "warmup": false
+      },
+      {
+        "epoch": 12,
+        "global_loss": 0.01401814364325319,
+        "step_ms": 96.79091699945275,
+        "blocks": [
+          {
+            "assignments": [
+              39,
+              17,
+              32,
+              37,
+              54,
+              77,
+              144,
+              35,
+              166,
+              61,
+              23,
+              62,
+              26,
+              45,
+              168,
+              38
+            ],
+            "remote_assignments": 939
+          }
+        ],
+        "warmup": false
+      },
+      {
+        "epoch": 13,
+        "global_loss": 0.012818962300455086,
+        "step_ms": 104.48120800720062,
+        "blocks": [
+          {
+            "assignments": [
+              36,
+              17,
+              31,
+              37,
+              56,
+              75,
+              145,
+              34,
+              169,
+              63,
+              23,
+              63,
+              24,
+              44,
+              169,
+              38
+            ],
+            "remote_assignments": 938
+          }
+        ],
+        "warmup": false
+      },
+      {
+        "epoch": 14,
+        "global_loss": 0.011345941733326726,
+        "step_ms": 94.83229200122878,
+        "blocks": [
+          {
+            "assignments": [
+              37,
+              16,
+              30,
+              37,
+              56,
+              71,
+              146,
+              34,
+              173,
+              63,
+              23,
+              63,
+              23,
+              41,
+              173,
+              38
+            ],
+            "remote_assignments": 938
+          }
+        ],
+        "warmup": false
+      },
+      {
+        "epoch": 15,
+        "global_loss": 0.010369440980066825,
+        "step_ms": 106.88654199475423,
+        "blocks": [
+          {
+            "assignments": [
+              37,
+              15,
+              27,
+              37,
+              57,
+              70,
+              146,
+              32,
+              179,
+              62,
+              23,
+              64,
+              23,
+              40,
+              175,
+              37
+            ],
+            "remote_assignments": 937
+          }
+        ],
+        "warmup": false
+      },
+      {
+        "epoch": 16,
+        "global_loss": 0.01006513302699395,
+        "step_ms": 97.45141699386295,
+        "blocks": [
+          {
+            "assignments": [
+              33,
+              15,
+              27,
+              36,
+              58,
+              71,
+              146,
+              31,
+              180,
+              63,
+              23,
+              64,
+              24,
+              39,
+              179,
+              35
+            ],
+            "remote_assignments": 937
+          }
+        ],
+        "warmup": false
+      },
+      {
+        "epoch": 17,
+        "global_loss": 0.009964076380432164,
+        "step_ms": 94.5099999953527,
+        "blocks": [
+          {
+            "assignments": [
+              33,
+              14,
+              27,
+              35,
+              59,
+              71,
+              147,
+              30,
+              182,
+              63,
+              21,
+              63,
+              24,
+              38,
+              182,
+              35
+            ],
+            "remote_assignments": 940
+          }
+        ],
+        "warmup": false
+      },
+      {
+        "epoch": 18,
+        "global_loss": 0.00957554881643621,
+        "step_ms": 104.45454200089443,
+        "blocks": [
+          {
+            "assignments": [
+              33,
+              12,
+              27,
+              35,
+              61,
+              70,
+              153,
+              29,
+              185,
+              61,
+              21,
+              59,
+              24,
+              37,
+              182,
+              35
+            ],
+            "remote_assignments": 944
+          }
+        ],
+        "warmup": false
+      },
+      {
+        "epoch": 19,
+        "global_loss": 0.008873524078173,
+        "step_ms": 98.88087499712128,
+        "blocks": [
+          {
+            "assignments": [
+              31,
+              12,
+              25,
+              34,
+              62,
+              70,
+              152,
+              28,
+              190,
+              61,
+              19,
+              60,
+              24,
+              36,
+              184,
+              36
+            ],
+            "remote_assignments": 945
+          }
+        ],
+        "warmup": false
+      },
+      {
+        "epoch": 20,
+        "global_loss": 0.008147898525085386,
+        "step_ms": 105.39087498909794,
+        "blocks": [
+          {
+            "assignments": [
+              29,
+              12,
+              25,
+              34,
+              62,
+              71,
+              154,
+              26,
+              192,
+              62,
+              19,
+              60,
+              23,
+              36,
+              185,
+              34
+            ],
+            "remote_assignments": 945
+          }
+        ],
+        "warmup": false
+      },
+      {
+        "epoch": 21,
+        "global_loss": 0.007706515524633913,
+        "step_ms": 105.30333399947267,
+        "blocks": [
+          {
+            "assignments": [
+              29,
+              11,
+              25,
+              32,
+              65,
+              69,
+              157,
+              25,
+              193,
+              62,
+              19,
+              60,
+              22,
+              36,
+              186,
+              33
+            ],
+            "remote_assignments": 945
+          }
+        ],
+        "warmup": false
+      },
+      {
+        "epoch": 22,
+        "global_loss": 0.007523274621744309,
+        "step_ms": 97.1116660075495,
+        "blocks": [
+          {
+            "assignments": [
+              29,
+              10,
+              25,
+              30,
+              65,
+              70,
+              157,
+              24,
+              197,
+              61,
+              18,
+              60,
+              21,
+              36,
+              189,
+              32
+            ],
+            "remote_assignments": 946
+          }
+        ],
+        "warmup": false
+      },
+      {
+        "epoch": 23,
+        "global_loss": 0.007391456591041719,
+        "step_ms": 99.15937499317806,
+        "blocks": [
+          {
+            "assignments": [
+              28,
+              10,
+              25,
+              29,
+              64,
+              69,
+              159,
+              24,
+              199,
+              61,
+              18,
+              58,
+              22,
+              37,
+              189,
+              32
+            ],
+            "remote_assignments": 948
+          }
+        ],
+        "warmup": false
+      },
+      {
+        "epoch": 24,
+        "global_loss": 0.007106394555572356,
+        "step_ms": 98.77233300358057,
+        "blocks": [
+          {
+            "assignments": [
+              29,
+              9,
+              25,
+              28,
+              65,
+              68,
+              160,
+              24,
+              200,
+              62,
+              18,
+              56,
+              22,
+              37,
+              189,
+              32
+            ],
+            "remote_assignments": 950
+          }
+        ],
+        "warmup": false
+      }
+    ],
+    "trace": null,
+    "first_step": null,
+    "final_parameters": null,
+    "parameter_changes": null,
+    "parameter_bytes_per_rank": 2143104,
+    "shared_parameter_bytes_per_rank": 12672
+  },
+  {
+    "rank": 6,
+    "train_config": {
+      "total_tokens": 4096,
+      "epochs": 25,
+      "learning_rate": 0.001,
+      "warmup": 5
+    },
+    "model_config": {
+      "dimension": 32,
+      "experts": 16,
+      "top_k": 2,
+      "expert_hidden": 2048,
+      "num_blocks": 1
+    },
+    "optimizer": "Adam",
+    "parallel": true,
+    "epochs": [
+      {
+        "epoch": 0,
+        "global_loss": 0.08769370071552285,
+        "step_ms": 90.55141700082459,
+        "blocks": [
+          {
+            "assignments": [
+              40,
+              30,
+              53,
+              45,
+              39,
+              97,
+              119,
+              44,
+              129,
+              39,
+              28,
+              64,
+              36,
+              71,
+              153,
+              37
+            ],
+            "remote_assignments": 917
+          }
+        ],
+        "warmup": true
+      },
+      {
+        "epoch": 1,
+        "global_loss": 0.038032700451895066,
+        "step_ms": 85.95504199911375,
+        "blocks": [
+          {
+            "assignments": [
+              40,
+              28,
+              51,
+              43,
+              40,
+              97,
+              119,
+              45,
+              128,
+              40,
+              29,
+              63,
+              35,
+              71,
+              154,
+              41
+            ],
+            "remote_assignments": 918
+          }
+        ],
+        "warmup": true
+      },
+      {
+        "epoch": 2,
+        "global_loss": 0.040551126687423604,
+        "step_ms": 101.87533400312532,
+        "blocks": [
+          {
+            "assignments": [
+              40,
+              28,
+              53,
+              40,
+              36,
+              96,
+              120,
+              45,
+              130,
+              41,
+              29,
+              61,
+              35,
+              70,
+              158,
+              42
+            ],
+            "remote_assignments": 919
+          }
+        ],
+        "warmup": true
+      },
+      {
+        "epoch": 3,
+        "global_loss": 0.03371493356121874,
+        "step_ms": 113.03629100439139,
+        "blocks": [
+          {
+            "assignments": [
+              41,
+              29,
+              49,
+              38,
+              37,
+              96,
+              120,
+              44,
+              133,
+              42,
+              29,
+              60,
+              35,
+              68,
+              162,
+              41
+            ],
+            "remote_assignments": 921
+          }
+        ],
+        "warmup": true
+      },
+      {
+        "epoch": 4,
+        "global_loss": 0.024406358279709158,
+        "step_ms": 89.91629199590534,
+        "blocks": [
+          {
+            "assignments": [
+              39,
+              28,
+              48,
+              37,
+              38,
+              96,
+              122,
+              44,
+              136,
+              43,
+              28,
+              60,
+              32,
+              68,
+              163,
+              42
+            ],
+            "remote_assignments": 924
+          }
+        ],
+        "warmup": true
+      },
+      {
+        "epoch": 5,
+        "global_loss": 0.02159868044477263,
+        "step_ms": 92.76741699432023,
+        "blocks": [
+          {
+            "assignments": [
+              39,
+              29,
+              47,
+              37,
+              40,
+              96,
+              123,
+              43,
+              138,
+              44,
+              27,
+              59,
+              31,
+              65,
+              166,
+              40
+            ],
+            "remote_assignments": 928
+          }
+        ],
+        "warmup": false
+      },
+      {
+        "epoch": 6,
+        "global_loss": 0.022048267059022197,
+        "step_ms": 104.1246249951655,
+        "blocks": [
+          {
+            "assignments": [
+              39,
+              29,
+              45,
+              36,
+              41,
+              95,
+              125,
+              41,
+              139,
+              47,
+              26,
+              58,
+              31,
+              64,
+              168,
+              40
+            ],
+            "remote_assignments": 929
+          }
+        ],
+        "warmup": false
+      },
+      {
+        "epoch": 7,
+        "global_loss": 0.020897650695950277,
+        "step_ms": 102.3610410047695,
+        "blocks": [
+          {
+            "assignments": [
+              38,
+              28,
+              44,
+              36,
+              41,
+              93,
+              125,
+              41,
+              143,
+              49,
+              24,
+              57,
+              30,
+              61,
+              174,
+              40
+            ],
+            "remote_assignments": 933
+          }
+        ],
+        "warmup": false
+      },
+      {
+        "epoch": 8,
+        "global_loss": 0.017854287340536044,
+        "step_ms": 98.19912500097416,
+        "blocks": [
+          {
+            "assignments": [
+              38,
+              26,
+              42,
+              35,
+              42,
+              92,
+              124,
+              41,
+              144,
+              51,
+              24,
+              54,
+              30,
+              61,
+              179,
+              41
+            ],
+            "remote_assignments": 933
+          }
+        ],
+        "warmup": false
+      },
+      {
+        "epoch": 9,
+        "global_loss": 0.015161309682227252,
+        "step_ms": 99.27166700072121,
+        "blocks": [
+          {
+            "assignments": [
+              37,
+              25,
+              40,
+              34,
+              44,
+              88,
+              123,
+              40,
+              147,
+              52,
+              24,
+              53,
+              30,
+              61,
+              185,
+              41
+            ],
+            "remote_assignments": 933
+          }
+        ],
+        "warmup": false
+      },
+      {
+        "epoch": 10,
+        "global_loss": 0.014201907859870543,
+        "step_ms": 95.80570799880661,
+        "blocks": [
+          {
+            "assignments": [
+              37,
+              24,
+              37,
+              34,
+              45,
+              85,
+              124,
+              39,
+              150,
+              55,
+              22,
+              56,
+              29,
+              58,
+              188,
+              41
+            ],
+            "remote_assignments": 937
+          }
+        ],
+        "warmup": false
+      },
+      {
+        "epoch": 11,
+        "global_loss": 0.014298161072612635,
+        "step_ms": 101.01954199490137,
+        "blocks": [
+          {
+            "assignments": [
+              37,
+              24,
+              34,
+              33,
+              47,
+              85,
+              125,
+              39,
+              150,
+              54,
+              22,
+              58,
+              27,
+              56,
+              193,
+              40
+            ],
+            "remote_assignments": 941
+          }
+        ],
+        "warmup": false
+      },
+      {
+        "epoch": 12,
+        "global_loss": 0.01401814364325319,
+        "step_ms": 96.79091699945275,
+        "blocks": [
+          {
+            "assignments": [
+              36,
+              21,
+              33,
+              33,
+              49,
+              84,
+              127,
+              38,
+              152,
+              53,
+              22,
+              55,
+              28,
+              55,
+              198,
+              40
+            ],
+            "remote_assignments": 941
+          }
+        ],
+        "warmup": false
+      },
+      {
+        "epoch": 13,
+        "global_loss": 0.012818962300455086,
+        "step_ms": 104.48120800720062,
+        "blocks": [
+          {
+            "assignments": [
+              35,
+              21,
+              32,
+              33,
+              50,
+              83,
+              127,
+              38,
+              154,
+              53,
+              21,
+              54,
+              27,
+              54,
+              204,
+              38
+            ],
+            "remote_assignments": 943
+          }
+        ],
+        "warmup": false
+      },
+      {
+        "epoch": 14,
+        "global_loss": 0.011345941733326726,
+        "step_ms": 94.83229200122878,
+        "blocks": [
+          {
+            "assignments": [
+              33,
+              21,
+              31,
+              30,
+              50,
+              82,
+              132,
+              37,
+              158,
+              53,
+              21,
+              56,
+              26,
+              54,
+              206,
+              34
+            ],
+            "remote_assignments": 944
+          }
+        ],
+        "warmup": false
+      },
+      {
+        "epoch": 15,
+        "global_loss": 0.010369440980066825,
+        "step_ms": 106.88654199475423,
+        "blocks": [
+          {
+            "assignments": [
+              33,
+              21,
+              31,
+              31,
+              52,
+              81,
+              132,
+              37,
+              157,
+              52,
+              21,
+              55,
+              26,
+              52,
+              210,
+              33
+            ],
+            "remote_assignments": 946
+          }
+        ],
+        "warmup": false
+      },
+      {
+        "epoch": 16,
+        "global_loss": 0.01006513302699395,
+        "step_ms": 97.45141699386295,
+        "blocks": [
+          {
+            "assignments": [
+              33,
+              21,
+              30,
+              29,
+              53,
+              81,
+              134,
+              34,
+              163,
+              52,
+              20,
+              56,
+              24,
+              51,
+              211,
+              32
+            ],
+            "remote_assignments": 949
+          }
+        ],
+        "warmup": false
+      },
+      {
+        "epoch": 17,
+        "global_loss": 0.009964076380432164,
+        "step_ms": 94.5099999953527,
+        "blocks": [
+          {
+            "assignments": [
+              33,
+              21,
+              30,
+              28,
+              54,
+              78,
+              136,
+              34,
+              165,
+              52,
+              19,
+              56,
+              24,
+              50,
+              213,
+              31
+            ],
+            "remote_assignments": 950
+          }
+        ],
+        "warmup": false
+      },
+      {
+        "epoch": 18,
+        "global_loss": 0.00957554881643621,
+        "step_ms": 104.45454200089443,
+        "blocks": [
+          {
+            "assignments": [
+              31,
+              19,
+              30,
+              28,
+              53,
+              77,
+              139,
+              34,
+              169,
+              52,
+              18,
+              55,
+              23,
+              50,
+              215,
+              31
+            ],
+            "remote_assignments": 951
+          }
+        ],
+        "warmup": false
+      },
+      {
+        "epoch": 19,
+        "global_loss": 0.008873524078173,
+        "step_ms": 98.88087499712128,
+        "blocks": [
+          {
+            "assignments": [
+              31,
+              19,
+              29,
+              27,
+              53,
+              77,
+              140,
+              34,
+              172,
+              52,
+              18,
+              55,
+              22,
+              50,
+              216,
+              29
+            ],
+            "remote_assignments": 952
+          }
+        ],
+        "warmup": false
+      },
+      {
+        "epoch": 20,
+        "global_loss": 0.008147898525085386,
+        "step_ms": 105.39087498909794,
+        "blocks": [
+          {
+            "assignments": [
+              32,
+              19,
+              28,
+              24,
+              55,
+              77,
+              141,
+              34,
+              173,
+              51,
+              18,
+              54,
+              22,
+              49,
+              219,
+              28
+            ],
+            "remote_assignments": 953
+          }
+        ],
+        "warmup": false
+      },
+      {
+        "epoch": 21,
+        "global_loss": 0.007706515524633913,
+        "step_ms": 105.30333399947267,
+        "blocks": [
+          {
+            "assignments": [
+              33,
+              19,
+              26,
+              24,
+              54,
+              77,
+              143,
+              31,
+              176,
+              51,
+              18,
+              55,
+              22,
+              47,
+              221,
+              27
+            ],
+            "remote_assignments": 955
+          }
+        ],
+        "warmup": false
+      },
+      {
+        "epoch": 22,
+        "global_loss": 0.007523274621744309,
+        "step_ms": 97.1116660075495,
+        "blocks": [
+          {
+            "assignments": [
+              34,
+              19,
+              26,
+              23,
+              54,
+              78,
+              143,
+              30,
+              179,
+              50,
+              18,
+              54,
+              21,
+              47,
+              223,
+              25
+            ],
+            "remote_assignments": 956
+          }
+        ],
+        "warmup": false
+      },
+      {
+        "epoch": 23,
+        "global_loss": 0.007391456591041719,
+        "step_ms": 99.15937499317806,
+        "blocks": [
+          {
+            "assignments": [
+              34,
+              19,
+              27,
+              23,
+              53,
+              77,
+              143,
+              29,
+              182,
+              50,
+              18,
+              55,
+              19,
+              46,
+              225,
+              24
+            ],
+            "remote_assignments": 959
+          }
+        ],
+        "warmup": false
+      },
+      {
+        "epoch": 24,
+        "global_loss": 0.007106394555572356,
+        "step_ms": 98.77233300358057,
+        "blocks": [
+          {
+            "assignments": [
+              33,
+              17,
+              26,
+              22,
+              53,
+              76,
+              145,
+              29,
+              186,
+              49,
+              17,
+              53,
+              21,
+              45,
+              228,
+              24
+            ],
+            "remote_assignments": 958
+          }
+        ],
+        "warmup": false
+      }
+    ],
+    "trace": null,
+    "first_step": null,
+    "final_parameters": null,
+    "parameter_changes": null,
+    "parameter_bytes_per_rank": 2143104,
+    "shared_parameter_bytes_per_rank": 12672
+  },
+  {
+    "rank": 7,
+    "train_config": {
+      "total_tokens": 4096,
+      "epochs": 25,
+      "learning_rate": 0.001,
+      "warmup": 5
+    },
+    "model_config": {
+      "dimension": 32,
+      "experts": 16,
+      "top_k": 2,
+      "expert_hidden": 2048,
+      "num_blocks": 1
+    },
+    "optimizer": "Adam",
+    "parallel": true,
+    "epochs": [
+      {
+        "epoch": 0,
+        "global_loss": 0.08769370071552285,
+        "step_ms": 90.55141700082459,
+        "blocks": [
+          {
+            "assignments": [
+              33,
+              30,
+              44,
+              47,
+              51,
+              75,
+              138,
+              42,
+              130,
+              51,
+              20,
+              80,
+              42,
+              64,
+              133,
+              44
+            ],
+            "remote_assignments": 847
+          }
+        ],
+        "warmup": true
+      },
+      {
+        "epoch": 1,
+        "global_loss": 0.038032700451895066,
+        "step_ms": 85.95504199911375,
+        "blocks": [
+          {
+            "assignments": [
+              34,
+              29,
+              42,
+              45,
+              50,
+              75,
+              139,
+              42,
+              133,
+              53,
+              21,
+              76,
+              37,
+              65,
+              138,
+              45
+            ],
+            "remote_assignments": 841
+          }
+        ],
+        "warmup": true
+      },
+      {
+        "epoch": 2,
+        "global_loss": 0.040551126687423604,
+        "step_ms": 101.87533400312532,
+        "blocks": [
+          {
+            "assignments": [
+              35,
+              28,
+              43,
+              44,
+              49,
+              71,
+              141,
+              40,
+              136,
+              54,
+              21,
+              74,
+              36,
+              64,
+              143,
+              45
+            ],
+            "remote_assignments": 836
+          }
+        ],
+        "warmup": true
+      },
+      {
+        "epoch": 3,
+        "global_loss": 0.03371493356121874,
+        "step_ms": 113.03629100439139,
+        "blocks": [
+          {
+            "assignments": [
+              34,
+              28,
+              42,
+              42,
+              49,
+              71,
+              143,
+              38,
+              137,
+              57,
+              20,
+              74,
+              36,
+              63,
+              145,
+              45
+            ],
+            "remote_assignments": 834
+          }
+        ],
+        "warmup": true
+      },
+      {
+        "epoch": 4,
+        "global_loss": 0.024406358279709158,
+        "step_ms": 89.91629199590534,
+        "blocks": [
+          {
+            "assignments": [
+              34,
+              27,
+              43,
+              41,
+              50,
+              71,
+              143,
+              38,
+              136,
+              57,
+              20,
+              73,
+              36,
+              62,
+              148,
+              45
+            ],
+            "remote_assignments": 831
+          }
+        ],
+        "warmup": true
+      },
+      {
+        "epoch": 5,
+        "global_loss": 0.02159868044477263,
+        "step_ms": 92.76741699432023,
+        "blocks": [
+          {
+            "assignments": [
+              31,
+              25,
+              42,
+              39,
+              54,
+              68,
+              148,
+              38,
+              136,
+              57,
+              20,
+              74,
+              33,
+              62,
+              153,
+              44
+            ],
+            "remote_assignments": 827
+          }
+        ],
+        "warmup": false
+      },
+      {
+        "epoch": 6,
+        "global_loss": 0.022048267059022197,
+        "step_ms": 104.1246249951655,
+        "blocks": [
+          {
+            "assignments": [
+              28,
+              26,
+              43,
+              36,
+              57,
+              64,
+              149,
+              38,
+              141,
+              59,
+              20,
+              73,
+              32,
+              59,
+              156,
+              43
+            ],
+            "remote_assignments": 825
+          }
+        ],
+        "warmup": false
+      },
+      {
+        "epoch": 7,
+        "global_loss": 0.020897650695950277,
+        "step_ms": 102.3610410047695,
+        "blocks": [
+          {
+            "assignments": [
+              25,
+              26,
+              44,
+              36,
+              59,
+              60,
+              150,
+              37,
+              143,
+              59,
+              21,
+              72,
+              32,
+              56,
+              161,
+              43
+            ],
+            "remote_assignments": 820
+          }
+        ],
+        "warmup": false
+      },
+      {
+        "epoch": 8,
+        "global_loss": 0.017854287340536044,
+        "step_ms": 98.19912500097416,
+        "blocks": [
+          {
+            "assignments": [
+              25,
+              26,
+              42,
+              36,
+              60,
+              56,
+              151,
+              37,
+              146,
+              60,
+              21,
+              72,
+              32,
+              52,
+              165,
+              43
+            ],
+            "remote_assignments": 816
+          }
+        ],
+        "warmup": false
+      },
+      {
+        "epoch": 9,
+        "global_loss": 0.015161309682227252,
+        "step_ms": 99.27166700072121,
+        "blocks": [
+          {
+            "assignments": [
+              25,
+              26,
+              40,
+              35,
+              60,
+              55,
+              152,
+              36,
+              149,
+              61,
+              22,
+              73,
+              26,
+              52,
+              169,
+              43
+            ],
+            "remote_assignments": 812
+          }
+        ],
+        "warmup": false
+      },
+      {
+        "epoch": 10,
+        "global_loss": 0.014201907859870543,
+        "step_ms": 95.80570799880661,
+        "blocks": [
+          {
+            "assignments": [
+              25,
+              26,
+              40,
+              32,
+              61,
+              57,
+              151,
+              35,
+              151,
+              62,
+              24,
+              71,
+              26,
+              51,
+              171,
+              41
+            ],
+            "remote_assignments": 812
+          }
+        ],
+        "warmup": false
+      },
+      {
+        "epoch": 11,
+        "global_loss": 0.014298161072612635,
+        "step_ms": 101.01954199490137,
+        "blocks": [
+          {
+            "assignments": [
+              24,
+              24,
+              37,
+              31,
+              65,
+              57,
+              153,
+              33,
+              154,
+              63,
+              24,
+              70,
+              26,
+              51,
+              172,
+              40
+            ],
+            "remote_assignments": 812
+          }
+        ],
+        "warmup": false
+      },
+      {
+        "epoch": 12,
+        "global_loss": 0.01401814364325319,
+        "step_ms": 96.79091699945275,
+        "blocks": [
+          {
+            "assignments": [
+              24,
+              23,
+              36,
+              30,
+              66,
+              57,
+              154,
+              32,
+              162,
+              61,
+              24,
+              66,
+              24,
+              51,
+              174,
+              40
+            ],
+            "remote_assignments": 810
+          }
+        ],
+        "warmup": false
+      },
+      {
+        "epoch": 13,
+        "global_loss": 0.012818962300455086,
+        "step_ms": 104.48120800720062,
+        "blocks": [
+          {
+            "assignments": [
+              24,
+              23,
+              36,
+              30,
+              66,
+              56,
+              155,
+              32,
+              170,
+              59,
+              21,
+              64,
+              24,
+              48,
+              177,
+              39
+            ],
+            "remote_assignments": 808
+          }
+        ],
+        "warmup": false
+      },
+      {
+        "epoch": 14,
+        "global_loss": 0.011345941733326726,
+        "step_ms": 94.83229200122878,
+        "blocks": [
+          {
+            "assignments": [
+              25,
+              23,
+              36,
+              29,
+              67,
+              55,
+              156,
+              31,
+              172,
+              59,
+              19,
+              64,
+              24,
+              47,
+              178,
+              39
+            ],
+            "remote_assignments": 807
+          }
+        ],
+        "warmup": false
+      },
+      {
+        "epoch": 15,
+        "global_loss": 0.010369440980066825,
+        "step_ms": 106.88654199475423,
+        "blocks": [
+          {
+            "assignments": [
+              25,
+              23,
+              35,
+              28,
+              67,
+              54,
+              156,
+              29,
+              176,
+              59,
+              19,
+              65,
+              23,
+              47,
+              181,
+              37
+            ],
+            "remote_assignments": 806
+          }
+        ],
+        "warmup": false
+      },
+      {
+        "epoch": 16,
+        "global_loss": 0.01006513302699395,
+        "step_ms": 97.45141699386295,
+        "blocks": [
+          {
+            "assignments": [
+              25,
+              22,
+              36,
+              26,
+              68,
+              55,
+              157,
+              28,
+              179,
+              59,
+              19,
+              63,
+              23,
+              45,
+              183,
+              36
+            ],
+            "remote_assignments": 805
+          }
+        ],
+        "warmup": false
+      },
+      {
+        "epoch": 17,
+        "global_loss": 0.009964076380432164,
+        "step_ms": 94.5099999953527,
+        "blocks": [
+          {
+            "assignments": [
+              25,
+              22,
+              34,
+              25,
+              67,
+              55,
+              157,
+              28,
+              183,
+              60,
+              18,
+              62,
+              23,
+              44,
+              185,
+              36
+            ],
+            "remote_assignments": 803
+          }
+        ],
+        "warmup": false
+      },
+      {
+        "epoch": 18,
+        "global_loss": 0.00957554881643621,
+        "step_ms": 104.45454200089443,
+        "blocks": [
+          {
+            "assignments": [
+              25,
+              22,
+              34,
+              26,
+              66,
+              55,
+              160,
+              27,
+              185,
+              60,
+              17,
+              61,
+              22,
+              44,
+              184,
+              36
+            ],
+            "remote_assignments": 804
+          }
+        ],
+        "warmup": false
+      },
+      {
+        "epoch": 19,
+        "global_loss": 0.008873524078173,
+        "step_ms": 98.88087499712128,
+        "blocks": [
+          {
+            "assignments": [
+              24,
+              21,
+              33,
+              27,
+              65,
+              53,
+              161,
+              27,
+              189,
+              56,
+              17,
+              62,
+              22,
+              44,
+              188,
+              35
+            ],
+            "remote_assignments": 801
+          }
+        ],
+        "warmup": false
+      },
+      {
+        "epoch": 20,
+        "global_loss": 0.008147898525085386,
+        "step_ms": 105.39087498909794,
+        "blocks": [
+          {
+            "assignments": [
+              23,
+              20,
+              33,
+              27,
+              65,
+              52,
+              162,
+              26,
+              192,
+              55,
+              17,
+              63,
+              21,
+              43,
+              190,
+              35
+            ],
+            "remote_assignments": 799
+          }
+        ],
+        "warmup": false
+      },
+      {
+        "epoch": 21,
+        "global_loss": 0.007706515524633913,
+        "step_ms": 105.30333399947267,
+        "blocks": [
+          {
+            "assignments": [
+              23,
+              20,
+              32,
+              26,
+              64,
+              53,
+              165,
+              24,
+              193,
+              55,
+              16,
+              64,
+              21,
+              42,
+              193,
+              33
+            ],
+            "remote_assignments": 798
+          }
+        ],
+        "warmup": false
+      },
+      {
+        "epoch": 22,
+        "global_loss": 0.007523274621744309,
+        "step_ms": 97.1116660075495,
+        "blocks": [
+          {
+            "assignments": [
+              22,
+              19,
+              30,
+              25,
+              65,
+              53,
+              168,
+              24,
+              199,
+              52,
+              15,
+              62,
+              21,
+              42,
+              192,
+              35
+            ],
+            "remote_assignments": 797
+          }
+        ],
+        "warmup": false
+      },
+      {
+        "epoch": 23,
+        "global_loss": 0.007391456591041719,
+        "step_ms": 99.15937499317806,
+        "blocks": [
+          {
+            "assignments": [
+              21,
+              19,
+              28,
+              24,
+              66,
+              55,
+              172,
+              22,
+              202,
+              51,
+              13,
+              61,
+              20,
+              42,
+              194,
+              34
+            ],
+            "remote_assignments": 796
+          }
+        ],
+        "warmup": false
+      },
+      {
+        "epoch": 24,
+        "global_loss": 0.007106394555572356,
+        "step_ms": 98.77233300358057,
+        "blocks": [
+          {
+            "assignments": [
+              20,
+              19,
+              28,
+              24,
+              64,
+              55,
+              172,
+              22,
+              207,
+              51,
+              12,
+              62,
+              20,
+              41,
+              194,
+              33
+            ],
+            "remote_assignments": 797
+          }
+        ],
+        "warmup": false
+      }
+    ],
+    "trace": null,
+    "first_step": null,
+    "final_parameters": null,
+    "parameter_changes": null,
+    "parameter_bytes_per_rank": 2143104,
+    "shared_parameter_bytes_per_rank": 12672
+  }
+]

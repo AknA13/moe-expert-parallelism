@@ -4,7 +4,7 @@
 
 How do rank count, parameter storage, communication, and step time change when an MoE is split across ranks? These CPU/Gloo jobs use float64, learned top-2 routing, Adam at learning rate 0.001, and one CPU thread per worker. Each job ran 25 steps: 5 warmup and 20 measured. A barrier starts each timed step, and its duration is the slowest rank's time. Startup, logging, and correctness comparisons are outside the timed step.
 
-We run three one-block sweeps. The first two use eight experts and hidden widths **64** and **512** across 1, 2, and 4 ranks. The third uses **16 experts**, hidden width **1024**, and 1, 2, 4, and 8 ranks. All use top-2 routing and token dimension 32. Within each sweep, model size is fixed as ranks and total tokens change. A follow-up compares one and two blocks at the largest 16-expert batch.
+We run five one-block sweeps. The first two use eight experts and hidden widths **64** and **512** across 1, 2, and 4 ranks. The other three use **16 experts**, hidden widths **1,024, 2,048, and 4,096**, and 1, 2, 4, and 8 ranks. All use top-2 routing and token dimension 32. Within each sweep, model size is fixed as ranks and total tokens change. A follow-up compares one and two blocks at the largest 16-expert batch.
 
 ## Small expert: communication dominates
 
@@ -75,6 +75,26 @@ At 16,384 tokens, model parameter storage is 8336.4 KiB on one rank and 1052.9 K
 
 Four ranks beat eight at 4,096 tokens; at 16,384 tokens, eight ranks are only 1.09× faster than four. The 16-expert run has an expert-load imbalance ratio of 2.85 at the largest batch. Communication, synchronization, and uneven expert work can all limit eight-rank scaling; this experiment does not isolate their individual contributions.
 
+### Does widening experts improve scaling?
+
+These runs hold expert count (16), token dimension (32), top-k (2), and block count (1) fixed. Only expert hidden width changes across the three groups. The activation row exchanged by each all-to-all stays 32 float64 values. All four rank counts were measured; the final column compares eight ranks with one at the same width and total tokens.
+
+| Expert width | Total tokens | 1 rank ms | 2 ranks ms | 4 ranks ms | 8 ranks ms | 8-rank speedup |
+|---:|---:|---:|---:|---:|---:|---:|
+| 1,024 | 4,096 | 87.6 | 76.1 | 56.2 | 60.2 | 1.45× |
+| 1,024 | 8,192 | 183.8 | 154.5 | 106.2 | 99.0 | 1.86× |
+| 1,024 | 16,384 | 368.3 | 295.1 | 204.1 | 187.7 | 1.96× |
+| 2,048 | 4,096 | 172.7 | 145.4 | 104.5 | 99.0 | 1.74× |
+| 2,048 | 8,192 | 340.6 | 282.2 | 196.8 | 178.4 | 1.91× |
+| 2,048 | 16,384 | 712.6 | 547.3 | 394.2 | 333.0 | 2.14× |
+| 4,096 | 4,096 | 346.0 | 277.5 | 196.4 | 178.7 | 1.94× |
+| 4,096 | 8,192 | 708.3 | 553.0 | 391.6 | 337.4 | 2.10× |
+| 4,096 | 16,384 | 1470.7 | 1086.3 | 727.6 | 588.8 | 2.50× |
+
+![Eight-rank speedup versus expert width](width-speedup.svg)
+
+At 16,384 tokens, eight-rank speedup is 1.96×, 2.14×, and 2.50× at widths 1,024, 2,048, and 4,096. Wider experts increase parameter and intermediate-activation storage as well as compute. These runs quantify the local CPU tradeoff; they do not imply the same ratios on GPUs.
+
 ### Does adding a block change scaling?
 
 Holding 16 experts, hidden width 1,024, and 16,384 total tokens fixed, we compare one and two MoE blocks. Each block has its own projection, router, experts, and dispatch/return collectives. The last column is two-block time divided by one-block time at the same rank count.
@@ -101,12 +121,15 @@ The payload estimates count tensor elements: for `R` remote assignments summed a
 - [summary.json](summary.json): one derived metrics row for each of the nine small-expert jobs.
 - [larger/summary.json](larger/summary.json): one derived metrics row for each of the twelve larger-expert jobs.
 - [extended/summary.json](extended/summary.json): one derived metrics row for each of the twelve 16-expert jobs.
+- [width-2048/summary.json](width-2048/summary.json) and [width-4096/summary.json](width-4096/summary.json): the two wider-expert sweeps, twelve jobs each.
 - [two-blocks/summary.json](two-blocks/summary.json): four jobs isolating block count at 16,384 tokens.
 - [rank-trends.svg](rank-trends.svg): median latency against ranks at three fixed total token counts.
 - [data-trends.svg](data-trends.svg): median latency against total tokens at three fixed rank counts.
 - [scaling.svg](scaling.svg): the original fixed-total, fixed-local, and storage bar chart.
 - [larger/rank-trends.svg](larger/rank-trends.svg) and [larger/data-trends.svg](larger/data-trends.svg): larger-expert latency trends.
 - [extended/rank-trends.svg](extended/rank-trends.svg) and [extended/data-trends.svg](extended/data-trends.svg): 16-expert latency trends.
+- [width-speedup.svg](width-speedup.svg): eight-rank speedup as expert width changes at three fixed token counts.
+- `width-2048/` and `width-4096/` also contain rank and data trend plots for each width.
 - [block-trends.svg](block-trends.svg): one versus two blocks at fixed model width and total tokens.
 - `ranks{R}-tokens{N}.json` (in the sweep directories): per-rank configuration, loss, timing, routing counts, and parameter storage.
 - `ranks{R}-tokens{N}.environment.json` (in the sweep directories): Python, PyTorch, host, dtype, and backend details for each job.

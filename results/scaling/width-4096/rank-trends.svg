@@ -1,0 +1,45 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 760 490">
+<rect width="100%" height="100%" fill="white"/>
+<text x="75" y="35" font-family="sans-serif" font-size="22">Step time as ranks increase</text>
+<text x="75" y="126" font-family="sans-serif" font-size="13">Median step time (ms)</text>
+<line x1="75" x2="732" y1="425.0" y2="425.0" stroke="#e2e5eb"/>
+<text x="65" y="429.0" text-anchor="end" font-family="sans-serif" font-size="12">0.0</text>
+<line x1="75" x2="732" y1="355.0" y2="355.0" stroke="#e2e5eb"/>
+<text x="65" y="359.0" text-anchor="end" font-family="sans-serif" font-size="12">422.8</text>
+<line x1="75" x2="732" y1="285.0" y2="285.0" stroke="#e2e5eb"/>
+<text x="65" y="289.0" text-anchor="end" font-family="sans-serif" font-size="12">845.7</text>
+<line x1="75" x2="732" y1="215.0" y2="215.0" stroke="#e2e5eb"/>
+<text x="65" y="219.0" text-anchor="end" font-family="sans-serif" font-size="12">1268.5</text>
+<line x1="75" x2="732" y1="145.0" y2="145.0" stroke="#e2e5eb"/>
+<text x="65" y="149.0" text-anchor="end" font-family="sans-serif" font-size="12">1691.3</text>
+<line x1="75.0" x2="75.0" y1="425" y2="431" stroke="#777"/>
+<text x="75.0" y="450" text-anchor="middle" font-family="sans-serif" font-size="13">1</text>
+<line x1="168.9" x2="168.9" y1="425" y2="431" stroke="#777"/>
+<text x="168.9" y="450" text-anchor="middle" font-family="sans-serif" font-size="13">2</text>
+<line x1="356.6" x2="356.6" y1="425" y2="431" stroke="#777"/>
+<text x="356.6" y="450" text-anchor="middle" font-family="sans-serif" font-size="13">4</text>
+<line x1="732.0" x2="732.0" y1="425" y2="431" stroke="#777"/>
+<text x="732.0" y="450" text-anchor="middle" font-family="sans-serif" font-size="13">8</text>
+<polyline points="75.0,367.7 168.9,379.1 356.6,392.5 732.0,395.4" fill="none" stroke="#315a9b" stroke-width="3"/>
+<circle cx="75.0" cy="367.7" r="5" fill="#315a9b"/>
+<circle cx="168.9" cy="379.1" r="5" fill="#315a9b"/>
+<circle cx="356.6" cy="392.5" r="5" fill="#315a9b"/>
+<circle cx="732.0" cy="395.4" r="5" fill="#315a9b"/>
+<line x1="75" x2="97" y1="68" y2="68" stroke="#315a9b" stroke-width="3"/>
+<text x="104" y="72" font-family="sans-serif" font-size="13">4,096 tokens</text>
+<polyline points="75.0,307.7 168.9,333.4 356.6,360.2 732.0,369.2" fill="none" stroke="#16866a" stroke-width="3"/>
+<circle cx="75.0" cy="307.7" r="5" fill="#16866a"/>
+<circle cx="168.9" cy="333.4" r="5" fill="#16866a"/>
+<circle cx="356.6" cy="360.2" r="5" fill="#16866a"/>
+<circle cx="732.0" cy="369.2" r="5" fill="#16866a"/>
+<line x1="385" x2="407" y1="68" y2="68" stroke="#16866a" stroke-width="3"/>
+<text x="414" y="72" font-family="sans-serif" font-size="13">8,192 tokens</text>
+<polyline points="75.0,181.5 168.9,245.2 356.6,304.6 732.0,327.5" fill="none" stroke="#c8713e" stroke-width="3"/>
+<circle cx="75.0" cy="181.5" r="5" fill="#c8713e"/>
+<circle cx="168.9" cy="245.2" r="5" fill="#c8713e"/>
+<circle cx="356.6" cy="304.6" r="5" fill="#c8713e"/>
+<circle cx="732.0" cy="327.5" r="5" fill="#c8713e"/>
+<line x1="75" x2="97" y1="91" y2="91" stroke="#c8713e" stroke-width="3"/>
+<text x="104" y="95" font-family="sans-serif" font-size="13">16,384 tokens</text>
+<text x="403.5" y="472" text-anchor="middle" font-family="sans-serif" font-size="14">Ranks</text>
+</svg>

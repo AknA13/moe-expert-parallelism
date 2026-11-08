@@ -17,6 +17,7 @@ BLOCK_COMPARISON_TOKENS = (16384,)
 SMALL_EXPERT_HIDDEN = 64
 LARGER_EXPERT_HIDDEN = 512
 EXTENDED_EXPERT_HIDDEN = 1024
+ADDITIONAL_EXPERT_WIDTHS = (2048, 4096)
 ROOT = Path(__file__).resolve().parents[1]
 
 
@@ -88,7 +89,8 @@ def save_plot(path, rows):
     path.write_text('\n'.join(parts) + '\n')
 
 
-def save_trend_plot(path, title, x_label, x_values, series):
+def save_trend_plot(path, title, x_label, x_values, series,
+                    y_label='Median step time (ms)'):
     """Plot step latency while varying one experiment axis at a time."""
     width, height = 760, 490
     left, right, top, bottom = 75, 28, 145, 65
@@ -99,7 +101,7 @@ def save_trend_plot(path, title, x_label, x_values, series):
     parts = [f'<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 {width} {height}">',
              '<rect width="100%" height="100%" fill="white"/>',
              f'<text x="{left}" y="35" font-family="sans-serif" font-size="22">{title}</text>',
-             '<text x="75" y="126" font-family="sans-serif" font-size="13">Median step time (ms)</text>']
+             f'<text x="75" y="126" font-family="sans-serif" font-size="13">{y_label}</text>']
     for fraction in (0, .25, .5, .75, 1):
         y = top + plot_height * (1 - fraction)
         parts += [f'<line x1="{left}" x2="{left + plot_width}" y1="{y:.1f}" y2="{y:.1f}" stroke="#e2e5eb"/>',
@@ -143,13 +145,19 @@ def save_trends(output, rows, token_counts, ranks):
         )
 
 
-def save_readme(path, rows, larger_rows, extended_rows, two_block_rows):
+def save_readme(path, rows, larger_rows, extended_rows, two_block_rows,
+                width_rows):
     """Write the interpretation beside the plot and raw logs."""
     fixed_total = [row for row in rows if row['total_tokens'] == 256]
     fixed_local = [row for row in rows if row['local_tokens'] == 256]
     larger = {(row['ranks'], row['total_tokens']): row for row in larger_rows}
     extended = {(row['ranks'], row['total_tokens']): row for row in extended_rows}
     two_blocks = {(row['ranks'], row['total_tokens']): row for row in two_block_rows}
+    by_width = {
+        1024: extended,
+        **{width: {(row['ranks'], row['total_tokens']): row for row in sweep}
+           for width, sweep in width_rows.items()},
+    }
     table = [
         f'| {row["ranks"]} | {row["total_tokens"]:,} | {row["local_tokens"]:,} | '
         f'{row["parameter_bytes_per_rank"] / 1024:.1f} | '
@@ -177,13 +185,21 @@ def save_readme(path, rows, larger_rows, extended_rows, two_block_rows):
         f'{two_blocks[world, 16384]["median_step_ms"] / extended[world, 16384]["median_step_ms"]:.2f}× |'
         for world in EXTENDED_RANKS
     ]
+    width_table = [
+        f'| {width:,} | {tokens:,} | '
+        + ' | '.join(f'{by_width[width][world, tokens]["median_step_ms"]:.1f}'
+                     for world in EXTENDED_RANKS)
+        + f' | {by_width[width][1, tokens]["median_step_ms"] / by_width[width][8, tokens]["median_step_ms"]:.2f}× |'
+        for width in (1024, *ADDITIONAL_EXPERT_WIDTHS)
+        for tokens in EXTENDED_TOKENS
+    ]
     path.write_text(f'''# CPU scaling results
 
 ## Question and method
 
 How do rank count, parameter storage, communication, and step time change when an MoE is split across ranks? These CPU/Gloo jobs use float64, learned top-2 routing, Adam at learning rate 0.001, and one CPU thread per worker. Each job ran 25 steps: 5 warmup and 20 measured. A barrier starts each timed step, and its duration is the slowest rank's time. Startup, logging, and correctness comparisons are outside the timed step.
 
-We run three one-block sweeps. The first two use eight experts and hidden widths **{SMALL_EXPERT_HIDDEN}** and **{LARGER_EXPERT_HIDDEN}** across 1, 2, and 4 ranks. The third uses **16 experts**, hidden width **{EXTENDED_EXPERT_HIDDEN}**, and 1, 2, 4, and 8 ranks. All use top-2 routing and token dimension 32. Within each sweep, model size is fixed as ranks and total tokens change. A follow-up compares one and two blocks at the largest 16-expert batch.
+We run five one-block sweeps. The first two use eight experts and hidden widths **{SMALL_EXPERT_HIDDEN}** and **{LARGER_EXPERT_HIDDEN}** across 1, 2, and 4 ranks. The other three use **16 experts**, hidden widths **1,024, 2,048, and 4,096**, and 1, 2, 4, and 8 ranks. All use top-2 routing and token dimension 32. Within each sweep, model size is fixed as ranks and total tokens change. A follow-up compares one and two blocks at the largest 16-expert batch.
 
 ## Small expert: communication dominates
 
@@ -241,6 +257,18 @@ At 16,384 tokens, model parameter storage is {extended[1, 16384]['parameter_byte
 
 Four ranks beat eight at 4,096 tokens; at 16,384 tokens, eight ranks are only {extended[4, 16384]['median_step_ms'] / extended[8, 16384]['median_step_ms']:.2f}× faster than four. The 16-expert run has an expert-load imbalance ratio of {extended[8, 16384]['expert_load_imbalance']:.2f} at the largest batch. Communication, synchronization, and uneven expert work can all limit eight-rank scaling; this experiment does not isolate their individual contributions.
 
+### Does widening experts improve scaling?
+
+These runs hold expert count (16), token dimension (32), top-k (2), and block count (1) fixed. Only expert hidden width changes across the three groups. The activation row exchanged by each all-to-all stays 32 float64 values. All four rank counts were measured; the final column compares eight ranks with one at the same width and total tokens.
+
+| Expert width | Total tokens | 1 rank ms | 2 ranks ms | 4 ranks ms | 8 ranks ms | 8-rank speedup |
+|---:|---:|---:|---:|---:|---:|---:|
+{chr(10).join(width_table)}
+
+![Eight-rank speedup versus expert width](width-speedup.svg)
+
+At 16,384 tokens, eight-rank speedup is {by_width[1024][1, 16384]['median_step_ms'] / by_width[1024][8, 16384]['median_step_ms']:.2f}×, {by_width[2048][1, 16384]['median_step_ms'] / by_width[2048][8, 16384]['median_step_ms']:.2f}×, and {by_width[4096][1, 16384]['median_step_ms'] / by_width[4096][8, 16384]['median_step_ms']:.2f}× at widths 1,024, 2,048, and 4,096. Wider experts increase parameter and intermediate-activation storage as well as compute. These runs quantify the local CPU tradeoff; they do not imply the same ratios on GPUs.
+
 ### Does adding a block change scaling?
 
 Holding 16 experts, hidden width 1,024, and 16,384 total tokens fixed, we compare one and two MoE blocks. Each block has its own projection, router, experts, and dispatch/return collectives. The last column is two-block time divided by one-block time at the same rank count.
@@ -264,12 +292,15 @@ The payload estimates count tensor elements: for `R` remote assignments summed a
 - [summary.json](summary.json): one derived metrics row for each of the nine small-expert jobs.
 - [larger/summary.json](larger/summary.json): one derived metrics row for each of the twelve larger-expert jobs.
 - [extended/summary.json](extended/summary.json): one derived metrics row for each of the twelve 16-expert jobs.
+- [width-2048/summary.json](width-2048/summary.json) and [width-4096/summary.json](width-4096/summary.json): the two wider-expert sweeps, twelve jobs each.
 - [two-blocks/summary.json](two-blocks/summary.json): four jobs isolating block count at 16,384 tokens.
 - [rank-trends.svg](rank-trends.svg): median latency against ranks at three fixed total token counts.
 - [data-trends.svg](data-trends.svg): median latency against total tokens at three fixed rank counts.
 - [scaling.svg](scaling.svg): the original fixed-total, fixed-local, and storage bar chart.
 - [larger/rank-trends.svg](larger/rank-trends.svg) and [larger/data-trends.svg](larger/data-trends.svg): larger-expert latency trends.
 - [extended/rank-trends.svg](extended/rank-trends.svg) and [extended/data-trends.svg](extended/data-trends.svg): 16-expert latency trends.
+- [width-speedup.svg](width-speedup.svg): eight-rank speedup as expert width changes at three fixed token counts.
+- `width-2048/` and `width-4096/` also contain rank and data trend plots for each width.
 - [block-trends.svg](block-trends.svg): one versus two blocks at fixed model width and total tokens.
 - `ranks{{R}}-tokens{{N}}.json` (in the sweep directories): per-rank configuration, loss, timing, routing counts, and parameter storage.
 - `ranks{{R}}-tokens{{N}}.environment.json` (in the sweep directories): Python, PyTorch, host, dtype, and backend details for each job.
@@ -310,6 +341,11 @@ def main():
     larger = run_grid(args.output / 'larger', LARGER_EXPERT_HIDDEN, LARGER_TOKENS)
     extended = run_grid(args.output / 'extended', EXTENDED_EXPERT_HIDDEN,
                         EXTENDED_TOKENS, experts=16, ranks=EXTENDED_RANKS)
+    width_runs = {
+        width: run_grid(args.output / f'width-{width}', width,
+                        EXTENDED_TOKENS, experts=16, ranks=EXTENDED_RANKS)
+        for width in ADDITIONAL_EXPERT_WIDTHS
+    }
     two_blocks = run_grid(args.output / 'two-blocks', EXTENDED_EXPERT_HIDDEN,
                           BLOCK_COMPARISON_TOKENS, experts=16, blocks=2,
                           ranks=EXTENDED_RANKS)
@@ -321,7 +357,22 @@ def main():
                         if row['total_tokens'] == 16384]),
          ('Two blocks', [row['median_step_ms'] for row in two_blocks])],
     )
-    save_readme(args.output / 'README.md', small, larger, extended, two_blocks)
+    width_by_job = {
+        width: {(row['ranks'], row['total_tokens']): row for row in sweep}
+        for width, sweep in {1024: extended, **width_runs}.items()
+    }
+    save_trend_plot(
+        args.output / 'width-speedup.svg', 'Eight-rank speedup versus expert width',
+        'Expert hidden width', (1024, *ADDITIONAL_EXPERT_WIDTHS),
+        [(f'{tokens:,} tokens', [
+            width_by_job[width][1, tokens]['median_step_ms'] /
+            width_by_job[width][8, tokens]['median_step_ms']
+            for width in (1024, *ADDITIONAL_EXPERT_WIDTHS)])
+         for tokens in EXTENDED_TOKENS],
+        y_label='One-rank time / eight-rank time',
+    )
+    save_readme(args.output / 'README.md', small, larger, extended,
+                two_blocks, width_runs)
     print(f'Saved scaling results; see {args.output / "README.md"}')
 
 
