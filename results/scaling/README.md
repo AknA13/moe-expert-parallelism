@@ -1,8 +1,8 @@
-# CPU scaling results
+# Scaling Results (on CPU)
 
 ## Question and method
 
-How do rank count, parameter storage, communication, and step time change when an MoE is split across ranks? These CPU/Gloo jobs use float64, learned top-2 routing, Adam at learning rate 0.001, and one CPU thread per worker. Each job ran 25 steps: 5 warmup and 20 measured. A barrier starts each timed step, and its duration is the slowest rank's time. Startup, logging, and correctness comparisons are outside the timed step.
+How do training step time, parameter storage, and communication overhead change as we split the MoE across more ranks? These CPU jobs use float64, learned top-2 routing, Adam at learning rate 0.001, and one CPU thread per worker/rank. Each job ran 25 steps: 5 warmup and 20 measured. The step time is measured as the duration of the slowest rank. 
 
 We run five one-block sweeps. The first two use eight experts and hidden widths **64** and **512** across 1, 2, and 4 ranks. The other three use **16 experts**, hidden widths **1,024, 2,048, and 4,096**, and 1, 2, 4, and 8 ranks. All use top-2 routing and token dimension 32. Within each sweep, model size is fixed as ranks and total tokens change. A follow-up compares one and two blocks at the largest 16-expert batch.
 
