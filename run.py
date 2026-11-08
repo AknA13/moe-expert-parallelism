@@ -10,8 +10,9 @@ from pathlib import Path
 import torch
 import torch.distributed as dist
 import torch.multiprocessing as mp
+from torch import nn
 
-from moe.model import ModelConfig
+from moe.model import ModelConfig, MoEModel
 from moe.training import TrainConfig, run_training
 
 
@@ -23,8 +24,36 @@ def worker(rank, world, init_url, train_config, model_config, capture_state, out
         timeout=datetime.timedelta(seconds=90),
     )
     try:
+        with torch.random.fork_rng():
+            model = MoEModel(model_config, parallel=world > 1, rank=rank, world=world)
+
+            def reset_with_seed(module, seed):
+                torch.manual_seed(seed)
+                for layer in module.modules():
+                    if isinstance(layer, nn.Linear):
+                        layer.reset_parameters()
+
+            # Seed by global block/expert ID so all rank counts start identically.
+            for block_id, block in enumerate(model.blocks):
+                offset = block_id * 1000
+                reset_with_seed(block.token_projection, 10 + offset)
+                reset_with_seed(block.router, 11 + offset)
+                for expert_id, expert in block.experts.items():
+                    reset_with_seed(expert, 100 + offset + int(expert_id))
+        model = model.double()
+
+        generator = torch.Generator().manual_seed(42)
+        full_x = torch.randn(train_config.total_tokens, model_config.dimension,
+                             generator=generator, dtype=torch.float64)
+        full_target = 0.3 * full_x.tanh() + 0.2
+        token_ids = torch.tensor_split(
+            torch.arange(train_config.total_tokens), world)[rank]
+        x = full_x[token_ids].clone().requires_grad_(capture_state)
+        target = full_target[token_ids].clone()
+
         result = {'rank': rank, **run_training(
-            rank, world, train_config, model_config, capture_state=capture_state)}
+            model, x, target, train_config, token_ids=token_ids,
+            capture_state=capture_state)}
         gathered = [None] * world
         dist.all_gather_object(gathered, result)
         if rank == 0:

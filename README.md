@@ -26,8 +26,8 @@ python show_results.py
 ## Read the code
 
 1. `moe/model.py`: `MoEModel` builds `StandardMoEBlock` or `ParallelMoEBlock` instances. `ModelConfig.num_blocks` controls the stack depth. The parallel block uses PyTorch's autograd-aware variable-size all-to-all for activations.
-2. `moe/training.py`: deterministic model initialization and data shards, shared-gradient synchronization, and one training loop that calls `model(x)` in either mode.
-3. `run.py`: one generic worker; `verify.py` and `scale.py` launch it with different inputs.
+2. `moe/training.py`: the training step, step reporting, shared-gradient synchronization, and one training loop that calls `model(x)` in either mode.
+3. `run.py`: one generic worker that initializes the model and data shard; `verify.py` and `scale.py` launch it with different inputs.
 
 Each block contains its own token projection (`Linear` + `Tanh`), router, and experts. In parallel mode, projection and router parameters are replicated, while each rank owns `8/world_size` experts per block. In standard mode, one process owns all experts. Both modes use the same output dimension, gate calculation, and global expert initialization. No test-only routing mode enters the model.
 
@@ -68,7 +68,7 @@ An expert owner receives assignments from every source, so its backward pass alr
 
 `verify.py` launches three one-block jobs with **65 total tokens and 30 epochs** at 1, 2, and 4 ranks. The one-rank job builds `MoEModel(parallel=False)`; the others build `MoEModel(parallel=True)` with their rank and world size. It compares every epoch's global loss, first-step token outputs and input gradients, every owned/shared parameter gradient and post-step value, each block's selected IDs and returned values, and final parameters. The first epoch supplies the one-step check. Shared layers must update and loss must decrease. Numerical comparisons use float64, `atol=1e-8`, and `rtol=1e-6`.
 
-It also launches a short **two-block** job at 1, 2, and 4 ranks to check that stacked blocks preserve those equivalences. `--capture-state` saves tensors for this external comparison; it does not execute a reference model inside parallel workers. The normal worker only trains and records its result.
+It also launches a short **two-block** job at 1, 2, and 4 ranks to check that stacked blocks preserve those equivalences. `--capture-state` saves tensors for this external comparison; it does not execute a reference model inside parallel workers. Each worker initializes its model and data shard, trains, and records its result.
 
 The learned router may leave an expert unused in a particular run. These tests verify the observed routes; they do not guarantee an empty destination or all-expert update case. The code supports an empty owner through graph-preserving empty expert calls and matching collectives, but that edge case is not forced by the submitted suite.
 

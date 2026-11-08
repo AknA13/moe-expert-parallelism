@@ -1,12 +1,9 @@
-"""Deterministic data, model setup, and one MoE training loop."""
+"""Training steps, reporting, and the MoE training loop."""
 import time
 from dataclasses import asdict, dataclass
 
 import torch
 import torch.distributed as dist
-from torch import nn
-
-from .model import ModelConfig, MoEModel
 
 
 @dataclass(frozen=True)
@@ -110,63 +107,28 @@ def record_step(model, x, step, elapsed, epoch, config, token_ids, *, capture_st
     return log, trace, first_step
 
 
-def train_loop(model, x, target, config, *, token_ids, capture_state=False):
-    """Train one data shard; the model chooses local or parallel execution."""
-    x = x.requires_grad_(capture_state)
+def run_training(model, x, target, train_config, *, token_ids, capture_state=False):
+    """Train the initialized model on this rank's data shard."""
     world = dist.get_world_size()
-    optimizer = torch.optim.SGD(model.parameters(), lr=config.learning_rate)
-    logs, trace, first_step = [], None, None
+    initial = {name: p.detach().clone() for name, p in model.named_parameters()}
+    optimizer = torch.optim.SGD(model.parameters(), lr=train_config.learning_rate)
+    steps, trace, first_step = [], None, None
 
-    for epoch in range(config.epochs):
+    for epoch in range(train_config.epochs):
         if world > 1:
             dist.barrier()
         start = time.perf_counter()
-        step = train_step(model, x, target, optimizer, config.total_tokens)
+        step = train_step(model, x, target, optimizer, train_config.total_tokens)
         elapsed = torch.tensor(time.perf_counter() - start, dtype=torch.float64)
         if world > 1:
             dist.all_reduce(elapsed, op=dist.ReduceOp.MAX)
 
         log, epoch_trace, epoch_first_step = record_step(
-            model, x, step, elapsed, epoch, config, token_ids,
+            model, x, step, elapsed, epoch, train_config, token_ids,
             capture_state=capture_state)
-        logs.append(log)
+        steps.append(log)
         if epoch == 0:
             trace, first_step = epoch_trace, epoch_first_step
-    return logs, trace, first_step
-
-
-def run_training(rank, world, train_config, model_config=ModelConfig(),
-                 *, capture_state=False):
-    with torch.random.fork_rng():
-        model = MoEModel(model_config, parallel=world > 1, rank=rank, world=world)
-
-        def reset_with_seed(module, seed):
-            torch.manual_seed(seed)
-            for layer in module.modules():
-                if isinstance(layer, nn.Linear):
-                    layer.reset_parameters()
-
-        # Seed by global block/expert ID so all rank counts start identically.
-        for block_id, block in enumerate(model.blocks):
-            offset = block_id * 1000
-            reset_with_seed(block.token_projection, 10 + offset)
-            reset_with_seed(block.router, 11 + offset)
-            for expert_id, expert in block.experts.items():
-                reset_with_seed(expert, 100 + offset + int(expert_id))
-    model = model.double()
-
-    generator = torch.Generator().manual_seed(42)
-    full_x = torch.randn(train_config.total_tokens, model_config.dimension,
-                         generator=generator, dtype=torch.float64)
-    full_target = 0.3 * full_x.tanh() + 0.2
-    token_ids = torch.tensor_split(
-        torch.arange(train_config.total_tokens), world)[rank]
-    x, target = full_x[token_ids].clone(), full_target[token_ids].clone()
-
-    initial = {name: p.detach().clone() for name, p in model.named_parameters()}
-    steps, trace, first_step = train_loop(
-        model, x, target, train_config, token_ids=token_ids,
-        capture_state=capture_state)
     changes = {name: float((p.detach() - initial[name]).abs().max())
                for name, p in model.named_parameters()}
     shared_bytes = sum(p.numel() * p.element_size()
@@ -175,7 +137,7 @@ def run_training(rank, world, train_config, model_config=ModelConfig(),
                       for p in model.parameters())
     return {
         'train_config': asdict(train_config),
-        'model_config': asdict(model_config),
+        'model_config': asdict(model.config),
         'parallel': model.parallel,
         'epochs': steps,
         'trace': trace,
