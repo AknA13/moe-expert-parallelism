@@ -90,12 +90,16 @@ def save_plot(path, rows):
 
 
 def save_trend_plot(path, title, x_label, x_values, series,
-                    y_label='Median step time (ms)'):
-    """Plot step latency while varying one experiment axis at a time."""
+                    y_label='Median step time (ms)', *, categorical_x=False,
+                    reference_value=None, last_value_format=None,
+                    tick_format='.1f', tick_round_to=None):
+    """Plot measured values against one experiment axis."""
     width, height = 760, 490
     left, right, top, bottom = 75, 28, 145, 65
     plot_width, plot_height = width - left - right, height - top - bottom
     highest = max(value for _, values in series for value in values)
+    if reference_value is not None:
+        highest = max(highest, reference_value)
     ceiling = highest * 1.15
     colors = ('#315a9b', '#16866a', '#c8713e', '#8057a5')
     parts = [f'<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 {width} {height}">',
@@ -104,13 +108,24 @@ def save_trend_plot(path, title, x_label, x_values, series,
              f'<text x="75" y="126" font-family="sans-serif" font-size="13">{y_label}</text>']
     for fraction in (0, .25, .5, .75, 1):
         y = top + plot_height * (1 - fraction)
+        tick = ceiling * fraction
+        if tick_round_to is not None:
+            tick = round(tick / tick_round_to) * tick_round_to
         parts += [f'<line x1="{left}" x2="{left + plot_width}" y1="{y:.1f}" y2="{y:.1f}" stroke="#e2e5eb"/>',
-                  f'<text x="{left - 10}" y="{y + 4:.1f}" text-anchor="end" font-family="sans-serif" font-size="12">{ceiling * fraction:.1f}</text>']
-    positions = [left + (value - x_values[0]) * plot_width / (x_values[-1] - x_values[0])
-                 for value in x_values]
+                  f'<text x="{left - 10}" y="{y + 4:.1f}" text-anchor="end" font-family="sans-serif" font-size="12">{tick:{tick_format}}</text>']
+    if categorical_x:
+        positions = [left + index * plot_width / (len(x_values) - 1)
+                     for index in range(len(x_values))]
+    else:
+        positions = [left + (value - x_values[0]) * plot_width / (x_values[-1] - x_values[0])
+                     for value in x_values]
     for value, x in zip(x_values, positions):
         parts += [f'<line x1="{x:.1f}" x2="{x:.1f}" y1="{top + plot_height}" y2="{top + plot_height + 6}" stroke="#777"/>',
                   f'<text x="{x:.1f}" y="{top + plot_height + 25}" text-anchor="middle" font-family="sans-serif" font-size="13">{value:,}</text>']
+    if reference_value is not None:
+        y = top + plot_height * (1 - reference_value / ceiling)
+        parts += [f'<line x1="{left}" x2="{left + plot_width}" y1="{y:.1f}" y2="{y:.1f}" stroke="#777" stroke-dasharray="5 5"/>',
+                  f'<text x="{left + plot_width - 7}" y="{y - 8:.1f}" text-anchor="end" font-family="sans-serif" font-size="12" fill="#555">{reference_value:g}× break-even</text>']
     for index, (label, values) in enumerate(series):
         color = colors[index]
         points = ' '.join(f'{x:.1f},{top + plot_height * (1 - value / ceiling):.1f}'
@@ -119,6 +134,10 @@ def save_trend_plot(path, title, x_label, x_values, series,
         for x, value in zip(positions, values):
             y = top + plot_height * (1 - value / ceiling)
             parts.append(f'<circle cx="{x:.1f}" cy="{y:.1f}" r="5" fill="{color}"/>')
+        if last_value_format is not None:
+            y = top + plot_height * (1 - values[-1] / ceiling)
+            label_y = y + 20 if len(series) > 1 and index == 0 else y - 10
+            parts.append(f'<text x="{positions[-1] - 10:.1f}" y="{label_y:.1f}" text-anchor="end" font-family="sans-serif" font-size="13" font-weight="bold" fill="{color}">{values[-1]:{last_value_format}}</text>')
         legend_x = left + (index % 2) * 310
         legend_y = 68 + (index // 2) * 23
         parts += [f'<line x1="{legend_x}" x2="{legend_x + 22}" y1="{legend_y}" y2="{legend_y}" stroke="{color}" stroke-width="3"/>',
@@ -145,166 +164,116 @@ def save_trends(output, rows, token_counts, ranks):
         )
 
 
+def save_story_plots(output, larger_rows, extended_rows, width_rows):
+    """Build the three presentation figures and one fixed-local backup."""
+    larger = {(row['ranks'], row['total_tokens']): row for row in larger_rows}
+    by_width = {
+        width: {(row['ranks'], row['total_tokens']): row for row in sweep}
+        for width, sweep in {1024: extended_rows, **width_rows}.items()
+    }
+    widths = (1024, *ADDITIONAL_EXPERT_WIDTHS)
+
+    save_trend_plot(
+        output / 'batch-crossover.svg', 'More tokens make four ranks worthwhile',
+        'Total tokens (doubling)', LARGER_TOKENS,
+        [('8 experts, width 512', [larger[1, tokens]['median_step_ms'] /
+                                   larger[4, tokens]['median_step_ms']
+                                   for tokens in LARGER_TOKENS])],
+        y_label='Four-rank speedup', categorical_x=True,
+        reference_value=1, last_value_format='.2f',
+    )
+    save_trend_plot(
+        output / 'rank-speedup-by-width.svg',
+        'Wider experts improve rank scaling', 'Ranks (doubling)', EXTENDED_RANKS,
+        [(f'Expert width {width:,}', [
+            by_width[width][1, 16384]['median_step_ms'] /
+            by_width[width][world, 16384]['median_step_ms']
+            for world in EXTENDED_RANKS]) for width in widths],
+        y_label='Speedup over one rank', categorical_x=True,
+        reference_value=1, last_value_format='.2f',
+    )
+    save_trend_plot(
+        output / 'parameter-storage.svg', 'Expert sharding reduces model storage',
+        'Ranks (doubling)', EXTENDED_RANKS,
+        [('16 experts, width 4,096', [
+            by_width[4096][world, 16384]['parameter_bytes_per_rank'] / 1024**2
+            for world in EXTENDED_RANKS])],
+        y_label='Model parameters per rank (MiB)', categorical_x=True,
+        last_value_format='.1f',
+    )
+    save_trend_plot(
+        output / 'fixed-local-throughput.svg',
+        'Throughput with 2,048 tokens per rank', 'Ranks (doubling)', (2, 4, 8),
+        [('Expert width 4,096', [
+            by_width[4096][world, 2048 * world]['tokens_per_second_at_median']
+            for world in (2, 4, 8)])],
+        y_label='Cluster throughput (tokens/s)', categorical_x=True,
+        last_value_format=',.0f', tick_format=',.0f', tick_round_to=1000,
+    )
+
+
 def save_readme(path, rows, larger_rows, extended_rows, two_block_rows,
                 width_rows):
-    """Write the interpretation beside the plot and raw logs."""
-    fixed_total = [row for row in rows if row['total_tokens'] == 256]
-    fixed_local = [row for row in rows if row['local_tokens'] == 256]
+    """Explain the scaling evidence through figures and short captions."""
+    small = {(row['ranks'], row['total_tokens']): row for row in rows}
     larger = {(row['ranks'], row['total_tokens']): row for row in larger_rows}
     extended = {(row['ranks'], row['total_tokens']): row for row in extended_rows}
     two_blocks = {(row['ranks'], row['total_tokens']): row for row in two_block_rows}
-    by_width = {
-        1024: extended,
-        **{width: {(row['ranks'], row['total_tokens']): row for row in sweep}
-           for width, sweep in width_rows.items()},
-    }
-    table = [
-        f'| {row["ranks"]} | {row["total_tokens"]:,} | {row["local_tokens"]:,} | '
-        f'{row["parameter_bytes_per_rank"] / 1024:.1f} | '
-        f'{row["median_step_ms"]:.3f} | {row["p95_step_ms"]:.3f} | '
-        f'{row["tokens_per_second_at_median"]:,.0f} | '
-        f'{row["expert_load_imbalance"]:.2f} |'
-        for row in rows
-    ]
-    larger_table = [
-        f'| {tokens:,} | '
-        + ' | '.join(f'{larger[world, tokens]["median_step_ms"]:.3f}' for world in RANKS)
-        + f' | {larger[1, tokens]["median_step_ms"] / larger[4, tokens]["median_step_ms"]:.2f}× |'
-        for tokens in LARGER_TOKENS
-    ]
-    extended_table = [
-        f'| {tokens:,} | '
-        + ' | '.join(f'{extended[world, tokens]["median_step_ms"]:.3f}'
-                     for world in EXTENDED_RANKS)
-        + f' | {extended[1, tokens]["median_step_ms"] / extended[8, tokens]["median_step_ms"]:.2f}× |'
-        for tokens in EXTENDED_TOKENS
-    ]
-    block_table = [
-        f'| {world} | {extended[world, 16384]["median_step_ms"]:.3f} | '
-        f'{two_blocks[world, 16384]["median_step_ms"]:.3f} | '
-        f'{two_blocks[world, 16384]["median_step_ms"] / extended[world, 16384]["median_step_ms"]:.2f}× |'
-        for world in EXTENDED_RANKS
-    ]
-    width_table = [
-        f'| {width:,} | {tokens:,} | '
-        + ' | '.join(f'{by_width[width][world, tokens]["median_step_ms"]:.1f}'
-                     for world in EXTENDED_RANKS)
-        + f' | {by_width[width][1, tokens]["median_step_ms"] / by_width[width][8, tokens]["median_step_ms"]:.2f}× |'
-        for width in (1024, *ADDITIONAL_EXPERT_WIDTHS)
-        for tokens in EXTENDED_TOKENS
-    ]
-    path.write_text(f'''# CPU scaling results
+    middle = {(row['ranks'], row['total_tokens']): row
+              for row in width_rows[2048]}
+    widest = {(row['ranks'], row['total_tokens']): row
+              for row in width_rows[4096]}
+    path.write_text(f"""# Scaling Results (on CPU)
 
-## Question and method
+How do training step time, parameter storage, and communication overhead change as we split the MoE across more ranks? These CPU jobs use float64, learned top-2 routing, Adam at learning rate 0.001, and one CPU thread per worker/rank. Each job ran 25 steps: 5 warmup and 20 measured. The step time is measured as the duration of the slowest rank.
 
-How do rank count, parameter storage, communication, and step time change when an MoE is split across ranks? These CPU/Gloo jobs use float64, learned top-2 routing, Adam at learning rate 0.001, and one CPU thread per worker. Each job ran 25 steps: 5 warmup and 20 measured. A barrier starts each timed step, and its duration is the slowest rank's time. Startup, logging, and correctness comparisons are outside the timed step.
+## How to read the figures
 
-We run five one-block sweeps. The first two use eight experts and hidden widths **{SMALL_EXPERT_HIDDEN}** and **{LARGER_EXPERT_HIDDEN}** across 1, 2, and 4 ranks. The other three use **16 experts**, hidden widths **1,024, 2,048, and 4,096**, and 1, 2, 4, and 8 ranks. All use top-2 routing and token dimension 32. Within each sweep, model size is fixed as ranks and total tokens change. A follow-up compares one and two blocks at the largest 16-expert batch.
+Each point is the median of the 20 measured steps. A barrier starts each timed step; jobs use Gloo and one fixed synthetic batch per job. Startup, logging, and correctness comparisons are outside the timed step. We estimate logical communication payload but do not separately time collectives. **Speedup means one-rank step time divided by multi-rank step time at the same global token count and model configuration.**
 
-## Small expert: communication dominates
+## 1. More data makes parallelism worthwhile
 
-| Ranks | Total tokens | Tokens/rank | Model KiB/rank | Median ms | p95 ms | Tokens/s at median | Expert imbalance |
-|---:|---:|---:|---:|---:|---:|---:|---:|
-{chr(10).join(table)}
+![Four-rank speedup versus total tokens for eight experts with hidden width 512](batch-crossover.svg)
 
-For fixed total work, model storage falls from **{fixed_total[0]['parameter_bytes_per_rank'] / 1024:.1f} to {fixed_total[-1]['parameter_bytes_per_rank'] / 1024:.1f} KiB per rank**, while median step time rises from **{fixed_total[0]['median_step_ms']:.3f} to {fixed_total[-1]['median_step_ms']:.3f} ms**. Expert weights are sharded; the shared projection and router still occupy {fixed_total[0]['shared_parameter_bytes_per_rank'] / 1024:.1f} KiB on every rank. This small CPU workload pays more for communication and coordination than it gains from dividing expert computation.
+This plot holds the eight-expert, width-512 model fixed. Four-rank speedup rises from **{larger[1, 1024]['median_step_ms'] / larger[4, 1024]['median_step_ms']:.2f}× at 1,024 tokens** to **{larger[1, 8192]['median_step_ms'] / larger[4, 8192]['median_step_ms']:.2f}× at 8,192 tokens**. The dashed 1× line marks break-even. A smaller width-64 model is slower with four ranks even at 1,024 tokens (**{small[1, 1024]['median_step_ms']:.1f} versus {small[4, 1024]['median_step_ms']:.1f} ms**); its [rank-latency plot](rank-trends.svg) shows the overhead-dominated case.
 
-For fixed local work, total throughput is **{fixed_local[0]['tokens_per_second_at_median']:,.0f}, {fixed_local[1]['tokens_per_second_at_median']:,.0f}, and {fixed_local[2]['tokens_per_second_at_median']:,.0f} tokens/s** at 1, 2, and 4 ranks. Median step time grows from **{fixed_local[0]['median_step_ms']:.3f} to {fixed_local[-1]['median_step_ms']:.3f} ms**. This describes larger total work, not a fixed-batch speedup.
+## 2. Wider experts improve rank scaling
 
-### Trends by rank and data size
+![One-to-eight-rank speedup at 16,384 total tokens for three expert widths](rank-speedup-by-width.svg)
 
-Each point is a separate run's median step time. Lines in the first graph hold total tokens constant while ranks change; lines in the second hold ranks constant while total tokens change.
+This plot fixes **16 experts, 16,384 total tokens, top-2 routing, token dimension 32, and one MoE block**. Each line varies ranks for one expert width. Eight-rank speedup reaches **{extended[1, 16384]['median_step_ms'] / extended[8, 16384]['median_step_ms']:.2f}×**, **{middle[1, 16384]['median_step_ms'] / middle[8, 16384]['median_step_ms']:.2f}×**, and **{widest[1, 16384]['median_step_ms'] / widest[8, 16384]['median_step_ms']:.2f}×** at widths 1,024, 2,048, and 4,096. At width 4,096, absolute step time falls from **{widest[1, 16384]['median_step_ms']:.1f} to {widest[8, 16384]['median_step_ms']:.1f} ms**. Going from four to eight ranks yields only **{widest[4, 16384]['median_step_ms'] / widest[8, 16384]['median_step_ms']:.2f}×** improvement; communication and uneven expert work are possible reasons for the flattening.
 
-![Median step time versus rank count for fixed total token counts](rank-trends.svg)
+The exchanged token row remains 32 float64 values as expert width changes. Wider experts also change parameter and optimizer work, intermediate-activation storage, and the learned routing trajectory. The plot shows measured scaling for each complete workload; it does not isolate a communication-time fraction.
 
-![Median step time versus total tokens for fixed rank counts](data-trends.svg)
+## 3. Sharding reduces parameter storage per rank
 
-The original bar chart gives a compact view of the 256-token fixed-total comparison, the 256-tokens-per-rank diagonal, and parameter storage:
+![Model parameter storage per rank for 16 experts with hidden width 4096](parameter-storage.svg)
 
-![CPU scaling bar chart](scaling.svg)
+With 16 experts at width 4,096, measured model parameters fall from **{widest[1, 16384]['parameter_bytes_per_rank'] / 1024**2:.1f} MiB on one rank** to **{widest[8, 16384]['parameter_bytes_per_rank'] / 1024**2:.1f} MiB per rank on eight ranks**. Each rank retains its own projection and router; experts are divided among ranks. This measures model parameters only, excluding gradients, Adam state, activations, and process memory.
 
-## Larger expert: more compute per exchanged token
+## Supporting views
 
-With hidden width {LARGER_EXPERT_HIDDEN}, the following table shows median step latency for the same global token count across ranks. The last column is `1-rank time / 4-rank time`; values above 1 indicate a measured speedup.
+### Increasing total work with ranks
 
-| Total tokens | 1 rank ms | 2 ranks ms | 4 ranks ms | 4-rank speedup |
-|---:|---:|---:|---:|---:|
-{chr(10).join(larger_table)}
+![Cluster throughput with 2048 tokens per rank at two four and eight ranks](fixed-local-throughput.svg)
 
-At {LARGER_TOKENS[-1]:,} tokens, the 4-rank run stores {larger[4, LARGER_TOKENS[-1]]['parameter_bytes_per_rank'] / 1024:.1f} KiB of model parameters per rank, versus {larger[1, LARGER_TOKENS[-1]]['parameter_bytes_per_rank'] / 1024:.1f} KiB on one rank. The trend graphs show where the larger expert workload begins to overcome dispatch and synchronization overhead:
+This is a **fixed-local-batch** comparison: 2,048 tokens per rank, so total tokens rise from 4,096 to 16,384 as ranks rise from two to eight. For the width-4,096 model, throughput grows from **{widest[2, 4096]['tokens_per_second_at_median']:,.0f} to {widest[8, 16384]['tokens_per_second_at_median']:,.0f} tokens/s**, while step time grows from **{widest[2, 4096]['median_step_ms']:.1f} to {widest[8, 16384]['median_step_ms']:.1f} ms**. This is different from the fixed-global-batch speedup in Figure 2. The saved grid has no one-rank, 2,048-token point for this particular comparison.
 
-![Larger expert latency versus ranks](larger/rank-trends.svg)
+### Additional experiments
 
-![Larger expert latency versus token count](larger/data-trends.svg)
+- The [small-expert plot](rank-trends.svg) and [larger-expert plot](larger/rank-trends.svg) show absolute latency as ranks change at fixed total tokens.
+- The [width-versus-speedup plot](width-speedup.svg) shows how batch size and expert width affect eight-rank speedup. Each width also has its own rank and data trend plots in `extended/`, `width-2048/`, and `width-4096/`.
+- The [one-versus-two-block plot](block-trends.svg) shows the depth check at 16,384 tokens and width 1,024. Eight-rank speedup is **{extended[1, 16384]['median_step_ms'] / extended[8, 16384]['median_step_ms']:.2f}× with one block** and **{two_blocks[1, 16384]['median_step_ms'] / two_blocks[8, 16384]['median_step_ms']:.2f}× with two**. A second block adds another routing and communication stage, so this is a separate model-depth question.
 
-The 1,024-token row is shared across the two model-size sweeps; only expert hidden width changes there. The remaining rows show the effect of increasing data within each model. These single-host CPU measurements are descriptive and are not a GPU speedup claim.
+## Interpretation and limits
 
-At a fixed **1,024 tokens per rank**, the larger workload processes 1,024, 2,048, and 4,096 total tokens at 1, 2, and 4 ranks. Median cluster throughput is {larger[1, 1024]['tokens_per_second_at_median']:,.0f}, {larger[2, 2048]['tokens_per_second_at_median']:,.0f}, and {larger[4, 4096]['tokens_per_second_at_median']:,.0f} tokens/s, respectively. This is a separate fixed-local-work comparison; the table above holds total work fixed.
+The width-4,096, eight-rank, 16,384-token job averages **{widest[8, 16384]['remote_assignments_per_step']:,.0f} remote token-expert assignments** per measured step. Its logical forward activation payload is **{widest[8, 16384]['forward_activation_bytes_per_step'] / 1024**2:.1f} MiB**, and its backward activation payload is the same. These count tensor elements, not physical network traffic or time spent in collectives. At this configuration, the most-loaded expert receives **{widest[8, 16384]['expert_load_imbalance']:.2f}×** the average assignment count. We have not separately timed communication and expert computation, so the exact sources of the eight-rank plateau remain unresolved. These single-host CPU results do not establish GPU speedup.
 
-## Extended sweep: 16 experts, 1,024 hidden units
+## Reproduce and inspect
 
-The model has the same 16 experts at every rank count. At eight ranks, each worker owns two experts. Each row holds global token count fixed; the final column is 1-rank time divided by 8-rank time.
+Run `python experiments/scaling.py` from the repository root. It reproduces all **61 jobs** and regenerates the plots, summaries, and this report. The job grids and their derived `summary.json` files are in this directory (width 64), `larger/` (width 512), `extended/` (16 experts, width 1,024), `width-2048/`, `width-4096/`, and `two-blocks/`. Each `ranks{{R}}-tokens{{N}}.json` contains per-rank configuration, loss, timing, routing counts, and parameter storage; its companion `.environment.json` records the runtime and host details.
+""")
 
-| Total tokens | 1 rank ms | 2 ranks ms | 4 ranks ms | 8 ranks ms | 8-rank speedup |
-|---:|---:|---:|---:|---:|---:|
-{chr(10).join(extended_table)}
-
-![Extended sweep latency versus ranks](extended/rank-trends.svg)
-
-![Extended sweep latency versus token count](extended/data-trends.svg)
-
-At 16,384 tokens, model parameter storage is {extended[1, 16384]['parameter_bytes_per_rank'] / 1024:.1f} KiB on one rank and {extended[8, 16384]['parameter_bytes_per_rank'] / 1024:.1f} KiB per rank on eight ranks. As with the other sweeps, these are single-host CPU timings and do not measure GPU performance.
-
-Four ranks beat eight at 4,096 tokens; at 16,384 tokens, eight ranks are only {extended[4, 16384]['median_step_ms'] / extended[8, 16384]['median_step_ms']:.2f}× faster than four. The 16-expert run has an expert-load imbalance ratio of {extended[8, 16384]['expert_load_imbalance']:.2f} at the largest batch. Communication, synchronization, and uneven expert work can all limit eight-rank scaling; this experiment does not isolate their individual contributions.
-
-### Does widening experts improve scaling?
-
-These runs hold expert count (16), token dimension (32), top-k (2), and block count (1) fixed. Only expert hidden width changes across the three groups. The activation row exchanged by each all-to-all stays 32 float64 values. All four rank counts were measured; the final column compares eight ranks with one at the same width and total tokens.
-
-| Expert width | Total tokens | 1 rank ms | 2 ranks ms | 4 ranks ms | 8 ranks ms | 8-rank speedup |
-|---:|---:|---:|---:|---:|---:|---:|
-{chr(10).join(width_table)}
-
-![Eight-rank speedup versus expert width](width-speedup.svg)
-
-At 16,384 tokens, eight-rank speedup is {by_width[1024][1, 16384]['median_step_ms'] / by_width[1024][8, 16384]['median_step_ms']:.2f}×, {by_width[2048][1, 16384]['median_step_ms'] / by_width[2048][8, 16384]['median_step_ms']:.2f}×, and {by_width[4096][1, 16384]['median_step_ms'] / by_width[4096][8, 16384]['median_step_ms']:.2f}× at widths 1,024, 2,048, and 4,096. Wider experts increase parameter and intermediate-activation storage as well as compute. These runs quantify the local CPU tradeoff; they do not imply the same ratios on GPUs.
-
-### Does adding a block change scaling?
-
-Holding 16 experts, hidden width 1,024, and 16,384 total tokens fixed, we compare one and two MoE blocks. Each block has its own projection, router, experts, and dispatch/return collectives. The last column is two-block time divided by one-block time at the same rank count.
-
-| Ranks | One block ms | Two blocks ms | Time ratio |
-|---:|---:|---:|---:|
-{chr(10).join(block_table)}
-
-![One versus two blocks across ranks](block-trends.svg)
-
-The one-block 8-rank speedup is {extended[1, 16384]['median_step_ms'] / extended[8, 16384]['median_step_ms']:.2f}×, versus {two_blocks[1, 16384]['median_step_ms'] / two_blocks[8, 16384]['median_step_ms']:.2f}× with two blocks. Adding depth changes the model and doubles the number of routing/communication stages; it does not isolate expert-parallel efficiency as cleanly as changing ranks at fixed depth.
-
-## Communication and interpretation
-
-The 4-rank, 256-token job averages {fixed_total[-1]['remote_assignments_per_step']:.1f} remote token-expert assignments per measured step. The corresponding logical payload is {fixed_total[-1]['forward_activation_bytes_per_step']:,.0f} bytes in the forward activation phase and the same amount in backward, plus {fixed_total[-1]['routing_metadata_bytes_per_step']:,.0f} bytes of routing metadata. Across the one-block sweeps, the expert imbalance ratio ranges from {min(row['expert_load_imbalance'] for row in rows + larger_rows + extended_rows):.2f} to {max(row['expert_load_imbalance'] for row in rows + larger_rows + extended_rows):.2f}; this is the most-loaded expert's average assignment count divided by the mean.
-
-The payload estimates count tensor elements: for `R` remote assignments summed across `B` blocks, dimension `d`, element size `b`, and `W` ranks, either activation phase moves `2Rdb` bytes (dispatch and return), while expert IDs and count exchange add `8R + 8BW(W-1)` bytes. They are not physical network measurements. Parameter bytes exclude gradients, Adam state, activations, and process overhead. Twenty measured steps describe this local run; they do not establish tail latency or GPU performance.
-
-## Files
-
-- [summary.json](summary.json): one derived metrics row for each of the nine small-expert jobs.
-- [larger/summary.json](larger/summary.json): one derived metrics row for each of the twelve larger-expert jobs.
-- [extended/summary.json](extended/summary.json): one derived metrics row for each of the twelve 16-expert jobs.
-- [width-2048/summary.json](width-2048/summary.json) and [width-4096/summary.json](width-4096/summary.json): the two wider-expert sweeps, twelve jobs each.
-- [two-blocks/summary.json](two-blocks/summary.json): four jobs isolating block count at 16,384 tokens.
-- [rank-trends.svg](rank-trends.svg): median latency against ranks at three fixed total token counts.
-- [data-trends.svg](data-trends.svg): median latency against total tokens at three fixed rank counts.
-- [scaling.svg](scaling.svg): the original fixed-total, fixed-local, and storage bar chart.
-- [larger/rank-trends.svg](larger/rank-trends.svg) and [larger/data-trends.svg](larger/data-trends.svg): larger-expert latency trends.
-- [extended/rank-trends.svg](extended/rank-trends.svg) and [extended/data-trends.svg](extended/data-trends.svg): 16-expert latency trends.
-- [width-speedup.svg](width-speedup.svg): eight-rank speedup as expert width changes at three fixed token counts.
-- `width-2048/` and `width-4096/` also contain rank and data trend plots for each width.
-- [block-trends.svg](block-trends.svg): one versus two blocks at fixed model width and total tokens.
-- `ranks{{R}}-tokens{{N}}.json` (in the sweep directories): per-rank configuration, loss, timing, routing counts, and parameter storage.
-- `ranks{{R}}-tokens{{N}}.environment.json` (in the sweep directories): Python, PyTorch, host, dtype, and backend details for each job.
-''')
 
 
 def run_grid(output, expert_hidden, token_counts, *, experts=8, blocks=1,
@@ -350,6 +319,7 @@ def main():
                           BLOCK_COMPARISON_TOKENS, experts=16, blocks=2,
                           ranks=EXTENDED_RANKS)
     save_plot(args.output / 'scaling.svg', small)
+    save_story_plots(args.output, larger, extended, width_runs)
     save_trend_plot(
         args.output / 'block-trends.svg', 'One versus two blocks as ranks increase',
         'Ranks', EXTENDED_RANKS,
