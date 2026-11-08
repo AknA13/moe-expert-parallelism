@@ -1,6 +1,6 @@
 # Expert-parallel MoE, from one model to many ranks
 
-A private CPU/Gloo teaching demo with learned top-2 routing, eight experts, and a configurable number of MoE blocks. One `MoEModel` selects local or expert-parallel blocks with its `parallel` constructor argument.
+A private CPU/Gloo teaching demo with learned top-2 routing, a configurable expert count, and a configurable number of MoE blocks. One `MoEModel` selects local or expert-parallel blocks with its `parallel` constructor argument.
 
 ## Reproduce
 
@@ -18,10 +18,12 @@ python experiments/correctness.py && python experiments/scaling.py
 ```sh
 python run.py --ranks 2 --tokens 65 --epochs 30 --lr 0.001 --blocks 1
 python run.py --ranks 4 --tokens 1024 --epochs 25 --warmup 5
+python run.py --ranks 8 --tokens 16384 --experts 16 --expert-hidden 1024 --epochs 25 --warmup 5
 ```
 
 `--tokens` is always the **total** batch size; `torch.tensor_split` divides it as evenly as possible. The target is deterministic regression to `0.3*tanh(x)+0.2`. Each epoch reuses that batch. Every run uses learned routing and Adam with its default betas and no weight decay. The default learning rate is 0.001.
 `--expert-hidden` sets the hidden width of each expert MLP; its default is 64.
+`--experts` sets the global expert count; its default is 8 and it must be divisible by the rank count.
 
 ## Read the code
 
@@ -29,7 +31,7 @@ python run.py --ranks 4 --tokens 1024 --epochs 25 --warmup 5
 2. `moe/training.py`: the training step, step reporting, shared-gradient synchronization, and one training loop that calls `model(x)` in either mode.
 3. `run.py`: one generic worker that initializes the model and data shard; the two files in `experiments/` launch it with different inputs.
 
-Each block contains its own token projection (`Linear` + `Tanh`), router, and experts. In parallel mode, projection and router parameters are replicated, while each rank owns `8/world_size` experts per block. In standard mode, one process owns all experts. Both modes use the same output dimension, gate calculation, and global expert initialization. No test-only routing mode enters the model.
+Each block contains its own token projection (`Linear` + `Tanh`), router, and experts. In parallel mode, projection and router parameters are replicated, while each rank owns `expert_count/world_size` experts per block. In standard mode, one process owns all experts. Both modes use the same output dimension, gate calculation, and global expert initialization. No test-only routing mode enters the model.
 
 ## Two-rank token flow
 
@@ -74,8 +76,8 @@ The 65-token one-step fixture reaches and updates all eight experts. These tests
 
 ## Scaling runs
 
-`experiments/scaling.py` measures two one-block workloads. The small expert uses hidden width 64 and all combinations of 1, 2, or 4 ranks with 256, 512, or 1,024 total tokens. The larger expert uses hidden width 512 with 1,024, 2,048, 4,096, or 8,192 total tokens at each rank count. These grids show how rank and batch-size trends change when expert computation grows. Each job runs 25 epochs, with 5 warmup epochs and 20 measured epochs. Workers use one CPU thread each; a barrier precedes timing, and an all-reduced maximum makes the slowest rank define step latency. Startup, result serialization, and correctness comparisons are excluded.
+`experiments/scaling.py` measures three one-block workloads. The first two use eight experts: hidden width 64 with 256–1,024 total tokens, and width 512 with 1,024–8,192 tokens, each across 1, 2, and 4 ranks. The extended sweep uses 16 experts, width 1,024, and 4,096, 8,192, or 16,384 tokens across 1, 2, 4, and 8 ranks. A final comparison uses two blocks at 16,384 tokens with the same 16-expert model. These grids show how rank and batch-size trends change as expert computation grows, while the separate block comparison tests the cost of adding depth. Each job runs 25 epochs, with 5 warmup epochs and 20 measured epochs. Workers use one CPU thread each; a barrier precedes timing, and an all-reduced maximum makes the slowest rank define step latency. Startup, result serialization, and correctness comparisons are excluded.
 
-Scaling logs contain per-rank parameter bytes and per-epoch loss, latency, expert assignments, and remote assignment counts. `experiments/scaling.py` derives load imbalance, token throughput, and logical payload from those counts, then saves [small-expert trends](results/scaling/rank-trends.svg), [larger-expert trends](results/scaling/larger/rank-trends.svg), and the [original bar chart](results/scaling/scaling.svg). For `R` remote assignments, dimension `d`, element size `b`, and `W` ranks, each forward or backward activation phase moves `2Rdb` bytes across the cluster; routing IDs and count exchange add `8R + 8W(W-1)` metadata bytes. These are logical tensor payloads, not measured physical network traffic. Parameter storage excludes gradients, optimizer state, activations, and process memory. The ring all-reduce traffic formula, when discussed, is analytical rather than an observation of Gloo's chosen algorithm.
+Scaling logs contain per-rank parameter bytes and per-epoch loss, latency, expert assignments, and remote assignment counts. `experiments/scaling.py` derives load imbalance, token throughput, and logical payload from those counts, then saves [small-expert trends](results/scaling/rank-trends.svg), [larger-expert trends](results/scaling/larger/rank-trends.svg), [16-expert trends](results/scaling/extended/rank-trends.svg), and the [block comparison](results/scaling/block-trends.svg). For `R` remote assignments, dimension `d`, element size `b`, and `W` ranks, each forward or backward activation phase moves `2Rdb` bytes across the cluster; routing IDs and count exchange add `8R + 8W(W-1)` metadata bytes per block. These are logical tensor payloads, not measured physical network traffic. Parameter storage excludes gradients, optimizer state, activations, and process memory. The ring all-reduce traffic formula, when discussed, is analytical rather than an observation of Gloo's chosen algorithm.
 
 See the [correctness report](results/correctness/README.md) and [scaling report](results/scaling/README.md) for the measured results and their limits. This small single-host CPU experiment does not establish a GPU speedup.

@@ -1,0 +1,62 @@
+[
+  {
+    "ranks": 1,
+    "total_tokens": 16384,
+    "local_tokens": 16384,
+    "parameter_bytes_per_rank": 17072896,
+    "shared_parameter_bytes_per_rank": 25344,
+    "median_step_ms": 736.0151460015913,
+    "p95_step_ms": 743.0293330107816,
+    "tokens_per_second_at_median": 22260.411472516866,
+    "expert_load_imbalance": 4.7247314453125,
+    "remote_assignments_per_step": 0.0,
+    "forward_activation_bytes_per_step": 0.0,
+    "backward_activation_bytes_per_step": 0.0,
+    "routing_metadata_bytes_per_step": 0.0
+  },
+  {
+    "ranks": 2,
+    "total_tokens": 16384,
+    "local_tokens": 8192,
+    "parameter_bytes_per_rank": 8549120,
+    "shared_parameter_bytes_per_rank": 25344,
+    "median_step_ms": 564.2167705009342,
+    "p95_step_ms": 621.9445829920005,
+    "tokens_per_second_at_median": 29038.484597779025,
+    "expert_load_imbalance": 4.7247314453125,
+    "remote_assignments_per_step": 32695.6,
+    "forward_activation_bytes_per_step": 16740147.2,
+    "backward_activation_bytes_per_step": 16740147.2,
+    "routing_metadata_bytes_per_step": 261596.8
+  },
+  {
+    "ranks": 4,
+    "total_tokens": 16384,
+    "local_tokens": 4096,
+    "parameter_bytes_per_rank": 4287232,
+    "shared_parameter_bytes_per_rank": 25344,
+    "median_step_ms": 428.9481665036874,
+    "p95_step_ms": 457.33041600033175,
+    "tokens_per_second_at_median": 38195.75715533256,
+    "expert_load_imbalance": 4.7247314453125,
+    "remote_assignments_per_step": 49069.0,
+    "forward_activation_bytes_per_step": 25123328.0,
+    "backward_activation_bytes_per_step": 25123328.0,
+    "routing_metadata_bytes_per_step": 392744.0
+  },
+  {
+    "ranks": 8,
+    "total_tokens": 16384,
+    "local_tokens": 2048,
+    "parameter_bytes_per_rank": 2156288,
+    "shared_parameter_bytes_per_rank": 25344,
+    "median_step_ms": 425.3872504996252,
+    "p95_step_ms": 448.1132500077365,
+    "tokens_per_second_at_median": 38515.49377833183,
+    "expert_load_imbalance": 4.7247314453125,
+    "remote_assignments_per_step": 57256.05,
+    "forward_activation_bytes_per_step": 29315097.6,
+    "backward_activation_bytes_per_step": 29315097.6,
+    "routing_metadata_bytes_per_step": 458944.4
+  }
+]

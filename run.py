@@ -75,13 +75,14 @@ def worker(rank, world, init_url, train_config, model_config, capture_state, out
 
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument('--ranks', type=int, choices=(1, 2, 4), default=2)
+    parser.add_argument('--ranks', type=int, choices=(1, 2, 4, 8), default=2)
     parser.add_argument('--tokens', type=int, default=65,
                         help='total tokens across all ranks')
     parser.add_argument('--epochs', type=int, default=30)
     parser.add_argument('--lr', type=float, default=TrainConfig().learning_rate)
     parser.add_argument('--warmup', type=int, default=0)
     parser.add_argument('--blocks', type=int, default=1)
+    parser.add_argument('--experts', type=int, default=ModelConfig().experts)
     parser.add_argument('--expert-hidden', type=int,
                         default=ModelConfig().expert_hidden,
                         help='hidden width of each expert MLP')
@@ -93,11 +94,13 @@ def main():
         parser.error('tokens must cover every rank; epochs and learning rate must be positive')
     if args.warmup < 0 or args.warmup >= args.epochs:
         parser.error('warmup must be between zero and epochs - 1')
-    if args.blocks < 1 or args.expert_hidden < 1:
-        parser.error('blocks and expert hidden width must be positive')
+    if args.blocks < 1 or args.expert_hidden < 1 or args.experts < 2:
+        parser.error('blocks and expert hidden width must be positive; experts must be at least two')
+    if args.experts % args.ranks:
+        parser.error('experts must be divisible by ranks')
 
     train_config = TrainConfig(args.tokens, args.epochs, args.lr, args.warmup)
-    model_config = ModelConfig(num_blocks=args.blocks,
+    model_config = ModelConfig(num_blocks=args.blocks, experts=args.experts,
                                expert_hidden=args.expert_hidden)
     args.output.parent.mkdir(parents=True, exist_ok=True)
     environment = {
