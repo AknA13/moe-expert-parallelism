@@ -2,6 +2,88 @@
 
 A private CPU/Gloo teaching demo with learned top-2 routing, a configurable expert count, and a configurable number of MoE blocks. One `MoEModel` selects local or expert-parallel blocks with its `parallel` constructor argument.
 
+## Approach
+
+### Model architecture: two ranks
+
+The default model has one MoE block, token dimension 32, eight experts, and top-2 routing. In this two-rank example, each rank gets different input tokens. Each has its own copy of the **same** token-projection and router weights, while the eight expert MLPs are split into disjoint owner groups.
+
+```mermaid
+flowchart TB
+    subgraph rank0["Rank 0: token shard A"]
+        direction LR
+        x0["tokens A"] --> p0["token projection<br/>replicated weights"]
+        p0 --> g0["router + top-2<br/>replicated weights"]
+        g0 --> e0["experts 0–3<br/>owned by rank 0"]
+    end
+    subgraph rank1["Rank 1: token shard B"]
+        direction LR
+        x1["tokens B"] --> p1["token projection<br/>replicated weights"]
+        p1 --> g1["router + top-2<br/>replicated weights"]
+        g1 --> e1["experts 4–7<br/>owned by rank 1"]
+    end
+    rank0 ~~~ rank1
+    classDef shared fill:#eaf1ff,stroke:#4a6ca8
+    classDef owned fill:#e7f7ef,stroke:#2b8a5e
+    class p0,p1,g0,g1 shared
+    class e0,e1 owned
+```
+
+The boxes show **parameter placement**; tokens can also route across the rank boundary, as the forward diagram shows. The projection is `Linear(32, 32) + Tanh`, the router is `Linear(32, 8)`, and each expert is `Linear(32, H) + Tanh + Linear(H, 32)`. The router selects two expert IDs per token and softmax-normalizes their two selected logits into combination weights. There is no capacity limit, token dropping, or load-balancing loss. With more blocks, this structure repeats with new weights at every block. The single-rank `StandardMoEBlock` owns all eight experts and serves as the numerical reference.
+
+### Forward pass: dispatch, compute, return
+
+Follow token 2 from rank 0 in the [saved trace](results/correctness/demo.json): its router selects **expert 7** on rank 1 and **expert 0** on rank 0. Rank 0 repeats its projected token row once per selected expert, then packs assignment rows by destination rank. The arrows below show the remote assignment; both ranks run the same sequence for their own token shards.
+
+```mermaid
+sequenceDiagram
+    participant S as Rank 0: token source
+    participant O as Rank 1: expert 7 owner
+    Note right of S: Token 2 selects experts 7 and 0
+    Note over S,O: Each arrow pair is one all-to-all call
+    S->>O: C1 counts: rows rank 1 will receive
+    O->>S: C1 counts: rows rank 0 will receive
+    S->>O: C2 expert IDs in packed row order
+    O->>S: C2 expert IDs for rank 0's owned rows
+    S->>O: C3 projected token rows for remote experts
+    O->>S: C3 projected rows for rank 0's experts
+    Note left of O: Run expert 7 on token 2
+    Note right of S: Run expert 0 on token 2
+    O->>S: C4 expert outputs back to token sources
+    S->>O: C4 outputs for rank 1's source tokens
+    Note right of S: Restore order and combine outputs
+```
+
+**C1** and **C2** are `dist.all_to_all_single` calls that exchange counts and integer expert IDs. **C3** and **C4** use autograd-aware `all_to_all_single` for activation rows. Rows destined for a rank's own experts remain local within those collectives. The return uses inverse split sizes; the source undoes its packing permutation, restores token/slot order, and combines the two expert outputs with the selected weights. Every rank participates even when it has zero rows for a destination.
+
+### Backward pass: reverse the activation exchanges
+
+Each source rank computes its **summed token loss divided by the global token count** `N`. The two local contributions add up to the global mean loss:
+
+```text
+L_r = (1/N) · Σ_{tokens i on rank r} mean_j (prediction_ij - target_ij)²
+L_global = L_0 + L_1
+```
+
+For token 2, the source first differentiates the weighted combination. The gradient for expert 7's output goes to its owner; the expert backpropagates and sends its input gradient back to the source.
+
+```mermaid
+sequenceDiagram
+    participant S as Rank 0: token source
+    participant O as Rank 1: expert 7 owner
+    Note right of S: Backpropagate weighted sum
+    S->>O: B1 expert 7 output gradient, backward of C4
+    Note left of O: Expert 7 backward, owner gradients
+    O->>S: B2 projected-row gradient, backward of C3
+    Note right of S: Local and remote gradients meet
+    Note over S,O: B3 SUM all-reduce shared gradients
+    S->>O: B3 rank 0 shared-gradient contribution
+    O->>S: B3 rank 1 shared-gradient contribution
+    Note over S,O: Both ranks now run Adam
+```
+
+**B1** and **B2** are the backward calls of the two autograd-aware activation exchanges. The arrows at **B3** show the logical contributions to one `dist.all_reduce(SUM)` per replicated parameter, not Gloo's physical algorithm. We **do not divide by rank count again**: each local loss already uses the global `N`. Expert gradients accumulate on their owner from every source rank and are **not all-reduced**. Integer routing IDs and counts have no backward exchange; gradients reach selected router logits through the combination weights. All experts, including those with zero received rows, retain an autograd path.
+
 ## Reproduce
 
 Use Python 3.13. The recorded environment was ARM64 macOS with PyTorch 2.9.1; pins are in `requirements.txt`.
@@ -29,42 +111,7 @@ python run.py --ranks 8 --tokens 16384 --experts 16 --expert-hidden 1024 --epoch
 
 1. `moe/model.py`: `MoEModel` builds `StandardMoEBlock` or `ParallelMoEBlock` instances. `ModelConfig.num_blocks` controls the stack depth. The parallel block uses PyTorch's autograd-aware variable-size all-to-all for activations.
 2. `moe/training.py`: the training step, step reporting, shared-gradient synchronization, and one training loop that calls `model(x)` in either mode.
-3. `run.py`: one generic worker that initializes the model and data shard; the two files in `experiments/` launch it with different inputs.
-
-Each block contains its own token projection (`Linear` + `Tanh`), router, and experts. In parallel mode, projection and router parameters are replicated, while each rank owns `expert_count/world_size` experts per block. In standard mode, one process owns all experts. Both modes use the same output dimension, gate calculation, and global expert initialization. No test-only routing mode enters the model.
-
-## Two-rank token flow
-
-Rank 0 owns experts 0–3 in each block; rank 1 owns 4–7. For token 2 in the saved learned-routing trace, the router selects experts **7 and 0**: one remote and one local.
-
-```text
-rank 0 token 2 → block projection → block router → [expert 7, expert 0]
-                                              ├─ to rank 1 → expert 7 ─┐
-                                              └─ local expert 0 ────────┤
-rank 0 receives both outputs ← inverse packing ←──────────────────────────┘
-rank 0 combines them with the selected router weights → token output/loss
-```
-
-Each `ParallelMoEBlock.forward` sorts assignments by owner, exchanges counts and expert IDs, sends activation rows, runs its owned experts, returns their outputs, restores token/slot order, and combines them. Each block can do this independently, so a model can contain multiple blocks. PyTorch's differentiable all-to-all reverses split sizes in backward to return activation gradients to the original rows. Empty owners still enter the same collective sequence and retain zero-valued graph paths.
-
-The local `StandardMoEBlock` executes the same selected experts and gate combination without distributed calls. It is the independent one-rank baseline for numerical checks.
-
-## Global loss and gradient ownership
-
-For `N` total tokens, source rank `r` contributes
-
-```text
-L_r = (1/N) · Σ_{tokens i on rank r} mean_j (prediction_ij - target_ij)²
-L_global = Σ_r L_r
-```
-
-| Parameters | Placement | Action before Adam |
-|---|---|---|
-| Token projection in every block | Replicated | SUM all-reduce gradients |
-| Router in every block | Replicated | SUM all-reduce gradients |
-| Experts in every block | Unique owner | Use accumulated local gradient; no expert-gradient all-reduce |
-
-An expert owner receives assignments from every source, so its backward pass already accumulates the complete gradient for that expert. Shared replicas initially see only their source tokens, so they need the SUM. The global denominator handles unequal shards such as `[33, 32]` for 65 tokens on two ranks. Top-k indices are discrete; gradients reach selected router logits through the two selected softmax weights. Every expert runs even when it receives zero rows, producing zero gradients for unused experts; Adam can still move them through momentum from earlier steps.
+3. `run.py`: one generic worker that initializes the model and data shard. It seeds layers by global block and expert ID so standard and parallel runs start from the same model; the two files in `experiments/` launch it with different inputs.
 
 ## Correctness runs
 
