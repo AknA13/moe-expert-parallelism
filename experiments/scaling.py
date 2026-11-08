@@ -9,6 +9,7 @@ from pathlib import Path
 
 
 JOBS = ((1, 256), (2, 256), (4, 256), (2, 512), (4, 1024))
+ROOT = Path(__file__).resolve().parents[1]
 
 
 def summarize(ranks):
@@ -77,19 +78,67 @@ def save_plot(path, rows):
     path.write_text('\n'.join(parts) + '\n')
 
 
+def save_readme(path, rows):
+    """Write the interpretation beside the plot and raw logs."""
+    fixed_total = [row for row in rows if row['total_tokens'] == 256]
+    fixed_local = [row for row in rows if row['local_tokens'] == 256]
+    table = [
+        f'| {row["ranks"]} | {row["total_tokens"]:,} | {row["local_tokens"]} | '
+        f'{row["parameter_bytes_per_rank"] / 1024:.1f} | '
+        f'{row["median_step_ms"]:.3f} | {row["p95_step_ms"]:.3f} | '
+        f'{row["tokens_per_second_at_median"]:,.0f} | '
+        f'{row["expert_load_imbalance"]:.2f} |'
+        for row in rows
+    ]
+    path.write_text(f'''# CPU scaling results
+
+## Question and method
+
+How do rank count, parameter storage, communication, and step time change when the same eight-expert MoE is split across ranks? These one-block CPU/Gloo jobs use float64, learned top-2 routing, Adam at learning rate 0.001, and one CPU thread per worker. Each job ran 25 steps: 5 warmup and 20 measured. A barrier starts each timed step, and its duration is the slowest rank's time. Startup, logging, and correctness comparisons are outside the timed step.
+
+We compare **fixed total work** (256 tokens over 1, 2, or 4 ranks) and **fixed local work** (256 tokens per rank, so 256, 512, or 1,024 total). The one-rank job is shared by both comparisons. Expert count, top-2 routing, and model dimensions stay fixed.
+
+## Measurements
+
+| Ranks | Total tokens | Tokens/rank | Model KiB/rank | Median ms | p95 ms | Tokens/s at median | Expert imbalance |
+|---:|---:|---:|---:|---:|---:|---:|---:|
+{chr(10).join(table)}
+
+For fixed total work, model storage falls from **{fixed_total[0]['parameter_bytes_per_rank'] / 1024:.1f} to {fixed_total[-1]['parameter_bytes_per_rank'] / 1024:.1f} KiB per rank**, while median step time rises from **{fixed_total[0]['median_step_ms']:.3f} to {fixed_total[-1]['median_step_ms']:.3f} ms**. Expert weights are sharded; the shared projection and router still occupy {fixed_total[0]['shared_parameter_bytes_per_rank'] / 1024:.1f} KiB on every rank. This small CPU workload pays more for communication and coordination than it gains from dividing expert computation.
+
+For fixed local work, total throughput rises from **{fixed_local[0]['tokens_per_second_at_median']:,.0f} to {fixed_local[-1]['tokens_per_second_at_median']:,.0f} tokens/s** as total batch size grows. The median step also becomes longer: **{fixed_local[0]['median_step_ms']:.3f} to {fixed_local[-1]['median_step_ms']:.3f} ms**. This describes larger total work, not a fixed-batch speedup.
+
+![CPU scaling measurements](scaling.svg)
+
+## Communication and interpretation
+
+The 4-rank, 256-token job averages {fixed_total[-1]['remote_assignments_per_step']:.1f} remote token-expert assignments per measured step. The corresponding logical payload is {fixed_total[-1]['forward_activation_bytes_per_step']:,.0f} bytes in the forward activation phase and the same amount in backward, plus {fixed_total[-1]['routing_metadata_bytes_per_step']:,.0f} bytes of routing metadata. Across all jobs, the expert imbalance ratio ranges from {min(row['expert_load_imbalance'] for row in rows):.2f} to {max(row['expert_load_imbalance'] for row in rows):.2f}; this is the most-loaded expert's average assignment count divided by the mean.
+
+The payload estimates count tensor elements: for `R` remote assignments, dimension `d`, element size `b`, and `W` ranks, either activation phase moves `2Rdb` bytes (dispatch and return), while expert IDs and count exchange add `8R + 8W(W-1)` bytes. They are not physical network measurements. Parameter bytes exclude gradients, Adam state, activations, and process overhead. Twenty measured steps describe this local run; they do not establish tail latency or GPU performance.
+
+## Files
+
+- [summary.json](summary.json): one derived metrics row for each of the five jobs.
+- [scaling.svg](scaling.svg): fixed-total timing, fixed-local timing, and model storage plots.
+- `ranks{{R}}-tokens{{N}}.json`: per-rank configuration, loss, timing, routing counts, and parameter storage.
+- `ranks{{R}}-tokens{{N}}.environment.json`: Python, PyTorch, host, dtype, and backend details for each job.
+''')
+
+
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument('--output', type=Path, default=Path('results/scaling'))
+    parser.add_argument('--output', type=Path, default=ROOT / 'results/scaling')
     args = parser.parse_args()
+    args.output = args.output.resolve()
     args.output.mkdir(parents=True, exist_ok=True)
     rows = []
     for world, total_tokens in JOBS:
         path = args.output / f'ranks{world}-tokens{total_tokens}.json'
         subprocess.run([
-            sys.executable, 'run.py', '--ranks', str(world),
+            sys.executable, str(ROOT / 'run.py'), '--ranks', str(world),
             '--tokens', str(total_tokens), '--epochs', '25',
             '--warmup', '5', '--output', str(path),
-        ], check=True)
+        ], check=True, cwd=ROOT)
         row = summarize(json.loads(path.read_text()))
         rows.append(row)
         print(f'MEASURED {world} ranks, {total_tokens} tokens: '
@@ -98,7 +147,8 @@ def main():
               flush=True)
     (args.output / 'summary.json').write_text(json.dumps(rows, indent=2) + '\n')
     save_plot(args.output / 'scaling.svg', rows)
-    print('Saved scaling results; see results/scaling/summary.json and scaling.svg')
+    save_readme(args.output / 'README.md', rows)
+    print(f'Saved scaling results; see {args.output / "README.md"}')
 
 
 if __name__ == '__main__':
