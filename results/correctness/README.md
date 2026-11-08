@@ -30,20 +30,20 @@ Each row compares a multi-rank `ParallelMoEBlock` run with a one-rank `StandardM
 
 ## Did the parameters actually update?
 
-The 4-rank, single-step training run routed assignments to every expert. The number of tokens routed to each expert is 12, 5, 19, 9, 5, 35, 26, 19. 
+The 4-rank, single-step training run routed assignments to every expert. The number of tokens routed to each expert is 12, 5, 19, 9, 5, 35, 26, 19. The table reports the **smallest**, across a group's parameter tensors (and across replicas where applicable), of each tensor's largest absolute gradient. A positive value means every tensor in that group received a nonzero gradient. The correctness check also verifies that every tensor changed after Adam.
 
-| Parameter group | Owner rank | Assignments | Gradient | Parameter change |
-|---|---:|---:|---:|---:|
-| token_projection | replicated | — | 0.00248 | 0.001 |
-| router | replicated | — | 0.000871 | 0.001 |
-| experts.0 | 0 | 12 | 0.000735 | 0.001 |
-| experts.1 | 0 | 5 | 0.000439 | 0.001 |
-| experts.2 | 1 | 19 | 0.000852 | 0.001 |
-| experts.3 | 1 | 9 | 0.000346 | 0.001 |
-| experts.4 | 2 | 5 | 0.000382 | 0.001 |
-| experts.5 | 2 | 35 | 0.00161 | 0.001 |
-| experts.6 | 3 | 26 | 0.000791 | 0.001 |
-| experts.7 | 3 | 19 | 0.000776 | 0.001 |
+| Parameter group | Owner rank | Assignments | Smallest gradient |
+|---|---:|---:|---:|
+| token_projection | replicated | — | 0.00248 |
+| router | replicated | — | 0.000871 |
+| experts.0 | 0 | 12 | 0.000735 |
+| experts.1 | 0 | 5 | 0.000439 |
+| experts.2 | 1 | 19 | 0.000852 |
+| experts.3 | 1 | 9 | 0.000346 |
+| experts.4 | 2 | 5 | 0.000382 |
+| experts.5 | 2 | 35 | 0.00161 |
+| experts.6 | 3 | 26 | 0.000791 |
+| experts.7 | 3 | 19 | 0.000776 |
 
 The router and token projection layers are replicated across ranks, so their gradients are SUM all-reduced across ranks before Adam. Whereas, each expert layer has a single rank that computes and stores its gradients.
 

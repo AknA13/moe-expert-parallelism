@@ -181,7 +181,7 @@ def save_readme(path, summary, updates, demo):
     update_lines = [
         f'| {row["parameter"]} | {"replicated" if row["owner"] is None else row["owner"]} | '
         f'{"—" if row["assignments"] is None else row["assignments"]} | '
-        f'{row["minimum_tensor_gradient"]:.3g} | {row["minimum_tensor_change"]:.3g} |'
+        f'{row["minimum_tensor_gradient"]:.3g} |'
         for row in four_rank_updates
     ]
     comparison_lines = [
@@ -211,15 +211,13 @@ We ran deterministic experiments with the same training dataset and weight initi
 
 ## One-step equivalence
 
-These rows use one MoE block, 65 total tokens, and one optimizer step. Maximum absolute difference from the single-rank trained model (non-parallel), over every token or owned parameter:
+Each row compares a multi-rank `ParallelMoEBlock` run with a one-rank `StandardMoEBlock` run and these use one MoE block, 65 total tokens, and one optimizer step. They track the maximum difference in output, gradients, and updates over every token or owned parameter:
 
 | # of ranks | Output | Token/Input gradient | Parameter gradient | Parameter after Adam |
 |---:|---:|---:|---:|---:|
 {chr(10).join(comparison_lines)}
 
-## Longer and stacked runs
-
-Each row compares a parallel run with a one-rank `StandardMoEBlock` run using the same blocks, tokens, and epochs. Loss differences are the largest across all epochs; final-parameter differences are the largest across all owned or replicated parameters. First-step outputs and gradients are also checked in every run.
+## Multi-step equivalence
 
 | Blocks | Total tokens | Epochs | # of ranks | Max loss difference | Max final-parameter difference |
 |---:|---:|---:|---:|---:|---:|
@@ -227,13 +225,13 @@ Each row compares a parallel run with a one-rank `StandardMoEBlock` run using th
 
 ## Did the parameters actually update?
 
-The 4-rank, one-step run routed assignments to every expert: counts by expert ID were {', '.join(str(row['assignments']) for row in expert_rows)}. Each row below reports the **smallest**, across its parameter tensors, of that tensor's largest absolute gradient and largest absolute change. A positive value therefore means every tensor in that row's group received a gradient and changed.
+The 4-rank, single-step training run routed assignments to every expert. The number of tokens routed to each expert is {', '.join(str(row['assignments']) for row in expert_rows)}. The table reports the **smallest**, across a group's parameter tensors (and across replicas where applicable), of each tensor's largest absolute gradient. A positive value means every tensor in that group received a nonzero gradient. The correctness check also verifies that every tensor changed after Adam.
 
-| Parameter group | Owner rank | Assignments | Gradient | One-step change |
-|---|---:|---:|---:|---:|
+| Parameter group | Owner rank | Assignments | Smallest gradient |
+|---|---:|---:|---:|
 {chr(10).join(update_lines)}
 
-The router and token projection are replicated across ranks, so their gradients are SUM all-reduced before Adam. Each expert has a single owning rank.
+The router and token projection layers are replicated across ranks, so their gradients are SUM all-reduced across ranks before Adam. Whereas, each expert layer has a single rank that computes and stores its gradients.
 
 ## Training trajectory
 
