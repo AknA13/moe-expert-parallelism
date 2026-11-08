@@ -62,7 +62,7 @@ L_global = Σ_r L_r
 | Router in every block | Replicated | SUM all-reduce gradients |
 | Experts in every block | Unique owner | Use accumulated local gradient; no expert-gradient all-reduce |
 
-An expert owner receives assignments from every source, so its backward pass already accumulates the complete gradient for that expert. Shared replicas initially see only their source tokens, so they need the SUM. The global denominator handles unequal shards such as `[33, 32]` for 65 tokens on two ranks. Top-k indices are discrete; gradients reach selected router logits through the two selected softmax weights. Missing gradients are materialized as zeros before Adam; an expert with no assignments this step can still move through momentum from earlier steps.
+An expert owner receives assignments from every source, so its backward pass already accumulates the complete gradient for that expert. Shared replicas initially see only their source tokens, so they need the SUM. The global denominator handles unequal shards such as `[33, 32]` for 65 tokens on two ranks. Top-k indices are discrete; gradients reach selected router logits through the two selected softmax weights. Every expert runs even when it receives zero rows, producing zero gradients for unused experts; Adam can still move them through momentum from earlier steps.
 
 ## Correctness runs
 

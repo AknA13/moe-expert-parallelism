@@ -21,9 +21,6 @@ class StepResult:
 
 
 def sync_replicated_gradients(model):
-    for parameter in model.parameters():
-        if parameter.grad is None:
-            parameter.grad = torch.zeros_like(parameter)
     for parameter in model.replicated_parameters():
         dist.all_reduce(parameter.grad, op=dist.ReduceOp.SUM)
 
@@ -48,10 +45,6 @@ def train_step(model, x, target, optimizer, global_tokens):
     local_loss.backward()
     if world > 1:
         sync_replicated_gradients(model)
-    else:
-        for parameter in model.parameters():
-            if parameter.grad is None:
-                parameter.grad = torch.zeros_like(parameter)
     optimizer.step()
     return StepResult(prediction, local_loss)
 
