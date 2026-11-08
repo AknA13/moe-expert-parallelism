@@ -175,8 +175,7 @@ def save_loss_plot(path, standard, two, four):
 def save_readme(path, summary, updates, demo):
     """Explain the saved checks using the measurements from this run."""
     step = [row for row in summary if row['blocks'] == 1 and row['epochs'] == 1]
-    trajectory = [row for row in summary if row['blocks'] == 1 and row['epochs'] == 30]
-    stacked = [row for row in summary if row['blocks'] == 2]
+    longer = [row for row in summary if row['epochs'] > 1]
     four_rank_updates = next(row['parameters'] for row in updates if row['ranks'] == 4)
     expert_rows = [row for row in four_rank_updates if row['owner'] is not None]
     update_lines = [
@@ -192,48 +191,55 @@ def save_readme(path, summary, updates, demo):
         f'{row["max_errors"]["parameter_after_step"]:.3g} |'
         for row in step
     ]
-    path.write_text(f'''# Correctness results
+    longer_lines = [
+        f'| {row["blocks"]} | {row["total_tokens"]} | {row["epochs"]} | '
+        f'{row["ranks"]} | {row["max_errors"]["loss"]:.3g} | '
+        f'{row["max_errors"]["final_parameter"]:.3g} |'
+        for row in longer
+    ]
+    path.write_text(f'''# Correctness Results
 
-## Question and method
+Does our multi-rank expert-parallel training compute the same:
 
-Does expert-parallel training compute the same outputs, gradients, and Adam updates as one process owning all eight experts? We ran the same deterministic global batch and global expert initialization at 1, 2, and 4 ranks. The one-rank reference uses `StandardMoEBlock`; multi-rank jobs use `ParallelMoEBlock`. Every run used float64, learned top-2 routing, and Adam with learning rate 0.001. Comparisons use `atol={ATOL:g}` and `rtol={RTOL:g}`.
+- outputs
+- gradients
+- Adam updates
 
-The primary fixture has one MoE block and 65 total tokens, split unevenly across ranks. One-epoch jobs test one complete optimizer step; 30-epoch jobs test the loss trajectory and final parameters. A second fixture has two blocks, 17 tokens, and two epochs.
+as single-rank naive MoE training?
+
+We ran deterministic experiments with the same training dataset and weight initializations, comparing one-rank training using `StandardMoEBlock` (no communication code; meant to run on a single device) with 2- and 4-rank training using `ParallelMoEBlock`, which uses expert parallelism. We also keep the learning hyperparams the same in this comparison.
 
 ## One-step equivalence
 
-Maximum absolute difference from the one-rank reference, over every token or owned parameter:
+These rows use one MoE block, 65 total tokens, and one optimizer step. Maximum absolute difference from the single-rank trained model (non-parallel), over every token or owned parameter:
 
-| Parallel ranks | Output | Input gradient | Parameter gradient | Parameter after Adam |
+| # of ranks | Output | Token/Input gradient | Parameter gradient | Parameter after Adam |
 |---:|---:|---:|---:|---:|
 {chr(10).join(comparison_lines)}
 
-The checks also compare selected expert IDs, returned expert outputs, and global loss. The 30-epoch runs reached final-parameter differences of {trajectory[0]['max_errors']['final_parameter']:.3g} (2 ranks) and {trajectory[1]['max_errors']['final_parameter']:.3g} (4 ranks). The two-block fixture's largest recorded differences were {max(stacked[0]['max_errors'].values()):.3g} and {max(stacked[1]['max_errors'].values()):.3g}.
+## Longer and stacked runs
+
+Each row compares a parallel run with a one-rank `StandardMoEBlock` run using the same blocks, tokens, and epochs. Loss differences are the largest across all epochs; final-parameter differences are the largest across all owned or replicated parameters. First-step outputs and gradients are also checked in every run.
+
+| Blocks | Total tokens | Epochs | # of ranks | Max loss difference | Max final-parameter difference |
+|---:|---:|---:|---:|---:|---:|
+{chr(10).join(longer_lines)}
 
 ## Did the parameters actually update?
 
-The 4-rank, one-step run routed assignments to every expert: counts by expert ID were {', '.join(str(row['assignments']) for row in expert_rows)}. Each row below reports the **smallest**, across its parameter tensors, of that tensor's largest absolute gradient and largest absolute change. A positive value therefore means every tensor in that row's group received a gradient and changed. Projection and router values are checked against the reference on every replica; each expert is checked on its owning rank.
+The 4-rank, one-step run routed assignments to every expert: counts by expert ID were {', '.join(str(row['assignments']) for row in expert_rows)}. Each row below reports the **smallest**, across its parameter tensors, of that tensor's largest absolute gradient and largest absolute change. A positive value therefore means every tensor in that row's group received a gradient and changed.
 
 | Parameter group | Owner rank | Assignments | Gradient | One-step change |
 |---|---:|---:|---:|---:|
 {chr(10).join(update_lines)}
 
-The router and token projection are replicated, so their gradients are SUM all-reduced before Adam. Each expert has one owner; its backward pass accumulates contributions from every source rank through the activation exchanges, so expert gradients are not all-reduced within this group.
+The router and token projection are replicated across ranks, so their gradients are SUM all-reduced before Adam. Each expert has a single owning rank.
 
 ## Training trajectory
 
-The one-block global loss fell from **{demo['initial_loss']:.6f}** to **{demo['final_loss']:.6f}** in 30 epochs. The 1-, 2-, and 4-rank curves overlap:
+The global loss fell from **{demo['initial_loss']:.6f}** to **{demo['final_loss']:.6f}** in 30 epochs. The 1-, 2-, and 4-rank curves overlap:
 
 ![Global training loss](loss.svg)
-
-## Files and limits
-
-- [comparison-summary.json](comparison-summary.json): maximum numerical errors for all six parallel comparisons.
-- [parameter-updates.json](parameter-updates.json): first-step gradients, changes, assignment counts, and owners.
-- [demo.json](demo.json): a two-rank token trace and the first/final loss.
-- [loss.svg](loss.svg): global loss by epoch.
-
-Full tensors are used during comparison and discarded; these compact files retain the evidence. The two execution paths share their router and expert definitions, so agreement cannot detect a bug common to both. Learned routing reaches every expert in this fixture but does not force an owner to receive zero assignments.
 ''')
 
 
