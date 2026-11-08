@@ -43,7 +43,6 @@ def train_step(model, x, target, optimizer, global_tokens):
     """Update the model once using this rank's data shard."""
     world = dist.get_world_size()
     optimizer.zero_grad(set_to_none=True)
-    x.grad = None
     prediction = model(x)
     local_loss = loss(prediction, target, global_tokens)
     local_loss.backward()
@@ -123,6 +122,9 @@ def run_training(model, x, target, train_config, *, token_ids, capture_state=Fal
             trace, first_step = epoch_trace, epoch_first_step
             for block in model.blocks:
                 block.capture_trace = False
+            if capture_state:
+                # Later epochs do not need input gradients for verification.
+                x = x.detach()
     changes = ({name: float((p.detach() - initial[name]).abs().max())
                 for name, p in model.named_parameters()}
                if capture_state else None)
