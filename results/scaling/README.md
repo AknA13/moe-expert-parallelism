@@ -28,9 +28,9 @@ With 16 experts at width 4,096, measured model parameters fall from **32.5 MiB o
 
 ### Increasing total work with ranks
 
-![Throughput scaling for three expert widths with 2048 tokens per rank and an ideal y equals x line](fixed-local-throughput.svg)
+![Cluster throughput in tokens per second for three expert widths with 2048 tokens per rank](fixed-local-throughput.svg)
 
-This is a **fixed-local-batch** comparison with 16 experts and one MoE block: 2,048 tokens per rank, so total tokens rise from 2,048 to 16,384 as ranks rise from one to eight. Each line shows throughput divided by that width's one-rank throughput. The dashed `y = x` line shows ideal scaling. One-rank throughput is **22,462**, **11,528**, and **5,823 tokens/s** for expert widths 1,024, 2,048, and 4,096. The two-rank points exceed 2×; this comparison also doubles the global batch. For width 4,096, throughput grows to **27,827 tokens/s** at eight ranks, or **4.78×** the one-rank result versus an ideal **8×**. This is different from the fixed-global-batch speedup in Figure 2.
+This is a **fixed-local-batch** comparison with 16 experts and one MoE block: 2,048 tokens per rank, so total tokens rise from 2,048 to 16,384 as ranks rise from one to eight. Each line shows measured cluster throughput in tokens/s for one expert width. One-rank throughput is **22,462**, **11,528**, and **5,823 tokens/s** for expert widths 1,024, 2,048, and 4,096. For width 4,096, throughput grows to **27,827 tokens/s** at eight ranks. This is different from the fixed-global-batch speedup in Figure 2.
 
 ### Additional experiments
 

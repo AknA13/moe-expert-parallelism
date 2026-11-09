@@ -98,8 +98,7 @@ def save_plot(path, rows):
 def save_trend_plot(path, title, x_label, x_values, series,
                     y_label='Median step time (ms)', *, categorical_x=False,
                     reference_value=None, last_value_format=None,
-                    tick_format='.1f', tick_round_to=None, y_limit=None,
-                    dashed_labels=()):
+                    tick_format='.1f', tick_round_to=None, y_limit=None):
     """Plot measured values against one experiment axis."""
     width, height = 760, 490
     left, right, top, bottom = 75, 28, 145, 65
@@ -135,21 +134,19 @@ def save_trend_plot(path, title, x_label, x_values, series,
                   f'<text x="{left + plot_width - 7}" y="{y + 20:.1f}" text-anchor="end" font-family="sans-serif" font-size="12" fill="#555">{reference_value:g}× one-rank baseline</text>']
     for index, (label, values) in enumerate(series):
         color = colors[index]
-        dash = ' stroke-dasharray="7 5"' if label in dashed_labels else ''
         points = ' '.join(f'{x:.1f},{top + plot_height * (1 - value / ceiling):.1f}'
                           for x, value in zip(positions, values))
-        parts.append(f'<polyline points="{points}" fill="none" stroke="{color}" stroke-width="3"{dash}/>')
-        if not dash:
-            for x, value in zip(positions, values):
-                y = top + plot_height * (1 - value / ceiling)
-                parts.append(f'<circle cx="{x:.1f}" cy="{y:.1f}" r="5" fill="{color}"/>')
+        parts.append(f'<polyline points="{points}" fill="none" stroke="{color}" stroke-width="3"/>')
+        for x, value in zip(positions, values):
+            y = top + plot_height * (1 - value / ceiling)
+            parts.append(f'<circle cx="{x:.1f}" cy="{y:.1f}" r="5" fill="{color}"/>')
         if last_value_format is not None:
             y = top + plot_height * (1 - values[-1] / ceiling)
             label_y = y + 20 if len(series) > 1 and index == 0 else y - 10
             parts.append(f'<text x="{positions[-1] - 10:.1f}" y="{label_y:.1f}" text-anchor="end" font-family="sans-serif" font-size="13" font-weight="bold" fill="{color}">{values[-1]:{last_value_format}}</text>')
         legend_x = left + (index % 2) * 310
         legend_y = 68 + (index // 2) * 23
-        parts += [f'<line x1="{legend_x}" x2="{legend_x + 22}" y1="{legend_y}" y2="{legend_y}" stroke="{color}" stroke-width="3"{dash}/>',
+        parts += [f'<line x1="{legend_x}" x2="{legend_x + 22}" y1="{legend_y}" y2="{legend_y}" stroke="{color}" stroke-width="3"/>',
                   f'<text x="{legend_x + 29}" y="{legend_y + 4}" font-family="sans-serif" font-size="13">{label}</text>']
     parts += [f'<text x="{left + plot_width / 2:.1f}" y="{height - 18}" text-anchor="middle" font-family="sans-serif" font-size="14">{x_label}</text>',
               '</svg>']
@@ -220,23 +217,17 @@ def save_story_plots(output, larger_rows, extended_rows, width_rows):
     )
     local_tokens = 2048
     throughput_ranks = (1, 2, 4, 8)
-    throughput_series = []
-    for width in widths:
-        baseline = by_width[width][1, local_tokens]['tokens_per_second_at_median']
-        throughput_series.append((
-            f'Width {width:,} (rank 1: {baseline:,.0f}/s)',
-            [by_width[width][world, local_tokens * world]['tokens_per_second_at_median']
-             / baseline
-             for world in throughput_ranks],
-        ))
-    ideal_label = 'Ideal linear scaling (y = x)'
-    throughput_series.append((ideal_label, list(throughput_ranks)))
+    throughput_series = [
+        (f'Width {width:,}', [
+            by_width[width][world, local_tokens * world]['tokens_per_second_at_median']
+            for world in throughput_ranks])
+        for width in widths]
     save_trend_plot(
         output / 'fixed-local-throughput.svg',
         'Throughput with 2,048 tokens per rank', 'Ranks', throughput_ranks,
         throughput_series,
-        y_label='Throughput / rank-1 throughput (×)', tick_format='.0f',
-        y_limit=8, dashed_labels=(ideal_label,),
+        y_label='Cluster throughput (tokens/s)', tick_format=',.0f',
+        y_limit=100000,
     )
 
 
@@ -282,9 +273,9 @@ With 16 experts at width 4,096, measured model parameters fall from **{widest[1,
 
 ### Increasing total work with ranks
 
-![Throughput scaling for three expert widths with 2048 tokens per rank and an ideal y equals x line](fixed-local-throughput.svg)
+![Cluster throughput in tokens per second for three expert widths with 2048 tokens per rank](fixed-local-throughput.svg)
 
-This is a **fixed-local-batch** comparison with 16 experts and one MoE block: 2,048 tokens per rank, so total tokens rise from 2,048 to 16,384 as ranks rise from one to eight. Each line shows throughput divided by that width's one-rank throughput. The dashed `y = x` line shows ideal scaling. One-rank throughput is **{extended[1, 2048]['tokens_per_second_at_median']:,.0f}**, **{middle[1, 2048]['tokens_per_second_at_median']:,.0f}**, and **{widest[1, 2048]['tokens_per_second_at_median']:,.0f} tokens/s** for expert widths 1,024, 2,048, and 4,096. The two-rank points exceed 2×; this comparison also doubles the global batch. For width 4,096, throughput grows to **{widest[8, 16384]['tokens_per_second_at_median']:,.0f} tokens/s** at eight ranks, or **{widest[8, 16384]['tokens_per_second_at_median'] / widest[1, 2048]['tokens_per_second_at_median']:.2f}×** the one-rank result versus an ideal **8×**. This is different from the fixed-global-batch speedup in Figure 2.
+This is a **fixed-local-batch** comparison with 16 experts and one MoE block: 2,048 tokens per rank, so total tokens rise from 2,048 to 16,384 as ranks rise from one to eight. Each line shows measured cluster throughput in tokens/s for one expert width. One-rank throughput is **{extended[1, 2048]['tokens_per_second_at_median']:,.0f}**, **{middle[1, 2048]['tokens_per_second_at_median']:,.0f}**, and **{widest[1, 2048]['tokens_per_second_at_median']:,.0f} tokens/s** for expert widths 1,024, 2,048, and 4,096. For width 4,096, throughput grows to **{widest[8, 16384]['tokens_per_second_at_median']:,.0f} tokens/s** at eight ranks. This is different from the fixed-global-batch speedup in Figure 2.
 
 ### Additional experiments
 
