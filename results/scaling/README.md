@@ -30,15 +30,15 @@ With 16 experts at width 4,096, measured model parameters fall from **32.5 MiB o
 
 This is a **fixed-local-batch** comparison with 16 experts and one MoE block. Each rank processes 2,048 tokens, so total tokens rise from 2,048 to 16,384 as ranks rise from one to eight. Each line shows measured cluster throughput in tokens/s for one expert width. One-rank throughput is **22,462**, **11,528**, and **5,823 tokens/s** for expert widths 1,024, 2,048, and 4,096. For width 4,096, throughput grows to **27,827 tokens/s** at eight ranks. This is different from the fixed-global-batch speedup in Figure 2.
 
-### Additional experiments
-
-- The [small-expert plot](rank-trends.svg) and [larger-expert plot](larger/rank-trends.svg) show absolute latency as ranks change at fixed total tokens.
-- The [width-versus-speedup plot](width-speedup.svg) shows how batch size and expert width affect eight-rank speedup. Each width also has its own rank and data trend plots in `extended/`, `width-2048/`, and `width-4096/`.
-- The [one-versus-two-block plot](block-trends.svg) shows the depth check at 16,384 tokens and width 1,024. Eight-rank speedup is **1.96× with one block** and **1.73× with two**. A second block adds another routing and communication stage, so this is a separate model-depth question.
-
 ## Scaling Interpretation and Analysis
 
-The width-4,096, eight-rank, 16,384-token job averages **28,635 remote token-expert assignments** per measured step. Its logical forward activation payload is **14.0 MiB**, and its backward activation payload is the same. These count tensor elements, not physical network traffic or time spent in collectives. At this configuration, the most-loaded expert receives **2.63×** the average assignment count. We have not separately timed communication and expert computation, so the exact sources of the eight-rank plateau remain unresolved. These single-host CPU results do not establish GPU speedup.
+We scale expert parallelism for both speed and capacity. With the global batch fixed at 16,384 tokens, the width-4,096 model takes 1,470.7 ms on one rank and 588.8 ms on eight ranks, a 2.50× speedup. Splitting the experts also reduces model parameters and Adam state from 97.5 MiB on one rank to 12.2 MiB per rank on eight ranks. That storage benefit could let a larger system hold more experts than one device can accommodate, even when step-time speedup is imperfect.
+
+The speedup is below the ideal 8× because adding ranks divides expert computation but does not remove the communication required by each step. Top-2 routing creates 32,768 token-expert assignments in this job, and 28,635 go to a different rank. The activation send and receive operations account for 14.0 MiB of logical forward payload, with another 14.0 MiB in the reverse gradient exchanges. Ranks must also synchronize the shared layer's gradients, such as the projection and router layer gradients. As each rank gets less computation, the communication overhead becomes harder to amortize. That is consistent with the smaller 1.24× improvement from four to eight ranks.
+
+Uneven routing is another possible constraint. The busiest expert receives 2.63× the average assignment count. Since the step ends when the slowest rank finishes, a rank with substantially more expert work can leave others waiting. An expert-level imbalance does not by itself prove the same degree of rank-level imbalance since each rank owns two experts, and their loads may offset each other. 
+
+The fixed-local-batch results show a different reason to scale: processing more data. Holding the batch at 2,048 tokens per rank increases total tokens from 2,048 to 16,384 between one and eight ranks. For width 4,096, measured cluster throughput rises from 5,823 to 27,827 tokens/s. The expert layer width sweep also suggests that the amount of expert work matters; at a fixed 16,384-token batch, eight-rank speedup increases from 1.96× at width 1,024 to 2.50× at width 4,096. Wider expert MLPs do more computation, which helps amortize the communication time.
 
 ## Reproduce and inspect
 
