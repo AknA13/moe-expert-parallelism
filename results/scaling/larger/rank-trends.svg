@@ -14,32 +14,38 @@
 <text x="65" y="149.0" text-anchor="end" font-family="sans-serif" font-size="12">106.1</text>
 <line x1="75.0" x2="75.0" y1="425" y2="431" stroke="#777"/>
 <text x="75.0" y="450" text-anchor="middle" font-family="sans-serif" font-size="13">1</text>
-<line x1="294.0" x2="294.0" y1="425" y2="431" stroke="#777"/>
-<text x="294.0" y="450" text-anchor="middle" font-family="sans-serif" font-size="13">2</text>
+<line x1="168.9" x2="168.9" y1="425" y2="431" stroke="#777"/>
+<text x="168.9" y="450" text-anchor="middle" font-family="sans-serif" font-size="13">2</text>
+<line x1="356.6" x2="356.6" y1="425" y2="431" stroke="#777"/>
+<text x="356.6" y="450" text-anchor="middle" font-family="sans-serif" font-size="13">4</text>
 <line x1="732.0" x2="732.0" y1="425" y2="431" stroke="#777"/>
-<text x="732.0" y="450" text-anchor="middle" font-family="sans-serif" font-size="13">4</text>
-<polyline points="75.0,396.9 294.0,400.6 732.0,394.9" fill="none" stroke="#315a9b" stroke-width="3"/>
+<text x="732.0" y="450" text-anchor="middle" font-family="sans-serif" font-size="13">8</text>
+<polyline points="75.0,396.9 168.9,400.6 356.6,394.9 732.0,351.9" fill="none" stroke="#315a9b" stroke-width="3"/>
 <circle cx="75.0" cy="396.9" r="5" fill="#315a9b"/>
-<circle cx="294.0" cy="400.6" r="5" fill="#315a9b"/>
-<circle cx="732.0" cy="394.9" r="5" fill="#315a9b"/>
+<circle cx="168.9" cy="400.6" r="5" fill="#315a9b"/>
+<circle cx="356.6" cy="394.9" r="5" fill="#315a9b"/>
+<circle cx="732.0" cy="351.9" r="5" fill="#315a9b"/>
 <line x1="75" x2="97" y1="68" y2="68" stroke="#315a9b" stroke-width="3"/>
 <text x="104" y="72" font-family="sans-serif" font-size="13">1,024 tokens</text>
-<polyline points="75.0,370.1 294.0,368.6 732.0,375.8" fill="none" stroke="#16866a" stroke-width="3"/>
+<polyline points="75.0,370.1 168.9,368.6 356.6,375.8 732.0,335.7" fill="none" stroke="#16866a" stroke-width="3"/>
 <circle cx="75.0" cy="370.1" r="5" fill="#16866a"/>
-<circle cx="294.0" cy="368.6" r="5" fill="#16866a"/>
-<circle cx="732.0" cy="375.8" r="5" fill="#16866a"/>
+<circle cx="168.9" cy="368.6" r="5" fill="#16866a"/>
+<circle cx="356.6" cy="375.8" r="5" fill="#16866a"/>
+<circle cx="732.0" cy="335.7" r="5" fill="#16866a"/>
 <line x1="385" x2="407" y1="68" y2="68" stroke="#16866a" stroke-width="3"/>
 <text x="414" y="72" font-family="sans-serif" font-size="13">2,048 tokens</text>
-<polyline points="75.0,302.9 294.0,316.3 732.0,341.1" fill="none" stroke="#c8713e" stroke-width="3"/>
+<polyline points="75.0,302.9 168.9,316.3 356.6,341.1 732.0,305.4" fill="none" stroke="#c8713e" stroke-width="3"/>
 <circle cx="75.0" cy="302.9" r="5" fill="#c8713e"/>
-<circle cx="294.0" cy="316.3" r="5" fill="#c8713e"/>
-<circle cx="732.0" cy="341.1" r="5" fill="#c8713e"/>
+<circle cx="168.9" cy="316.3" r="5" fill="#c8713e"/>
+<circle cx="356.6" cy="341.1" r="5" fill="#c8713e"/>
+<circle cx="732.0" cy="305.4" r="5" fill="#c8713e"/>
 <line x1="75" x2="97" y1="91" y2="91" stroke="#c8713e" stroke-width="3"/>
 <text x="104" y="95" font-family="sans-serif" font-size="13">4,096 tokens</text>
-<polyline points="75.0,181.5 294.0,208.3 732.0,272.2" fill="none" stroke="#8057a5" stroke-width="3"/>
+<polyline points="75.0,181.5 168.9,208.3 356.6,272.2 732.0,236.1" fill="none" stroke="#8057a5" stroke-width="3"/>
 <circle cx="75.0" cy="181.5" r="5" fill="#8057a5"/>
-<circle cx="294.0" cy="208.3" r="5" fill="#8057a5"/>
-<circle cx="732.0" cy="272.2" r="5" fill="#8057a5"/>
+<circle cx="168.9" cy="208.3" r="5" fill="#8057a5"/>
+<circle cx="356.6" cy="272.2" r="5" fill="#8057a5"/>
+<circle cx="732.0" cy="236.1" r="5" fill="#8057a5"/>
 <line x1="385" x2="407" y1="91" y2="91" stroke="#8057a5" stroke-width="3"/>
 <text x="414" y="95" font-family="sans-serif" font-size="13">8,192 tokens</text>
 <text x="403.5" y="472" text-anchor="middle" font-family="sans-serif" font-size="14">Ranks</text>

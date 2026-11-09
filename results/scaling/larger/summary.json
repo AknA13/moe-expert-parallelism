@@ -48,6 +48,22 @@
     "routing_metadata_bytes_per_step": 12492.8
   },
   {
+    "ranks": 8,
+    "total_tokens": 1024,
+    "local_tokens": 128,
+    "parameter_bytes_per_rank": 277056,
+    "adam_state_bytes_per_rank": 554144,
+    "shared_parameter_bytes_per_rank": 10560,
+    "median_step_ms": 27.68904202093836,
+    "p95_step_ms": 31.101792003028095,
+    "tokens_per_second_at_median": 36982.13897128166,
+    "expert_load_imbalance": 1.5806640625,
+    "remote_assignments_per_step": 1805.45,
+    "forward_activation_bytes_per_step": 924390.4,
+    "backward_activation_bytes_per_step": 924390.4,
+    "routing_metadata_bytes_per_step": 14891.6
+  },
+  {
     "ranks": 1,
     "total_tokens": 2048,
     "local_tokens": 2048,
@@ -94,6 +110,22 @@
     "forward_activation_bytes_per_step": 1567820.8,
     "backward_activation_bytes_per_step": 1567820.8,
     "routing_metadata_bytes_per_step": 24593.2
+  },
+  {
+    "ranks": 8,
+    "total_tokens": 2048,
+    "local_tokens": 256,
+    "parameter_bytes_per_rank": 277056,
+    "adam_state_bytes_per_rank": 554144,
+    "shared_parameter_bytes_per_rank": 10560,
+    "median_step_ms": 33.84289550012909,
+    "p95_step_ms": 36.24295801273547,
+    "tokens_per_second_at_median": 60514.91663862474,
+    "expert_load_imbalance": 1.54091796875,
+    "remote_assignments_per_step": 3583.95,
+    "forward_activation_bytes_per_step": 1834982.4,
+    "backward_activation_bytes_per_step": 1834982.4,
+    "routing_metadata_bytes_per_step": 29119.6
   },
   {
     "ranks": 1,
@@ -144,6 +176,22 @@
     "routing_metadata_bytes_per_step": 49423.2
   },
   {
+    "ranks": 8,
+    "total_tokens": 4096,
+    "local_tokens": 512,
+    "parameter_bytes_per_rank": 277056,
+    "adam_state_bytes_per_rank": 554144,
+    "shared_parameter_bytes_per_rank": 10560,
+    "median_step_ms": 45.300042009330355,
+    "p95_step_ms": 47.79279200010933,
+    "tokens_per_second_at_median": 90419.34219743892,
+    "expert_load_imbalance": 1.551171875,
+    "remote_assignments_per_step": 7181.0,
+    "forward_activation_bytes_per_step": 3676672.0,
+    "backward_activation_bytes_per_step": 3676672.0,
+    "routing_metadata_bytes_per_step": 57896.0
+  },
+  {
     "ranks": 1,
     "total_tokens": 8192,
     "local_tokens": 8192,
@@ -190,5 +238,21 @@
     "forward_activation_bytes_per_step": 6300518.4,
     "backward_activation_bytes_per_step": 6300518.4,
     "routing_metadata_bytes_per_step": 98541.6
+  },
+  {
+    "ranks": 8,
+    "total_tokens": 8192,
+    "local_tokens": 1024,
+    "parameter_bytes_per_rank": 277056,
+    "adam_state_bytes_per_rank": 554144,
+    "shared_parameter_bytes_per_rank": 10560,
+    "median_step_ms": 71.57552099670283,
+    "p95_step_ms": 75.67516699782573,
+    "tokens_per_second_at_median": 114452.53748662714,
+    "expert_load_imbalance": 1.60751953125,
+    "remote_assignments_per_step": 14339.35,
+    "forward_activation_bytes_per_step": 7341747.2,
+    "backward_activation_bytes_per_step": 7341747.2,
+    "routing_metadata_bytes_per_step": 115162.8
   }
 ]

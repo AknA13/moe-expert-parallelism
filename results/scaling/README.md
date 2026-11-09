@@ -8,9 +8,9 @@ Each point represents the median of the 20 measured steps. **Speedup means one-r
 
 ## 1. More data per-training step makes parallelism more effective
 
-![Two-rank and four-rank speedup versus total tokens for eight experts with hidden width 512](batch-crossover.svg)
+![Two-rank, four-rank, and eight-rank speedup versus total tokens for eight experts with hidden width 512](batch-crossover.svg)
 
-This plot holds the eight-expert, 512-wide expert MLP fixed. The two-rank line ranges from **0.97× to 1.15×**. At 4-rank, the speedup rises from **0.93× at 1,024 tokens** to **1.59× at 8,192 tokens**. The dashed 1× line marks the baseline one-rank result. A smaller width-64 expert MLP is slower with four ranks even at 1,024 tokens (**2.9 versus 6.4 ms**); its [rank-latency plot](rank-trends.svg) shows the overhead-dominated case.
+This plot holds the eight-expert, 512-wide expert MLP fixed. The two-rank line ranges from **0.97× to 1.15×**. At 4-rank, the speedup rises from **0.93× at 1,024 tokens** to **1.59× at 8,192 tokens**. At 8-rank, it rises from **0.39× to 1.29×** over the same range, but remains below the four-rank line. The dashed 1× line marks the baseline one-rank result. A smaller width-64 expert MLP is slower with four ranks even at 1,024 tokens (**2.9 versus 6.4 ms**); its [rank-latency plot](rank-trends.svg) shows the overhead-dominated case.
 
 ## 2. Wider experts improve rank scaling
 
@@ -44,4 +44,4 @@ The width-4,096, eight-rank, 16,384-token job averages **28,635 remote token-exp
 
 ## Reproduce and inspect
 
-Run `python experiments/scaling.py` from the repository root. It reproduces all **61 jobs** and regenerates the plots, summaries, and this report. The job grids and their derived `summary.json` files are in this directory (width 64), `larger/` (width 512), `extended/` (16 experts, width 1,024), `width-2048/`, `width-4096/`, and `two-blocks/`. Each `ranks{R}-tokens{N}.json` contains per-rank configuration, loss, timing, routing counts, and parameter storage; its companion `.environment.json` records the runtime and host details.
+Run `python experiments/scaling.py` from the repository root. It reproduces all **65 jobs** and regenerates the plots, summaries, and this report. The job grids and their derived `summary.json` files are in this directory (width 64), `larger/` (width 512), `extended/` (16 experts, width 1,024), `width-2048/`, `width-4096/`, and `two-blocks/`. Each `ranks{R}-tokens{N}.json` contains per-rank configuration, loss, timing, routing counts, and parameter storage; its companion `.environment.json` records the runtime and host details.

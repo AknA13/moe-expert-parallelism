@@ -9,6 +9,7 @@ from pathlib import Path
 
 
 RANKS = (1, 2, 4)
+LARGER_RANKS = (1, 2, 4, 8)
 EXTENDED_RANKS = (1, 2, 4, 8)
 SMALL_TOKENS = (256, 512, 1024)
 LARGER_TOKENS = (1024, 2048, 4096, 8192)
@@ -184,7 +185,7 @@ def save_story_plots(output, larger_rows, extended_rows, width_rows):
         [(f'{world} ranks', [larger[1, tokens]['median_step_ms'] /
                             larger[world, tokens]['median_step_ms']
                             for tokens in LARGER_TOKENS])
-         for world in (2, 4)],
+         for world in (2, 4, 8)],
         y_label='Speedup over one rank', categorical_x=True,
         reference_value=1, y_limit=2,
     )
@@ -249,9 +250,9 @@ Each point represents the median of the 20 measured steps. **Speedup means one-r
 
 ## 1. More data per-training step makes parallelism more effective
 
-![Two-rank and four-rank speedup versus total tokens for eight experts with hidden width 512](batch-crossover.svg)
+![Two-rank, four-rank, and eight-rank speedup versus total tokens for eight experts with hidden width 512](batch-crossover.svg)
 
-This plot holds the eight-expert, 512-wide expert MLP fixed. The two-rank line ranges from **{min(two_rank_speedups):.2f}× to {max(two_rank_speedups):.2f}×**. At 4-rank, the speedup rises from **{larger[1, 1024]['median_step_ms'] / larger[4, 1024]['median_step_ms']:.2f}× at 1,024 tokens** to **{larger[1, 8192]['median_step_ms'] / larger[4, 8192]['median_step_ms']:.2f}× at 8,192 tokens**. The dashed 1× line marks the baseline one-rank result. A smaller width-64 expert MLP is slower with four ranks even at 1,024 tokens (**{small[1, 1024]['median_step_ms']:.1f} versus {small[4, 1024]['median_step_ms']:.1f} ms**); its [rank-latency plot](rank-trends.svg) shows the overhead-dominated case.
+This plot holds the eight-expert, 512-wide expert MLP fixed. The two-rank line ranges from **{min(two_rank_speedups):.2f}× to {max(two_rank_speedups):.2f}×**. At 4-rank, the speedup rises from **{larger[1, 1024]['median_step_ms'] / larger[4, 1024]['median_step_ms']:.2f}× at 1,024 tokens** to **{larger[1, 8192]['median_step_ms'] / larger[4, 8192]['median_step_ms']:.2f}× at 8,192 tokens**. At 8-rank, it rises from **{larger[1, 1024]['median_step_ms'] / larger[8, 1024]['median_step_ms']:.2f}× to {larger[1, 8192]['median_step_ms'] / larger[8, 8192]['median_step_ms']:.2f}×** over the same range, but remains below the four-rank line. The dashed 1× line marks the baseline one-rank result. A smaller width-64 expert MLP is slower with four ranks even at 1,024 tokens (**{small[1, 1024]['median_step_ms']:.1f} versus {small[4, 1024]['median_step_ms']:.1f} ms**); its [rank-latency plot](rank-trends.svg) shows the overhead-dominated case.
 
 ## 2. Wider experts improve rank scaling
 
@@ -285,7 +286,7 @@ The width-4,096, eight-rank, 16,384-token job averages **{widest[8, 16384]['remo
 
 ## Reproduce and inspect
 
-Run `python experiments/scaling.py` from the repository root. It reproduces all **61 jobs** and regenerates the plots, summaries, and this report. The job grids and their derived `summary.json` files are in this directory (width 64), `larger/` (width 512), `extended/` (16 experts, width 1,024), `width-2048/`, `width-4096/`, and `two-blocks/`. Each `ranks{{R}}-tokens{{N}}.json` contains per-rank configuration, loss, timing, routing counts, and parameter storage; its companion `.environment.json` records the runtime and host details.
+Run `python experiments/scaling.py` from the repository root. It reproduces all **65 jobs** and regenerates the plots, summaries, and this report. The job grids and their derived `summary.json` files are in this directory (width 64), `larger/` (width 512), `extended/` (16 experts, width 1,024), `width-2048/`, `width-4096/`, and `two-blocks/`. Each `ranks{{R}}-tokens{{N}}.json` contains per-rank configuration, loss, timing, routing counts, and parameter storage; its companion `.environment.json` records the runtime and host details.
 """)
 
 
@@ -321,7 +322,8 @@ def main():
     args = parser.parse_args()
     args.output = args.output.resolve()
     small = run_grid(args.output, SMALL_EXPERT_HIDDEN, SMALL_TOKENS)
-    larger = run_grid(args.output / 'larger', LARGER_EXPERT_HIDDEN, LARGER_TOKENS)
+    larger = run_grid(args.output / 'larger', LARGER_EXPERT_HIDDEN,
+                      LARGER_TOKENS, ranks=LARGER_RANKS)
     extended = run_grid(args.output / 'extended', EXTENDED_EXPERT_HIDDEN,
                         EXTENDED_TOKENS, experts=16, ranks=EXTENDED_RANKS)
     width_runs = {
