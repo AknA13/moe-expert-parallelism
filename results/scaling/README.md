@@ -24,13 +24,11 @@ This plot fixes **16 experts, 16,384 total tokens, top-2 routing, token dimensio
 
 With 16 experts at width 4,096, measured model parameters fall from **32.5 MiB on one rank** to **4.1 MiB per rank on eight ranks**. Adam state falls from **65.0 to 8.2 MiB per rank**. Together, they fall from **97.5 to 12.2 MiB per rank**. Each rank retains its own copy of the projection and router layers. Experts are divided and owned among different ranks. Adam state is calculated from two moment tensors and one step scalar per parameter tensor.
 
-## Supporting views
-
-### Increasing total work with ranks
+## 4. Training throughput scaling from adding more ranks
 
 ![Cluster throughput in tokens per second for three expert widths with 2048 tokens per rank](fixed-local-throughput.svg)
 
-This is a **fixed-local-batch** comparison with 16 experts and one MoE block: 2,048 tokens per rank, so total tokens rise from 2,048 to 16,384 as ranks rise from one to eight. Each line shows measured cluster throughput in tokens/s for one expert width. One-rank throughput is **22,462**, **11,528**, and **5,823 tokens/s** for expert widths 1,024, 2,048, and 4,096. For width 4,096, throughput grows to **27,827 tokens/s** at eight ranks. This is different from the fixed-global-batch speedup in Figure 2.
+This is a **fixed-local-batch** comparison with 16 experts and one MoE block. Each rank processes 2,048 tokens, so total tokens rise from 2,048 to 16,384 as ranks rise from one to eight. Each line shows measured cluster throughput in tokens/s for one expert width. One-rank throughput is **22,462**, **11,528**, and **5,823 tokens/s** for expert widths 1,024, 2,048, and 4,096. For width 4,096, throughput grows to **27,827 tokens/s** at eight ranks. This is different from the fixed-global-batch speedup in Figure 2.
 
 ### Additional experiments
 
@@ -38,7 +36,7 @@ This is a **fixed-local-batch** comparison with 16 experts and one MoE block: 2,
 - The [width-versus-speedup plot](width-speedup.svg) shows how batch size and expert width affect eight-rank speedup. Each width also has its own rank and data trend plots in `extended/`, `width-2048/`, and `width-4096/`.
 - The [one-versus-two-block plot](block-trends.svg) shows the depth check at 16,384 tokens and width 1,024. Eight-rank speedup is **1.96× with one block** and **1.73× with two**. A second block adds another routing and communication stage, so this is a separate model-depth question.
 
-## Interpretation and limits
+## Scaling Interpretation and Analysis
 
 The width-4,096, eight-rank, 16,384-token job averages **28,635 remote token-expert assignments** per measured step. Its logical forward activation payload is **14.0 MiB**, and its backward activation payload is the same. These count tensor elements, not physical network traffic or time spent in collectives. At this configuration, the most-loaded expert receives **2.63×** the average assignment count. We have not separately timed communication and expert computation, so the exact sources of the eight-rank plateau remain unresolved. These single-host CPU results do not establish GPU speedup.
 
