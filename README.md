@@ -14,11 +14,11 @@ The two tall borders group the matching projection and router weights across the
 
 ### Forward pass: dispatch, compute, return
 
-Follow token 2 from rank 0 in the [saved trace](results/correctness/demo.json): its router selects **expert 7** on rank 1 and **expert 0** on rank 0. The figure follows the token through the projection, router, both selected experts, weighted combination, and loss. Rank 1 simultaneously processes its own token shard through the same layers.
+This four-expert example shows both ranks at once. Rank 0 owns E0 and E1; rank 1 owns E2 and E3. Token A starts on rank 0 and selects local E0 plus remote E2. Token B starts on rank 1 and selects local E3 plus remote E1. The same code also runs the eight-expert model shown above.
 
-![Forward layer flow for token 2, with count, expert ID, activation, and output exchanges labeled C1 through C4](assets/forward-flow.svg)
+![Two-rank forward pass showing one local and one remote expert assignment for each source token](assets/forward-flow.svg)
 
-**C1** and **C2** are `dist.all_to_all_single` calls that exchange counts and integer expert IDs for the rank's whole batch, not only token 2. **C3** and **C4** use autograd-aware `all_to_all_single` for activation rows. Rows destined for a rank's own experts remain local within those collectives. The return uses inverse split sizes; the source undoes its packing permutation, restores token/slot order, and combines the two expert outputs with the selected weights. Every rank participates even when it has zero rows for a destination.
+**C1** and **C2** are `dist.all_to_all_single` calls that exchange counts and integer expert IDs for each rank's whole input shard. **C3** and **C4** use autograd-aware `all_to_all_single` to dispatch projected rows and return expert outputs. Each rank also processes its local assignment. The return uses inverse split sizes; each source undoes its packing permutation, restores token/slot order, and combines the two expert outputs with its selected weights. Every rank participates even when it has zero rows for a destination.
 
 ### Backward pass: reverse the activation exchanges
 
@@ -29,9 +29,9 @@ L_r = (1/N) · Σ_{tokens i on rank r} mean_j (prediction_ij - target_ij)²
 L_global = L_0 + L_1
 ```
 
-For token 2, the loss gradient passes through the weighted combination into both expert outputs and the selected router weights. The gradient for expert 7's output goes to its owner; expert 7 backpropagates and sends its projected-input gradient back to the source. The source adds that gradient to the local expert and router paths before backpropagating through the token projection.
+On both ranks, the loss gradient passes through the weighted combination into the local expert output, the remote expert output, and the selected router weights. Each remote expert-output gradient goes to its owner. The experts accumulate parameter gradients on their owner ranks, then send projected-input gradients back to the source ranks. Each source adds its local expert, remote expert, and router gradients before backpropagating through its token projection.
 
-![Backward layer flow for token 2, with output-gradient exchange B1, projected-input gradient exchange B2, and shared-gradient all-reduce B3](assets/backward-flow.svg)
+![Two-rank backward pass showing local and remote expert gradients, their return to token sources, and shared-gradient synchronization](assets/backward-flow.svg)
 
 **B1** and **B2** are the backward calls of the two autograd-aware activation exchanges. The arrows at **B3** show the logical contributions to one `dist.all_reduce(SUM)` per replicated parameter, not Gloo's physical algorithm. We **do not divide by rank count again**: each local loss already uses the global `N`. Expert gradients accumulate on their owner from every source rank and are **not all-reduced**. Integer routing IDs and counts have no backward exchange; gradients reach selected router logits through the combination weights. All experts, including those with zero received rows, retain an autograd path.
 

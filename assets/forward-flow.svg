@@ -1,77 +1,91 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1400 1250" role="img" aria-labelledby="title desc">
-  <title id="title">Forward flow for token 2 across two ranks</title>
-  <desc id="desc">Rank 0 projects token 2, routes it to local expert 0 and remote expert 7, exchanges counts and expert IDs, dispatches the projected activation to rank 1, receives expert 7's output, combines both expert outputs using router weights, and computes the loss.</desc>
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 1440 1240" role="img" aria-labelledby="title desc">
+  <title id="title">Forward pass on both ranks</title>
+  <desc id="desc">A four-expert example. Rank 0 owns E0 and E1; rank 1 owns E2 and E3. Token A on rank 0 uses local E0 and remote E2. Token B on rank 1 uses local E3 and remote E1. Both ranks exchange routing metadata, projected token rows, and expert results before locally combining their outputs.</desc>
   <defs>
-    <marker id="dark-arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="9" markerHeight="9" orient="auto"><path d="M1 1L9 5L1 9" fill="none" stroke="#475569" stroke-width="1.8"/></marker>
-    <marker id="blue-arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="9" markerHeight="9" orient="auto"><path d="M1 1L9 5L1 9" fill="none" stroke="#2563a6" stroke-width="1.8"/></marker>
-    <marker id="purple-arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="9" markerHeight="9" orient="auto"><path d="M1 1L9 5L1 9" fill="none" stroke="#7c4caf" stroke-width="1.8"/></marker>
-    <marker id="teal-arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="9" markerHeight="9" orient="auto"><path d="M1 1L9 5L1 9" fill="none" stroke="#16806c" stroke-width="1.8"/></marker>
+    <marker id="gray-arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse"><path d="M1 1L9 5L1 9" fill="none" stroke="#526176" stroke-width="1.8"/></marker>
+    <marker id="blue-arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto"><path d="M1 1L9 5L1 9" fill="none" stroke="#2563a6" stroke-width="1.8"/></marker>
+    <marker id="orange-arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto"><path d="M1 1L9 5L1 9" fill="none" stroke="#c8713e" stroke-width="1.8"/></marker>
+    <marker id="purple-arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto"><path d="M1 1L9 5L1 9" fill="none" stroke="#7c4caf" stroke-width="1.8"/></marker>
+    <symbol id="expert" viewBox="0 0 76 68">
+      <g fill="none" stroke="#87a9a2" stroke-width="1.5"><path d="M8 17L37 9M8 17L37 34M8 17L37 59M8 51L37 9M8 51L37 34M8 51L37 59M37 9L68 17M37 9L68 51M37 34L68 17M37 34L68 51M37 59L68 17M37 59L68 51"/></g>
+      <g fill="#c9ebe2" stroke="#21836e" stroke-width="1.8"><circle cx="8" cy="17" r="5"/><circle cx="8" cy="51" r="5"/><circle cx="37" cy="9" r="5"/><circle cx="37" cy="34" r="5"/><circle cx="37" cy="59" r="5"/><circle cx="68" cy="17" r="5"/><circle cx="68" cy="51" r="5"/></g>
+    </symbol>
   </defs>
-  <rect width="1400" height="1250" fill="#fff"/>
-  <text x="40" y="48" fill="#202a3a" font-family="system-ui,sans-serif" font-size="28" font-weight="700">Forward pass · follow token 2</text>
-  <text x="40" y="80" fill="#5c6a7e" font-family="system-ui,sans-serif" font-size="17">One token on rank 0 selects expert 0 (local) and expert 7 (remote). Both ranks execute the same collectives.</text>
-  <rect x="40" y="106" width="650" height="1114" rx="17" fill="#f8faff" stroke="#d9e2ee" stroke-width="2"/>
-  <rect x="710" y="106" width="650" height="1114" rx="17" fill="#f7fbfa" stroke="#d7e7e2" stroke-width="2"/>
-  <text x="68" y="143" fill="#202a3a" font-family="system-ui,sans-serif" font-size="23" font-weight="700">Rank 0 · token source + expert 0</text>
-  <text x="738" y="143" fill="#202a3a" font-family="system-ui,sans-serif" font-size="23" font-weight="700">Rank 1 · expert 7 owner</text>
 
-  <!-- Source-side layers and their direct data dependencies. -->
-  <g font-family="system-ui,sans-serif" text-anchor="middle">
-    <rect x="290" y="170" width="210" height="55" rx="12" fill="#edf3fa" stroke="#6e8197" stroke-width="2"/>
-    <text x="395" y="205" fill="#26384c" font-size="20" font-weight="700">input x₂</text>
-    <rect x="260" y="264" width="270" height="67" rx="12" fill="#e6efff" stroke="#5579bb" stroke-width="2"/>
-    <text x="395" y="293" fill="#254b8b" font-size="19" font-weight="700">token projection</text>
-    <text x="395" y="317" fill="#526176" font-size="15">Linear + Tanh</text>
-    <rect x="290" y="371" width="210" height="55" rx="12" fill="#edf3fa" stroke="#6e8197" stroke-width="2"/>
-    <text x="395" y="405" fill="#26384c" font-size="19" font-weight="700">hidden row h₂</text>
-    <rect x="260" y="466" width="270" height="67" rx="12" fill="#f1eaff" stroke="#8666b7" stroke-width="2"/>
-    <text x="395" y="495" fill="#684496" font-size="19" font-weight="700">router</text>
-    <text x="395" y="519" fill="#526176" font-size="15">Linear → top-2 → softmax</text>
-    <rect x="250" y="570" width="290" height="65" rx="12" fill="#f1eaff" stroke="#8666b7" stroke-width="2"/>
-    <text x="395" y="597" fill="#684496" font-size="18" font-weight="700">IDs [7, 0] · weights [w₇, w₀]</text>
-    <text x="395" y="621" fill="#526176" font-size="15">two token–expert assignments</text>
-    <rect x="265" y="705" width="260" height="67" rx="12" fill="#e8f2ff" stroke="#5a83b6" stroke-width="2"/>
-    <text x="395" y="734" fill="#275685" font-size="18" font-weight="700">repeat h₂; pack by owner</text>
-    <text x="395" y="757" fill="#526176" font-size="15">expert 0 row, expert 7 row</text>
-    <rect x="262" y="884" width="266" height="68" rx="12" fill="#e4f4ef" stroke="#21836e" stroke-width="2"/>
-    <text x="395" y="912" fill="#176d5a" font-size="19" font-weight="700">expert 0 MLP</text>
-    <text x="395" y="936" fill="#526176" font-size="15">local output y₀</text>
-    <rect x="250" y="1030" width="290" height="68" rx="12" fill="#f1eaff" stroke="#8666b7" stroke-width="2"/>
-    <text x="395" y="1057" fill="#684496" font-size="19" font-weight="700">weighted combination</text>
-    <text x="395" y="1082" fill="#526176" font-size="16">prediction = w₀y₀ + w₇y₇</text>
-    <rect x="275" y="1140" width="240" height="56" rx="12" fill="#edf3fa" stroke="#6e8197" stroke-width="2"/>
-    <text x="395" y="1175" fill="#26384c" font-size="19" font-weight="700">token loss</text>
-  </g>
-  <g fill="none" stroke="#475569" stroke-width="2.7" marker-end="url(#dark-arrow)">
-    <path d="M395 225V260"/><path d="M395 331V367"/><path d="M395 426V462"/><path d="M395 533V566"/><path d="M395 635V701"/><path d="M395 772V880"/><path d="M395 952V1026"/><path d="M395 1098V1136"/>
-  </g>
-  <path d="M290 399H225V738H261" fill="none" stroke="#2563a6" stroke-width="2.8" marker-end="url(#blue-arrow)"/>
-  <text x="210" y="642" fill="#2563a6" font-family="system-ui,sans-serif" font-size="15" transform="rotate(-90 210 642)">h₂ also feeds both experts</text>
-  <path d="M250 604H184V1064H246" fill="none" stroke="#7c4caf" stroke-width="2.8" marker-end="url(#purple-arrow)"/>
-  <text x="157" y="845" fill="#7c4caf" font-family="system-ui,sans-serif" font-size="16" transform="rotate(-90 157 845)">selected gate weights</text>
+  <rect width="1440" height="1240" fill="#fff"/>
+  <text x="40" y="46" fill="#202a3a" font-family="system-ui,sans-serif" font-size="29" font-weight="700">Forward pass · both ranks</text>
+  <text x="40" y="78" fill="#5c6a7e" font-family="system-ui,sans-serif" font-size="17">Blue follows token A; orange follows token B. Each token chooses one local and one remote expert.</text>
+  <rect x="40" y="105" width="650" height="1100" rx="18" fill="#f7faff" stroke="#d6e1ee" stroke-width="2"/>
+  <rect x="750" y="105" width="650" height="1100" rx="18" fill="#f8fbfa" stroke="#d7e7e2" stroke-width="2"/>
+  <text x="68" y="145" fill="#202a3a" font-family="system-ui,sans-serif" font-size="24" font-weight="700">Rank 0 · experts E0, E1</text>
+  <text x="778" y="145" fill="#202a3a" font-family="system-ui,sans-serif" font-size="24" font-weight="700">Rank 1 · experts E2, E3</text>
 
-  <!-- Metadata all-to-alls, activation dispatch, owner compute, and output return. -->
+  <!-- Each rank projects and routes its own source token. -->
   <g font-family="system-ui,sans-serif" text-anchor="middle">
-    <rect x="865" y="570" width="310" height="92" rx="12" fill="#f4f8f7" stroke="#86a89f" stroke-width="2"/>
-    <text x="1020" y="597" fill="#176d5a" font-size="18" font-weight="700">receive counts + expert IDs</text>
-    <text x="1020" y="622" fill="#526176" font-size="15">counts define the row splits;</text>
-    <text x="1020" y="643" fill="#526176" font-size="15">IDs select the owned expert</text>
-    <rect x="885" y="831" width="270" height="68" rx="12" fill="#e4f4ef" stroke="#21836e" stroke-width="2"/>
-    <text x="1020" y="860" fill="#176d5a" font-size="19" font-weight="700">expert 7 MLP</text>
-    <text x="1020" y="884" fill="#526176" font-size="15">remote output y₇</text>
+    <circle cx="365" cy="193" r="28" fill="#e7f0ff" stroke="#2563a6" stroke-width="2.5"/><text x="365" y="201" fill="#2563a6" font-size="23" font-weight="700">A</text>
+    <circle cx="1075" cy="193" r="28" fill="#fff0e6" stroke="#c8713e" stroke-width="2.5"/><text x="1075" y="201" fill="#a25122" font-size="23" font-weight="700">B</text>
+    <circle cx="365" cy="273" r="29" fill="#e6efff" stroke="#5579bb" stroke-width="2"/><text x="365" y="282" fill="#254b8b" font-size="24" font-weight="700">P</text>
+    <circle cx="1075" cy="273" r="29" fill="#e6efff" stroke="#5579bb" stroke-width="2"/><text x="1075" y="282" fill="#254b8b" font-size="24" font-weight="700">P</text>
+    <circle cx="365" cy="353" r="29" fill="#f0e8ff" stroke="#8666b7" stroke-width="2"/><text x="365" y="362" fill="#684496" font-size="24" font-weight="700">R</text>
+    <circle cx="1075" cy="353" r="29" fill="#f0e8ff" stroke="#8666b7" stroke-width="2"/><text x="1075" y="362" fill="#684496" font-size="24" font-weight="700">R</text>
+    <text x="365" y="408" fill="#2563a6" font-size="18" font-weight="700">A → E0 local + E2 remote</text>
+    <text x="1075" y="408" fill="#b35d2e" font-size="18" font-weight="700">B → E3 local + E1 remote</text>
   </g>
-  <g font-family="system-ui,sans-serif" font-size="16" fill="#526176">
-    <text x="735" y="577">C1 · row counts</text>
-    <text x="735" y="650">C2 · expert IDs</text>
-    <text x="735" y="782" fill="#2563a6">C3 · projected activation row</text>
-    <text x="735" y="990" fill="#16806c">C4 · expert output row</text>
+  <g fill="none" stroke="#526176" stroke-width="2.5" marker-end="url(#gray-arrow)">
+    <path d="M365 221V240M365 302V320M1075 221V240M1075 302V320"/>
   </g>
-  <g fill="none" stroke-width="2.8">
-    <path d="M540 592H861" stroke="#8793a4" marker-end="url(#dark-arrow)"/>
-    <path d="M540 622H861" stroke="#8793a4" marker-end="url(#dark-arrow)"/>
-    <path d="M525 741H817V803H1020V827" stroke="#2563a6" marker-end="url(#blue-arrow)"/>
-    <path d="M1020 899V963H575V1064H544" stroke="#16806c" marker-end="url(#teal-arrow)"/>
+
+  <!-- Counts and integer expert IDs are two separate all-to-all calls. -->
+  <g font-family="system-ui,sans-serif" text-anchor="middle" fill="#526176" font-size="14">
+    <text x="720" y="447">C1 · assignment counts</text>
+    <text x="720" y="486">C2 · expert IDs</text>
   </g>
-  <text x="743" y="688" fill="#64748b" font-family="system-ui,sans-serif" font-size="14">Each C1–C4 is a collective: rank 1 also sends its own assignments.</text>
-  <text x="718" y="1239" fill="#64748b" font-family="system-ui,sans-serif" font-size="14" text-anchor="middle">The local expert 0 row stays on rank 0; the expert 7 row crosses the rank boundary and returns.</text>
+  <path d="M642 456H798M642 495H798" fill="none" stroke="#7c8b9b" stroke-width="2" marker-start="url(#gray-arrow)" marker-end="url(#gray-arrow)"/>
+
+  <!-- C3: both sources dispatch projected token rows; local rows stay local. -->
+  <g fill="none" stroke-width="3" stroke-linejoin="round">
+    <path d="M365 382V505H340V606" stroke="#2563a6" marker-end="url(#blue-arrow)"/>
+    <path d="M365 382V535H900V606" stroke="#2563a6" marker-end="url(#blue-arrow)"/>
+    <path d="M1075 382V715H1100V791" stroke="#c8713e" marker-end="url(#orange-arrow)"/>
+    <path d="M1075 382V690H540V791" stroke="#c8713e" marker-end="url(#orange-arrow)"/>
+  </g>
+  <text x="720" y="527" text-anchor="middle" fill="#2563a6" font-family="system-ui,sans-serif" font-size="17" font-weight="700">C3 · send A's projected row to E2</text>
+  <text x="720" y="681" text-anchor="middle" fill="#b35d2e" font-family="system-ui,sans-serif" font-size="17" font-weight="700">C3 · send B's projected row to E1</text>
+
+  <!-- Owner-side expert computation uses neural-network glyphs. -->
+  <g font-family="system-ui,sans-serif" text-anchor="middle">
+    <text x="280" y="650" fill="#176d5a" font-size="19" font-weight="700">E0</text>
+    <text x="962" y="650" fill="#176d5a" font-size="19" font-weight="700">E2</text>
+    <text x="480" y="835" fill="#176d5a" font-size="19" font-weight="700">E1</text>
+    <text x="1162" y="835" fill="#176d5a" font-size="19" font-weight="700">E3</text>
+    <use xlink:href="#expert" x="302" y="610" width="76" height="68"/>
+    <use xlink:href="#expert" x="862" y="610" width="76" height="68"/>
+    <use xlink:href="#expert" x="502" y="795" width="76" height="68"/>
+    <use xlink:href="#expert" x="1062" y="795" width="76" height="68"/>
+    <text x="340" y="704" fill="#2563a6" font-size="16">A · local</text>
+    <text x="900" y="704" fill="#2563a6" font-size="16">A · remote</text>
+    <text x="540" y="889" fill="#b35d2e" font-size="16">B · remote</text>
+    <text x="1100" y="889" fill="#b35d2e" font-size="16">B · local</text>
+  </g>
+
+  <!-- C4 returns remote expert outputs; each source combines both outputs. -->
+  <g fill="none" stroke-width="3" stroke-linejoin="round">
+    <path d="M340 678V1008H365V1042" stroke="#2563a6" marker-end="url(#blue-arrow)"/>
+    <path d="M900 678V752H440V1080H403" stroke="#2563a6" marker-end="url(#blue-arrow)"/>
+    <path d="M1100 863V1008H1075V1042" stroke="#c8713e" marker-end="url(#orange-arrow)"/>
+    <path d="M540 863V930H1000V1080H1037" stroke="#c8713e" marker-end="url(#orange-arrow)"/>
+  </g>
+  <text x="720" y="740" text-anchor="middle" fill="#2563a6" font-family="system-ui,sans-serif" font-size="17" font-weight="700">C4 · E2 output returns to A</text>
+  <text x="770" y="918" text-anchor="middle" fill="#b35d2e" font-family="system-ui,sans-serif" font-size="17" font-weight="700">C4 · E1 output returns to B</text>
+
+  <!-- Selected router weights stay on their source ranks for combination. -->
+  <path d="M335 353H135V1080H327M1105 353H1305V1080H1113" fill="none" stroke="#7c4caf" stroke-width="2.5" stroke-dasharray="7 6" marker-end="url(#purple-arrow)"/>
+  <text x="118" y="784" fill="#7c4caf" font-family="system-ui,sans-serif" font-size="15" transform="rotate(-90 118 784)">A's selected weights</text>
+  <text x="1325" y="784" fill="#7c4caf" font-family="system-ui,sans-serif" font-size="15" transform="rotate(90 1325 784)">B's selected weights</text>
+  <g font-family="system-ui,sans-serif" text-anchor="middle">
+    <circle cx="365" cy="1080" r="36" fill="#f0e8ff" stroke="#8666b7" stroke-width="2"/><text x="365" y="1090" fill="#684496" font-size="28" font-weight="700">Σ</text>
+    <circle cx="1075" cy="1080" r="36" fill="#f0e8ff" stroke="#8666b7" stroke-width="2"/><text x="1075" y="1090" fill="#684496" font-size="28" font-weight="700">Σ</text>
+    <text x="365" y="1145" fill="#202a3a" font-size="19" font-weight="700">weighted sum → prediction A → loss A</text>
+    <text x="1075" y="1145" fill="#202a3a" font-size="19" font-weight="700">weighted sum → prediction B → loss B</text>
+  </g>
 </svg>
