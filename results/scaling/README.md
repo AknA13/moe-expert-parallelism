@@ -4,13 +4,13 @@ How do training step time, parameter storage, and communication overhead change 
 
 ## How to read the figures
 
-Each point is the median of the 20 measured steps. A barrier starts each timed step; jobs use Gloo and one fixed synthetic batch per job. Startup, logging, and correctness comparisons are outside the timed step. We estimate logical communication payload but do not separately time collectives. **Speedup means one-rank step time divided by multi-rank step time at the same global token count and model configuration.**
+Each point represents the median of the 20 measured steps. **Speedup means one-rank step time divided by multi-rank step time using the same data and model configuration.**
 
 ## 1. More data makes parallelism worthwhile
 
 ![Four-rank speedup versus total tokens for eight experts with hidden width 512](batch-crossover.svg)
 
-This plot holds the eight-expert, width-512 model fixed. Four-rank speedup rises from **0.93× at 1,024 tokens** to **1.59× at 8,192 tokens**. The dashed 1× line marks break-even. A smaller width-64 model is slower with four ranks even at 1,024 tokens (**2.9 versus 6.4 ms**); its [rank-latency plot](rank-trends.svg) shows the overhead-dominated case.
+This plot holds the eight-expert, 512-wide expert MLP fixed. At 4-rank, the speedup rises from **0.93× at 1,024 tokens** to **1.59× at 8,192 tokens**. The dashed 1× line marks the baseline one-rank result. A smaller width-64 expert MLP is slower with four ranks even at 1,024 tokens (**2.9 versus 6.4 ms**); its [rank-latency plot](rank-trends.svg) shows the overhead-dominated case.
 
 ## 2. Wider experts improve rank scaling
 
