@@ -10,7 +10,7 @@ Each point represents the median of the 20 measured steps. **Speedup means one-r
 
 ![Two-rank, four-rank, and eight-rank speedup versus total tokens for eight experts with hidden width 512](batch-crossover.svg)
 
-This plot holds the eight-expert, 512-wide expert MLP fixed. The two-rank line ranges from **0.97× to 1.15×**. At 4-rank, the speedup rises from **0.93× at 1,024 tokens** to **1.59× at 8,192 tokens**. At 8-rank, it rises from **0.39× to 1.29×** over the same range, but remains below the four-rank line. The dashed 1× line marks the baseline one-rank result. A smaller width-64 expert MLP is slower with four ranks even at 1,024 tokens (**2.9 versus 6.4 ms**); its [rank-latency plot](rank-trends.svg) shows the overhead-dominated case.
+This plot holds the eight-expert, 512-wide expert MLP fixed. The two-rank line ranges from **0.97× to 1.15×**. At 4-rank, the speedup rises from **0.93× at 1,024 tokens** to **1.59× at 8,192 tokens**. At 8-rank, it rises from **0.39× to 1.29×** over the same range, but remains below the four-rank line. 
 
 ## 2. Wider experts improve rank scaling
 
@@ -22,7 +22,7 @@ This plot fixes **16 experts, 16,384 total tokens, top-2 routing, token dimensio
 
 ![Model parameters, Adam state, and their total per rank for 16 experts with hidden width 4096](parameter-storage.svg)
 
-With 16 experts at width 4,096, measured model parameters fall from **32.5 MiB on one rank** to **4.1 MiB per rank on eight ranks**. Adam state falls from **65.0 to 8.2 MiB per rank**. Together, they fall from **97.5 to 12.2 MiB per rank**. Each rank retains its own copy of the projection and router layers. Experts are divided and owned among different ranks. Adam state is calculated from two float64 moment tensors and one 4-byte step scalar per parameter tensor. The plot excludes gradients, activations, and process memory.
+With 16 experts at width 4,096, measured model parameters fall from **32.5 MiB on one rank** to **4.1 MiB per rank on eight ranks**. Adam state falls from **65.0 to 8.2 MiB per rank**. Together, they fall from **97.5 to 12.2 MiB per rank**. Each rank retains its own copy of the projection and router layers. Experts are divided and owned among different ranks. Adam state is calculated from two moment tensors and one step scalar per parameter tensor.
 
 ## Supporting views
 
