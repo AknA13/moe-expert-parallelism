@@ -10,7 +10,7 @@ Each point represents the median of the 20 measured steps. **Speedup means one-r
 
 ![Two-rank, four-rank, and eight-rank speedup versus total tokens for eight experts with hidden width 512](batch-crossover.svg)
 
-This plot holds the eight-expert, 512-wide expert MLP fixed. The two-rank line ranges from **0.97× to 1.15×**. At 4-rank, the speedup rises from **0.93× at 1,024 tokens** to **1.59× at 8,192 tokens**. At 8-rank, it rises from **0.39× to 1.29×** over the same range, but remains below the four-rank line. 
+This plot holds the eight-expert, 512-wide expert MLP fixed. The two-rank line ranges from **0.97× to 1.15×**. At 4-rank, the speedup rises from **0.93× at 1,024 tokens** to **1.59× at 8,192 tokens**. At 8-rank, it rises from **0.39× to 1.29×** over the same range, but remains below the four-rank line.
 
 ## 2. Wider experts improve rank scaling
 
@@ -28,9 +28,9 @@ With 16 experts at width 4,096, measured model parameters fall from **32.5 MiB o
 
 ### Increasing total work with ranks
 
-![Cluster throughput with 2048 tokens per rank at two four and eight ranks](fixed-local-throughput.svg)
+![Throughput scaling for three expert widths with 2048 tokens per rank and an ideal y equals x line](fixed-local-throughput.svg)
 
-This is a **fixed-local-batch** comparison: 2,048 tokens per rank, so total tokens rise from 4,096 to 16,384 as ranks rise from two to eight. For the width-4,096 model, throughput grows from **14,763 to 27,827 tokens/s**, while step time grows from **277.5 to 588.8 ms**. This is different from the fixed-global-batch speedup in Figure 2. The saved grid has no one-rank, 2,048-token point for this particular comparison.
+This is a **fixed-local-batch** comparison with 16 experts and one MoE block: 2,048 tokens per rank, so total tokens rise from 2,048 to 16,384 as ranks rise from one to eight. Each line shows throughput divided by that width's one-rank throughput. The dashed `y = x` line shows ideal scaling. One-rank throughput is **22,462**, **11,528**, and **5,823 tokens/s** for expert widths 1,024, 2,048, and 4,096. The two-rank points exceed 2×; this comparison also doubles the global batch. For width 4,096, throughput grows to **27,827 tokens/s** at eight ranks, or **4.78×** the one-rank result versus an ideal **8×**. This is different from the fixed-global-batch speedup in Figure 2.
 
 ### Additional experiments
 
@@ -44,4 +44,4 @@ The width-4,096, eight-rank, 16,384-token job averages **28,635 remote token-exp
 
 ## Reproduce and inspect
 
-Run `python experiments/scaling.py` from the repository root. It reproduces all **65 jobs** and regenerates the plots, summaries, and this report. The job grids and their derived `summary.json` files are in this directory (width 64), `larger/` (width 512), `extended/` (16 experts, width 1,024), `width-2048/`, `width-4096/`, and `two-blocks/`. Each `ranks{R}-tokens{N}.json` contains per-rank configuration, loss, timing, routing counts, and parameter storage; its companion `.environment.json` records the runtime and host details.
+Run `python experiments/scaling.py` from the repository root. It reproduces all **77 jobs** and regenerates the plots, summaries, and this report. The job grids and their derived `summary.json` files are in this directory (width 64), `larger/` (width 512), `extended/` (16 experts, width 1,024), `width-2048/`, `width-4096/`, and `two-blocks/`. Each `ranks{R}-tokens{N}.json` contains per-rank configuration, loss, timing, routing counts, and parameter storage; its companion `.environment.json` records the runtime and host details.

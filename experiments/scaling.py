@@ -13,7 +13,7 @@ LARGER_RANKS = (1, 2, 4, 8)
 EXTENDED_RANKS = (1, 2, 4, 8)
 SMALL_TOKENS = (256, 512, 1024)
 LARGER_TOKENS = (1024, 2048, 4096, 8192)
-EXTENDED_TOKENS = (4096, 8192, 16384)
+EXTENDED_TOKENS = (2048, 4096, 8192, 16384)
 BLOCK_COMPARISON_TOKENS = (16384,)
 SMALL_EXPERT_HIDDEN = 64
 LARGER_EXPERT_HIDDEN = 512
@@ -98,7 +98,8 @@ def save_plot(path, rows):
 def save_trend_plot(path, title, x_label, x_values, series,
                     y_label='Median step time (ms)', *, categorical_x=False,
                     reference_value=None, last_value_format=None,
-                    tick_format='.1f', tick_round_to=None, y_limit=None):
+                    tick_format='.1f', tick_round_to=None, y_limit=None,
+                    dashed_labels=()):
     """Plot measured values against one experiment axis."""
     width, height = 760, 490
     left, right, top, bottom = 75, 28, 145, 65
@@ -134,19 +135,21 @@ def save_trend_plot(path, title, x_label, x_values, series,
                   f'<text x="{left + plot_width - 7}" y="{y + 20:.1f}" text-anchor="end" font-family="sans-serif" font-size="12" fill="#555">{reference_value:g}× one-rank baseline</text>']
     for index, (label, values) in enumerate(series):
         color = colors[index]
+        dash = ' stroke-dasharray="7 5"' if label in dashed_labels else ''
         points = ' '.join(f'{x:.1f},{top + plot_height * (1 - value / ceiling):.1f}'
                           for x, value in zip(positions, values))
-        parts.append(f'<polyline points="{points}" fill="none" stroke="{color}" stroke-width="3"/>')
-        for x, value in zip(positions, values):
-            y = top + plot_height * (1 - value / ceiling)
-            parts.append(f'<circle cx="{x:.1f}" cy="{y:.1f}" r="5" fill="{color}"/>')
+        parts.append(f'<polyline points="{points}" fill="none" stroke="{color}" stroke-width="3"{dash}/>')
+        if not dash:
+            for x, value in zip(positions, values):
+                y = top + plot_height * (1 - value / ceiling)
+                parts.append(f'<circle cx="{x:.1f}" cy="{y:.1f}" r="5" fill="{color}"/>')
         if last_value_format is not None:
             y = top + plot_height * (1 - values[-1] / ceiling)
             label_y = y + 20 if len(series) > 1 and index == 0 else y - 10
             parts.append(f'<text x="{positions[-1] - 10:.1f}" y="{label_y:.1f}" text-anchor="end" font-family="sans-serif" font-size="13" font-weight="bold" fill="{color}">{values[-1]:{last_value_format}}</text>')
         legend_x = left + (index % 2) * 310
         legend_y = 68 + (index // 2) * 23
-        parts += [f'<line x1="{legend_x}" x2="{legend_x + 22}" y1="{legend_y}" y2="{legend_y}" stroke="{color}" stroke-width="3"/>',
+        parts += [f'<line x1="{legend_x}" x2="{legend_x + 22}" y1="{legend_y}" y2="{legend_y}" stroke="{color}" stroke-width="3"{dash}/>',
                   f'<text x="{legend_x + 29}" y="{legend_y + 4}" font-family="sans-serif" font-size="13">{label}</text>']
     parts += [f'<text x="{left + plot_width / 2:.1f}" y="{height - 18}" text-anchor="middle" font-family="sans-serif" font-size="14">{x_label}</text>',
               '</svg>']
@@ -215,21 +218,30 @@ def save_story_plots(output, larger_rows, extended_rows, width_rows):
         y_label='Storage per rank (MiB)', categorical_x=True,
         tick_format='.0f', y_limit=120,
     )
+    local_tokens = 2048
+    throughput_ranks = (1, 2, 4, 8)
+    throughput_series = []
+    for width in widths:
+        baseline = by_width[width][1, local_tokens]['tokens_per_second_at_median']
+        throughput_series.append((
+            f'Width {width:,} (rank 1: {baseline:,.0f}/s)',
+            [by_width[width][world, local_tokens * world]['tokens_per_second_at_median']
+             / baseline
+             for world in throughput_ranks],
+        ))
+    ideal_label = 'Ideal linear scaling (y = x)'
+    throughput_series.append((ideal_label, list(throughput_ranks)))
     save_trend_plot(
         output / 'fixed-local-throughput.svg',
-        'Throughput with 2,048 tokens per rank', 'Ranks (doubling)', (2, 4, 8),
-        [('Expert width 4,096', [
-            by_width[4096][world, 2048 * world]['tokens_per_second_at_median']
-            for world in (2, 4, 8)])],
-        y_label='Cluster throughput (tokens/s)', categorical_x=True,
-        last_value_format=',.0f', tick_format=',.0f', tick_round_to=1000,
+        'Throughput with 2,048 tokens per rank', 'Ranks', throughput_ranks,
+        throughput_series,
+        y_label='Throughput / rank-1 throughput (×)', tick_format='.0f',
+        y_limit=8, dashed_labels=(ideal_label,),
     )
 
 
-def save_readme(path, rows, larger_rows, extended_rows, two_block_rows,
-                width_rows):
+def save_readme(path, larger_rows, extended_rows, two_block_rows, width_rows):
     """Explain the scaling evidence through figures and short captions."""
-    small = {(row['ranks'], row['total_tokens']): row for row in rows}
     larger = {(row['ranks'], row['total_tokens']): row for row in larger_rows}
     extended = {(row['ranks'], row['total_tokens']): row for row in extended_rows}
     two_blocks = {(row['ranks'], row['total_tokens']): row for row in two_block_rows}
@@ -252,7 +264,7 @@ Each point represents the median of the 20 measured steps. **Speedup means one-r
 
 ![Two-rank, four-rank, and eight-rank speedup versus total tokens for eight experts with hidden width 512](batch-crossover.svg)
 
-This plot holds the eight-expert, 512-wide expert MLP fixed. The two-rank line ranges from **{min(two_rank_speedups):.2f}× to {max(two_rank_speedups):.2f}×**. At 4-rank, the speedup rises from **{larger[1, 1024]['median_step_ms'] / larger[4, 1024]['median_step_ms']:.2f}× at 1,024 tokens** to **{larger[1, 8192]['median_step_ms'] / larger[4, 8192]['median_step_ms']:.2f}× at 8,192 tokens**. At 8-rank, it rises from **{larger[1, 1024]['median_step_ms'] / larger[8, 1024]['median_step_ms']:.2f}× to {larger[1, 8192]['median_step_ms'] / larger[8, 8192]['median_step_ms']:.2f}×** over the same range, but remains below the four-rank line. The dashed 1× line marks the baseline one-rank result. A smaller width-64 expert MLP is slower with four ranks even at 1,024 tokens (**{small[1, 1024]['median_step_ms']:.1f} versus {small[4, 1024]['median_step_ms']:.1f} ms**); its [rank-latency plot](rank-trends.svg) shows the overhead-dominated case.
+This plot holds the eight-expert, 512-wide expert MLP fixed. The two-rank line ranges from **{min(two_rank_speedups):.2f}× to {max(two_rank_speedups):.2f}×**. At 4-rank, the speedup rises from **{larger[1, 1024]['median_step_ms'] / larger[4, 1024]['median_step_ms']:.2f}× at 1,024 tokens** to **{larger[1, 8192]['median_step_ms'] / larger[4, 8192]['median_step_ms']:.2f}× at 8,192 tokens**. At 8-rank, it rises from **{larger[1, 1024]['median_step_ms'] / larger[8, 1024]['median_step_ms']:.2f}× to {larger[1, 8192]['median_step_ms'] / larger[8, 8192]['median_step_ms']:.2f}×** over the same range, but remains below the four-rank line.
 
 ## 2. Wider experts improve rank scaling
 
@@ -264,15 +276,15 @@ This plot fixes **16 experts, 16,384 total tokens, top-2 routing, token dimensio
 
 ![Model parameters, Adam state, and their total per rank for 16 experts with hidden width 4096](parameter-storage.svg)
 
-With 16 experts at width 4,096, measured model parameters fall from **{widest[1, 16384]['parameter_bytes_per_rank'] / 1024**2:.1f} MiB on one rank** to **{widest[8, 16384]['parameter_bytes_per_rank'] / 1024**2:.1f} MiB per rank on eight ranks**. Adam state falls from **{widest[1, 16384]['adam_state_bytes_per_rank'] / 1024**2:.1f} to {widest[8, 16384]['adam_state_bytes_per_rank'] / 1024**2:.1f} MiB per rank**. Together, they fall from **{(widest[1, 16384]['parameter_bytes_per_rank'] + widest[1, 16384]['adam_state_bytes_per_rank']) / 1024**2:.1f} to {(widest[8, 16384]['parameter_bytes_per_rank'] + widest[8, 16384]['adam_state_bytes_per_rank']) / 1024**2:.1f} MiB per rank**. Each rank retains its own copy of the projection and router layers. Experts are divided and owned among different ranks. Adam state is calculated from two float64 moment tensors and one 4-byte step scalar per parameter tensor. The plot excludes gradients, activations, and process memory.
+With 16 experts at width 4,096, measured model parameters fall from **{widest[1, 16384]['parameter_bytes_per_rank'] / 1024**2:.1f} MiB on one rank** to **{widest[8, 16384]['parameter_bytes_per_rank'] / 1024**2:.1f} MiB per rank on eight ranks**. Adam state falls from **{widest[1, 16384]['adam_state_bytes_per_rank'] / 1024**2:.1f} to {widest[8, 16384]['adam_state_bytes_per_rank'] / 1024**2:.1f} MiB per rank**. Together, they fall from **{(widest[1, 16384]['parameter_bytes_per_rank'] + widest[1, 16384]['adam_state_bytes_per_rank']) / 1024**2:.1f} to {(widest[8, 16384]['parameter_bytes_per_rank'] + widest[8, 16384]['adam_state_bytes_per_rank']) / 1024**2:.1f} MiB per rank**. Each rank retains its own copy of the projection and router layers. Experts are divided and owned among different ranks. Adam state is calculated from two moment tensors and one step scalar per parameter tensor.
 
 ## Supporting views
 
 ### Increasing total work with ranks
 
-![Cluster throughput with 2048 tokens per rank at two four and eight ranks](fixed-local-throughput.svg)
+![Throughput scaling for three expert widths with 2048 tokens per rank and an ideal y equals x line](fixed-local-throughput.svg)
 
-This is a **fixed-local-batch** comparison: 2,048 tokens per rank, so total tokens rise from 4,096 to 16,384 as ranks rise from two to eight. For the width-4,096 model, throughput grows from **{widest[2, 4096]['tokens_per_second_at_median']:,.0f} to {widest[8, 16384]['tokens_per_second_at_median']:,.0f} tokens/s**, while step time grows from **{widest[2, 4096]['median_step_ms']:.1f} to {widest[8, 16384]['median_step_ms']:.1f} ms**. This is different from the fixed-global-batch speedup in Figure 2. The saved grid has no one-rank, 2,048-token point for this particular comparison.
+This is a **fixed-local-batch** comparison with 16 experts and one MoE block: 2,048 tokens per rank, so total tokens rise from 2,048 to 16,384 as ranks rise from one to eight. Each line shows throughput divided by that width's one-rank throughput. The dashed `y = x` line shows ideal scaling. One-rank throughput is **{extended[1, 2048]['tokens_per_second_at_median']:,.0f}**, **{middle[1, 2048]['tokens_per_second_at_median']:,.0f}**, and **{widest[1, 2048]['tokens_per_second_at_median']:,.0f} tokens/s** for expert widths 1,024, 2,048, and 4,096. The two-rank points exceed 2×; this comparison also doubles the global batch. For width 4,096, throughput grows to **{widest[8, 16384]['tokens_per_second_at_median']:,.0f} tokens/s** at eight ranks, or **{widest[8, 16384]['tokens_per_second_at_median'] / widest[1, 2048]['tokens_per_second_at_median']:.2f}×** the one-rank result versus an ideal **8×**. This is different from the fixed-global-batch speedup in Figure 2.
 
 ### Additional experiments
 
@@ -286,7 +298,7 @@ The width-4,096, eight-rank, 16,384-token job averages **{widest[8, 16384]['remo
 
 ## Reproduce and inspect
 
-Run `python experiments/scaling.py` from the repository root. It reproduces all **65 jobs** and regenerates the plots, summaries, and this report. The job grids and their derived `summary.json` files are in this directory (width 64), `larger/` (width 512), `extended/` (16 experts, width 1,024), `width-2048/`, `width-4096/`, and `two-blocks/`. Each `ranks{{R}}-tokens{{N}}.json` contains per-rank configuration, loss, timing, routing counts, and parameter storage; its companion `.environment.json` records the runtime and host details.
+Run `python experiments/scaling.py` from the repository root. It reproduces all **77 jobs** and regenerates the plots, summaries, and this report. The job grids and their derived `summary.json` files are in this directory (width 64), `larger/` (width 512), `extended/` (16 experts, width 1,024), `width-2048/`, `width-4096/`, and `two-blocks/`. Each `ranks{{R}}-tokens{{N}}.json` contains per-rank configuration, loss, timing, routing counts, and parameter storage; its companion `.environment.json` records the runtime and host details.
 """)
 
 
@@ -357,7 +369,7 @@ def main():
          for tokens in EXTENDED_TOKENS],
         y_label='One-rank time / eight-rank time',
     )
-    save_readme(args.output / 'README.md', small, larger, extended,
+    save_readme(args.output / 'README.md', larger, extended,
                 two_blocks, width_runs)
     print(f'Saved scaling results; see {args.output / "README.md"}')
 
