@@ -6,7 +6,7 @@ How do training step time, parameter storage, and communication overhead change 
 
 Each point represents the median of the 20 measured steps. **Speedup means one-rank step time divided by multi-rank step time using the same data and model configuration.**
 
-## 1. More data makes parallelism worthwhile
+## 1. More data per-training step makes parallelism more effective
 
 ![Four-rank speedup versus total tokens for eight experts with hidden width 512](batch-crossover.svg)
 
@@ -16,15 +16,14 @@ This plot holds the eight-expert, 512-wide expert MLP fixed. At 4-rank, the spee
 
 ![One-to-eight-rank speedup at 16,384 total tokens for three expert widths](rank-speedup-by-width.svg)
 
-This plot fixes **16 experts, 16,384 total tokens, top-2 routing, token dimension 32, and one MoE block**. Each line varies ranks for one expert width. Eight-rank speedup reaches **1.96×**, **2.14×**, and **2.50×** at widths 1,024, 2,048, and 4,096. At width 4,096, absolute step time falls from **1470.7 to 588.8 ms**. Going from four to eight ranks yields only **1.24×** improvement; communication and uneven expert work are possible reasons for the flattening.
+This plot fixes **16 experts, 16,384 total tokens, top-2 routing, token dimension 32, and one MoE block**. Each line represents one width for the expert MLP. Using rank-8 speedup reaches **1.96×**, **2.14×**, and **2.50×** at widths 1,024, 2,048, and 4,096. At width 4,096, the step time falls from **1470.7 to 588.8 ms**. 
 
-The exchanged token row remains 32 float64 values as expert width changes. Wider experts also change parameter and optimizer work, intermediate-activation storage, and the learned routing trajectory. The plot shows measured scaling for each complete workload; it does not isolate a communication-time fraction.
 
 ## 3. Sharding reduces parameter storage per rank
 
 ![Model parameter storage per rank for 16 experts with hidden width 4096](parameter-storage.svg)
 
-With 16 experts at width 4,096, measured model parameters fall from **32.5 MiB on one rank** to **4.1 MiB per rank on eight ranks**. Each rank retains its own projection and router; experts are divided among ranks. This measures model parameters only, excluding gradients, Adam state, activations, and process memory.
+With 16 experts at width 4,096, measured model parameters fall from **32.5 MiB on one rank** to **4.1 MiB per rank on eight ranks**. Each rank retains its own copy of the projection and router layers. Experts are divided and owned among different ranks. 
 
 ## Supporting views
 
