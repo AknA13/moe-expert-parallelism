@@ -8,22 +8,21 @@ Each point represents the median of the 20 measured steps. **Speedup means one-r
 
 ## 1. More data per-training step makes parallelism more effective
 
-![Four-rank speedup versus total tokens for eight experts with hidden width 512](batch-crossover.svg)
+![Two-rank and four-rank speedup versus total tokens for eight experts with hidden width 512](batch-crossover.svg)
 
-This plot holds the eight-expert, 512-wide expert MLP fixed. At 4-rank, the speedup rises from **0.93× at 1,024 tokens** to **1.59× at 8,192 tokens**. The dashed 1× line marks the baseline one-rank result. A smaller width-64 expert MLP is slower with four ranks even at 1,024 tokens (**2.9 versus 6.4 ms**); its [rank-latency plot](rank-trends.svg) shows the overhead-dominated case.
+This plot holds the eight-expert, 512-wide expert MLP fixed. The two-rank line ranges from **0.97× to 1.15×**. At 4-rank, the speedup rises from **0.93× at 1,024 tokens** to **1.59× at 8,192 tokens**. The dashed 1× line marks the baseline one-rank result. A smaller width-64 expert MLP is slower with four ranks even at 1,024 tokens (**2.9 versus 6.4 ms**); its [rank-latency plot](rank-trends.svg) shows the overhead-dominated case.
 
 ## 2. Wider experts improve rank scaling
 
 ![One-to-eight-rank speedup at 16,384 total tokens for three expert widths](rank-speedup-by-width.svg)
 
-This plot fixes **16 experts, 16,384 total tokens, top-2 routing, token dimension 32, and one MoE block**. Each line represents one width for the expert MLP. Using rank-8 speedup reaches **1.96×**, **2.14×**, and **2.50×** at widths 1,024, 2,048, and 4,096. At width 4,096, the step time falls from **1470.7 to 588.8 ms**. 
+This plot fixes **16 experts, 16,384 total tokens, top-2 routing, token dimension 32, and one MoE block**. Each line represents one width for the expert MLP. Using rank-8 speedup reaches **1.96×**, **2.14×**, and **2.50×** at widths 1,024, 2,048, and 4,096. At width 4,096, the step time falls from **1470.7 to 588.8 ms**.
 
+## 3. Sharding reduces model and optimizer storage per rank
 
-## 3. Sharding reduces parameter storage per rank
+![Model parameters, Adam state, and their total per rank for 16 experts with hidden width 4096](parameter-storage.svg)
 
-![Model parameter storage per rank for 16 experts with hidden width 4096](parameter-storage.svg)
-
-With 16 experts at width 4,096, measured model parameters fall from **32.5 MiB on one rank** to **4.1 MiB per rank on eight ranks**. Each rank retains its own copy of the projection and router layers. Experts are divided and owned among different ranks. 
+With 16 experts at width 4,096, measured model parameters fall from **32.5 MiB on one rank** to **4.1 MiB per rank on eight ranks**. Adam state falls from **65.0 to 8.2 MiB per rank**. Together, they fall from **97.5 to 12.2 MiB per rank**. Each rank retains its own copy of the projection and router layers. Experts are divided and owned among different ranks. Adam state is calculated from two float64 moment tensors and one 4-byte step scalar per parameter tensor. The plot excludes gradients, activations, and process memory.
 
 ## Supporting views
 

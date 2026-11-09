@@ -39,11 +39,16 @@ def summarize(ranks):
                  if not step['warmup'] for block in step['blocks']) / len(measured)
     row_bytes = ranks[0]['model_config']['dimension'] * 8  # float64
     activation_bytes = 2 * remote * row_bytes  # dispatch + return, per phase
+    parameter_bytes = ranks[0]['parameter_bytes_per_rank']
+    # Adam keeps two float64 moments and one float32 step scalar per tensor.
+    parameter_tensors = blocks * (
+        4 + 4 * (ranks[0]['model_config']['experts'] // world))
     return {
         'ranks': world,
         'total_tokens': tokens,
         'local_tokens': tokens // world,
-        'parameter_bytes_per_rank': ranks[0]['parameter_bytes_per_rank'],
+        'parameter_bytes_per_rank': parameter_bytes,
+        'adam_state_bytes_per_rank': 2 * parameter_bytes + 4 * parameter_tensors,
         'shared_parameter_bytes_per_rank': ranks[0]['shared_parameter_bytes_per_rank'],
         'median_step_ms': statistics.median(durations),
         'p95_step_ms': durations[int(.95 * (len(durations) - 1))],
@@ -92,7 +97,7 @@ def save_plot(path, rows):
 def save_trend_plot(path, title, x_label, x_values, series,
                     y_label='Median step time (ms)', *, categorical_x=False,
                     reference_value=None, last_value_format=None,
-                    tick_format='.1f', tick_round_to=None):
+                    tick_format='.1f', tick_round_to=None, y_limit=None):
     """Plot measured values against one experiment axis."""
     width, height = 760, 490
     left, right, top, bottom = 75, 28, 145, 65
@@ -100,7 +105,7 @@ def save_trend_plot(path, title, x_label, x_values, series,
     highest = max(value for _, values in series for value in values)
     if reference_value is not None:
         highest = max(highest, reference_value)
-    ceiling = highest * 1.15
+    ceiling = highest * 1.15 if y_limit is None else y_limit
     colors = ('#315a9b', '#16866a', '#c8713e', '#8057a5')
     parts = [f'<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 {width} {height}">',
              '<rect width="100%" height="100%" fill="white"/>',
@@ -125,7 +130,7 @@ def save_trend_plot(path, title, x_label, x_values, series,
     if reference_value is not None:
         y = top + plot_height * (1 - reference_value / ceiling)
         parts += [f'<line x1="{left}" x2="{left + plot_width}" y1="{y:.1f}" y2="{y:.1f}" stroke="#777" stroke-dasharray="5 5"/>',
-                  f'<text x="{left + plot_width - 7}" y="{y - 8:.1f}" text-anchor="end" font-family="sans-serif" font-size="12" fill="#555">{reference_value:g}× break-even</text>']
+                  f'<text x="{left + plot_width - 7}" y="{y + 20:.1f}" text-anchor="end" font-family="sans-serif" font-size="12" fill="#555">{reference_value:g}× one-rank baseline</text>']
     for index, (label, values) in enumerate(series):
         color = colors[index]
         points = ' '.join(f'{x:.1f},{top + plot_height * (1 - value / ceiling):.1f}'
@@ -174,13 +179,14 @@ def save_story_plots(output, larger_rows, extended_rows, width_rows):
     widths = (1024, *ADDITIONAL_EXPERT_WIDTHS)
 
     save_trend_plot(
-        output / 'batch-crossover.svg', 'More tokens make four ranks worthwhile',
+        output / 'batch-crossover.svg', 'More tokens improve rank scaling',
         'Total tokens (doubling)', LARGER_TOKENS,
-        [('8 experts, width 512', [larger[1, tokens]['median_step_ms'] /
-                                   larger[4, tokens]['median_step_ms']
-                                   for tokens in LARGER_TOKENS])],
-        y_label='Four-rank speedup', categorical_x=True,
-        reference_value=1, last_value_format='.2f',
+        [(f'{world} ranks', [larger[1, tokens]['median_step_ms'] /
+                            larger[world, tokens]['median_step_ms']
+                            for tokens in LARGER_TOKENS])
+         for world in (2, 4)],
+        y_label='Speedup over one rank', categorical_x=True,
+        reference_value=1, y_limit=2,
     )
     save_trend_plot(
         output / 'rank-speedup-by-width.svg',
@@ -193,13 +199,20 @@ def save_story_plots(output, larger_rows, extended_rows, width_rows):
         reference_value=1, last_value_format='.2f',
     )
     save_trend_plot(
-        output / 'parameter-storage.svg', 'Expert sharding reduces model storage',
+        output / 'parameter-storage.svg', 'Sharding reduces per-rank storage',
         'Ranks (doubling)', EXTENDED_RANKS,
-        [('16 experts, width 4,096', [
+        [('Model parameters', [
             by_width[4096][world, 16384]['parameter_bytes_per_rank'] / 1024**2
+            for world in EXTENDED_RANKS]),
+         ('Adam state', [
+            by_width[4096][world, 16384]['adam_state_bytes_per_rank'] / 1024**2
+            for world in EXTENDED_RANKS]),
+         ('Parameters + Adam state', [
+            (by_width[4096][world, 16384]['parameter_bytes_per_rank'] +
+             by_width[4096][world, 16384]['adam_state_bytes_per_rank']) / 1024**2
             for world in EXTENDED_RANKS])],
-        y_label='Model parameters per rank (MiB)', categorical_x=True,
-        last_value_format='.1f',
+        y_label='Storage per rank (MiB)', categorical_x=True,
+        tick_format='.0f', y_limit=120,
     )
     save_trend_plot(
         output / 'fixed-local-throughput.svg',
@@ -223,33 +236,34 @@ def save_readme(path, rows, larger_rows, extended_rows, two_block_rows,
               for row in width_rows[2048]}
     widest = {(row['ranks'], row['total_tokens']): row
               for row in width_rows[4096]}
+    two_rank_speedups = [
+        larger[1, tokens]['median_step_ms'] / larger[2, tokens]['median_step_ms']
+        for tokens in LARGER_TOKENS]
     path.write_text(f"""# Scaling Results (on CPU)
 
 How do training step time, parameter storage, and communication overhead change as we split the MoE across more ranks? These CPU jobs use float64, learned top-2 routing, Adam at learning rate 0.001, and one CPU thread per worker/rank. Each job ran 25 steps: 5 warmup and 20 measured. The step time is measured as the duration of the slowest rank.
 
 ## How to read the figures
 
-Each point is the median of the 20 measured steps. A barrier starts each timed step; jobs use Gloo and one fixed synthetic batch per job. Startup, logging, and correctness comparisons are outside the timed step. We estimate logical communication payload but do not separately time collectives. **Speedup means one-rank step time divided by multi-rank step time at the same global token count and model configuration.**
+Each point represents the median of the 20 measured steps. **Speedup means one-rank step time divided by multi-rank step time using the same data and model configuration.**
 
-## 1. More data makes parallelism worthwhile
+## 1. More data per-training step makes parallelism more effective
 
-![Four-rank speedup versus total tokens for eight experts with hidden width 512](batch-crossover.svg)
+![Two-rank and four-rank speedup versus total tokens for eight experts with hidden width 512](batch-crossover.svg)
 
-This plot holds the eight-expert, width-512 model fixed. Four-rank speedup rises from **{larger[1, 1024]['median_step_ms'] / larger[4, 1024]['median_step_ms']:.2f}× at 1,024 tokens** to **{larger[1, 8192]['median_step_ms'] / larger[4, 8192]['median_step_ms']:.2f}× at 8,192 tokens**. The dashed 1× line marks break-even. A smaller width-64 model is slower with four ranks even at 1,024 tokens (**{small[1, 1024]['median_step_ms']:.1f} versus {small[4, 1024]['median_step_ms']:.1f} ms**); its [rank-latency plot](rank-trends.svg) shows the overhead-dominated case.
+This plot holds the eight-expert, 512-wide expert MLP fixed. The two-rank line ranges from **{min(two_rank_speedups):.2f}× to {max(two_rank_speedups):.2f}×**. At 4-rank, the speedup rises from **{larger[1, 1024]['median_step_ms'] / larger[4, 1024]['median_step_ms']:.2f}× at 1,024 tokens** to **{larger[1, 8192]['median_step_ms'] / larger[4, 8192]['median_step_ms']:.2f}× at 8,192 tokens**. The dashed 1× line marks the baseline one-rank result. A smaller width-64 expert MLP is slower with four ranks even at 1,024 tokens (**{small[1, 1024]['median_step_ms']:.1f} versus {small[4, 1024]['median_step_ms']:.1f} ms**); its [rank-latency plot](rank-trends.svg) shows the overhead-dominated case.
 
 ## 2. Wider experts improve rank scaling
 
 ![One-to-eight-rank speedup at 16,384 total tokens for three expert widths](rank-speedup-by-width.svg)
 
-This plot fixes **16 experts, 16,384 total tokens, top-2 routing, token dimension 32, and one MoE block**. Each line varies ranks for one expert width. Eight-rank speedup reaches **{extended[1, 16384]['median_step_ms'] / extended[8, 16384]['median_step_ms']:.2f}×**, **{middle[1, 16384]['median_step_ms'] / middle[8, 16384]['median_step_ms']:.2f}×**, and **{widest[1, 16384]['median_step_ms'] / widest[8, 16384]['median_step_ms']:.2f}×** at widths 1,024, 2,048, and 4,096. At width 4,096, absolute step time falls from **{widest[1, 16384]['median_step_ms']:.1f} to {widest[8, 16384]['median_step_ms']:.1f} ms**. Going from four to eight ranks yields only **{widest[4, 16384]['median_step_ms'] / widest[8, 16384]['median_step_ms']:.2f}×** improvement; communication and uneven expert work are possible reasons for the flattening.
+This plot fixes **16 experts, 16,384 total tokens, top-2 routing, token dimension 32, and one MoE block**. Each line represents one width for the expert MLP. Using rank-8 speedup reaches **{extended[1, 16384]['median_step_ms'] / extended[8, 16384]['median_step_ms']:.2f}×**, **{middle[1, 16384]['median_step_ms'] / middle[8, 16384]['median_step_ms']:.2f}×**, and **{widest[1, 16384]['median_step_ms'] / widest[8, 16384]['median_step_ms']:.2f}×** at widths 1,024, 2,048, and 4,096. At width 4,096, the step time falls from **{widest[1, 16384]['median_step_ms']:.1f} to {widest[8, 16384]['median_step_ms']:.1f} ms**.
 
-The exchanged token row remains 32 float64 values as expert width changes. Wider experts also change parameter and optimizer work, intermediate-activation storage, and the learned routing trajectory. The plot shows measured scaling for each complete workload; it does not isolate a communication-time fraction.
+## 3. Sharding reduces model and optimizer storage per rank
 
-## 3. Sharding reduces parameter storage per rank
+![Model parameters, Adam state, and their total per rank for 16 experts with hidden width 4096](parameter-storage.svg)
 
-![Model parameter storage per rank for 16 experts with hidden width 4096](parameter-storage.svg)
-
-With 16 experts at width 4,096, measured model parameters fall from **{widest[1, 16384]['parameter_bytes_per_rank'] / 1024**2:.1f} MiB on one rank** to **{widest[8, 16384]['parameter_bytes_per_rank'] / 1024**2:.1f} MiB per rank on eight ranks**. Each rank retains its own projection and router; experts are divided among ranks. This measures model parameters only, excluding gradients, Adam state, activations, and process memory.
+With 16 experts at width 4,096, measured model parameters fall from **{widest[1, 16384]['parameter_bytes_per_rank'] / 1024**2:.1f} MiB on one rank** to **{widest[8, 16384]['parameter_bytes_per_rank'] / 1024**2:.1f} MiB per rank on eight ranks**. Adam state falls from **{widest[1, 16384]['adam_state_bytes_per_rank'] / 1024**2:.1f} to {widest[8, 16384]['adam_state_bytes_per_rank'] / 1024**2:.1f} MiB per rank**. Together, they fall from **{(widest[1, 16384]['parameter_bytes_per_rank'] + widest[1, 16384]['adam_state_bytes_per_rank']) / 1024**2:.1f} to {(widest[8, 16384]['parameter_bytes_per_rank'] + widest[8, 16384]['adam_state_bytes_per_rank']) / 1024**2:.1f} MiB per rank**. Each rank retains its own copy of the projection and router layers. Experts are divided and owned among different ranks. Adam state is calculated from two float64 moment tensors and one 4-byte step scalar per parameter tensor. The plot excludes gradients, activations, and process memory.
 
 ## Supporting views
 
