@@ -4,7 +4,7 @@
   <defs>
     <marker id="gray-arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto"><path d="M1 1L9 5L1 9" fill="none" stroke="#526176" stroke-width="1.8"/></marker>
     <marker id="two-way" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse"><path d="M1 1L9 5L1 9" fill="none" stroke="#7c4caf" stroke-width="1.8"/></marker>
-    <marker id="blue-arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto"><path d="M1 1L9 5L1 9" fill="none" stroke="#2563a6" stroke-width="1.8"/></marker>
+    <marker id="green-arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto"><path d="M1 1L9 5L1 9" fill="none" stroke="#2b8a57" stroke-width="1.8"/></marker>
     <marker id="orange-arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto"><path d="M1 1L9 5L1 9" fill="none" stroke="#c8713e" stroke-width="1.8"/></marker>
     <marker id="purple-arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto"><path d="M1 1L9 5L1 9" fill="none" stroke="#7c4caf" stroke-width="1.8"/></marker>
     <symbol id="expert" viewBox="0 0 76 68">
@@ -15,7 +15,7 @@
 
   <rect width="1440" height="1340" fill="#fff"/>
   <text x="40" y="46" fill="#202a3a" font-family="system-ui,sans-serif" font-size="29" font-weight="700">Backward pass · both ranks</text>
-  <text x="40" y="78" fill="#5c6a7e" font-family="system-ui,sans-serif" font-size="17">Blue follows A's gradient; orange follows B's. Each source receives the gradient for its own projected token.</text>
+  <text x="40" y="78" fill="#5c6a7e" font-family="system-ui,sans-serif" font-size="17">Green follows A's gradient; orange follows B's. Each source receives the gradient for its own projected token.</text>
   <rect x="40" y="105" width="650" height="1195" rx="18" fill="#f7faff" stroke="#d6e1ee" stroke-width="2"/>
   <rect x="750" y="105" width="650" height="1195" rx="18" fill="#f8fbfa" stroke="#d7e7e2" stroke-width="2"/>
   <text x="68" y="145" fill="#202a3a" font-family="system-ui,sans-serif" font-size="24" font-weight="700">Rank 0 · experts E0, E1</text>
@@ -23,7 +23,7 @@
 
   <!-- The loss first differentiates each source's weighted combination. -->
   <g font-family="system-ui,sans-serif" text-anchor="middle">
-    <text x="365" y="201" fill="#2563a6" font-size="21" font-weight="700">∂L / ∂prediction A</text>
+    <text x="365" y="201" fill="#2b8a57" font-size="21" font-weight="700">∂L / ∂prediction A</text>
     <text x="1075" y="201" fill="#b35d2e" font-size="21" font-weight="700">∂L / ∂prediction B</text>
     <circle cx="365" cy="285" r="36" fill="#f0e8ff" stroke="#8666b7" stroke-width="2"/><text x="365" y="295" fill="#684496" font-size="28" font-weight="700">Σ</text>
     <circle cx="1075" cy="285" r="36" fill="#f0e8ff" stroke="#8666b7" stroke-width="2"/><text x="1075" y="295" fill="#684496" font-size="28" font-weight="700">Σ</text>
@@ -38,9 +38,9 @@
   <path d="M340 538H1100" fill="none" stroke="#526176" stroke-width="4"/>
   <rect x="452" y="508" width="536" height="30" fill="#fff"/>
   <text x="720" y="530" text-anchor="middle" fill="#202a3a" font-family="system-ui,sans-serif" font-size="18" font-weight="700">B1 · send expert-output gradients to owners</text>
-  <g fill="none" stroke-width="3" marker-end="url(#blue-arrow)">
-    <path d="M340 538V619" stroke="#2563a6"/>
-    <path d="M900 538V619" stroke="#2563a6"/>
+  <g fill="none" stroke-width="3" marker-end="url(#green-arrow)">
+    <path d="M340 538V619" stroke="#2b8a57"/>
+    <path d="M900 538V619" stroke="#2b8a57"/>
   </g>
   <g fill="none" stroke-width="3" marker-end="url(#orange-arrow)">
     <path d="M540 538V619" stroke="#c8713e"/>
@@ -65,12 +65,12 @@
 
   <!-- B2: remote expert-input gradients cross back; local gradients stay on their source. -->
   <g fill="none" stroke-width="3" stroke-linejoin="round">
-    <path d="M340 693V956H365V962" stroke="#2563a6" marker-end="url(#blue-arrow)"/>
-    <path d="M900 693V821H440V1000H404" stroke="#2563a6" marker-end="url(#blue-arrow)"/>
+    <path d="M340 693V956H365V962" stroke="#2b8a57" marker-end="url(#green-arrow)"/>
+    <path d="M900 693V821H440V1000H404" stroke="#2b8a57" marker-end="url(#green-arrow)"/>
     <path d="M1100 693V956H1075V962" stroke="#c8713e" marker-end="url(#orange-arrow)"/>
     <path d="M540 693V891H1000V1000H1036" stroke="#c8713e" marker-end="url(#orange-arrow)"/>
   </g>
-  <text x="720" y="809" text-anchor="middle" fill="#2563a6" font-family="system-ui,sans-serif" font-size="17" font-weight="700">B2 · E2 input gradient returns to A</text>
+  <text x="720" y="809" text-anchor="middle" fill="#2b8a57" font-family="system-ui,sans-serif" font-size="17" font-weight="700">B2 · E2 input gradient returns to A</text>
   <text x="770" y="879" text-anchor="middle" fill="#b35d2e" font-family="system-ui,sans-serif" font-size="17" font-weight="700">B2 · E1 input gradient returns to B</text>
 
   <!-- Gate-weight gradients backpropagate through the local routers. -->
@@ -92,7 +92,7 @@
     <text x="365" y="1138" fill="#254b8b" font-size="18" font-weight="700">Projection layer</text>
     <rect x="990" y="1108" width="170" height="48" rx="9" fill="#e6efff" stroke="#5579bb" stroke-width="2"/>
     <text x="1075" y="1138" fill="#254b8b" font-size="18" font-weight="700">Projection layer</text>
-    <text x="365" y="1195" fill="#2563a6" font-size="18" font-weight="700">input gradient ∂L/∂A</text>
+    <text x="365" y="1195" fill="#2b8a57" font-size="18" font-weight="700">input gradient ∂L/∂A</text>
     <text x="1075" y="1195" fill="#b35d2e" font-size="18" font-weight="700">input gradient ∂L/∂B</text>
   </g>
   <g fill="none" stroke="#7c4caf" stroke-width="2.5" marker-end="url(#purple-arrow)"><path d="M260 925H275V1000H325M1180 925H1165V1000H1115"/></g>
