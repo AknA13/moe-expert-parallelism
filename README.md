@@ -18,7 +18,7 @@ This four-expert example shows both ranks at once. Rank 0 owns E0 and E1; rank 1
 
 ![Two-rank forward pass showing one local and one remote expert assignment for each source token](assets/forward-flow.svg)
 
-**C1** and **C2** are `dist.all_to_all_single` calls that exchange counts and integer expert IDs for each rank's whole input shard. **C3** and **C4** use autograd-aware `all_to_all_single` to dispatch projected rows and return expert outputs. Each rank also processes its local assignment. The return uses inverse split sizes; each source undoes its packing permutation, restores token/slot order, and combines the two expert outputs with its selected weights. Every rank participates even when it has zero rows for a destination.
+The horizontal lines mark collective exchanges, not calls to `dist.barrier`. **C1** and **C2** use `dist.all_to_all_single` to exchange counts and integer expert IDs for each rank's whole input shard. At **C3**, the projected rows leave the exchange line and enter their assigned expert MLPs. **C4** returns the remote expert outputs. Both activation exchanges use autograd-aware `all_to_all_single`. Each rank also processes its local assignment. The return uses inverse split sizes; each source undoes its packing permutation, restores token/slot order, and combines the two expert outputs with its selected weights. Every rank participates even when it has zero rows for a destination.
 
 ### Backward pass: reverse the activation exchanges
 

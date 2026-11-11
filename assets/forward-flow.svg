@@ -35,48 +35,56 @@
     <path d="M365 221V240M365 302V320M1075 221V240M1075 302V320"/>
   </g>
 
-  <!-- Counts and integer expert IDs are two separate all-to-all calls. -->
-  <g font-family="system-ui,sans-serif" text-anchor="middle" fill="#526176" font-size="14">
-    <text x="720" y="447">C1 · assignment counts</text>
-    <text x="720" y="486">C2 · expert IDs</text>
+  <!-- Each horizontal rule is a collective across the two ranks. -->
+  <g fill="none" stroke="#8492a3" stroke-width="2.5">
+    <path d="M155 462H1285M155 518H1285"/>
   </g>
-  <path d="M642 456H798M642 495H798" fill="none" stroke="#7c8b9b" stroke-width="2" marker-start="url(#gray-arrow)" marker-end="url(#gray-arrow)"/>
+  <g font-family="system-ui,sans-serif" text-anchor="middle" fill="#526176" font-size="17" font-weight="700">
+    <rect x="595" y="439" width="250" height="29" fill="#fff"/>
+    <text x="720" y="459">C1 · exchange counts</text>
+    <rect x="591" y="495" width="258" height="29" fill="#fff"/>
+    <text x="720" y="515">C2 · exchange expert IDs</text>
+  </g>
 
-  <!-- C3: both sources dispatch projected token rows; local rows stay local. -->
-  <g fill="none" stroke-width="3" stroke-linejoin="round">
-    <path d="M365 382V505H340V606" stroke="#2563a6" marker-end="url(#blue-arrow)"/>
-    <path d="M365 382V535H900V606" stroke="#2563a6" marker-end="url(#blue-arrow)"/>
-    <path d="M1075 382V715H1100V791" stroke="#c8713e" marker-end="url(#orange-arrow)"/>
-    <path d="M1075 382V690H540V791" stroke="#c8713e" marker-end="url(#orange-arrow)"/>
+  <!-- C3: the projected rows cross one all-to-all stage, then fan into owner experts. -->
+  <path d="M365 423V602M1075 423V602" fill="none" stroke="#8995a5" stroke-width="2.5" stroke-dasharray="5 6"/>
+  <path d="M155 610H1285" fill="none" stroke="#526176" stroke-width="4"/>
+  <rect x="450" y="580" width="540" height="30" fill="#fff"/>
+  <text x="720" y="602" text-anchor="middle" fill="#202a3a" font-family="system-ui,sans-serif" font-size="18" font-weight="700">C3 · dispatch projected rows to expert ranks</text>
+  <g fill="none" stroke-width="3" marker-end="url(#blue-arrow)">
+    <path d="M340 610V700" stroke="#2563a6"/>
+    <path d="M900 610V700" stroke="#2563a6"/>
   </g>
-  <text x="720" y="527" text-anchor="middle" fill="#2563a6" font-family="system-ui,sans-serif" font-size="17" font-weight="700">C3 · send A's projected row to E2</text>
-  <text x="720" y="681" text-anchor="middle" fill="#b35d2e" font-family="system-ui,sans-serif" font-size="17" font-weight="700">C3 · send B's projected row to E1</text>
+  <g fill="none" stroke-width="3" marker-end="url(#orange-arrow)">
+    <path d="M540 610V700" stroke="#c8713e"/>
+    <path d="M1100 610V700" stroke="#c8713e"/>
+  </g>
 
   <!-- Owner-side expert computation uses neural-network glyphs. -->
   <g font-family="system-ui,sans-serif" text-anchor="middle">
-    <text x="280" y="650" fill="#176d5a" font-size="19" font-weight="700">E0</text>
-    <text x="962" y="650" fill="#176d5a" font-size="19" font-weight="700">E2</text>
-    <text x="480" y="835" fill="#176d5a" font-size="19" font-weight="700">E1</text>
-    <text x="1162" y="835" fill="#176d5a" font-size="19" font-weight="700">E3</text>
-    <use xlink:href="#expert" x="302" y="610" width="76" height="68"/>
-    <use xlink:href="#expert" x="862" y="610" width="76" height="68"/>
-    <use xlink:href="#expert" x="502" y="795" width="76" height="68"/>
-    <use xlink:href="#expert" x="1062" y="795" width="76" height="68"/>
-    <text x="340" y="704" fill="#2563a6" font-size="16">A · local</text>
-    <text x="900" y="704" fill="#2563a6" font-size="16">A · remote</text>
-    <text x="540" y="889" fill="#b35d2e" font-size="16">B · remote</text>
-    <text x="1100" y="889" fill="#b35d2e" font-size="16">B · local</text>
+    <text x="280" y="748" fill="#176d5a" font-size="19" font-weight="700">E0</text>
+    <text x="480" y="748" fill="#176d5a" font-size="19" font-weight="700">E1</text>
+    <text x="962" y="748" fill="#176d5a" font-size="19" font-weight="700">E2</text>
+    <text x="1162" y="748" fill="#176d5a" font-size="19" font-weight="700">E3</text>
+    <use xlink:href="#expert" x="302" y="705" width="76" height="68"/>
+    <use xlink:href="#expert" x="502" y="705" width="76" height="68"/>
+    <use xlink:href="#expert" x="862" y="705" width="76" height="68"/>
+    <use xlink:href="#expert" x="1062" y="705" width="76" height="68"/>
+    <text x="340" y="807" fill="#2563a6" font-size="16">A · local</text>
+    <text x="540" y="807" fill="#b35d2e" font-size="16">B · remote</text>
+    <text x="900" y="807" fill="#2563a6" font-size="16">A · remote</text>
+    <text x="1100" y="807" fill="#b35d2e" font-size="16">B · local</text>
   </g>
 
-  <!-- C4 returns remote expert outputs; each source combines both outputs. -->
+  <!-- C4 returns remote expert outputs; local outputs go straight to the source sums. -->
   <g fill="none" stroke-width="3" stroke-linejoin="round">
-    <path d="M340 678V1008H365V1042" stroke="#2563a6" marker-end="url(#blue-arrow)"/>
-    <path d="M900 678V752H440V1080H403" stroke="#2563a6" marker-end="url(#blue-arrow)"/>
-    <path d="M1100 863V1008H1075V1042" stroke="#c8713e" marker-end="url(#orange-arrow)"/>
-    <path d="M540 863V930H1000V1080H1037" stroke="#c8713e" marker-end="url(#orange-arrow)"/>
+    <path d="M340 773V1008H365V1042" stroke="#2563a6" marker-end="url(#blue-arrow)"/>
+    <path d="M900 773V858H440V1080H403" stroke="#2563a6" marker-end="url(#blue-arrow)"/>
+    <path d="M1100 773V1008H1075V1042" stroke="#c8713e" marker-end="url(#orange-arrow)"/>
+    <path d="M540 773V928H1000V1080H1037" stroke="#c8713e" marker-end="url(#orange-arrow)"/>
   </g>
-  <text x="720" y="740" text-anchor="middle" fill="#2563a6" font-family="system-ui,sans-serif" font-size="17" font-weight="700">C4 · E2 output returns to A</text>
-  <text x="770" y="918" text-anchor="middle" fill="#b35d2e" font-family="system-ui,sans-serif" font-size="17" font-weight="700">C4 · E1 output returns to B</text>
+  <text x="720" y="847" text-anchor="middle" fill="#2563a6" font-family="system-ui,sans-serif" font-size="17" font-weight="700">C4 · E2 output returns to A</text>
+  <text x="770" y="917" text-anchor="middle" fill="#b35d2e" font-family="system-ui,sans-serif" font-size="17" font-weight="700">C4 · E1 output returns to B</text>
 
   <!-- Selected router weights stay on their source ranks for combination. -->
   <path d="M335 353H135V1080H327M1105 353H1305V1080H1113" fill="none" stroke="#7c4caf" stroke-width="2.5" stroke-dasharray="7 6" marker-end="url(#purple-arrow)"/>

@@ -33,41 +33,45 @@
   <path d="M365 211V245M1075 211V245" fill="none" stroke="#526176" stroke-width="2.5" marker-end="url(#gray-arrow)"/>
   <text x="720" y="442" text-anchor="middle" fill="#64748b" font-family="system-ui,sans-serif" font-size="15">Counts and integer expert IDs have no backward path.</text>
 
-  <!-- B1: output gradients follow the inverse of the forward output return. -->
-  <g fill="none" stroke-width="3" stroke-linejoin="round">
-    <path d="M365 321V505H340V596" stroke="#2563a6" marker-end="url(#blue-arrow)"/>
-    <path d="M365 321V530H900V596" stroke="#2563a6" marker-end="url(#blue-arrow)"/>
-    <path d="M1075 321V765H1100V786" stroke="#c8713e" marker-end="url(#orange-arrow)"/>
-    <path d="M1075 321V745H540V786" stroke="#c8713e" marker-end="url(#orange-arrow)"/>
+  <!-- B1: one horizontal collective returns output gradients to expert owners. -->
+  <path d="M365 365V529M1075 365V529" fill="none" stroke="#8995a5" stroke-width="2.5" stroke-dasharray="5 6"/>
+  <path d="M340 538H1100" fill="none" stroke="#526176" stroke-width="4"/>
+  <rect x="452" y="508" width="536" height="30" fill="#fff"/>
+  <text x="720" y="530" text-anchor="middle" fill="#202a3a" font-family="system-ui,sans-serif" font-size="18" font-weight="700">B1 · send expert-output gradients to owners</text>
+  <g fill="none" stroke-width="3" marker-end="url(#blue-arrow)">
+    <path d="M340 538V619" stroke="#2563a6"/>
+    <path d="M900 538V619" stroke="#2563a6"/>
   </g>
-  <text x="720" y="521" text-anchor="middle" fill="#2563a6" font-family="system-ui,sans-serif" font-size="17" font-weight="700">B1 · A's output gradient to E2</text>
-  <text x="720" y="773" text-anchor="middle" fill="#b35d2e" font-family="system-ui,sans-serif" font-size="17" font-weight="700">B1 · B's output gradient to E1</text>
+  <g fill="none" stroke-width="3" marker-end="url(#orange-arrow)">
+    <path d="M540 538V619" stroke="#c8713e"/>
+    <path d="M1100 538V619" stroke="#c8713e"/>
+  </g>
 
   <!-- All four experts backpropagate; parameter gradients stay with each owner. -->
   <g font-family="system-ui,sans-serif" text-anchor="middle">
-    <text x="280" y="641" fill="#176d5a" font-size="19" font-weight="700">E0</text>
-    <text x="962" y="641" fill="#176d5a" font-size="19" font-weight="700">E2</text>
-    <text x="480" y="831" fill="#176d5a" font-size="19" font-weight="700">E1</text>
-    <text x="1162" y="831" fill="#176d5a" font-size="19" font-weight="700">E3</text>
-    <use xlink:href="#expert" x="302" y="600" width="76" height="68"/>
-    <use xlink:href="#expert" x="862" y="600" width="76" height="68"/>
-    <use xlink:href="#expert" x="502" y="790" width="76" height="68"/>
-    <use xlink:href="#expert" x="1062" y="790" width="76" height="68"/>
-    <text x="340" y="697" fill="#176d5a" font-size="16">∂θ₀ stays on rank 0</text>
-    <text x="900" y="697" fill="#176d5a" font-size="16">∂θ₂ stays on rank 1</text>
-    <text x="540" y="887" fill="#176d5a" font-size="16">∂θ₁ stays on rank 0</text>
-    <text x="1100" y="887" fill="#176d5a" font-size="16">∂θ₃ stays on rank 1</text>
+    <text x="280" y="670" fill="#176d5a" font-size="19" font-weight="700">E0</text>
+    <text x="480" y="670" fill="#176d5a" font-size="19" font-weight="700">E1</text>
+    <text x="962" y="670" fill="#176d5a" font-size="19" font-weight="700">E2</text>
+    <text x="1162" y="670" fill="#176d5a" font-size="19" font-weight="700">E3</text>
+    <use xlink:href="#expert" x="302" y="625" width="76" height="68"/>
+    <use xlink:href="#expert" x="502" y="625" width="76" height="68"/>
+    <use xlink:href="#expert" x="862" y="625" width="76" height="68"/>
+    <use xlink:href="#expert" x="1062" y="625" width="76" height="68"/>
+    <text x="340" y="734" fill="#176d5a" font-size="16">∂θ₀ stays on rank 0</text>
+    <text x="540" y="760" fill="#176d5a" font-size="16">∂θ₁ stays on rank 0</text>
+    <text x="900" y="734" fill="#176d5a" font-size="16">∂θ₂ stays on rank 1</text>
+    <text x="1100" y="760" fill="#176d5a" font-size="16">∂θ₃ stays on rank 1</text>
   </g>
 
-  <!-- B2: the input gradients of remote experts return to token sources. -->
+  <!-- B2: remote expert-input gradients cross back; local gradients stay on their source. -->
   <g fill="none" stroke-width="3" stroke-linejoin="round">
-    <path d="M340 668V956H365V962" stroke="#2563a6" marker-end="url(#blue-arrow)"/>
-    <path d="M900 668V720H440V1000H404" stroke="#2563a6" marker-end="url(#blue-arrow)"/>
-    <path d="M1100 858V956H1075V962" stroke="#c8713e" marker-end="url(#orange-arrow)"/>
-    <path d="M540 858V925H1000V1000H1036" stroke="#c8713e" marker-end="url(#orange-arrow)"/>
+    <path d="M340 693V956H365V962" stroke="#2563a6" marker-end="url(#blue-arrow)"/>
+    <path d="M900 693V821H440V1000H404" stroke="#2563a6" marker-end="url(#blue-arrow)"/>
+    <path d="M1100 693V956H1075V962" stroke="#c8713e" marker-end="url(#orange-arrow)"/>
+    <path d="M540 693V891H1000V1000H1036" stroke="#c8713e" marker-end="url(#orange-arrow)"/>
   </g>
-  <text x="620" y="704" text-anchor="middle" fill="#2563a6" font-family="system-ui,sans-serif" font-size="17" font-weight="700">B2 · E2 input gradient to A</text>
-  <text x="750" y="914" text-anchor="middle" fill="#b35d2e" font-family="system-ui,sans-serif" font-size="17" font-weight="700">B2 · E1 input gradient to B</text>
+  <text x="720" y="809" text-anchor="middle" fill="#2563a6" font-family="system-ui,sans-serif" font-size="17" font-weight="700">B2 · E2 input gradient returns to A</text>
+  <text x="770" y="879" text-anchor="middle" fill="#b35d2e" font-family="system-ui,sans-serif" font-size="17" font-weight="700">B2 · E1 input gradient returns to B</text>
 
   <!-- Gate-weight gradients backpropagate through the local routers. -->
   <path d="M329 285H130V925H158M1111 285H1310V925H1282" fill="none" stroke="#7c4caf" stroke-width="2.5" stroke-dasharray="7 6" marker-end="url(#purple-arrow)"/>
