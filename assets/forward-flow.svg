@@ -76,15 +76,30 @@
     <text x="1100" y="807" fill="#b35d2e" font-size="16">B · local</text>
   </g>
 
-  <!-- C4 returns remote expert outputs; local outputs go straight to the source sums. -->
-  <g fill="none" stroke-width="3" stroke-linejoin="round">
-    <path d="M340 773V1008H365V1042" stroke="#2563a6" marker-end="url(#blue-arrow)"/>
-    <path d="M900 773V858H440V1080H403" stroke="#2563a6" marker-end="url(#blue-arrow)"/>
-    <path d="M1100 773V1008H1075V1042" stroke="#c8713e" marker-end="url(#orange-arrow)"/>
-    <path d="M540 773V928H1000V1080H1037" stroke="#c8713e" marker-end="url(#orange-arrow)"/>
+  <!-- C4 returns all expert outputs; blue goes to A and orange goes to B. -->
+  <g fill="none" stroke-width="3" marker-end="url(#blue-arrow)">
+    <path d="M340 773V895" stroke="#2563a6"/>
+    <path d="M900 773V895" stroke="#2563a6"/>
   </g>
-  <text x="720" y="847" text-anchor="middle" fill="#2563a6" font-family="system-ui,sans-serif" font-size="17" font-weight="700">C4 · E2 output returns to A</text>
-  <text x="770" y="917" text-anchor="middle" fill="#b35d2e" font-family="system-ui,sans-serif" font-size="17" font-weight="700">C4 · E1 output returns to B</text>
+  <g fill="none" stroke-width="3" marker-end="url(#orange-arrow)">
+    <path d="M540 773V895" stroke="#c8713e"/>
+    <path d="M1100 773V895" stroke="#c8713e"/>
+  </g>
+  <path d="M155 905H1285" fill="none" stroke="#526176" stroke-width="4"/>
+  <rect x="557" y="875" width="326" height="30" fill="#fff"/>
+  <text x="720" y="897" text-anchor="middle" fill="#202a3a" font-family="system-ui,sans-serif" font-size="18" font-weight="700">C4 · return expert outputs</text>
+  <g fill="none" stroke-width="3" stroke-linejoin="round">
+    <path d="M320 905V1008H365V1042" stroke="#2563a6" marker-end="url(#blue-arrow)"/>
+    <path d="M440 905V1080H403" stroke="#2563a6" marker-end="url(#blue-arrow)"/>
+    <path d="M1000 905V1080H1037" stroke="#c8713e" marker-end="url(#orange-arrow)"/>
+    <path d="M1120 905V1008H1075V1042" stroke="#c8713e" marker-end="url(#orange-arrow)"/>
+  </g>
+  <g font-family="system-ui,sans-serif" font-size="15" font-weight="700">
+    <text x="219" y="977" fill="#2563a6">E0 local</text>
+    <text x="455" y="977" fill="#2563a6">E2 from rank 1</text>
+    <text x="804" y="977" fill="#b35d2e">E1 from rank 0</text>
+    <text x="1137" y="977" fill="#b35d2e">E3 local</text>
+  </g>
 
   <!-- Selected router weights stay on their source ranks for combination. -->
   <path d="M335 353H135V1080H327M1105 353H1305V1080H1113" fill="none" stroke="#7c4caf" stroke-width="2.5" stroke-dasharray="7 6" marker-end="url(#purple-arrow)"/>
