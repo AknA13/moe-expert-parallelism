@@ -33,7 +33,7 @@ The diagram starts with the gradient arriving at each new token embedding. On bo
 
 ![Two-rank backward pass showing local and remote expert gradients, their return to token sources, and shared-gradient synchronization](assets/backward-flow.svg)
 
-**B1** and **B2** are the backward calls of the two autograd-aware activation exchanges. The arrows at **B3** show the logical contributions to one `dist.all_reduce(SUM)` per replicated parameter, not Gloo's physical algorithm. We **do not divide by rank count again**: each local loss already uses the global `N`. Expert gradients accumulate on their owner from every source rank and are **not all-reduced**. Integer routing IDs and counts have no backward exchange; gradients reach selected router logits through the combination weights. All experts, including those with zero received rows, retain an autograd path.
+**B1** and **B2** are the backward calls of the two autograd-aware activation exchanges. The labels beneath each expert identify the token's gradient with respect to that expert's input; B2 returns those gradients to the source ranks. The two **B3** arrows distinguish routing and projection gradient synchronization. The code calls `dist.all_reduce(SUM)` once per replicated parameter; the arrows do not depict Gloo's physical algorithm. We **do not divide by rank count again**: each local loss already uses the global `N`. Expert parameter gradients accumulate on their owner from every source rank and are **not all-reduced**. Gradients reach selected router logits through the combination weights. All experts, including those with zero received rows, retain an autograd path.
 
 ## Reproduce
 
