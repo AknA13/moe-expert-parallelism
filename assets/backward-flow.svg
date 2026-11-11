@@ -1,4 +1,4 @@
-<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 1440 1340" role="img" aria-labelledby="title desc">
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 1440 1450" role="img" aria-labelledby="title desc">
   <title id="title">Backward pass on both ranks</title>
   <desc id="desc">The backward pass for the same four-expert example. Rank 0's token A sends an expert-output gradient to E2 on rank 1; rank 1's token B sends one to E1 on rank 0. Each expert accumulates parameter gradients on its owner, and the remote projected-input gradients return to the source ranks. Router and projection gradients are all-reduced.</desc>
   <defs>
@@ -13,28 +13,35 @@
     </symbol>
   </defs>
 
-  <rect width="1440" height="1340" fill="#fff"/>
+  <rect width="1440" height="1450" fill="#fff"/>
   <text x="40" y="46" fill="#202a3a" font-family="system-ui,sans-serif" font-size="29" font-weight="700">Backward pass · both ranks</text>
-  <text x="40" y="78" fill="#5c6a7e" font-family="system-ui,sans-serif" font-size="17">Green follows A's gradient; orange follows B's. Each source receives the gradient for its own projected token.</text>
-  <rect x="40" y="105" width="650" height="1195" rx="18" fill="#f7faff" stroke="#d6e1ee" stroke-width="2"/>
-  <rect x="750" y="105" width="650" height="1195" rx="18" fill="#f8fbfa" stroke="#d7e7e2" stroke-width="2"/>
+  <text x="40" y="78" fill="#5c6a7e" font-family="system-ui,sans-serif" font-size="17">Green follows A's gradient; orange follows B's. Arrows flow from each new embedding back to its original embedding.</text>
+  <rect x="40" y="105" width="650" height="1305" rx="18" fill="#f7faff" stroke="#d6e1ee" stroke-width="2"/>
+  <rect x="750" y="105" width="650" height="1305" rx="18" fill="#f8fbfa" stroke="#d7e7e2" stroke-width="2"/>
   <text x="68" y="145" fill="#202a3a" font-family="system-ui,sans-serif" font-size="24" font-weight="700">Rank 0 · experts E0, E1</text>
   <text x="778" y="145" fill="#202a3a" font-family="system-ui,sans-serif" font-size="24" font-weight="700">Rank 1 · experts E2, E3</text>
 
-  <!-- The loss first differentiates each source's weighted combination. -->
+  <!-- Gradients enter from the new embeddings and pass through the weighted combination. -->
   <g font-family="system-ui,sans-serif" text-anchor="middle">
-    <text x="365" y="201" fill="#2b8a57" font-size="21" font-weight="700">∂L / ∂prediction A</text>
-    <text x="1075" y="201" fill="#b35d2e" font-size="21" font-weight="700">∂L / ∂prediction B</text>
-    <circle cx="365" cy="285" r="36" fill="#f0e8ff" stroke="#8666b7" stroke-width="2"/><text x="365" y="295" fill="#684496" font-size="28" font-weight="700">Σ</text>
-    <circle cx="1075" cy="285" r="36" fill="#f0e8ff" stroke="#8666b7" stroke-width="2"/><text x="1075" y="295" fill="#684496" font-size="28" font-weight="700">Σ</text>
-    <text x="365" y="349" fill="#526176" font-size="17">weighted sum backward</text>
-    <text x="1075" y="349" fill="#526176" font-size="17">weighted sum backward</text>
+    <circle cx="365" cy="210" r="46" fill="#e8f6eb" stroke="#2b8a57" stroke-width="2.5"/>
+    <text x="365" y="205" fill="#2b8a57" font-size="13" font-weight="700">new token A</text>
+    <text x="365" y="224" fill="#2b8a57" font-size="15" font-weight="700">emb.</text>
+    <circle cx="1075" cy="210" r="46" fill="#fff0e6" stroke="#c8713e" stroke-width="2.5"/>
+    <text x="1075" y="205" fill="#a25122" font-size="13" font-weight="700">new token B</text>
+    <text x="1075" y="224" fill="#a25122" font-size="15" font-weight="700">emb.</text>
+    <rect x="285" y="272" width="160" height="52" rx="11" fill="#f0e8ff" stroke="#8666b7" stroke-width="2"/>
+    <text x="365" y="304" fill="#684496" font-size="19" font-weight="700">weighted Σ</text>
+    <rect x="995" y="272" width="160" height="52" rx="11" fill="#f0e8ff" stroke="#8666b7" stroke-width="2"/>
+    <text x="1075" y="304" fill="#684496" font-size="19" font-weight="700">weighted Σ</text>
   </g>
-  <path d="M365 211V245M1075 211V245" fill="none" stroke="#526176" stroke-width="2.5" marker-end="url(#gray-arrow)"/>
+  <g fill="none" stroke-width="2.5">
+    <path d="M365 256V271" stroke="#2b8a57" marker-end="url(#green-arrow)"/>
+    <path d="M1075 256V271" stroke="#c8713e" marker-end="url(#orange-arrow)"/>
+  </g>
   <text x="720" y="442" text-anchor="middle" fill="#64748b" font-family="system-ui,sans-serif" font-size="15">Counts and integer expert IDs have no backward path.</text>
 
   <!-- B1: one horizontal collective returns output gradients to expert owners. -->
-  <path d="M365 365V529M1075 365V529" fill="none" stroke="#8995a5" stroke-width="2.5" stroke-dasharray="5 6"/>
+  <path d="M365 325V529M1075 325V529" fill="none" stroke="#8995a5" stroke-width="2.5" stroke-dasharray="5 6"/>
   <path d="M340 538H1100" fill="none" stroke="#526176" stroke-width="4"/>
   <rect x="452" y="508" width="536" height="30" fill="#fff"/>
   <text x="720" y="530" text-anchor="middle" fill="#202a3a" font-family="system-ui,sans-serif" font-size="18" font-weight="700">B1 · send expert-output gradients to owners</text>
@@ -65,16 +72,16 @@
 
   <!-- B2: remote expert-input gradients cross back; local gradients stay on their source. -->
   <g fill="none" stroke-width="3" stroke-linejoin="round">
-    <path d="M340 693V956H365V962" stroke="#2b8a57" marker-end="url(#green-arrow)"/>
-    <path d="M900 693V821H440V1000H404" stroke="#2b8a57" marker-end="url(#green-arrow)"/>
-    <path d="M1100 693V956H1075V962" stroke="#c8713e" marker-end="url(#orange-arrow)"/>
-    <path d="M540 693V891H1000V1000H1036" stroke="#c8713e" marker-end="url(#orange-arrow)"/>
+    <path d="M340 693V956H365V973" stroke="#2b8a57" marker-end="url(#green-arrow)"/>
+    <path d="M900 693V821H470V1000H445" stroke="#2b8a57" marker-end="url(#green-arrow)"/>
+    <path d="M1100 693V956H1075V973" stroke="#c8713e" marker-end="url(#orange-arrow)"/>
+    <path d="M540 693V891H970V1000H995" stroke="#c8713e" marker-end="url(#orange-arrow)"/>
   </g>
   <text x="720" y="809" text-anchor="middle" fill="#2b8a57" font-family="system-ui,sans-serif" font-size="17" font-weight="700">B2 · E2 input gradient returns to A</text>
   <text x="770" y="879" text-anchor="middle" fill="#b35d2e" font-family="system-ui,sans-serif" font-size="17" font-weight="700">B2 · E1 input gradient returns to B</text>
 
   <!-- Gate-weight gradients backpropagate through the local routers. -->
-  <path d="M329 285H105V925H120M1111 285H1335V925H1320" fill="none" stroke="#7c4caf" stroke-width="2.5" stroke-dasharray="7 6" marker-end="url(#purple-arrow)"/>
+  <path d="M285 298H105V925H120M1155 298H1335V925H1320" fill="none" stroke="#7c4caf" stroke-width="2.5" stroke-dasharray="7 6" marker-end="url(#purple-arrow)"/>
   <text x="74" y="739" fill="#7c4caf" font-family="system-ui,sans-serif" font-size="15" transform="rotate(-90 74 739)">A's gate-weight gradient</text>
   <text x="1370" y="739" fill="#7c4caf" font-family="system-ui,sans-serif" font-size="15" transform="rotate(90 1370 739)">B's gate-weight gradient</text>
   <g font-family="system-ui,sans-serif" text-anchor="middle">
@@ -84,21 +91,31 @@
     <text x="1250" y="930" fill="#684496" font-size="16" font-weight="700">Routing layer</text>
     <text x="190" y="975" fill="#684496" font-size="15">backward</text>
     <text x="1250" y="975" fill="#684496" font-size="15">backward</text>
-    <circle cx="365" cy="1000" r="36" fill="#e8f2ff" stroke="#5a83b6" stroke-width="2"/><text x="365" y="1009" fill="#275685" font-size="23" font-weight="700">Σh</text>
-    <circle cx="1075" cy="1000" r="36" fill="#e8f2ff" stroke="#5a83b6" stroke-width="2"/><text x="1075" y="1009" fill="#275685" font-size="23" font-weight="700">Σh</text>
-    <text x="365" y="1059" fill="#526176" font-size="16">sum expert + router gradients</text>
-    <text x="1075" y="1059" fill="#526176" font-size="16">sum expert + router gradients</text>
+    <rect x="285" y="974" width="160" height="52" rx="11" fill="#e8f2ff" stroke="#5a83b6" stroke-width="2"/>
+    <text x="365" y="996" fill="#275685" font-size="16" font-weight="700">sum gradients</text>
+    <text x="365" y="1015" fill="#275685" font-size="13">expert + router</text>
+    <rect x="995" y="974" width="160" height="52" rx="11" fill="#e8f2ff" stroke="#5a83b6" stroke-width="2"/>
+    <text x="1075" y="996" fill="#275685" font-size="16" font-weight="700">sum gradients</text>
+    <text x="1075" y="1015" fill="#275685" font-size="13">expert + router</text>
     <rect x="280" y="1108" width="170" height="48" rx="9" fill="#e6efff" stroke="#5579bb" stroke-width="2"/>
     <text x="365" y="1138" fill="#254b8b" font-size="18" font-weight="700">Projection layer</text>
     <rect x="990" y="1108" width="170" height="48" rx="9" fill="#e6efff" stroke="#5579bb" stroke-width="2"/>
     <text x="1075" y="1138" fill="#254b8b" font-size="18" font-weight="700">Projection layer</text>
-    <text x="365" y="1195" fill="#2b8a57" font-size="18" font-weight="700">input gradient ∂L/∂A</text>
-    <text x="1075" y="1195" fill="#b35d2e" font-size="18" font-weight="700">input gradient ∂L/∂B</text>
+    <circle cx="365" cy="1237" r="40" fill="#e8f6eb" stroke="#2b8a57" stroke-width="2.5"/>
+    <text x="365" y="1232" fill="#2b8a57" font-size="15" font-weight="700">token A</text>
+    <text x="365" y="1251" fill="#2b8a57" font-size="15" font-weight="700">emb.</text>
+    <circle cx="1075" cy="1237" r="40" fill="#fff0e6" stroke="#c8713e" stroke-width="2.5"/>
+    <text x="1075" y="1232" fill="#a25122" font-size="15" font-weight="700">token B</text>
+    <text x="1075" y="1251" fill="#a25122" font-size="15" font-weight="700">emb.</text>
   </g>
-  <g fill="none" stroke="#7c4caf" stroke-width="2.5" marker-end="url(#purple-arrow)"><path d="M260 925H275V1000H325M1180 925H1165V1000H1115"/></g>
-  <g fill="none" stroke="#526176" stroke-width="2.5" marker-end="url(#gray-arrow)"><path d="M365 1036V1107M1075 1036V1107M365 1156V1177M1075 1156V1177"/></g>
+  <g fill="none" stroke="#7c4caf" stroke-width="2.5" marker-end="url(#purple-arrow)"><path d="M260 925H275V1000H285M1180 925H1165V1000H1155"/></g>
+  <g fill="none" stroke="#526176" stroke-width="2.5" marker-end="url(#gray-arrow)"><path d="M365 1026V1107M1075 1026V1107"/></g>
+  <g fill="none" stroke-width="2.5">
+    <path d="M365 1156V1196" stroke="#2b8a57" marker-end="url(#green-arrow)"/>
+    <path d="M1075 1156V1196" stroke="#c8713e" marker-end="url(#orange-arrow)"/>
+  </g>
 
   <!-- The only parameter gradients that cross ranks are the shared layers'. -->
-  <text x="720" y="1251" text-anchor="middle" fill="#684496" font-family="system-ui,sans-serif" font-size="17" font-weight="700">B3 · SUM all-reduce router + projection parameter gradients</text>
-  <path d="M637 1274H803" fill="none" stroke="#7c4caf" stroke-width="2.5" marker-start="url(#two-way)" marker-end="url(#two-way)"/>
+  <text x="720" y="1352" text-anchor="middle" fill="#684496" font-family="system-ui,sans-serif" font-size="17" font-weight="700">B3 · SUM all-reduce router + projection parameter gradients</text>
+  <path d="M637 1375H803" fill="none" stroke="#7c4caf" stroke-width="2.5" marker-start="url(#two-way)" marker-end="url(#two-way)"/>
 </svg>

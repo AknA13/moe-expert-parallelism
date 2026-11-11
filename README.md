@@ -18,7 +18,7 @@ This four-expert example shows both ranks at once. Rank 0 owns E0 and E1; rank 1
 
 ![Two-rank forward pass showing one local and one remote expert assignment for each source token](assets/forward-flow.svg)
 
-The horizontal lines mark collective exchanges, not calls to `dist.barrier`. **C1** and **C2** use `dist.all_to_all_single` to exchange counts and integer expert IDs for each rank's whole input shard. At **C3**, expert inputs leave the dispatch exchange and enter their assigned expert MLPs. At **C4**, expert outputs enter the return exchange: green arrows carry E0 and E2 outputs back to A on rank 0, and orange arrows carry E1 and E3 outputs back to B on rank 1. The local outputs use self-splits of the same collective. Both activation exchanges use autograd-aware `all_to_all_single`. The return uses inverse split sizes; each source undoes its packing permutation, restores token/slot order, and combines the two expert outputs with its expert weights (the router's normalized top-k probabilities). Every rank participates even when it has zero rows for a destination.
+The horizontal lines mark collective exchanges, not calls to `dist.barrier`. **C1** and **C2** use `dist.all_to_all_single` to exchange counts and integer expert IDs for each rank's whole input shard. At **C3**, inputs leave the dispatch exchange and enter MLPs on the ranks that own them. At **C4**, expert outputs return to their original ranks: green arrows carry E0 and E2 outputs back to A on rank 0, and orange arrows carry E1 and E3 outputs back to B on rank 1. The local outputs use self-splits of the same collective. Both activation exchanges use autograd-aware `all_to_all_single`. The return uses inverse split sizes; each source undoes its packing permutation, restores token/slot order, and combines the two expert outputs with its expert weights (the router's normalized top-k probabilities). The weighted Σ produces a new token embedding, which can feed the next block. Every rank participates even when it has zero rows for a destination.
 
 ### Backward pass: reverse the activation exchanges
 
@@ -29,7 +29,7 @@ L_r = (1/N) · Σ_{tokens i on rank r} mean_j (prediction_ij - target_ij)²
 L_global = L_0 + L_1
 ```
 
-On both ranks, the loss gradient passes through the weighted combination into the local expert output, the remote expert output, and the expert weights. Each remote expert-output gradient goes to its owner. The experts accumulate parameter gradients on their owner ranks, then send projected-input gradients back to the source ranks. Each source adds its local expert, remote expert, and router gradients before backpropagating through its token projection.
+The diagram starts with the gradient arriving at each new token embedding. On both ranks, it passes through the weighted combination into the local expert output, the remote expert output, and the expert weights. Each remote expert-output gradient goes to its owner. The experts accumulate parameter gradients on their owner ranks, then send projected-input gradients back to the source ranks. Each source adds its local expert, remote expert, and router gradients before backpropagating through its token projection to the original embedding.
 
 ![Two-rank backward pass showing local and remote expert gradients, their return to token sources, and shared-gradient synchronization](assets/backward-flow.svg)
 
