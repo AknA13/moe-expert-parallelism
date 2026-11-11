@@ -1,0 +1,433 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 2140 1325" role="img" aria-labelledby="title desc">
+  <title id="title">Eight-rank expert-parallel training</title>
+  <desc id="desc">A conceptual training step across eight ranks, with eight local minibatches queued per rank. Each rank has replicated projection and router layers and owns one expert. Forward and backward all-to-all exchanges move token assignments and gradients, replicated parameter gradients are all-reduced, expert parameter gradients stay on their owner, and Adam updates the parameters.</desc>
+  <defs>
+    <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M1 1L9 5L1 9" fill="none" stroke="#526176" stroke-width="1.8"/></marker>
+    <symbol id="expert" viewBox="0 0 76 68">
+      <g fill="none" stroke="#87a9a2" stroke-width="1.5"><path d="M8 17L37 9M8 17L37 34M8 17L37 59M8 51L37 9M8 51L37 34M8 51L37 59M37 9L68 17M37 9L68 51M37 34L68 17M37 34L68 51M37 59L68 17M37 59L68 51"/></g>
+      <g fill="#c9ebe2" stroke="#21836e" stroke-width="1.8"><circle cx="8" cy="17" r="5"/><circle cx="8" cy="51" r="5"/><circle cx="37" cy="9" r="5"/><circle cx="37" cy="34" r="5"/><circle cx="37" cy="59" r="5"/><circle cx="68" cy="17" r="5"/><circle cx="68" cy="51" r="5"/></g>
+    </symbol>
+  </defs>
+  <rect width="2140" height="1325" fill="#fff"/>
+  <text x="70" y="49" fill="#202a3a" font-family="system-ui,sans-serif" font-size="33" font-weight="700">Eight-rank expert-parallel training</text>
+  <text x="70" y="81" fill="#5c6a7e" font-family="system-ui,sans-serif" font-size="17">Conceptual: eight experts, one per rank. Each rank queues eight local minibatches; the path shows one step, repeated for each minibatch.</text>
+  <text x="166" y="151" fill="#202a3a" text-anchor="middle" font-family="system-ui,sans-serif" font-size="19" font-weight="700">Collectives</text>
+  <text x="166" y="178" fill="#64748b" text-anchor="middle" font-family="system-ui,sans-serif" font-size="14">across all 8 ranks</text>
+  <rect x="310" y="116" width="205" height="1177" rx="15" fill="#f7faff" stroke="#d6e1ee" stroke-width="1.8"/>
+  <g font-family="system-ui,sans-serif" text-anchor="middle">
+    <text x="412.5" y="151" fill="#202a3a" font-size="19" font-weight="700">Rank 0</text>
+    <text x="412.5" y="174" fill="#176d5a" font-size="14" font-weight="700">owns E0</text>
+    <text x="412.5" y="196" fill="#526176" font-size="13">8 local batches</text>
+    <rect x="330" y="205" width="35" height="24" rx="5" fill="#e8f6eb" stroke="#2b8a57" stroke-width="1.4"/><text x="347.5" y="221" text-anchor="middle" fill="#207346" font-family="system-ui,sans-serif" font-size="12" font-weight="600">b0</text>
+    <rect x="372" y="205" width="35" height="24" rx="5" fill="#eef2f7" stroke="#cbd5e1" stroke-width="1.4"/><text x="389.5" y="221" text-anchor="middle" fill="#64748b" font-family="system-ui,sans-serif" font-size="12" font-weight="600">b1</text>
+    <rect x="414" y="205" width="35" height="24" rx="5" fill="#eef2f7" stroke="#cbd5e1" stroke-width="1.4"/><text x="431.5" y="221" text-anchor="middle" fill="#64748b" font-family="system-ui,sans-serif" font-size="12" font-weight="600">b2</text>
+    <rect x="456" y="205" width="35" height="24" rx="5" fill="#eef2f7" stroke="#cbd5e1" stroke-width="1.4"/><text x="473.5" y="221" text-anchor="middle" fill="#64748b" font-family="system-ui,sans-serif" font-size="12" font-weight="600">b3</text>
+    <rect x="330" y="237" width="35" height="24" rx="5" fill="#eef2f7" stroke="#cbd5e1" stroke-width="1.4"/><text x="347.5" y="253" text-anchor="middle" fill="#64748b" font-family="system-ui,sans-serif" font-size="12" font-weight="600">b4</text>
+    <rect x="372" y="237" width="35" height="24" rx="5" fill="#eef2f7" stroke="#cbd5e1" stroke-width="1.4"/><text x="389.5" y="253" text-anchor="middle" fill="#64748b" font-family="system-ui,sans-serif" font-size="12" font-weight="600">b5</text>
+    <rect x="414" y="237" width="35" height="24" rx="5" fill="#eef2f7" stroke="#cbd5e1" stroke-width="1.4"/><text x="431.5" y="253" text-anchor="middle" fill="#64748b" font-family="system-ui,sans-serif" font-size="12" font-weight="600">b6</text>
+    <rect x="456" y="237" width="35" height="24" rx="5" fill="#eef2f7" stroke="#cbd5e1" stroke-width="1.4"/><text x="473.5" y="253" text-anchor="middle" fill="#64748b" font-family="system-ui,sans-serif" font-size="12" font-weight="600">b7</text>
+    <rect x="326" y="295" width="173" height="36" rx="8" fill="#e6efff" stroke="#5579bb" stroke-width="1.8"/>
+    <text x="412.5" y="319" fill="#254b8b" font-size="15" font-weight="700">Projection layer</text>
+    <rect x="326" y="347" width="173" height="36" rx="8" fill="#f0e8ff" stroke="#8666b7" stroke-width="1.8"/>
+    <text x="412.5" y="371" fill="#684496" font-size="15" font-weight="700">Routing layer</text>
+    <use xlink:href="#expert" x="374" y="501" width="76" height="68"/>
+    <text x="412.5" y="593" fill="#176d5a" font-size="17" font-weight="700">E0</text>
+    <rect x="330" y="697" width="165" height="43" rx="8" fill="#f0e8ff" stroke="#8666b7" stroke-width="1.7"/>
+    <text x="412.5" y="715" fill="#684496" font-size="15" font-weight="700">weighted Σ</text>
+    <text x="412.5" y="733" fill="#684496" font-size="13">new embedding</text>
+    <rect x="330" y="753" width="165" height="35" rx="8" fill="#f5f7fa" stroke="#a8b4c3" stroke-width="1.7"/>
+    <text x="412.5" y="775" fill="#37465a" font-size="13" font-weight="700">local loss / global N</text>
+    <text x="412.5" y="882" fill="#176d5a" font-size="14" font-weight="700">E0 backward</text>
+    <use xlink:href="#expert" x="374" y="891" width="76" height="68"/>
+    <text x="425" y="990" fill="#176d5a" font-size="13">∇θ0 local</text>
+    <rect x="326" y="1078" width="173" height="43" rx="8" fill="#e8f2ff" stroke="#5a83b6" stroke-width="1.7"/>
+    <text x="412.5" y="1096" fill="#275685" font-size="14" font-weight="700">P/R backward</text>
+    <text x="412.5" y="1113" fill="#275685" font-size="13">shared parameter ∇</text>
+    <rect x="326" y="1204" width="173" height="51" rx="8" fill="#fff4e7" stroke="#bd8543" stroke-width="1.7"/>
+    <text x="412.5" y="1225" fill="#8b5a27" font-size="15" font-weight="700">Adam update</text>
+    <text x="412.5" y="1243" fill="#8b5a27" font-size="13">P/R + E0</text>
+  </g>
+  <g fill="none" stroke="#526176" stroke-width="2" marker-end="url(#arrow)">
+    <path d="M412.5 269V294"/>
+    <path d="M412.5 331V346"/>
+    <path d="M412.5 383V444"/>
+    <path d="M412.5 446V497"/>
+    <path d="M412.5 569V644"/>
+    <path d="M412.5 646V696"/>
+    <path d="M412.5 740V752"/>
+    <path d="M412.5 788V839"/>
+    <path d="M412.5 841V889"/>
+    <path d="M412.5 959V1034"/>
+    <path d="M412.5 1036V1077"/>
+    <path d="M412.5 1121V1159"/>
+    <path d="M412.5 1161V1203"/>
+  </g>
+<rect x="531" y="116" width="205" height="1177" rx="15" fill="#f8fbfa" stroke="#d7e7e2" stroke-width="1.8"/>
+  <g font-family="system-ui,sans-serif" text-anchor="middle">
+    <text x="633.5" y="151" fill="#202a3a" font-size="19" font-weight="700">Rank 1</text>
+    <text x="633.5" y="174" fill="#176d5a" font-size="14" font-weight="700">owns E1</text>
+    <text x="633.5" y="196" fill="#526176" font-size="13">8 local batches</text>
+    <rect x="551" y="205" width="35" height="24" rx="5" fill="#e8f6eb" stroke="#2b8a57" stroke-width="1.4"/><text x="568.5" y="221" text-anchor="middle" fill="#207346" font-family="system-ui,sans-serif" font-size="12" font-weight="600">b0</text>
+    <rect x="593" y="205" width="35" height="24" rx="5" fill="#eef2f7" stroke="#cbd5e1" stroke-width="1.4"/><text x="610.5" y="221" text-anchor="middle" fill="#64748b" font-family="system-ui,sans-serif" font-size="12" font-weight="600">b1</text>
+    <rect x="635" y="205" width="35" height="24" rx="5" fill="#eef2f7" stroke="#cbd5e1" stroke-width="1.4"/><text x="652.5" y="221" text-anchor="middle" fill="#64748b" font-family="system-ui,sans-serif" font-size="12" font-weight="600">b2</text>
+    <rect x="677" y="205" width="35" height="24" rx="5" fill="#eef2f7" stroke="#cbd5e1" stroke-width="1.4"/><text x="694.5" y="221" text-anchor="middle" fill="#64748b" font-family="system-ui,sans-serif" font-size="12" font-weight="600">b3</text>
+    <rect x="551" y="237" width="35" height="24" rx="5" fill="#eef2f7" stroke="#cbd5e1" stroke-width="1.4"/><text x="568.5" y="253" text-anchor="middle" fill="#64748b" font-family="system-ui,sans-serif" font-size="12" font-weight="600">b4</text>
+    <rect x="593" y="237" width="35" height="24" rx="5" fill="#eef2f7" stroke="#cbd5e1" stroke-width="1.4"/><text x="610.5" y="253" text-anchor="middle" fill="#64748b" font-family="system-ui,sans-serif" font-size="12" font-weight="600">b5</text>
+    <rect x="635" y="237" width="35" height="24" rx="5" fill="#eef2f7" stroke="#cbd5e1" stroke-width="1.4"/><text x="652.5" y="253" text-anchor="middle" fill="#64748b" font-family="system-ui,sans-serif" font-size="12" font-weight="600">b6</text>
+    <rect x="677" y="237" width="35" height="24" rx="5" fill="#eef2f7" stroke="#cbd5e1" stroke-width="1.4"/><text x="694.5" y="253" text-anchor="middle" fill="#64748b" font-family="system-ui,sans-serif" font-size="12" font-weight="600">b7</text>
+    <rect x="547" y="295" width="173" height="36" rx="8" fill="#e6efff" stroke="#5579bb" stroke-width="1.8"/>
+    <text x="633.5" y="319" fill="#254b8b" font-size="15" font-weight="700">Projection layer</text>
+    <rect x="547" y="347" width="173" height="36" rx="8" fill="#f0e8ff" stroke="#8666b7" stroke-width="1.8"/>
+    <text x="633.5" y="371" fill="#684496" font-size="15" font-weight="700">Routing layer</text>
+    <use xlink:href="#expert" x="595" y="501" width="76" height="68"/>
+    <text x="633.5" y="593" fill="#176d5a" font-size="17" font-weight="700">E1</text>
+    <rect x="551" y="697" width="165" height="43" rx="8" fill="#f0e8ff" stroke="#8666b7" stroke-width="1.7"/>
+    <text x="633.5" y="715" fill="#684496" font-size="15" font-weight="700">weighted Σ</text>
+    <text x="633.5" y="733" fill="#684496" font-size="13">new embedding</text>
+    <rect x="551" y="753" width="165" height="35" rx="8" fill="#f5f7fa" stroke="#a8b4c3" stroke-width="1.7"/>
+    <text x="633.5" y="775" fill="#37465a" font-size="13" font-weight="700">local loss / global N</text>
+    <text x="633.5" y="882" fill="#176d5a" font-size="14" font-weight="700">E1 backward</text>
+    <use xlink:href="#expert" x="595" y="891" width="76" height="68"/>
+    <text x="646" y="990" fill="#176d5a" font-size="13">∇θ1 local</text>
+    <rect x="547" y="1078" width="173" height="43" rx="8" fill="#e8f2ff" stroke="#5a83b6" stroke-width="1.7"/>
+    <text x="633.5" y="1096" fill="#275685" font-size="14" font-weight="700">P/R backward</text>
+    <text x="633.5" y="1113" fill="#275685" font-size="13">shared parameter ∇</text>
+    <rect x="547" y="1204" width="173" height="51" rx="8" fill="#fff4e7" stroke="#bd8543" stroke-width="1.7"/>
+    <text x="633.5" y="1225" fill="#8b5a27" font-size="15" font-weight="700">Adam update</text>
+    <text x="633.5" y="1243" fill="#8b5a27" font-size="13">P/R + E1</text>
+  </g>
+  <g fill="none" stroke="#526176" stroke-width="2" marker-end="url(#arrow)">
+    <path d="M633.5 269V294"/>
+    <path d="M633.5 331V346"/>
+    <path d="M633.5 383V444"/>
+    <path d="M633.5 446V497"/>
+    <path d="M633.5 569V644"/>
+    <path d="M633.5 646V696"/>
+    <path d="M633.5 740V752"/>
+    <path d="M633.5 788V839"/>
+    <path d="M633.5 841V889"/>
+    <path d="M633.5 959V1034"/>
+    <path d="M633.5 1036V1077"/>
+    <path d="M633.5 1121V1159"/>
+    <path d="M633.5 1161V1203"/>
+  </g>
+<rect x="752" y="116" width="205" height="1177" rx="15" fill="#f7faff" stroke="#d6e1ee" stroke-width="1.8"/>
+  <g font-family="system-ui,sans-serif" text-anchor="middle">
+    <text x="854.5" y="151" fill="#202a3a" font-size="19" font-weight="700">Rank 2</text>
+    <text x="854.5" y="174" fill="#176d5a" font-size="14" font-weight="700">owns E2</text>
+    <text x="854.5" y="196" fill="#526176" font-size="13">8 local batches</text>
+    <rect x="772" y="205" width="35" height="24" rx="5" fill="#e8f6eb" stroke="#2b8a57" stroke-width="1.4"/><text x="789.5" y="221" text-anchor="middle" fill="#207346" font-family="system-ui,sans-serif" font-size="12" font-weight="600">b0</text>
+    <rect x="814" y="205" width="35" height="24" rx="5" fill="#eef2f7" stroke="#cbd5e1" stroke-width="1.4"/><text x="831.5" y="221" text-anchor="middle" fill="#64748b" font-family="system-ui,sans-serif" font-size="12" font-weight="600">b1</text>
+    <rect x="856" y="205" width="35" height="24" rx="5" fill="#eef2f7" stroke="#cbd5e1" stroke-width="1.4"/><text x="873.5" y="221" text-anchor="middle" fill="#64748b" font-family="system-ui,sans-serif" font-size="12" font-weight="600">b2</text>
+    <rect x="898" y="205" width="35" height="24" rx="5" fill="#eef2f7" stroke="#cbd5e1" stroke-width="1.4"/><text x="915.5" y="221" text-anchor="middle" fill="#64748b" font-family="system-ui,sans-serif" font-size="12" font-weight="600">b3</text>
+    <rect x="772" y="237" width="35" height="24" rx="5" fill="#eef2f7" stroke="#cbd5e1" stroke-width="1.4"/><text x="789.5" y="253" text-anchor="middle" fill="#64748b" font-family="system-ui,sans-serif" font-size="12" font-weight="600">b4</text>
+    <rect x="814" y="237" width="35" height="24" rx="5" fill="#eef2f7" stroke="#cbd5e1" stroke-width="1.4"/><text x="831.5" y="253" text-anchor="middle" fill="#64748b" font-family="system-ui,sans-serif" font-size="12" font-weight="600">b5</text>
+    <rect x="856" y="237" width="35" height="24" rx="5" fill="#eef2f7" stroke="#cbd5e1" stroke-width="1.4"/><text x="873.5" y="253" text-anchor="middle" fill="#64748b" font-family="system-ui,sans-serif" font-size="12" font-weight="600">b6</text>
+    <rect x="898" y="237" width="35" height="24" rx="5" fill="#eef2f7" stroke="#cbd5e1" stroke-width="1.4"/><text x="915.5" y="253" text-anchor="middle" fill="#64748b" font-family="system-ui,sans-serif" font-size="12" font-weight="600">b7</text>
+    <rect x="768" y="295" width="173" height="36" rx="8" fill="#e6efff" stroke="#5579bb" stroke-width="1.8"/>
+    <text x="854.5" y="319" fill="#254b8b" font-size="15" font-weight="700">Projection layer</text>
+    <rect x="768" y="347" width="173" height="36" rx="8" fill="#f0e8ff" stroke="#8666b7" stroke-width="1.8"/>
+    <text x="854.5" y="371" fill="#684496" font-size="15" font-weight="700">Routing layer</text>
+    <use xlink:href="#expert" x="816" y="501" width="76" height="68"/>
+    <text x="854.5" y="593" fill="#176d5a" font-size="17" font-weight="700">E2</text>
+    <rect x="772" y="697" width="165" height="43" rx="8" fill="#f0e8ff" stroke="#8666b7" stroke-width="1.7"/>
+    <text x="854.5" y="715" fill="#684496" font-size="15" font-weight="700">weighted Σ</text>
+    <text x="854.5" y="733" fill="#684496" font-size="13">new embedding</text>
+    <rect x="772" y="753" width="165" height="35" rx="8" fill="#f5f7fa" stroke="#a8b4c3" stroke-width="1.7"/>
+    <text x="854.5" y="775" fill="#37465a" font-size="13" font-weight="700">local loss / global N</text>
+    <text x="854.5" y="882" fill="#176d5a" font-size="14" font-weight="700">E2 backward</text>
+    <use xlink:href="#expert" x="816" y="891" width="76" height="68"/>
+    <text x="867" y="990" fill="#176d5a" font-size="13">∇θ2 local</text>
+    <rect x="768" y="1078" width="173" height="43" rx="8" fill="#e8f2ff" stroke="#5a83b6" stroke-width="1.7"/>
+    <text x="854.5" y="1096" fill="#275685" font-size="14" font-weight="700">P/R backward</text>
+    <text x="854.5" y="1113" fill="#275685" font-size="13">shared parameter ∇</text>
+    <rect x="768" y="1204" width="173" height="51" rx="8" fill="#fff4e7" stroke="#bd8543" stroke-width="1.7"/>
+    <text x="854.5" y="1225" fill="#8b5a27" font-size="15" font-weight="700">Adam update</text>
+    <text x="854.5" y="1243" fill="#8b5a27" font-size="13">P/R + E2</text>
+  </g>
+  <g fill="none" stroke="#526176" stroke-width="2" marker-end="url(#arrow)">
+    <path d="M854.5 269V294"/>
+    <path d="M854.5 331V346"/>
+    <path d="M854.5 383V444"/>
+    <path d="M854.5 446V497"/>
+    <path d="M854.5 569V644"/>
+    <path d="M854.5 646V696"/>
+    <path d="M854.5 740V752"/>
+    <path d="M854.5 788V839"/>
+    <path d="M854.5 841V889"/>
+    <path d="M854.5 959V1034"/>
+    <path d="M854.5 1036V1077"/>
+    <path d="M854.5 1121V1159"/>
+    <path d="M854.5 1161V1203"/>
+  </g>
+<rect x="973" y="116" width="205" height="1177" rx="15" fill="#f8fbfa" stroke="#d7e7e2" stroke-width="1.8"/>
+  <g font-family="system-ui,sans-serif" text-anchor="middle">
+    <text x="1075.5" y="151" fill="#202a3a" font-size="19" font-weight="700">Rank 3</text>
+    <text x="1075.5" y="174" fill="#176d5a" font-size="14" font-weight="700">owns E3</text>
+    <text x="1075.5" y="196" fill="#526176" font-size="13">8 local batches</text>
+    <rect x="993" y="205" width="35" height="24" rx="5" fill="#e8f6eb" stroke="#2b8a57" stroke-width="1.4"/><text x="1010.5" y="221" text-anchor="middle" fill="#207346" font-family="system-ui,sans-serif" font-size="12" font-weight="600">b0</text>
+    <rect x="1035" y="205" width="35" height="24" rx="5" fill="#eef2f7" stroke="#cbd5e1" stroke-width="1.4"/><text x="1052.5" y="221" text-anchor="middle" fill="#64748b" font-family="system-ui,sans-serif" font-size="12" font-weight="600">b1</text>
+    <rect x="1077" y="205" width="35" height="24" rx="5" fill="#eef2f7" stroke="#cbd5e1" stroke-width="1.4"/><text x="1094.5" y="221" text-anchor="middle" fill="#64748b" font-family="system-ui,sans-serif" font-size="12" font-weight="600">b2</text>
+    <rect x="1119" y="205" width="35" height="24" rx="5" fill="#eef2f7" stroke="#cbd5e1" stroke-width="1.4"/><text x="1136.5" y="221" text-anchor="middle" fill="#64748b" font-family="system-ui,sans-serif" font-size="12" font-weight="600">b3</text>
+    <rect x="993" y="237" width="35" height="24" rx="5" fill="#eef2f7" stroke="#cbd5e1" stroke-width="1.4"/><text x="1010.5" y="253" text-anchor="middle" fill="#64748b" font-family="system-ui,sans-serif" font-size="12" font-weight="600">b4</text>
+    <rect x="1035" y="237" width="35" height="24" rx="5" fill="#eef2f7" stroke="#cbd5e1" stroke-width="1.4"/><text x="1052.5" y="253" text-anchor="middle" fill="#64748b" font-family="system-ui,sans-serif" font-size="12" font-weight="600">b5</text>
+    <rect x="1077" y="237" width="35" height="24" rx="5" fill="#eef2f7" stroke="#cbd5e1" stroke-width="1.4"/><text x="1094.5" y="253" text-anchor="middle" fill="#64748b" font-family="system-ui,sans-serif" font-size="12" font-weight="600">b6</text>
+    <rect x="1119" y="237" width="35" height="24" rx="5" fill="#eef2f7" stroke="#cbd5e1" stroke-width="1.4"/><text x="1136.5" y="253" text-anchor="middle" fill="#64748b" font-family="system-ui,sans-serif" font-size="12" font-weight="600">b7</text>
+    <rect x="989" y="295" width="173" height="36" rx="8" fill="#e6efff" stroke="#5579bb" stroke-width="1.8"/>
+    <text x="1075.5" y="319" fill="#254b8b" font-size="15" font-weight="700">Projection layer</text>
+    <rect x="989" y="347" width="173" height="36" rx="8" fill="#f0e8ff" stroke="#8666b7" stroke-width="1.8"/>
+    <text x="1075.5" y="371" fill="#684496" font-size="15" font-weight="700">Routing layer</text>
+    <use xlink:href="#expert" x="1037" y="501" width="76" height="68"/>
+    <text x="1075.5" y="593" fill="#176d5a" font-size="17" font-weight="700">E3</text>
+    <rect x="993" y="697" width="165" height="43" rx="8" fill="#f0e8ff" stroke="#8666b7" stroke-width="1.7"/>
+    <text x="1075.5" y="715" fill="#684496" font-size="15" font-weight="700">weighted Σ</text>
+    <text x="1075.5" y="733" fill="#684496" font-size="13">new embedding</text>
+    <rect x="993" y="753" width="165" height="35" rx="8" fill="#f5f7fa" stroke="#a8b4c3" stroke-width="1.7"/>
+    <text x="1075.5" y="775" fill="#37465a" font-size="13" font-weight="700">local loss / global N</text>
+    <text x="1075.5" y="882" fill="#176d5a" font-size="14" font-weight="700">E3 backward</text>
+    <use xlink:href="#expert" x="1037" y="891" width="76" height="68"/>
+    <text x="1088" y="990" fill="#176d5a" font-size="13">∇θ3 local</text>
+    <rect x="989" y="1078" width="173" height="43" rx="8" fill="#e8f2ff" stroke="#5a83b6" stroke-width="1.7"/>
+    <text x="1075.5" y="1096" fill="#275685" font-size="14" font-weight="700">P/R backward</text>
+    <text x="1075.5" y="1113" fill="#275685" font-size="13">shared parameter ∇</text>
+    <rect x="989" y="1204" width="173" height="51" rx="8" fill="#fff4e7" stroke="#bd8543" stroke-width="1.7"/>
+    <text x="1075.5" y="1225" fill="#8b5a27" font-size="15" font-weight="700">Adam update</text>
+    <text x="1075.5" y="1243" fill="#8b5a27" font-size="13">P/R + E3</text>
+  </g>
+  <g fill="none" stroke="#526176" stroke-width="2" marker-end="url(#arrow)">
+    <path d="M1075.5 269V294"/>
+    <path d="M1075.5 331V346"/>
+    <path d="M1075.5 383V444"/>
+    <path d="M1075.5 446V497"/>
+    <path d="M1075.5 569V644"/>
+    <path d="M1075.5 646V696"/>
+    <path d="M1075.5 740V752"/>
+    <path d="M1075.5 788V839"/>
+    <path d="M1075.5 841V889"/>
+    <path d="M1075.5 959V1034"/>
+    <path d="M1075.5 1036V1077"/>
+    <path d="M1075.5 1121V1159"/>
+    <path d="M1075.5 1161V1203"/>
+  </g>
+<rect x="1194" y="116" width="205" height="1177" rx="15" fill="#f7faff" stroke="#d6e1ee" stroke-width="1.8"/>
+  <g font-family="system-ui,sans-serif" text-anchor="middle">
+    <text x="1296.5" y="151" fill="#202a3a" font-size="19" font-weight="700">Rank 4</text>
+    <text x="1296.5" y="174" fill="#176d5a" font-size="14" font-weight="700">owns E4</text>
+    <text x="1296.5" y="196" fill="#526176" font-size="13">8 local batches</text>
+    <rect x="1214" y="205" width="35" height="24" rx="5" fill="#e8f6eb" stroke="#2b8a57" stroke-width="1.4"/><text x="1231.5" y="221" text-anchor="middle" fill="#207346" font-family="system-ui,sans-serif" font-size="12" font-weight="600">b0</text>
+    <rect x="1256" y="205" width="35" height="24" rx="5" fill="#eef2f7" stroke="#cbd5e1" stroke-width="1.4"/><text x="1273.5" y="221" text-anchor="middle" fill="#64748b" font-family="system-ui,sans-serif" font-size="12" font-weight="600">b1</text>
+    <rect x="1298" y="205" width="35" height="24" rx="5" fill="#eef2f7" stroke="#cbd5e1" stroke-width="1.4"/><text x="1315.5" y="221" text-anchor="middle" fill="#64748b" font-family="system-ui,sans-serif" font-size="12" font-weight="600">b2</text>
+    <rect x="1340" y="205" width="35" height="24" rx="5" fill="#eef2f7" stroke="#cbd5e1" stroke-width="1.4"/><text x="1357.5" y="221" text-anchor="middle" fill="#64748b" font-family="system-ui,sans-serif" font-size="12" font-weight="600">b3</text>
+    <rect x="1214" y="237" width="35" height="24" rx="5" fill="#eef2f7" stroke="#cbd5e1" stroke-width="1.4"/><text x="1231.5" y="253" text-anchor="middle" fill="#64748b" font-family="system-ui,sans-serif" font-size="12" font-weight="600">b4</text>
+    <rect x="1256" y="237" width="35" height="24" rx="5" fill="#eef2f7" stroke="#cbd5e1" stroke-width="1.4"/><text x="1273.5" y="253" text-anchor="middle" fill="#64748b" font-family="system-ui,sans-serif" font-size="12" font-weight="600">b5</text>
+    <rect x="1298" y="237" width="35" height="24" rx="5" fill="#eef2f7" stroke="#cbd5e1" stroke-width="1.4"/><text x="1315.5" y="253" text-anchor="middle" fill="#64748b" font-family="system-ui,sans-serif" font-size="12" font-weight="600">b6</text>
+    <rect x="1340" y="237" width="35" height="24" rx="5" fill="#eef2f7" stroke="#cbd5e1" stroke-width="1.4"/><text x="1357.5" y="253" text-anchor="middle" fill="#64748b" font-family="system-ui,sans-serif" font-size="12" font-weight="600">b7</text>
+    <rect x="1210" y="295" width="173" height="36" rx="8" fill="#e6efff" stroke="#5579bb" stroke-width="1.8"/>
+    <text x="1296.5" y="319" fill="#254b8b" font-size="15" font-weight="700">Projection layer</text>
+    <rect x="1210" y="347" width="173" height="36" rx="8" fill="#f0e8ff" stroke="#8666b7" stroke-width="1.8"/>
+    <text x="1296.5" y="371" fill="#684496" font-size="15" font-weight="700">Routing layer</text>
+    <use xlink:href="#expert" x="1258" y="501" width="76" height="68"/>
+    <text x="1296.5" y="593" fill="#176d5a" font-size="17" font-weight="700">E4</text>
+    <rect x="1214" y="697" width="165" height="43" rx="8" fill="#f0e8ff" stroke="#8666b7" stroke-width="1.7"/>
+    <text x="1296.5" y="715" fill="#684496" font-size="15" font-weight="700">weighted Σ</text>
+    <text x="1296.5" y="733" fill="#684496" font-size="13">new embedding</text>
+    <rect x="1214" y="753" width="165" height="35" rx="8" fill="#f5f7fa" stroke="#a8b4c3" stroke-width="1.7"/>
+    <text x="1296.5" y="775" fill="#37465a" font-size="13" font-weight="700">local loss / global N</text>
+    <text x="1296.5" y="882" fill="#176d5a" font-size="14" font-weight="700">E4 backward</text>
+    <use xlink:href="#expert" x="1258" y="891" width="76" height="68"/>
+    <text x="1309" y="990" fill="#176d5a" font-size="13">∇θ4 local</text>
+    <rect x="1210" y="1078" width="173" height="43" rx="8" fill="#e8f2ff" stroke="#5a83b6" stroke-width="1.7"/>
+    <text x="1296.5" y="1096" fill="#275685" font-size="14" font-weight="700">P/R backward</text>
+    <text x="1296.5" y="1113" fill="#275685" font-size="13">shared parameter ∇</text>
+    <rect x="1210" y="1204" width="173" height="51" rx="8" fill="#fff4e7" stroke="#bd8543" stroke-width="1.7"/>
+    <text x="1296.5" y="1225" fill="#8b5a27" font-size="15" font-weight="700">Adam update</text>
+    <text x="1296.5" y="1243" fill="#8b5a27" font-size="13">P/R + E4</text>
+  </g>
+  <g fill="none" stroke="#526176" stroke-width="2" marker-end="url(#arrow)">
+    <path d="M1296.5 269V294"/>
+    <path d="M1296.5 331V346"/>
+    <path d="M1296.5 383V444"/>
+    <path d="M1296.5 446V497"/>
+    <path d="M1296.5 569V644"/>
+    <path d="M1296.5 646V696"/>
+    <path d="M1296.5 740V752"/>
+    <path d="M1296.5 788V839"/>
+    <path d="M1296.5 841V889"/>
+    <path d="M1296.5 959V1034"/>
+    <path d="M1296.5 1036V1077"/>
+    <path d="M1296.5 1121V1159"/>
+    <path d="M1296.5 1161V1203"/>
+  </g>
+<rect x="1415" y="116" width="205" height="1177" rx="15" fill="#f8fbfa" stroke="#d7e7e2" stroke-width="1.8"/>
+  <g font-family="system-ui,sans-serif" text-anchor="middle">
+    <text x="1517.5" y="151" fill="#202a3a" font-size="19" font-weight="700">Rank 5</text>
+    <text x="1517.5" y="174" fill="#176d5a" font-size="14" font-weight="700">owns E5</text>
+    <text x="1517.5" y="196" fill="#526176" font-size="13">8 local batches</text>
+    <rect x="1435" y="205" width="35" height="24" rx="5" fill="#e8f6eb" stroke="#2b8a57" stroke-width="1.4"/><text x="1452.5" y="221" text-anchor="middle" fill="#207346" font-family="system-ui,sans-serif" font-size="12" font-weight="600">b0</text>
+    <rect x="1477" y="205" width="35" height="24" rx="5" fill="#eef2f7" stroke="#cbd5e1" stroke-width="1.4"/><text x="1494.5" y="221" text-anchor="middle" fill="#64748b" font-family="system-ui,sans-serif" font-size="12" font-weight="600">b1</text>
+    <rect x="1519" y="205" width="35" height="24" rx="5" fill="#eef2f7" stroke="#cbd5e1" stroke-width="1.4"/><text x="1536.5" y="221" text-anchor="middle" fill="#64748b" font-family="system-ui,sans-serif" font-size="12" font-weight="600">b2</text>
+    <rect x="1561" y="205" width="35" height="24" rx="5" fill="#eef2f7" stroke="#cbd5e1" stroke-width="1.4"/><text x="1578.5" y="221" text-anchor="middle" fill="#64748b" font-family="system-ui,sans-serif" font-size="12" font-weight="600">b3</text>
+    <rect x="1435" y="237" width="35" height="24" rx="5" fill="#eef2f7" stroke="#cbd5e1" stroke-width="1.4"/><text x="1452.5" y="253" text-anchor="middle" fill="#64748b" font-family="system-ui,sans-serif" font-size="12" font-weight="600">b4</text>
+    <rect x="1477" y="237" width="35" height="24" rx="5" fill="#eef2f7" stroke="#cbd5e1" stroke-width="1.4"/><text x="1494.5" y="253" text-anchor="middle" fill="#64748b" font-family="system-ui,sans-serif" font-size="12" font-weight="600">b5</text>
+    <rect x="1519" y="237" width="35" height="24" rx="5" fill="#eef2f7" stroke="#cbd5e1" stroke-width="1.4"/><text x="1536.5" y="253" text-anchor="middle" fill="#64748b" font-family="system-ui,sans-serif" font-size="12" font-weight="600">b6</text>
+    <rect x="1561" y="237" width="35" height="24" rx="5" fill="#eef2f7" stroke="#cbd5e1" stroke-width="1.4"/><text x="1578.5" y="253" text-anchor="middle" fill="#64748b" font-family="system-ui,sans-serif" font-size="12" font-weight="600">b7</text>
+    <rect x="1431" y="295" width="173" height="36" rx="8" fill="#e6efff" stroke="#5579bb" stroke-width="1.8"/>
+    <text x="1517.5" y="319" fill="#254b8b" font-size="15" font-weight="700">Projection layer</text>
+    <rect x="1431" y="347" width="173" height="36" rx="8" fill="#f0e8ff" stroke="#8666b7" stroke-width="1.8"/>
+    <text x="1517.5" y="371" fill="#684496" font-size="15" font-weight="700">Routing layer</text>
+    <use xlink:href="#expert" x="1479" y="501" width="76" height="68"/>
+    <text x="1517.5" y="593" fill="#176d5a" font-size="17" font-weight="700">E5</text>
+    <rect x="1435" y="697" width="165" height="43" rx="8" fill="#f0e8ff" stroke="#8666b7" stroke-width="1.7"/>
+    <text x="1517.5" y="715" fill="#684496" font-size="15" font-weight="700">weighted Σ</text>
+    <text x="1517.5" y="733" fill="#684496" font-size="13">new embedding</text>
+    <rect x="1435" y="753" width="165" height="35" rx="8" fill="#f5f7fa" stroke="#a8b4c3" stroke-width="1.7"/>
+    <text x="1517.5" y="775" fill="#37465a" font-size="13" font-weight="700">local loss / global N</text>
+    <text x="1517.5" y="882" fill="#176d5a" font-size="14" font-weight="700">E5 backward</text>
+    <use xlink:href="#expert" x="1479" y="891" width="76" height="68"/>
+    <text x="1530" y="990" fill="#176d5a" font-size="13">∇θ5 local</text>
+    <rect x="1431" y="1078" width="173" height="43" rx="8" fill="#e8f2ff" stroke="#5a83b6" stroke-width="1.7"/>
+    <text x="1517.5" y="1096" fill="#275685" font-size="14" font-weight="700">P/R backward</text>
+    <text x="1517.5" y="1113" fill="#275685" font-size="13">shared parameter ∇</text>
+    <rect x="1431" y="1204" width="173" height="51" rx="8" fill="#fff4e7" stroke="#bd8543" stroke-width="1.7"/>
+    <text x="1517.5" y="1225" fill="#8b5a27" font-size="15" font-weight="700">Adam update</text>
+    <text x="1517.5" y="1243" fill="#8b5a27" font-size="13">P/R + E5</text>
+  </g>
+  <g fill="none" stroke="#526176" stroke-width="2" marker-end="url(#arrow)">
+    <path d="M1517.5 269V294"/>
+    <path d="M1517.5 331V346"/>
+    <path d="M1517.5 383V444"/>
+    <path d="M1517.5 446V497"/>
+    <path d="M1517.5 569V644"/>
+    <path d="M1517.5 646V696"/>
+    <path d="M1517.5 740V752"/>
+    <path d="M1517.5 788V839"/>
+    <path d="M1517.5 841V889"/>
+    <path d="M1517.5 959V1034"/>
+    <path d="M1517.5 1036V1077"/>
+    <path d="M1517.5 1121V1159"/>
+    <path d="M1517.5 1161V1203"/>
+  </g>
+<rect x="1636" y="116" width="205" height="1177" rx="15" fill="#f7faff" stroke="#d6e1ee" stroke-width="1.8"/>
+  <g font-family="system-ui,sans-serif" text-anchor="middle">
+    <text x="1738.5" y="151" fill="#202a3a" font-size="19" font-weight="700">Rank 6</text>
+    <text x="1738.5" y="174" fill="#176d5a" font-size="14" font-weight="700">owns E6</text>
+    <text x="1738.5" y="196" fill="#526176" font-size="13">8 local batches</text>
+    <rect x="1656" y="205" width="35" height="24" rx="5" fill="#e8f6eb" stroke="#2b8a57" stroke-width="1.4"/><text x="1673.5" y="221" text-anchor="middle" fill="#207346" font-family="system-ui,sans-serif" font-size="12" font-weight="600">b0</text>
+    <rect x="1698" y="205" width="35" height="24" rx="5" fill="#eef2f7" stroke="#cbd5e1" stroke-width="1.4"/><text x="1715.5" y="221" text-anchor="middle" fill="#64748b" font-family="system-ui,sans-serif" font-size="12" font-weight="600">b1</text>
+    <rect x="1740" y="205" width="35" height="24" rx="5" fill="#eef2f7" stroke="#cbd5e1" stroke-width="1.4"/><text x="1757.5" y="221" text-anchor="middle" fill="#64748b" font-family="system-ui,sans-serif" font-size="12" font-weight="600">b2</text>
+    <rect x="1782" y="205" width="35" height="24" rx="5" fill="#eef2f7" stroke="#cbd5e1" stroke-width="1.4"/><text x="1799.5" y="221" text-anchor="middle" fill="#64748b" font-family="system-ui,sans-serif" font-size="12" font-weight="600">b3</text>
+    <rect x="1656" y="237" width="35" height="24" rx="5" fill="#eef2f7" stroke="#cbd5e1" stroke-width="1.4"/><text x="1673.5" y="253" text-anchor="middle" fill="#64748b" font-family="system-ui,sans-serif" font-size="12" font-weight="600">b4</text>
+    <rect x="1698" y="237" width="35" height="24" rx="5" fill="#eef2f7" stroke="#cbd5e1" stroke-width="1.4"/><text x="1715.5" y="253" text-anchor="middle" fill="#64748b" font-family="system-ui,sans-serif" font-size="12" font-weight="600">b5</text>
+    <rect x="1740" y="237" width="35" height="24" rx="5" fill="#eef2f7" stroke="#cbd5e1" stroke-width="1.4"/><text x="1757.5" y="253" text-anchor="middle" fill="#64748b" font-family="system-ui,sans-serif" font-size="12" font-weight="600">b6</text>
+    <rect x="1782" y="237" width="35" height="24" rx="5" fill="#eef2f7" stroke="#cbd5e1" stroke-width="1.4"/><text x="1799.5" y="253" text-anchor="middle" fill="#64748b" font-family="system-ui,sans-serif" font-size="12" font-weight="600">b7</text>
+    <rect x="1652" y="295" width="173" height="36" rx="8" fill="#e6efff" stroke="#5579bb" stroke-width="1.8"/>
+    <text x="1738.5" y="319" fill="#254b8b" font-size="15" font-weight="700">Projection layer</text>
+    <rect x="1652" y="347" width="173" height="36" rx="8" fill="#f0e8ff" stroke="#8666b7" stroke-width="1.8"/>
+    <text x="1738.5" y="371" fill="#684496" font-size="15" font-weight="700">Routing layer</text>
+    <use xlink:href="#expert" x="1700" y="501" width="76" height="68"/>
+    <text x="1738.5" y="593" fill="#176d5a" font-size="17" font-weight="700">E6</text>
+    <rect x="1656" y="697" width="165" height="43" rx="8" fill="#f0e8ff" stroke="#8666b7" stroke-width="1.7"/>
+    <text x="1738.5" y="715" fill="#684496" font-size="15" font-weight="700">weighted Σ</text>
+    <text x="1738.5" y="733" fill="#684496" font-size="13">new embedding</text>
+    <rect x="1656" y="753" width="165" height="35" rx="8" fill="#f5f7fa" stroke="#a8b4c3" stroke-width="1.7"/>
+    <text x="1738.5" y="775" fill="#37465a" font-size="13" font-weight="700">local loss / global N</text>
+    <text x="1738.5" y="882" fill="#176d5a" font-size="14" font-weight="700">E6 backward</text>
+    <use xlink:href="#expert" x="1700" y="891" width="76" height="68"/>
+    <text x="1751" y="990" fill="#176d5a" font-size="13">∇θ6 local</text>
+    <rect x="1652" y="1078" width="173" height="43" rx="8" fill="#e8f2ff" stroke="#5a83b6" stroke-width="1.7"/>
+    <text x="1738.5" y="1096" fill="#275685" font-size="14" font-weight="700">P/R backward</text>
+    <text x="1738.5" y="1113" fill="#275685" font-size="13">shared parameter ∇</text>
+    <rect x="1652" y="1204" width="173" height="51" rx="8" fill="#fff4e7" stroke="#bd8543" stroke-width="1.7"/>
+    <text x="1738.5" y="1225" fill="#8b5a27" font-size="15" font-weight="700">Adam update</text>
+    <text x="1738.5" y="1243" fill="#8b5a27" font-size="13">P/R + E6</text>
+  </g>
+  <g fill="none" stroke="#526176" stroke-width="2" marker-end="url(#arrow)">
+    <path d="M1738.5 269V294"/>
+    <path d="M1738.5 331V346"/>
+    <path d="M1738.5 383V444"/>
+    <path d="M1738.5 446V497"/>
+    <path d="M1738.5 569V644"/>
+    <path d="M1738.5 646V696"/>
+    <path d="M1738.5 740V752"/>
+    <path d="M1738.5 788V839"/>
+    <path d="M1738.5 841V889"/>
+    <path d="M1738.5 959V1034"/>
+    <path d="M1738.5 1036V1077"/>
+    <path d="M1738.5 1121V1159"/>
+    <path d="M1738.5 1161V1203"/>
+  </g>
+<rect x="1857" y="116" width="205" height="1177" rx="15" fill="#f8fbfa" stroke="#d7e7e2" stroke-width="1.8"/>
+  <g font-family="system-ui,sans-serif" text-anchor="middle">
+    <text x="1959.5" y="151" fill="#202a3a" font-size="19" font-weight="700">Rank 7</text>
+    <text x="1959.5" y="174" fill="#176d5a" font-size="14" font-weight="700">owns E7</text>
+    <text x="1959.5" y="196" fill="#526176" font-size="13">8 local batches</text>
+    <rect x="1877" y="205" width="35" height="24" rx="5" fill="#e8f6eb" stroke="#2b8a57" stroke-width="1.4"/><text x="1894.5" y="221" text-anchor="middle" fill="#207346" font-family="system-ui,sans-serif" font-size="12" font-weight="600">b0</text>
+    <rect x="1919" y="205" width="35" height="24" rx="5" fill="#eef2f7" stroke="#cbd5e1" stroke-width="1.4"/><text x="1936.5" y="221" text-anchor="middle" fill="#64748b" font-family="system-ui,sans-serif" font-size="12" font-weight="600">b1</text>
+    <rect x="1961" y="205" width="35" height="24" rx="5" fill="#eef2f7" stroke="#cbd5e1" stroke-width="1.4"/><text x="1978.5" y="221" text-anchor="middle" fill="#64748b" font-family="system-ui,sans-serif" font-size="12" font-weight="600">b2</text>
+    <rect x="2003" y="205" width="35" height="24" rx="5" fill="#eef2f7" stroke="#cbd5e1" stroke-width="1.4"/><text x="2020.5" y="221" text-anchor="middle" fill="#64748b" font-family="system-ui,sans-serif" font-size="12" font-weight="600">b3</text>
+    <rect x="1877" y="237" width="35" height="24" rx="5" fill="#eef2f7" stroke="#cbd5e1" stroke-width="1.4"/><text x="1894.5" y="253" text-anchor="middle" fill="#64748b" font-family="system-ui,sans-serif" font-size="12" font-weight="600">b4</text>
+    <rect x="1919" y="237" width="35" height="24" rx="5" fill="#eef2f7" stroke="#cbd5e1" stroke-width="1.4"/><text x="1936.5" y="253" text-anchor="middle" fill="#64748b" font-family="system-ui,sans-serif" font-size="12" font-weight="600">b5</text>
+    <rect x="1961" y="237" width="35" height="24" rx="5" fill="#eef2f7" stroke="#cbd5e1" stroke-width="1.4"/><text x="1978.5" y="253" text-anchor="middle" fill="#64748b" font-family="system-ui,sans-serif" font-size="12" font-weight="600">b6</text>
+    <rect x="2003" y="237" width="35" height="24" rx="5" fill="#eef2f7" stroke="#cbd5e1" stroke-width="1.4"/><text x="2020.5" y="253" text-anchor="middle" fill="#64748b" font-family="system-ui,sans-serif" font-size="12" font-weight="600">b7</text>
+    <rect x="1873" y="295" width="173" height="36" rx="8" fill="#e6efff" stroke="#5579bb" stroke-width="1.8"/>
+    <text x="1959.5" y="319" fill="#254b8b" font-size="15" font-weight="700">Projection layer</text>
+    <rect x="1873" y="347" width="173" height="36" rx="8" fill="#f0e8ff" stroke="#8666b7" stroke-width="1.8"/>
+    <text x="1959.5" y="371" fill="#684496" font-size="15" font-weight="700">Routing layer</text>
+    <use xlink:href="#expert" x="1921" y="501" width="76" height="68"/>
+    <text x="1959.5" y="593" fill="#176d5a" font-size="17" font-weight="700">E7</text>
+    <rect x="1877" y="697" width="165" height="43" rx="8" fill="#f0e8ff" stroke="#8666b7" stroke-width="1.7"/>
+    <text x="1959.5" y="715" fill="#684496" font-size="15" font-weight="700">weighted Σ</text>
+    <text x="1959.5" y="733" fill="#684496" font-size="13">new embedding</text>
+    <rect x="1877" y="753" width="165" height="35" rx="8" fill="#f5f7fa" stroke="#a8b4c3" stroke-width="1.7"/>
+    <text x="1959.5" y="775" fill="#37465a" font-size="13" font-weight="700">local loss / global N</text>
+    <text x="1959.5" y="882" fill="#176d5a" font-size="14" font-weight="700">E7 backward</text>
+    <use xlink:href="#expert" x="1921" y="891" width="76" height="68"/>
+    <text x="1972" y="990" fill="#176d5a" font-size="13">∇θ7 local</text>
+    <rect x="1873" y="1078" width="173" height="43" rx="8" fill="#e8f2ff" stroke="#5a83b6" stroke-width="1.7"/>
+    <text x="1959.5" y="1096" fill="#275685" font-size="14" font-weight="700">P/R backward</text>
+    <text x="1959.5" y="1113" fill="#275685" font-size="13">shared parameter ∇</text>
+    <rect x="1873" y="1204" width="173" height="51" rx="8" fill="#fff4e7" stroke="#bd8543" stroke-width="1.7"/>
+    <text x="1959.5" y="1225" fill="#8b5a27" font-size="15" font-weight="700">Adam update</text>
+    <text x="1959.5" y="1243" fill="#8b5a27" font-size="13">P/R + E7</text>
+  </g>
+  <g fill="none" stroke="#526176" stroke-width="2" marker-end="url(#arrow)">
+    <path d="M1959.5 269V294"/>
+    <path d="M1959.5 331V346"/>
+    <path d="M1959.5 383V444"/>
+    <path d="M1959.5 446V497"/>
+    <path d="M1959.5 569V644"/>
+    <path d="M1959.5 646V696"/>
+    <path d="M1959.5 740V752"/>
+    <path d="M1959.5 788V839"/>
+    <path d="M1959.5 841V889"/>
+    <path d="M1959.5 959V1034"/>
+    <path d="M1959.5 1036V1077"/>
+    <path d="M1959.5 1121V1159"/>
+    <path d="M1959.5 1161V1203"/>
+  </g>
+  <path d="M297 445H2078" fill="none" stroke="#3f4c5e" stroke-width="4"/>
+  <g text-anchor="middle" fill="#202a3a" font-family="system-ui,sans-serif" font-size="17" font-weight="700">
+    <text x="166" y="436">C1 · all-to-all</text>
+    <text x="166" y="458">dispatch top-2</text>
+  </g>
+<path d="M297 645H2078" fill="none" stroke="#3f4c5e" stroke-width="4"/>
+  <g text-anchor="middle" fill="#202a3a" font-family="system-ui,sans-serif" font-size="17" font-weight="700">
+    <text x="166" y="636">C2 · all-to-all</text>
+    <text x="166" y="658">return outputs</text>
+  </g>
+<path d="M297 840H2078" fill="none" stroke="#3f4c5e" stroke-width="4"/>
+  <g text-anchor="middle" fill="#202a3a" font-family="system-ui,sans-serif" font-size="17" font-weight="700">
+    <text x="166" y="831">C3 · backward</text>
+    <text x="166" y="853">send output ∇</text>
+  </g>
+<path d="M297 1035H2078" fill="none" stroke="#3f4c5e" stroke-width="4"/>
+  <g text-anchor="middle" fill="#202a3a" font-family="system-ui,sans-serif" font-size="17" font-weight="700">
+    <text x="166" y="1026">C4 · backward</text>
+    <text x="166" y="1048">return input ∇</text>
+  </g>
+<path d="M297 1160H2078" fill="none" stroke="#7c4caf" stroke-width="5"/>
+  <g text-anchor="middle" fill="#684496" font-family="system-ui,sans-serif" font-size="17" font-weight="700">
+    <text x="166" y="1151">C5 · SUM all-reduce</text>
+    <text x="166" y="1173">shared P/R ∇</text>
+  </g>
+</svg>

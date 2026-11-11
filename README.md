@@ -35,6 +35,14 @@ The diagram starts with the gradient arriving at each new token embedding. On bo
 
 In the backward figure, **C1** and **C2** are the backward calls of the two autograd-aware activation exchanges. The `∇` labels beneath the experts identify each token's gradient with respect to that expert's input; C2 returns those gradients to the source ranks. **C3** and **C4** show the routing and projection parameter-gradient all-reduces. Their bars annotate synchronization after each layer's local backward computation, not extra steps in the activation-gradient path. The code calls `dist.all_reduce(SUM)` once per replicated parameter; the bars do not depict Gloo's physical algorithm. We **do not divide by rank count again**: each local loss already uses the global `N`. Expert parameter gradients accumulate on their owner from every source rank and are **not all-reduced**. Gradients reach selected router logits through the combination weights. All experts, including those with zero received rows, retain an autograd path.
 
+### Eight-rank training view
+
+The same flow extends across eight ranks. In this conceptual view, each rank owns one of eight experts and has eight local minibatches queued. The diagram follows one minibatch per rank through a complete training step; the step repeats for the remaining minibatches.
+
+![Eight-rank expert-parallel training with eight local minibatches per rank, one expert per rank, forward and backward exchanges, shared-gradient all-reduce, and an Adam update](assets/eight-rank-training.svg)
+
+The horizontal lines show logical collectives across all eight ranks, not the network's physical topology. The first two all-to-alls dispatch top-2 expert inputs and return expert outputs. The next two carry expert-output gradients to their owners and expert-input gradients back to the source ranks. Each expert's parameter gradients stay on its owner; projection and router gradients are summed across ranks before the update. The current runner instead splits one global batch across ranks and reuses it each epoch; it does not maintain eight minibatches per rank.
+
 ## Reproduce
 
 Use Python 3.13. The recorded environment was ARM64 macOS with PyTorch 2.9.1; pins are in `requirements.txt`.
