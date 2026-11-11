@@ -41,7 +41,7 @@
   </g>
 
   <!-- Expert-weight gradients reach the routing layers on the source ranks. -->
-  <path d="M445 308V370H620V939M995 308V370H820V939" fill="none" stroke="#7c4caf" stroke-width="2" stroke-dasharray="7 6" marker-end="url(#purple-arrow)"/>
+  <path d="M445 308V370H600V939M995 308V370H840V939" fill="none" stroke="#7c4caf" stroke-width="2" stroke-dasharray="7 6" marker-end="url(#purple-arrow)"/>
   <g font-family="system-ui,sans-serif" text-anchor="middle" fill="#7c4caf" font-size="14">
     <text x="535" y="358">expert-weight ∇</text>
     <text x="905" y="358">expert-weight ∇</text>
@@ -50,8 +50,10 @@
   <!-- B1 exchanges expert-output gradients, including self-splits. -->
   <path d="M365 335V451M1075 335V451" fill="none" stroke="#8995a5" stroke-width="2.5" stroke-dasharray="5 6"/>
   <path d="M155 460H1285" fill="none" stroke="#526176" stroke-width="4"/>
-  <rect x="449" y="430" width="542" height="30" fill="#fff"/>
-  <text x="720" y="452" text-anchor="middle" fill="#202a3a" font-family="system-ui,sans-serif" font-size="18" font-weight="700">B1 · send expert-output gradients to owners</text>
+  <g text-anchor="middle" fill="#202a3a" font-family="system-ui,sans-serif" font-size="16" font-weight="700">
+    <text x="720" y="419">B1 · expert-output ∇</text>
+    <text x="720" y="439">to owners</text>
+  </g>
   <g fill="none" stroke-width="3" marker-end="url(#green-arrow)">
     <path d="M340 460V580" stroke="#2b8a57"/>
     <path d="M900 460V580" stroke="#2b8a57"/>
@@ -90,9 +92,10 @@
     <text x="1115" y="711" fill="#b35d2e">token B</text>
     <text x="1115" y="731" fill="#b35d2e">E3 ∇</text>
   </g>
-  <rect x="560" y="736" width="320" height="42" fill="#fff"/>
-  <text x="720" y="754" text-anchor="middle" fill="#202a3a" font-family="system-ui,sans-serif" font-size="16" font-weight="700">B2 · return expert-input gradients</text>
-  <text x="720" y="774" text-anchor="middle" fill="#202a3a" font-family="system-ui,sans-serif" font-size="16" font-weight="700">to original rank</text>
+  <g text-anchor="middle" fill="#202a3a" font-family="system-ui,sans-serif" font-size="16" font-weight="700">
+    <text x="720" y="739">B2 · return expert-input</text>
+    <text x="720" y="759">gradients to original rank</text>
+  </g>
   <path d="M155 785H1285" fill="none" stroke="#526176" stroke-width="4"/>
   <g fill="none" stroke-width="3" stroke-linejoin="round">
     <path d="M320 785V939" stroke="#2b8a57" marker-end="url(#green-arrow)"/>
@@ -148,7 +151,6 @@
     <path d="M450 1040H400V1059"/>
     <path d="M990 1040H1040V1059"/>
   </g>
-  <rect x="567" y="872" width="306" height="29" fill="#fff"/>
   <g fill="#202a3a" font-family="system-ui,sans-serif" font-size="15" font-weight="700" text-anchor="middle">
     <text x="720" y="895">B3 · all-reduce routing ∇</text>
     <text x="720" y="1026">B4 · all-reduce projection ∇</text>

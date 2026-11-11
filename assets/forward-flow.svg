@@ -45,18 +45,15 @@
   <g fill="none" stroke="#8492a3" stroke-width="2.5">
     <path d="M155 462H1285M155 518H1285"/>
   </g>
-  <g font-family="system-ui,sans-serif" text-anchor="middle" fill="#526176" font-size="17" font-weight="700">
-    <rect x="595" y="439" width="250" height="29" fill="#fff"/>
-    <text x="720" y="459">C1 · exchange counts</text>
-    <rect x="591" y="495" width="258" height="29" fill="#fff"/>
-    <text x="720" y="515">C2 · exchange expert IDs</text>
+  <g font-family="system-ui,sans-serif" text-anchor="middle" fill="#202a3a" font-size="16" font-weight="700">
+    <text x="720" y="445">F1 · exchange counts</text>
+    <text x="720" y="501">F2 · exchange expert IDs</text>
   </g>
 
-  <!-- C3: the projected rows cross one all-to-all stage, then fan into owner experts. -->
+  <!-- F3: the projected rows cross one all-to-all stage, then fan into owner experts. -->
   <path d="M365 392V602M1075 392V602" fill="none" stroke="#8995a5" stroke-width="2.5" stroke-dasharray="5 6"/>
   <path d="M155 610H1285" fill="none" stroke="#526176" stroke-width="4"/>
-  <rect x="450" y="580" width="540" height="30" fill="#fff"/>
-  <text x="720" y="602" text-anchor="middle" fill="#202a3a" font-family="system-ui,sans-serif" font-size="18" font-weight="700">C3 · dispatch inputs to expert-owning ranks</text>
+  <text x="720" y="593" text-anchor="middle" fill="#202a3a" font-family="system-ui,sans-serif" font-size="16" font-weight="700">F3 · dispatch inputs to expert-owning ranks</text>
   <g fill="none" stroke-width="3" marker-end="url(#green-arrow)">
     <path d="M340 610V700" stroke="#2b8a57"/>
     <path d="M900 610V700" stroke="#2b8a57"/>
@@ -78,7 +75,7 @@
     <use xlink:href="#expert" x="1062" y="705" width="76" height="68"/>
   </g>
 
-  <!-- C4 returns all expert outputs; green goes to A and orange goes to B. -->
+  <!-- F4 returns all expert outputs; green goes to A and orange goes to B. -->
   <g fill="none" stroke-width="3" marker-end="url(#green-arrow)">
     <path d="M340 773V895" stroke="#2b8a57"/>
     <path d="M900 773V895" stroke="#2b8a57"/>
@@ -88,7 +85,10 @@
     <path d="M1100 773V895" stroke="#c8713e"/>
   </g>
   <path d="M155 905H1285" fill="none" stroke="#526176" stroke-width="4"/>
-  <text x="720" y="937" text-anchor="middle" fill="#202a3a" font-family="system-ui,sans-serif" font-size="18" font-weight="700">C4 · return expert outputs to original rank</text>
+  <g text-anchor="middle" fill="#202a3a" font-family="system-ui,sans-serif" font-size="16" font-weight="700">
+    <text x="720" y="864">F4 · return expert outputs</text>
+    <text x="720" y="884">to original rank</text>
+  </g>
   <g fill="none" stroke-width="3" stroke-linejoin="round">
     <path d="M320 905V1018H365V1049" stroke="#2b8a57" marker-end="url(#green-arrow)"/>
     <path d="M470 905V1076H445" stroke="#2b8a57" marker-end="url(#green-arrow)"/>
