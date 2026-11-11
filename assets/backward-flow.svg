@@ -47,11 +47,11 @@
     <text x="905" y="358">expert-weight ∇</text>
   </g>
 
-  <!-- B1 exchanges expert-output gradients, including self-splits. -->
+  <!-- C1 exchanges expert-output gradients, including self-splits. -->
   <path d="M365 335V451M1075 335V451" fill="none" stroke="#8995a5" stroke-width="2.5" stroke-dasharray="5 6"/>
   <path d="M155 460H1285" fill="none" stroke="#526176" stroke-width="4"/>
   <g text-anchor="middle" fill="#202a3a" font-family="system-ui,sans-serif" font-size="16" font-weight="700">
-    <text x="720" y="419">B1 · expert-output ∇</text>
+    <text x="720" y="419">C1 · expert-output ∇</text>
     <text x="720" y="439">to owners</text>
   </g>
   <g fill="none" stroke-width="3" marker-end="url(#green-arrow)">
@@ -75,7 +75,7 @@
     <use xlink:href="#expert" x="1062" y="585" width="76" height="68"/>
   </g>
 
-  <!-- B2 returns expert-input gradients to the tokens' original ranks. -->
+  <!-- C2 returns expert-input gradients to the tokens' original ranks. -->
   <g fill="none" stroke-width="3">
     <path d="M340 653V775" stroke="#2b8a57" marker-end="url(#green-arrow)"/>
     <path d="M900 653V775" stroke="#2b8a57" marker-end="url(#green-arrow)"/>
@@ -93,7 +93,7 @@
     <text x="1115" y="731" fill="#b35d2e">E3 ∇</text>
   </g>
   <g text-anchor="middle" fill="#202a3a" font-family="system-ui,sans-serif" font-size="16" font-weight="700">
-    <text x="720" y="739">B2 · return expert-input</text>
+    <text x="720" y="739">C2 · return expert-input</text>
     <text x="720" y="759">gradients to original rank</text>
   </g>
   <path d="M155 785H1285" fill="none" stroke="#526176" stroke-width="4"/>
@@ -152,7 +152,7 @@
     <path d="M990 1040H1040V1059"/>
   </g>
   <g fill="#202a3a" font-family="system-ui,sans-serif" font-size="15" font-weight="700" text-anchor="middle">
-    <text x="720" y="895">B3 · all-reduce routing ∇</text>
-    <text x="720" y="1026">B4 · all-reduce projection ∇</text>
+    <text x="720" y="895">C3 · all-reduce routing ∇</text>
+    <text x="720" y="1026">C4 · all-reduce projection ∇</text>
   </g>
 </svg>
