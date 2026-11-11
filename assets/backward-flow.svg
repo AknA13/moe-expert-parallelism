@@ -3,10 +3,11 @@
   <desc id="desc">Gradients flow from the new token embeddings through weighted combination, expert-output exchange, owner-side expert backward, expert-input exchange, routing and projection backward, and finally to the original token embeddings. Expert parameter gradients stay on owner ranks; replicated parameter gradients are all-reduced.</desc>
   <defs>
     <marker id="gray-arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto"><path d="M1 1L9 5L1 9" fill="none" stroke="#526176" stroke-width="1.8"/></marker>
-    <marker id="two-way" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse"><path d="M1 1L9 5L1 9" fill="none" stroke="#7c4caf" stroke-width="1.8"/></marker>
+    <marker id="sync-arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="5" markerHeight="5" orient="auto-start-reverse"><path d="M1 1L9 5L1 9" fill="none" stroke="#202a3a" stroke-width="1.7"/></marker>
     <marker id="green-arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto"><path d="M1 1L9 5L1 9" fill="none" stroke="#2b8a57" stroke-width="1.8"/></marker>
     <marker id="orange-arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto"><path d="M1 1L9 5L1 9" fill="none" stroke="#c8713e" stroke-width="1.8"/></marker>
     <marker id="purple-arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto"><path d="M1 1L9 5L1 9" fill="none" stroke="#7c4caf" stroke-width="1.8"/></marker>
+    <marker id="small-purple-arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="5" markerHeight="5" orient="auto"><path d="M1 1L9 5L1 9" fill="none" stroke="#7c4caf" stroke-width="1.7"/></marker>
     <symbol id="expert" viewBox="0 0 76 68">
       <g fill="none" stroke="#87a9a2" stroke-width="1.5"><path d="M8 17L37 9M8 17L37 34M8 17L37 59M8 51L37 9M8 51L37 34M8 51L37 59M37 9L68 17M37 9L68 51M37 34L68 17M37 34L68 51M37 59L68 17M37 59L68 51"/></g>
       <g fill="#c9ebe2" stroke="#21836e" stroke-width="1.8"><circle cx="8" cy="17" r="5"/><circle cx="8" cy="51" r="5"/><circle cx="37" cy="9" r="5"/><circle cx="37" cy="34" r="5"/><circle cx="37" cy="59" r="5"/><circle cx="68" cy="17" r="5"/><circle cx="68" cy="51" r="5"/></g>
@@ -40,8 +41,11 @@
   </g>
 
   <!-- Expert-weight gradients reach the routing layers on the source ranks. -->
-  <path d="M445 308H620V939M995 308H820V939" fill="none" stroke="#7c4caf" stroke-width="2" stroke-dasharray="7 6" marker-end="url(#purple-arrow)"/>
-  <text x="720" y="382" text-anchor="middle" fill="#7c4caf" font-family="system-ui,sans-serif" font-size="15">expert-weight gradients</text>
+  <path d="M445 308V370H620V939M995 308V370H820V939" fill="none" stroke="#7c4caf" stroke-width="2" stroke-dasharray="7 6" marker-end="url(#purple-arrow)"/>
+  <g font-family="system-ui,sans-serif" text-anchor="middle" fill="#7c4caf" font-size="14">
+    <text x="535" y="358">expert-weight ∇</text>
+    <text x="905" y="358">expert-weight ∇</text>
+  </g>
 
   <!-- B1 exchanges expert-output gradients, including self-splits. -->
   <path d="M365 335V451M1075 335V451" fill="none" stroke="#8995a5" stroke-width="2.5" stroke-dasharray="5 6"/>
@@ -78,17 +82,18 @@
   </g>
   <g font-family="system-ui,sans-serif" font-size="14" font-weight="600">
     <text x="325" y="711" text-anchor="end" fill="#2b8a57">token A</text>
-    <text x="325" y="731" text-anchor="end" fill="#2b8a57">expert E0 gradient</text>
+    <text x="325" y="731" text-anchor="end" fill="#2b8a57">E0 ∇</text>
     <text x="525" y="711" text-anchor="end" fill="#b35d2e">token B</text>
-    <text x="525" y="731" text-anchor="end" fill="#b35d2e">expert E1 gradient</text>
+    <text x="525" y="731" text-anchor="end" fill="#b35d2e">E1 ∇</text>
     <text x="915" y="711" fill="#2b8a57">token A</text>
-    <text x="915" y="731" fill="#2b8a57">expert E2 gradient</text>
+    <text x="915" y="731" fill="#2b8a57">E2 ∇</text>
     <text x="1115" y="711" fill="#b35d2e">token B</text>
-    <text x="1115" y="731" fill="#b35d2e">expert E3 gradient</text>
+    <text x="1115" y="731" fill="#b35d2e">E3 ∇</text>
   </g>
+  <rect x="560" y="736" width="320" height="42" fill="#fff"/>
+  <text x="720" y="754" text-anchor="middle" fill="#202a3a" font-family="system-ui,sans-serif" font-size="16" font-weight="700">B2 · return expert-input gradients</text>
+  <text x="720" y="774" text-anchor="middle" fill="#202a3a" font-family="system-ui,sans-serif" font-size="16" font-weight="700">to original rank</text>
   <path d="M155 785H1285" fill="none" stroke="#526176" stroke-width="4"/>
-  <rect x="510" y="797" width="420" height="30" fill="#fff"/>
-  <text x="720" y="821" text-anchor="middle" fill="#202a3a" font-family="system-ui,sans-serif" font-size="18" font-weight="700">B2 · return expert-input gradients</text>
   <g fill="none" stroke-width="3" stroke-linejoin="round">
     <path d="M320 785V939" stroke="#2b8a57" marker-end="url(#green-arrow)"/>
     <path d="M480 785V956H445" stroke="#2b8a57" marker-end="url(#green-arrow)"/>
@@ -132,14 +137,20 @@
     <path d="M1075 1112V1144" stroke="#c8713e" marker-end="url(#orange-arrow)"/>
   </g>
 
-  <!-- Each replicated layer has its own cross-rank gradient all-reduce. -->
-  <rect x="551" y="905" width="338" height="30" fill="#fff"/>
-  <g fill="#684496" font-family="system-ui,sans-serif" font-size="15" font-weight="700" text-anchor="middle">
-    <text x="720" y="927">B3 · routing gradient all-reduce</text>
-    <text x="720" y="1053">B3 · projection gradient all-reduce</text>
+  <!-- Black bars show separate all-reduces for the two replicated layers. -->
+  <g fill="none" stroke="#202a3a" stroke-width="4" marker-start="url(#sync-arrow)" marker-end="url(#sync-arrow)">
+    <path d="M650 915H790"/>
+    <path d="M450 1040H990"/>
   </g>
-  <g fill="none" stroke="#7c4caf" stroke-width="2.5" marker-start="url(#two-way)" marker-end="url(#two-way)">
-    <path d="M650 970H790"/>
-    <path d="M450 1086H990"/>
+  <g fill="none" stroke="#7c4caf" stroke-width="2" stroke-dasharray="5 5" marker-end="url(#small-purple-arrow)">
+    <path d="M650 915V927H580V939"/>
+    <path d="M790 915V927H860V939"/>
+    <path d="M450 1040H400V1059"/>
+    <path d="M990 1040H1040V1059"/>
+  </g>
+  <rect x="567" y="872" width="306" height="29" fill="#fff"/>
+  <g fill="#202a3a" font-family="system-ui,sans-serif" font-size="15" font-weight="700" text-anchor="middle">
+    <text x="720" y="895">B3 · all-reduce routing ∇</text>
+    <text x="720" y="1026">B4 · all-reduce projection ∇</text>
   </g>
 </svg>
