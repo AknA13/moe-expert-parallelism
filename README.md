@@ -1,47 +1,45 @@
-# Expert-parallel MoE, from one model to many ranks
+# Expert-parallel MoE
 
-A private CPU/Gloo teaching demo with learned top-2 routing, a configurable expert count, and a configurable number of MoE blocks. One `MoEModel` selects local or expert-parallel blocks with its `parallel` constructor argument.
 
 ## Approach
 
 ### Model architecture: two ranks
 
-The default model has one MoE block, token dimension 32, eight experts, and top-2 routing. In this two-rank example, each rank gets different input tokens. Each has its own copy of the **same** token-projection and router weights, while the eight expert MLPs are split into disjoint owner groups.
+The default model we use has one MoE block, token dimension 32, eight experts, and top-2 routing. In this two-rank example, each rank gets different input tokens. Each has its own copy of the **same** token-projection (32 x 32) and router weights, while the eight expert MLPs are split and owned by different ranks.
 
 ![Two-rank MoE block with bordered projection and router weight groups and neural-network expert glyphs](assets/model-architecture.svg)
 
-The two tall borders group the matching projection and router weights across the ranks. Each small network glyph represents a separate expert MLP. This is a **parameter-placement view**; tokens can route across the rank boundary, as the forward diagram shows. The projection is `Linear(32, 32) + Tanh`, the router is `Linear(32, 8)`, and each expert is `Linear(32, H) + Tanh + Linear(H, 32)`. The router selects two expert IDs per token and softmax-normalizes their two selected logits into combination weights. There is no capacity limit, token dropping, or load-balancing loss. With more blocks, this structure repeats with new weights at every block. The single-rank `StandardMoEBlock` owns all eight experts and serves as the numerical reference.
+The  projection layer and router weights are replicated exactly across the ranks since every token needs to go through these. Each GPU rank (process in CPU case) contains a subset of the expert MLPs. The projection layer is `Linear(32, 32) + Tanh`, the router is `Linear(32, 8)`, and each expert is `Linear(32, H) + Tanh + Linear(H, 32)`. In this example, the router selects two expert IDs per token and softmax-normalizes their two selected logits into weights. The 2 selected experts' outputs are averaged, weighted by the router's weights. We can stack multiple of these MoE blocks together. `StandardMoEBlock` owns all eight experts on one rank and is the single-rank implementation. `ParallelMoEBlock` is the implementation with communication such that the MoE block can perform forward passes with the experts split across ranks for an arbitrary nummber of ranks.
 
 ### Forward pass: dispatch, compute, return
 
-This four-expert example shows both ranks at once. Rank 0 owns E0 and E1; rank 1 owns E2 and E3. Token A starts on rank 0 and selects local E0 plus remote E2. Token B starts on rank 1 and selects local E3 plus remote E1. The same code also runs the eight-expert model shown above.
+This four-expert example shows both ranks at once. Rank 0 owns Expert 0 and Expert 1 and rank 1 owns Expert 2 and Expert 3. Token A starts on rank 0 and the router selects E0 (local) plus  E2 (rank 1). Token B starts on rank 1 and the router selects  E3 (local) plus E1 (rank 0). 
 
 ![Two-rank forward pass showing one local and one remote expert assignment for each source token](assets/forward-flow.svg)
 
-The horizontal lines mark collective exchanges, not calls to `dist.barrier`. **C1** and **C2** use `dist.all_to_all_single` to exchange counts and integer expert IDs for each rank's whole input shard. At **C3**, inputs leave the dispatch exchange and enter MLPs on the ranks that own them. At **C4**, expert outputs return to their original ranks: green arrows carry E0 and E2 outputs back to A on rank 0, and orange arrows carry E1 and E3 outputs back to B on rank 1. The local outputs use self-splits of the same collective. Both activation exchanges use autograd-aware `all_to_all_single`. The return uses inverse split sizes; each source undoes its packing permutation, restores token/slot order, and combines the two expert outputs with its expert weights (the router's normalized top-k probabilities). The weighted Σ produces a new token embedding, which can feed the next block. Every rank participates even when it has zero rows for a destination.
+The horizontal lines mark cross-rank communication. **C1** and **C2** use `dist.all_to_all_single` to exchange the number of tokens it has for each rank (by expert) and the expert IDs for each of the tokens for each rank. At **C3**, the expert inputs are dispatched to the correct rank where the expert lives also using All-to-All. At **C4**, expert outputs return to their original ranks, the green arrows carry E0 and E2 outputs back to A on rank 0, and orange arrows carry E1 and E3 outputs back to B on rank 1. Both activation exchanges use autograd-aware `all_to_all_single`. The return uses inverse split sizes; each source rank undoes its packing permutation, restores token/slot order, and combines the two expert outputs with its expert weights (the router's normalized top-k probabilities). The weighted Σ produces a new token embedding, which can feed the next block. 
 
 ### Backward pass: reverse the activation exchanges
 
-Each source rank computes its **summed token loss divided by the global token count** `N`. The two local contributions add up to the global mean loss:
+Each source rank computes its **summed token loss divided by the global token count** `N`. The local losses across ranks add up to the global mean loss:
 
 ```text
 L_r = (1/N) · Σ_{tokens i on rank r} mean_j (prediction_ij - target_ij)²
 L_global = L_0 + L_1
 ```
 
-The diagram starts with the gradient arriving at each new token embedding. On both ranks, it passes through the weighted combination into the local expert output, the remote expert output, and the expert weights. Each remote expert-output gradient goes to its owner. The experts accumulate parameter gradients on their owner ranks, then send projected-input gradients back to the source ranks. Each source adds its local expert, remote expert, and router gradients before backpropagating through its token projection to the original embedding.
+The diagram starts with the gradient arriving at each outputted token embedding. On both ranks, it passes through the weighted combination into the local expert output, the remote expert output, and the expert weights. Each remote expert-output gradient goes to its owner. The experts accumulate parameter gradients on their owner ranks, then send expert-input gradients back to the ranks that own the token. Each rank adds its local expert, remote expert, and router gradients before backpropagating through its token projection layer to the original token embedding. Each rank's expert MLP gradients are computed only from the tokens that were routed to the rank. The rest of the weights, like the router and projection layer's gradients, are computed across the tokens in batches across all the ranks.
 
 ![Two-rank backward pass showing local and remote expert gradients, their return to token sources, and shared-gradient synchronization](assets/backward-flow.svg)
 
-In the backward figure, **C1** and **C2** are the backward calls of the two autograd-aware activation exchanges. The `∇` labels beneath the experts identify each token's gradient with respect to that expert's input; C2 returns those gradients to the source ranks. **C3** and **C4** show the routing and projection parameter-gradient all-reduces. Their bars annotate synchronization after each layer's local backward computation, not extra steps in the activation-gradient path. The code calls `dist.all_reduce(SUM)` once per replicated parameter; the bars do not depict Gloo's physical algorithm. We **do not divide by rank count again**: each local loss already uses the global `N`. Expert parameter gradients accumulate on their owner from every source rank and are **not all-reduced**. Gradients reach selected router logits through the combination weights. All experts, including those with zero received rows, retain an autograd path.
+In the backward figure, **C1** and **C2** are the backward calls of the two autograd-aware activation exchanges. The `∇` labels beneath the experts identify each token's gradient with respect to that expert's input; C2 returns those gradients to the source ranks. **C3** and **C4** show the routing and projection parameter-gradient all-reduces. The code calls `dist.all_reduce(SUM)` once per replicated parameter. We **do not divide by rank count again**: each local loss already uses the global `N`. Expert parameter gradients accumulate on their owner from every source rank and are **not all-reduced**. Gradients reach selected router logits through the expert combination weights. 
 
 ### Eight-rank training view
 
-The same flow extends across eight ranks. In this conceptual view, each rank owns one of eight experts and has eight local minibatches queued. The diagram follows one minibatch per rank through a complete training step; the step repeats for the remaining minibatches.
+The same flow extends across eight+ ranks. In this conceptual view, each rank owns one of eight experts and has eight minibatches local to each rank. The diagram follows one minibatch per rank through a complete training step, the step repeats for the remaining minibatches.
 
 ![Eight-rank expert-parallel training with eight local minibatches per rank, one expert per rank, forward and backward exchanges, shared-gradient all-reduce, and an Adam update](assets/eight-rank-training.svg)
 
-The horizontal lines show logical collectives across all eight ranks, not the network's physical topology. The first two all-to-alls dispatch top-2 expert inputs and return expert outputs. The next two carry expert-output gradients to their owners and expert-input gradients back to the source ranks. Each expert's parameter gradients stay on its owner; projection and router gradients are summed across ranks before the update. The current runner instead splits one global batch across ranks and reuses it each epoch; it does not maintain eight minibatches per rank.
 
 ## Reproduce
 
