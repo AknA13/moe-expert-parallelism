@@ -22,17 +22,25 @@
 
   <!-- Each rank projects and routes its own source token. -->
   <g font-family="system-ui,sans-serif" text-anchor="middle">
-    <circle cx="365" cy="193" r="28" fill="#e7f0ff" stroke="#2563a6" stroke-width="2.5"/><text x="365" y="201" fill="#2563a6" font-size="23" font-weight="700">A</text>
-    <circle cx="1075" cy="193" r="28" fill="#fff0e6" stroke="#c8713e" stroke-width="2.5"/><text x="1075" y="201" fill="#a25122" font-size="23" font-weight="700">B</text>
-    <circle cx="365" cy="273" r="29" fill="#e6efff" stroke="#5579bb" stroke-width="2"/><text x="365" y="282" fill="#254b8b" font-size="24" font-weight="700">P</text>
-    <circle cx="1075" cy="273" r="29" fill="#e6efff" stroke="#5579bb" stroke-width="2"/><text x="1075" y="282" fill="#254b8b" font-size="24" font-weight="700">P</text>
-    <circle cx="365" cy="353" r="29" fill="#f0e8ff" stroke="#8666b7" stroke-width="2"/><text x="365" y="362" fill="#684496" font-size="24" font-weight="700">R</text>
-    <circle cx="1075" cy="353" r="29" fill="#f0e8ff" stroke="#8666b7" stroke-width="2"/><text x="1075" y="362" fill="#684496" font-size="24" font-weight="700">R</text>
-    <text x="365" y="408" fill="#2563a6" font-size="18" font-weight="700">A → E0 local + E2 remote</text>
-    <text x="1075" y="408" fill="#b35d2e" font-size="18" font-weight="700">B → E3 local + E1 remote</text>
+    <circle cx="365" cy="215" r="40" fill="#e7f0ff" stroke="#2563a6" stroke-width="2.5"/>
+    <text x="365" y="211" fill="#2563a6" font-size="15" font-weight="700">token A</text>
+    <text x="365" y="230" fill="#2563a6" font-size="15" font-weight="700">emb.</text>
+    <circle cx="1075" cy="215" r="40" fill="#fff0e6" stroke="#c8713e" stroke-width="2.5"/>
+    <text x="1075" y="211" fill="#a25122" font-size="15" font-weight="700">token B</text>
+    <text x="1075" y="230" fill="#a25122" font-size="15" font-weight="700">emb.</text>
+    <rect x="280" y="275" width="170" height="48" rx="9" fill="#e6efff" stroke="#5579bb" stroke-width="2"/>
+    <text x="365" y="305" fill="#254b8b" font-size="18" font-weight="700">Projection layer</text>
+    <rect x="990" y="275" width="170" height="48" rx="9" fill="#e6efff" stroke="#5579bb" stroke-width="2"/>
+    <text x="1075" y="305" fill="#254b8b" font-size="18" font-weight="700">Projection layer</text>
+    <rect x="280" y="343" width="170" height="48" rx="9" fill="#f0e8ff" stroke="#8666b7" stroke-width="2"/>
+    <text x="365" y="373" fill="#684496" font-size="18" font-weight="700">Routing layer</text>
+    <rect x="990" y="343" width="170" height="48" rx="9" fill="#f0e8ff" stroke="#8666b7" stroke-width="2"/>
+    <text x="1075" y="373" fill="#684496" font-size="18" font-weight="700">Routing layer</text>
+    <text x="365" y="422" fill="#2563a6" font-size="18" font-weight="700">A → E0 local + E2 remote</text>
+    <text x="1075" y="422" fill="#b35d2e" font-size="18" font-weight="700">B → E3 local + E1 remote</text>
   </g>
   <g fill="none" stroke="#526176" stroke-width="2.5" marker-end="url(#gray-arrow)">
-    <path d="M365 221V240M365 302V320M1075 221V240M1075 302V320"/>
+    <path d="M365 255V274M365 323V342M1075 255V274M1075 323V342"/>
   </g>
 
   <!-- Each horizontal rule is a collective across the two ranks. -->
@@ -102,7 +110,7 @@
   </g>
 
   <!-- Selected router weights stay on their source ranks for combination. -->
-  <path d="M335 353H135V1080H327M1105 353H1305V1080H1113" fill="none" stroke="#7c4caf" stroke-width="2.5" stroke-dasharray="7 6" marker-end="url(#purple-arrow)"/>
+  <path d="M280 367H135V1080H327M1160 367H1305V1080H1113" fill="none" stroke="#7c4caf" stroke-width="2.5" stroke-dasharray="7 6" marker-end="url(#purple-arrow)"/>
   <text x="118" y="784" fill="#7c4caf" font-family="system-ui,sans-serif" font-size="15" transform="rotate(-90 118 784)">A's selected weights</text>
   <text x="1325" y="784" fill="#7c4caf" font-family="system-ui,sans-serif" font-size="15" transform="rotate(90 1325 784)">B's selected weights</text>
   <g font-family="system-ui,sans-serif" text-anchor="middle">

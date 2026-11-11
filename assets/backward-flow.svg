@@ -74,25 +74,29 @@
   <text x="770" y="879" text-anchor="middle" fill="#b35d2e" font-family="system-ui,sans-serif" font-size="17" font-weight="700">B2 · E1 input gradient returns to B</text>
 
   <!-- Gate-weight gradients backpropagate through the local routers. -->
-  <path d="M329 285H130V925H158M1111 285H1310V925H1282" fill="none" stroke="#7c4caf" stroke-width="2.5" stroke-dasharray="7 6" marker-end="url(#purple-arrow)"/>
-  <text x="114" y="739" fill="#7c4caf" font-family="system-ui,sans-serif" font-size="15" transform="rotate(-90 114 739)">A's gate-weight gradient</text>
-  <text x="1328" y="739" fill="#7c4caf" font-family="system-ui,sans-serif" font-size="15" transform="rotate(90 1328 739)">B's gate-weight gradient</text>
+  <path d="M329 285H105V925H120M1111 285H1335V925H1320" fill="none" stroke="#7c4caf" stroke-width="2.5" stroke-dasharray="7 6" marker-end="url(#purple-arrow)"/>
+  <text x="74" y="739" fill="#7c4caf" font-family="system-ui,sans-serif" font-size="15" transform="rotate(-90 74 739)">A's gate-weight gradient</text>
+  <text x="1370" y="739" fill="#7c4caf" font-family="system-ui,sans-serif" font-size="15" transform="rotate(90 1370 739)">B's gate-weight gradient</text>
   <g font-family="system-ui,sans-serif" text-anchor="middle">
-    <circle cx="190" cy="925" r="32" fill="#f0e8ff" stroke="#8666b7" stroke-width="2"/><text x="190" y="934" fill="#684496" font-size="24" font-weight="700">R</text>
-    <circle cx="1250" cy="925" r="32" fill="#f0e8ff" stroke="#8666b7" stroke-width="2"/><text x="1250" y="934" fill="#684496" font-size="24" font-weight="700">R</text>
-    <text x="190" y="975" fill="#684496" font-size="15">router backward</text>
-    <text x="1250" y="975" fill="#684496" font-size="15">router backward</text>
+    <rect x="120" y="902" width="140" height="46" rx="9" fill="#f0e8ff" stroke="#8666b7" stroke-width="2"/>
+    <text x="190" y="930" fill="#684496" font-size="16" font-weight="700">Routing layer</text>
+    <rect x="1180" y="902" width="140" height="46" rx="9" fill="#f0e8ff" stroke="#8666b7" stroke-width="2"/>
+    <text x="1250" y="930" fill="#684496" font-size="16" font-weight="700">Routing layer</text>
+    <text x="190" y="975" fill="#684496" font-size="15">backward</text>
+    <text x="1250" y="975" fill="#684496" font-size="15">backward</text>
     <circle cx="365" cy="1000" r="36" fill="#e8f2ff" stroke="#5a83b6" stroke-width="2"/><text x="365" y="1009" fill="#275685" font-size="23" font-weight="700">Σh</text>
     <circle cx="1075" cy="1000" r="36" fill="#e8f2ff" stroke="#5a83b6" stroke-width="2"/><text x="1075" y="1009" fill="#275685" font-size="23" font-weight="700">Σh</text>
     <text x="365" y="1059" fill="#526176" font-size="16">sum expert + router gradients</text>
     <text x="1075" y="1059" fill="#526176" font-size="16">sum expert + router gradients</text>
-    <circle cx="365" cy="1132" r="31" fill="#e6efff" stroke="#5579bb" stroke-width="2"/><text x="365" y="1141" fill="#254b8b" font-size="24" font-weight="700">P</text>
-    <circle cx="1075" cy="1132" r="31" fill="#e6efff" stroke="#5579bb" stroke-width="2"/><text x="1075" y="1141" fill="#254b8b" font-size="24" font-weight="700">P</text>
+    <rect x="280" y="1108" width="170" height="48" rx="9" fill="#e6efff" stroke="#5579bb" stroke-width="2"/>
+    <text x="365" y="1138" fill="#254b8b" font-size="18" font-weight="700">Projection layer</text>
+    <rect x="990" y="1108" width="170" height="48" rx="9" fill="#e6efff" stroke="#5579bb" stroke-width="2"/>
+    <text x="1075" y="1138" fill="#254b8b" font-size="18" font-weight="700">Projection layer</text>
     <text x="365" y="1195" fill="#2563a6" font-size="18" font-weight="700">input gradient ∂L/∂A</text>
     <text x="1075" y="1195" fill="#b35d2e" font-size="18" font-weight="700">input gradient ∂L/∂B</text>
   </g>
-  <g fill="none" stroke="#7c4caf" stroke-width="2.5" marker-end="url(#purple-arrow)"><path d="M220 925H275V1000H325M1220 925H1165V1000H1115"/></g>
-  <g fill="none" stroke="#526176" stroke-width="2.5" marker-end="url(#gray-arrow)"><path d="M365 1036V1097M1075 1036V1097M365 1163V1177M1075 1163V1177"/></g>
+  <g fill="none" stroke="#7c4caf" stroke-width="2.5" marker-end="url(#purple-arrow)"><path d="M260 925H275V1000H325M1180 925H1165V1000H1115"/></g>
+  <g fill="none" stroke="#526176" stroke-width="2.5" marker-end="url(#gray-arrow)"><path d="M365 1036V1107M1075 1036V1107M365 1156V1177M1075 1156V1177"/></g>
 
   <!-- The only parameter gradients that cross ranks are the shared layers'. -->
   <text x="720" y="1251" text-anchor="middle" fill="#684496" font-family="system-ui,sans-serif" font-size="17" font-weight="700">B3 · SUM all-reduce router + projection parameter gradients</text>
